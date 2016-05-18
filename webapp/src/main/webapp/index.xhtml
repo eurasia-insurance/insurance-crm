@@ -11,7 +11,8 @@
 	<ui:define name="page-title">#{ui['name.site']}</ui:define>
 	<ui:define name="page-content">
 		<h:form>
-			<p:dataTable var="req" value="#{policyRequests.all}">
+			<p:dataTable widgetVar="requestTable" var="req"
+				value="#{policyRequests.all}">
 				<p:column headerText="Id">
 					<h:outputText value="#{req.id}" />
 				</p:column>
@@ -20,7 +21,15 @@
 						<ui:param name="value" value="#{req.created}" />
 					</ui:decorate>
 				</p:column>
-				<p:column headerText="Status">
+				<p:column headerText="Status" filterBy="#{req.requestStatus}"
+					filterMatchMode="exact">
+					<f:facet name="filter">
+						<p:selectOneMenu onchange="PF('requestTable').filter()">
+							<f:selectItem itemLabel="Select One" itemValue="#{null}"
+								noSelectionOption="true" />
+							<f:selectItems value="#{requestStatusService.selectableItemsSI}" />
+						</p:selectOneMenu>
+					</f:facet>
 					<h:outputText
 						value="#{requestStatusService.localized(req.requestStatus)}" />
 				</p:column>

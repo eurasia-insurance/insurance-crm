@@ -21,16 +21,16 @@ public class PolicyRequests implements Serializable {
     @EJB
     private PolicyExpressOrderDAO policyExpressOrcerDAO;
 
-    private List<PolicyExpressOrder> allOpen;
+    private List<PolicyExpressOrder> all;
 
     @PostConstruct
     public void init() {
-	allOpen = policyExpressOrcerDAO.findAllOpen();
+	all = policyExpressOrcerDAO.findAll();
     }
 
     // GENERATED
 
-    public List<PolicyExpressOrder> getAllOpen() {
-	return allOpen;
+    public List<PolicyExpressOrder> getAll() {
+	return all;
     }
 }

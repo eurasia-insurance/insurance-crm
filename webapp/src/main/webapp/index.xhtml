@@ -12,7 +12,7 @@
 	<ui:define name="page-content">
 		<h:form>
 			<p:dataTable widgetVar="requestTable" var="req"
-				value="#{policyRequests.all}">
+				value="#{policyOrders.expressOrders}">
 				<p:column headerText="Id">
 					<h:outputText value="#{req.id}" />
 				</p:column>

@@ -1,0 +1,4 @@
+# global names
+name.company-short = СК Евразия
+name.company-full = Страховая компания Евразия
+name.site = Евразия 36

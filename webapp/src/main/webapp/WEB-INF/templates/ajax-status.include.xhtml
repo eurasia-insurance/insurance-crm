@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<p:dialog widgetVar="ajaxStatusDialog" modal="true" draggable="false"
+		closable="false" resizable="false" showHeader="false">
+		<p:graphicImage library="img" name="loading.gif" />
+	</p:dialog>
+	<script type="text/javascript">
+		function onAjaxStart() {
+			ajaxDialogTimeout1 = setTimeout('PF(\'ajaxStatusDialog\').show()',
+					500);
+		}
+		function onAjaxComplete() {
+			clearTimeout(ajaxDialogTimeout1);
+			PF('ajaxStatusDialog').hide();
+		}
+	</script>
+	<p:ajaxStatus onstart="onAjaxStart()" oncomplete="onAjaxComplete()" />
+</ui:composition>
+

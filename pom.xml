@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.lapsa.maven.pom</groupId>
+		<artifactId>javaee7-app-parent</artifactId>
+		<version>1.1.2</version>
+	</parent>
+
+	<groupId>kz.theeurasia.eurasia36.crm</groupId>
+	<artifactId>eurasia36-parent</artifactId>
+	<version>1.0-pre-rc1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>Eurasia36 : CRM : Parent</name>
+
+	<organization>
+		<name>Eurasia Insurance Company</name>
+		<url>http://www.theeurasia.kz</url>
+	</organization>
+
+	<modules>
+		<module>webapp</module>
+		<module>ear</module>
+	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- own -->
+			<dependency>
+				<groupId>kz.theeurasia.eurasia36.crm</groupId>
+				<artifactId>eurasia36-crm-webapp</artifactId>
+				<version>${project.version}</version>
+				<type>war</type>
+			</dependency>
+			<dependency>
+				<groupId>kz.theeurasia.eurasia36.crm</groupId>
+				<artifactId>eurasia36-crm-ear</artifactId>
+				<version>${project.version}</version>
+				<type>ear</type>
+			</dependency>
+			<!-- internal -->
+			<dependency>
+				<groupId>com.lapsa.kz-lib</groupId>
+				<artifactId>kz-core</artifactId>
+				<version>2.0-pre-rc2-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.lapsa.kz-lib</groupId>
+				<artifactId>kz-eelib</artifactId>
+				<version>2.0-pre-rc2-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.lapsa.international-lib</groupId>
+				<artifactId>international-core</artifactId>
+				<version>2.0-pre-rc2-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.lapsa.international-lib</groupId>
+				<artifactId>international-eelib</artifactId>
+				<version>2.0-pre-rc2-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.lapsa.insurance-lib</groupId>
+				<artifactId>insurance-elements</artifactId>
+				<version>1.3-pre-rc2-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.lapsa.insurance-lib</groupId>
+				<artifactId>insurance-domain</artifactId>
+				<version>1.3-pre-rc2-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.lapsa.insurance-lib</groupId>
+				<artifactId>insurance-validation</artifactId>
+				<version>1.3-pre-rc2-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.lapsa.insurance-lib</groupId>
+				<artifactId>insurance-eelib</artifactId>
+				<version>1.3-pre-rc2-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.lapsa.insurance-lib</groupId>
+				<artifactId>insurance-esbd</artifactId>
+				<version>1.3-pre-rc2-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.lapsa.insurance-lib</groupId>
+				<artifactId>insurance-esbd-impl-ws</artifactId>
+				<version>1.3-pre-rc2-SNAPSHOT</version>
+				<type>ejb</type>
+			</dependency>
+			<dependency>
+				<groupId>com.lapsa.insurance-lib</groupId>
+				<artifactId>insurance-persistence</artifactId>
+				<version>1.3-pre-rc2-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.lapsa.insurance-lib</groupId>
+				<artifactId>insurance-persistence-impl-jpa</artifactId>
+				<version>1.0-pre-rc1-SNAPSHOT</version>
+				<type>ejb</type>
+			</dependency>
+			<!-- external -->
+			<dependency>
+				<groupId>org.primefaces</groupId>
+				<artifactId>primefaces</artifactId>
+				<version>5.3</version>
+			</dependency>
+			<dependency>
+				<groupId>org.primefaces.extensions</groupId>
+				<artifactId>primefaces-extensions</artifactId>
+				<version>4.0.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.omnifaces</groupId>
+				<artifactId>omnifaces</artifactId>
+				<version>2.3</version>
+			</dependency>
+			<!-- JavaEE -->
+			<dependency>
+				<groupId>javax.faces</groupId>
+				<artifactId>javax.faces-api</artifactId>
+				<version>2.2</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.glassfish</groupId>
+				<artifactId>javax.faces</artifactId>
+				<version>2.2.0</version>
+				<scope>provided</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.polago.maven.plugins</groupId>
+					<artifactId>merge-properties-maven-plugin</artifactId>
+					<version>1.0.1</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<scm>
+		<connection>scm:git:https://gitrepo.theeurasia.kz/eurasia/eurasia36-crm.git</connection>
+		<developerConnection>scm:git:https://gitrepo.theeurasia.kz/eurasia/eurasia36-crm.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
+
+</project>

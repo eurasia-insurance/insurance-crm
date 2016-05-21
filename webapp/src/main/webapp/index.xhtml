@@ -44,17 +44,17 @@
 				</p:column>
 				<p:column headerText="Premium cost" style="text-align: right">
 					<ui:decorate template="out-money.include.xhtml">
-						<ui:param name="value" value="#{req.calculationData.premiumCost}" />
+						<ui:param name="value" value="#{req.policy.calculation.premiumCost}" />
 					</ui:decorate>
 				</p:column>
 				<p:column headerText="Requester name">
-					<h:outputText value="#{req.requesterData.name}" />
+					<h:outputText value="#{req.requester.name}" />
 				</p:column>
 				<p:column headerText="Requester email">
-					<h:outputText value="#{req.requesterData.email}" />
+					<h:outputText value="#{req.requester.email}" />
 				</p:column>
 				<p:column headerText="Requester phone">
-					<h:outputText value="#{req.requesterData.phone}" />
+					<h:outputText value="#{req.requester.phone}" />
 				</p:column>
 			</p:dataTable>
 

@@ -15,15 +15,18 @@
 
 	<name>Eurasia36 : CRM : Parent</name>
 
-	<organization>
-		<name>Eurasia Insurance Company</name>
-		<url>http://www.theeurasia.kz</url>
-	</organization>
-
 	<modules>
 		<module>webapp</module>
 		<module>ear</module>
 	</modules>
+
+	<properties>
+		<kz-lib.version>2.0-pre-rc2</kz-lib.version>
+		<international-lib.version>2.0-pre-rc2</international-lib.version>
+		<insurance-lib.version>1.3-pre-rc2</insurance-lib.version>
+		<insurance-esbd-impl-ws.version>1.3-pre-rc2</insurance-esbd-impl-ws.version>
+		<insurance-persistence-impl-jpa.version>1.0-pre-rc1</insurance-persistence-impl-jpa.version>
+	</properties>
 
 	<dependencyManagement>
 		<dependencies>
@@ -44,63 +47,63 @@
 			<dependency>
 				<groupId>com.lapsa.kz-lib</groupId>
 				<artifactId>kz-core</artifactId>
-				<version>2.0-pre-rc2-SNAPSHOT</version>
+				<version>${kz-lib.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.lapsa.kz-lib</groupId>
 				<artifactId>kz-eelib</artifactId>
-				<version>2.0-pre-rc2-SNAPSHOT</version>
+				<version>${kz-lib.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.lapsa.international-lib</groupId>
 				<artifactId>international-core</artifactId>
-				<version>2.0-pre-rc2-SNAPSHOT</version>
+				<version>${international-lib.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.lapsa.international-lib</groupId>
 				<artifactId>international-eelib</artifactId>
-				<version>2.0-pre-rc2-SNAPSHOT</version>
+				<version>${international-lib.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.lapsa.insurance-lib</groupId>
 				<artifactId>insurance-elements</artifactId>
-				<version>1.3-pre-rc2-SNAPSHOT</version>
+				<version>${insurance-lib.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.lapsa.insurance-lib</groupId>
 				<artifactId>insurance-domain</artifactId>
-				<version>1.3-pre-rc2-SNAPSHOT</version>
+				<version>${insurance-lib.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.lapsa.insurance-lib</groupId>
 				<artifactId>insurance-validation</artifactId>
-				<version>1.3-pre-rc2-SNAPSHOT</version>
+				<version>${insurance-lib.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.lapsa.insurance-lib</groupId>
 				<artifactId>insurance-eelib</artifactId>
-				<version>1.3-pre-rc2-SNAPSHOT</version>
+				<version>${insurance-lib.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.lapsa.insurance-lib</groupId>
 				<artifactId>insurance-esbd</artifactId>
-				<version>1.3-pre-rc2-SNAPSHOT</version>
-			</dependency>
-			<dependency>
-				<groupId>com.lapsa.insurance-lib</groupId>
-				<artifactId>insurance-esbd-impl-ws</artifactId>
-				<version>1.3-pre-rc2-SNAPSHOT</version>
-				<type>ejb</type>
+				<version>${insurance-lib.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.lapsa.insurance-lib</groupId>
 				<artifactId>insurance-persistence</artifactId>
-				<version>1.3-pre-rc2-SNAPSHOT</version>
+				<version>${insurance-lib.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.lapsa.insurance-lib</groupId>
+				<artifactId>insurance-esbd-impl-ws</artifactId>
+				<version>${insurance-esbd-impl-ws.version}</version>
+				<type>ejb</type>
 			</dependency>
 			<dependency>
 				<groupId>com.lapsa.insurance-lib</groupId>
 				<artifactId>insurance-persistence-impl-jpa</artifactId>
-				<version>1.0-pre-rc1-SNAPSHOT</version>
+				<version>${insurance-persistence-impl-jpa.version}</version>
 				<type>ejb</type>
 			</dependency>
 			<!-- external -->
@@ -135,22 +138,29 @@
 		</dependencies>
 	</dependencyManagement>
 
-	<build>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.polago.maven.plugins</groupId>
-					<artifactId>merge-properties-maven-plugin</artifactId>
-					<version>1.0.1</version>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	</build>
+
+	<organization>
+		<name>Eurasia Insurance Company</name>
+		<url>http://www.theeurasia.kz</url>
+	</organization>
+
+	<developers>
+		<developer>
+			<id>vadim.o.isaev@gmail.com</id>
+			<name>Vadim Isaev</name>
+			<email>vadim.o.isaev@gmail.com</email>
+		</developer>
+	</developers>
 
 	<scm>
 		<connection>scm:git:https://gitrepo.theeurasia.kz/eurasia/eurasia36-crm.git</connection>
 		<developerConnection>scm:git:https://gitrepo.theeurasia.kz/eurasia/eurasia36-crm.git</developerConnection>
 		<tag>HEAD</tag>
 	</scm>
+
+	<issueManagement>
+		<system>gitlab</system>
+		<url>https://gitrepo.theeurasia.kz/eurasia/eurasia36-crm/issues</url>
+	</issueManagement>
 
 </project>

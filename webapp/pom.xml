@@ -40,12 +40,6 @@
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.lapsa.insurance-lib</groupId>
-			<artifactId>insurance-esbd</artifactId>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
 			<groupId>com.lapsa.kz-lib</groupId>
 			<artifactId>kz-core</artifactId>
 			<scope>compile</scope>

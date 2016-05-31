@@ -86,19 +86,8 @@
 			</dependency>
 			<dependency>
 				<groupId>com.lapsa.insurance-lib</groupId>
-				<artifactId>insurance-esbd</artifactId>
-				<version>${insurance-lib.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.lapsa.insurance-lib</groupId>
 				<artifactId>insurance-persistence</artifactId>
 				<version>${insurance-lib.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.lapsa.insurance-lib</groupId>
-				<artifactId>insurance-esbd-impl-ws</artifactId>
-				<version>${insurance-esbd-impl-ws.version}</version>
-				<type>ejb</type>
 			</dependency>
 			<dependency>
 				<groupId>com.lapsa.insurance-lib</groupId>

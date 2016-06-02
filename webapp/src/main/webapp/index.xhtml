@@ -30,8 +30,15 @@
 							<f:selectItems value="#{requestStatusService.selectableItemsSI}" />
 						</p:selectOneMenu>
 					</f:facet>
-					<h:outputText
-						value="#{requestStatusService.localized(req.requestStatus)}" />
+					<p:inplace id="requestStatus"
+						label="#{requestStatusService.displayName(req.requestStatus)}">
+						<p:selectOneMenu value="#{req.requestStatus}">
+							<f:selectItem itemLabel="Select One" itemValue="#{null}"
+								noSelectionOption="true" />
+							<f:selectItems value="#{requestStatusService.selectableItemsSI}" />
+							<p:ajax process="@this" update="requestStatus" listener="#{mainFacade.onRequestStatusChanged(req)}"/>
+						</p:selectOneMenu>
+					</p:inplace>
 				</p:column>
 				<p:column headerText="Close time">
 					<ui:decorate template="out-datetime.include.xhtml">
@@ -40,11 +47,12 @@
 				</p:column>
 				<p:column headerText="Closing result">
 					<h:outputText
-						value="#{closingResultService.localized(req.closingResult)}" />
+						value="#{closingResultService.displayName(req.closingResult)}" />
 				</p:column>
 				<p:column headerText="Premium cost" style="text-align: right">
 					<ui:decorate template="out-money.include.xhtml">
-						<ui:param name="value" value="#{req.policy.calculation.premiumCost}" />
+						<ui:param name="value"
+							value="#{req.policy.calculation.premiumCost}" />
 					</ui:decorate>
 				</p:column>
 				<p:column headerText="Requester name">

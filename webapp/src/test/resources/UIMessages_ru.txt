@@ -2,3 +2,6 @@
 name.company-short = СК Евразия
 name.company-full = Страховая компания Евразия
 name.site = Евразия 36
+
+# errors
+error.internal-server-error = Внутернняя ошибка сервера

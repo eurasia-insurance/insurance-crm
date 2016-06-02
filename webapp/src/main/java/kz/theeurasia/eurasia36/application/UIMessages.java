@@ -6,6 +6,9 @@ public enum UIMessages {
     NAME_COMPANY_SHORT("name.company-short"),
     NAME_COMPANY_FULL("name.company-full"),
     NAME_SITE("name.site"),
+    
+    // errors
+    ERROR_INTERNAL_SERVER_ERROR("error.internal-server-error"),
     //
     ;
 

@@ -33,4 +33,8 @@ public interface FacesMessagesFacade {
 
     ValidatorException throwValidationException(UIMessages messagee, UIMessages details,
 	    FacesMessage.Severity severity, String clientId);
+
+    FacesMessage addExceptionMessage(UIMessages message, Throwable e);
+
+    FacesMessage addExceptionMessage(Throwable e);
 }

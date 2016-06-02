@@ -33,6 +33,12 @@ public class DefaultFacesMessagesFacade implements FacesMessagesFacade {
 	return fm;
     }
 
+    private FacesMessage addMessage(String message, Severity severity) {
+	FacesMessage fm = createMessage(message, severity);
+	FacesContext.getCurrentInstance().addMessage(null, fm);
+	return fm;
+    }
+
     @Override
     public FacesMessage addMessage(UIMessages message, Severity severity, String clientId) {
 	FacesMessage fm = createMessage(message, severity, clientId);
@@ -55,6 +61,10 @@ public class DefaultFacesMessagesFacade implements FacesMessagesFacade {
 
     @Override
     public FacesMessage createMessage(UIMessages message, Severity severity) {
+	return generateMessage(message, null, severity, null);
+    }
+
+    private FacesMessage createMessage(String message, Severity severity) {
 	return generateMessage(message, null, severity, null);
     }
 
@@ -101,8 +111,22 @@ public class DefaultFacesMessagesFacade implements FacesMessagesFacade {
 	String details = null;
 	if (detailsKey != null)
 	    details = ui.getString(detailsKey.getKey());
+	return generateMessage(message, details, severity, clientId);
+    }
+
+    private FacesMessage generateMessage(String message, String details, FacesMessage.Severity severity,
+	    String clientId) {
 	FacesMessage facesMessage = new FacesMessage(severity, message, details);
 	return facesMessage;
     }
 
+    @Override
+    public FacesMessage addExceptionMessage(UIMessages message, Throwable e) {
+	return addMessage(message, FacesMessage.SEVERITY_FATAL);
+    }
+
+    @Override
+    public FacesMessage addExceptionMessage(Throwable e) {
+	return addMessage(e.getMessage(), FacesMessage.SEVERITY_FATAL);
+    }
 }

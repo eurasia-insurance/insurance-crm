@@ -120,14 +120,6 @@
 		<url>http://www.theeurasia.kz</url>
 	</organization>
 
-	<developers>
-		<developer>
-			<id>vadim.o.isaev@gmail.com</id>
-			<name>Vadim Isaev</name>
-			<email>vadim.o.isaev@gmail.com</email>
-		</developer>
-	</developers>
-
 	<scm>
 		<connection>scm:git:https://gitrepo.theeurasia.kz/eurasia/eurasia36-crm.git</connection>
 		<developerConnection>scm:git:https://gitrepo.theeurasia.kz/eurasia/eurasia36-crm.git</developerConnection>

@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>kz.theeurasia.eurasia36.crm</groupId>
 		<artifactId>parent</artifactId>
-		<version>1.0-pre-rc1-SNAPSHOT</version>
+		<version>1.0-rc1-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>eurasia36-crm-webapp</artifactId>

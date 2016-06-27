@@ -17,7 +17,8 @@
 
 		<h:form>
 
-			<p:dialog widgetVar="imageDialogWV" closeOnEscape="true" position="center,center" modal="true" maximizable="true">
+			<p:dialog widgetVar="imageDialogWV" closeOnEscape="true"
+				position="center,center" modal="true" maximizable="true">
 				<h:panelGroup id="imageDialogWrapper">
 					<o:graphicImage value="#{imageView.resized.content}" dataURI="true"
 						width="#{imageView.resized.width}"
@@ -61,8 +62,6 @@
 
 			<p:selectOneMenu value="#{policyOrders.statusFilter}">
 				<p:ajax process="@this" update="@form" />
-				<f:selectItem itemLabel="Select One" itemValue="#{null}"
-					noSelectionOption="true" />
 				<f:selectItems value="#{requestStatusService.selectableItemsSI}" />
 			</p:selectOneMenu>
 

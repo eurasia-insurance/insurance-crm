@@ -77,6 +77,12 @@ public class PolicyOrder implements Serializable {
 	z.getObtaining().getPickupPOS().getAddress().getCity();
 	
 	
+	z.getPolicy().getInsuredDrivers().get(0).getDriverLicenseData().getScan().getFrontside();
+	z.getPolicy().getInsuredDrivers().get(0).getIdentityCardData().getScan().getBackside();
+
+	z.getPolicy().getInsuredVehicles().get(0).getVehicleData().getCertificateData().getScan().getFrontside();
+	z.getPolicy().getInsuredVehicles().get(0).getVehicleData().getCertificateData().getScan().getBackside();
+
 
     }
 }

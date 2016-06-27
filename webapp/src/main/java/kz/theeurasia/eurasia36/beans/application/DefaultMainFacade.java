@@ -6,7 +6,11 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.lapsa.insurance.crm.RequestStatus;
+import com.lapsa.insurance.domain.InsuredDriverData;
+import com.lapsa.insurance.domain.InsuredVehicleData;
 import com.lapsa.insurance.domain.PolicyExpressOrder;
+import com.lapsa.insurance.domain.TwoSidedDocumentScan;
+import com.lapsa.insurance.domain.UploadedImage;
 import com.lapsa.insurance.persistence.dao.PeristenceOperationFailed;
 import com.lapsa.insurance.persistence.dao.PolicyExpressOrderDAO;
 
@@ -24,7 +28,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Inject
     private FacesMessagesFacade facesMessagesFacade;
-    
+
     @Inject
     private PolicyOrders policyOrders;
 
@@ -39,4 +43,26 @@ public class DefaultMainFacade implements MainFacade {
 	}
 	return null;
     }
+
+    public boolean vehicleHasImages(InsuredVehicleData vehicle) {
+	if (vehicle != null && vehicle.getVehicleData() != null && vehicle.getVehicleData().getCertificateData() != null
+		&& vehicle.getVehicleData().getCertificateData().getScan() != null
+		&& (vehicle.getVehicleData().getCertificateData().getScan().getFrontside() != null
+			|| vehicle.getVehicleData().getCertificateData().getScan().getBackside() != null))
+	    return true;
+	return false;
+    }
+
+    public boolean driverHasImages(InsuredDriverData driver) {
+	if (driver != null && driver.getDriverLicenseData() != null && driver.getDriverLicenseData().getScan() != null
+		&& (driver.getDriverLicenseData().getScan().getFrontside() != null
+			|| driver.getDriverLicenseData().getScan().getBackside() != null))
+	    return true;
+	if (driver != null && driver.getIdentityCardData() != null && driver.getIdentityCardData().getScan() != null
+		&& (driver.getIdentityCardData().getScan().getFrontside() != null
+			|| driver.getIdentityCardData().getScan().getBackside() != null))
+	    return true;
+	return false;
+    }
+
 }

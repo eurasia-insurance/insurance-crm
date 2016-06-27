@@ -12,9 +12,19 @@
 	<ui:define name="page-content">
 		<o:importConstants type="com.lapsa.insurance.crm.ClosingResult" />
 		<o:importConstants type="com.lapsa.insurance.crm.RequestStatus" />
-		<o:importConstants type="com.lapsa.insurance.elements.PolicyObtainingMethod" />
+		<o:importConstants
+			type="com.lapsa.insurance.elements.PolicyObtainingMethod" />
 
 		<h:form>
+
+			<p:dialog widgetVar="imageDialogWV" closeOnEscape="true" position="center,center" modal="true" maximizable="true">
+				<h:panelGroup id="imageDialogWrapper">
+					<o:graphicImage value="#{imageView.resized.content}" dataURI="true"
+						width="#{imageView.resized.width}"
+						height="#{imageView.resized.height}"
+						rendered="#{not empty imageView.resized}" />
+				</h:panelGroup>
+			</p:dialog>
 
 			<p:dialog widgetVar="confirmCloseDialogWV"
 				header="Укажите причину закрытия" closeOnEscape="true">
@@ -74,15 +84,6 @@
 					<h:outputText
 						value="#{requestStatusService.displayName(req.requestStatus)}" />
 				</p:column>
-				<p:column headerText="Close time">
-					<ui:decorate template="out-datetime.include.xhtml">
-						<ui:param name="value" value="#{req.closed}" />
-					</ui:decorate>
-				</p:column>
-				<p:column headerText="Причина закрытия">
-					<h:outputText
-						value="#{closingResultService.displayName(req.closingResult)}" />
-				</p:column>
 				<p:column headerText="Стоимость премии" style="text-align: right">
 					<ui:decorate template="out-money.include.xhtml">
 						<ui:param name="value"
@@ -97,6 +98,15 @@
 				</p:column>
 				<p:column headerText="Телефон заявителя">
 					<h:outputText value="#{req.requester.phone}" />
+				</p:column>
+				<p:column headerText="Дата закрытия">
+					<ui:decorate template="out-datetime.include.xhtml">
+						<ui:param name="value" value="#{req.closed}" />
+					</ui:decorate>
+				</p:column>
+				<p:column headerText="Причина закрытия">
+					<h:outputText
+						value="#{closingResultService.displayName(req.closingResult)}" />
 				</p:column>
 			</p:dataTable>
 		</h:form>

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:comp="http://xmlns.jcp.org/jsf/composite"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+	<style>
+.ui-panelgrid {
+	width: 100%;
+}
+
+.ui-panelgrid, .ui-panelgrid .ui-panelgrid-cell {
+	border-style: hidden;
+	/* 	 10px solid black; */
+	vertical-align: top;
+}
+</style>
+
+	<h3 style="margin-top: 0">
+		<h:outputText value="Заявка # #{policyOrder.currentOrder.id}" />
+	</h3>
+
+	<p:panelGrid columns="1">
+
+		<p:panelGrid columns="2">
+			<p:panelGrid columns="2">
+				<h:outputText value="ФИО" />
+				<h:outputText value="#{policyOrder.currentOrder.requester.name}" />
+				<h:outputText value="Телефон" />
+				<h:outputText value="#{policyOrder.currentOrder.requester.phone}" />
+				<h:outputText value="E-mail" />
+				<h:outputText value="#{policyOrder.currentOrder.requester.email}" />
+				<h:outputText value="Предпочитаемый язык" />
+				<h:outputText
+					value="#{localizationLanguageService.displayName(policyOrder.currentOrder.requester.preferLanguage)}" />
+			</p:panelGrid>
+
+			<p:panelGrid columns="2">
+				<h:outputText value="Дата создания" />
+				<ui:decorate template="out-datetime.include.xhtml">
+					<ui:param name="value" value="#{policyOrder.currentOrder.created}" />
+				</ui:decorate>
+				<h:outputText value="Дата последнего обновления" />
+				<ui:decorate template="out-datetime.include.xhtml">
+					<ui:param name="value" value="#{policyOrder.currentOrder.updated}" />
+				</ui:decorate>
+				<h:outputText value="Статус" />
+				<h:outputText
+					value="#{requestStatusService.displayName(policyOrder.currentOrder.requestStatus)}" />
+				<h:outputText value="Дата закрытия" />
+				<ui:decorate template="out-datetime.include.xhtml">
+					<ui:param name="value" value="#{policyOrder.currentOrder.closed}" />
+				</ui:decorate>
+				<h:outputText value="Результат" />
+				<h:outputText
+					value="#{closingResultService.displayName(policyOrder.currentOrder.closingResult)}" />
+			</p:panelGrid>
+		</p:panelGrid>
+
+		<h:panelGroup>
+			<h3>
+				<h:outputText value="Стоимость полиса " />
+				<ui:decorate template="out-money.include.xhtml">
+					<ui:param name="value"
+						value="#{policyOrder.currentOrder.policy.calculation.premiumCost}" />
+				</ui:decorate>
+			</h3>
+		</h:panelGroup>
+
+
+		<h:panelGroup
+			rendered="#{policyOrder.currentOrder.obtaining.method == PolicyObtainingMethod.DELIVERY}">
+			<h3>Способ получения полиса: ДОСТАВКА</h3>
+			<p:panelGrid columns="4">
+				<h:outputText value="Дата доставки" />
+				<ui:decorate template="out-date.include.xhtml">
+					<ui:param name="value"
+						value="#{policyOrder.currentOrder.obtaining.deliveryDate}" />
+				</ui:decorate>
+				<h:outputText value="Город доставки" />
+				<h:outputText
+					value="#{kzCityService.displayName(policyOrder.currentOrder.obtaining.deliveryCity)}" />
+				<h:outputText value="Время доставки" />
+				<h:outputText
+					value="#{deliveryTimeSlotService.displayName(policyOrder.currentOrder.obtaining.deliveryTime)}" />
+				<h:outputText value="Адрес доставки:" />
+				<h:outputText
+					value="#{policyOrder.currentOrder.obtaining.deliveryAddress}" />
+
+			</p:panelGrid>
+		</h:panelGroup>
+		<h:panelGroup
+			rendered="#{policyOrder.currentOrder.obtaining.method == PolicyObtainingMethod.PICKUP}">
+			<h3>Способ получения полиса: САМОВЫВОЗ</h3>
+			<h:outputText
+				value="#{companyPointOfSaleService.displayNameFull(policyOrder.currentOrder.obtaining.pickupPOS)}" />
+		</h:panelGroup>
+
+		<h:panelGroup>
+			<h3>Список застрахованных водителей</h3>
+			<p:dataTable
+				value="#{policyOrder.currentOrder.policy.insuredDrivers}"
+				var="driver">
+				<p:column style="width:16px">
+					<p:rowToggler />
+				</p:column>
+				<p:column headerText="ИИН">
+					<h:outputText value="#{driver.idNumber}" />
+				</p:column>
+				<p:column headerText="Класс">
+					<h:outputText
+						value="#{insuranceClassTypeService.displayName(driver.insuranceClassType)}" />
+				</p:column>
+				<p:column headerText="Водительский стаж">
+					<h:outputText
+						value="#{insuredExpirienceClassService.displayName(driver.expirienceClass)}" />
+				</p:column>
+				<p:column headerText="Возраст">
+					<h:outputText
+						value="#{insuredAgeClassService.displayName(driver.ageClass)}" />
+				</p:column>
+
+				<p:rowExpansion>
+					<p:panelGrid columns="4">
+						<h:outputText value="#{driver.idNumber}" />
+						<h:outputText
+							value="#{insuranceClassTypeService.displayName(driver.insuranceClassType)}" />
+						<h:outputText
+							value="#{insuredExpirienceClassService.displayName(driver.expirienceClass)}" />
+						<h:outputText
+							value="#{insuredAgeClassService.displayName(driver.ageClass)}" />
+					</p:panelGrid>
+				</p:rowExpansion>
+			</p:dataTable>
+		</h:panelGroup>
+
+		<h:panelGroup>
+			<h3>Список застрахованных транспортных средств</h3>
+			<p:dataTable
+				value="#{policyOrder.currentOrder.policy.insuredVehicles}"
+				var="vehicle">
+				<p:column style="width:16px">
+					<p:rowToggler />
+				</p:column>
+				<p:column headerText="Регион авто">
+					<h:outputText value="#{kzAreaService.displayName(vehicle.region)}" />
+				</p:column>
+				<p:column headerText="Город">
+					<h:outputText value="#{kzCityService.displayName(vehicle.city)}" />
+				</p:column>
+				<p:column headerText="Возраст авто">
+					<h:outputText
+						value="#{vehicleAgeClassService.displayName(vehicle.vehicleAgeClass)}" />
+				</p:column>
+				<p:column headerText="Класс авто">
+					<h:outputText
+						value="#{vehicleClassService.displayName(vehicle.vehicleClass)}" />
+				</p:column>
+				<p:rowExpansion>
+
+
+
+					<p:panelGrid columns="4">
+						<h:outputText value="#{kzAreaService.displayName(vehicle.region)}" />
+						<h:outputText value="#{kzCityService.displayName(vehicle.city)}" />
+						<h:outputText
+							value="#{vehicleAgeClassService.displayName(vehicle.vehicleAgeClass)}" />
+						<h:outputText
+							value="#{vehicleClassService.displayName(vehicle.vehicleClass)}" />
+					</p:panelGrid>
+				</p:rowExpansion>
+			</p:dataTable>
+		</h:panelGroup>
+	</p:panelGrid>
+
+
+</ui:composition>

@@ -4,68 +4,101 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:comp="http://xmlns.jcp.org/jsf/composite"
-	xmlns:p="http://primefaces.org/ui"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
 	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	template="/WEB-INF/templates/clean.xhtml">
 	<ui:define name="page-title">#{ui['name.site']}</ui:define>
 	<ui:define name="page-content">
+		<o:importConstants type="com.lapsa.insurance.crm.ClosingResult" />
+		<o:importConstants type="com.lapsa.insurance.crm.RequestStatus" />
+		<o:importConstants type="com.lapsa.insurance.elements.PolicyObtainingMethod" />
+
 		<h:form>
+
+			<p:dialog widgetVar="confirmCloseDialogWV"
+				header="Укажите причину закрытия" closeOnEscape="true">
+				<h:panelGroup id="confirmCloseDialogWrapper">
+					<h:panelGroup rendered="#{not empty policyOrder.currentOrder}">
+						<p:selectOneRadio
+							value="#{policyOrder.currentOrder.closingResult}" required="true">
+							<f:selectItems value="#{closingResultService.selectableItemsSI}" />
+						</p:selectOneRadio>
+						<p:commandButton value="Закрыть"
+							actionListener="#{mainFacade.doCloseRequest(policyOrder.currentOrder)}"
+							process="@form" update="@form"
+							oncomplete="PF('confirmCloseDialogWV').hide(); PF('viewOrderDialogWV').hide()" />
+						<p:button value="Отмена"
+							onclick="PF('confirmCloseDialogWV').hide(); return false;" />
+					</h:panelGroup>
+				</h:panelGroup>
+			</p:dialog>
+
+			<p:dialog widgetVar="viewOrderDialogWV" modal="true" closable="true"
+				minHeight="800" minWidth="1024" width="1024" height="800"
+				closeOnEscape="true" minimizable="false" maximizable="true">
+				<h:panelGroup id="viewOrderDialogWrapper">
+					<h:panelGroup rendered="#{not empty policyOrder.currentOrder}">
+						<ui:decorate template="order-contents.xhtml" />
+						<p:commandButton process="@this"
+							update="@form:confirmCloseDialogWrapper"
+							rendered="#{policyOrder.currentOrder.requestStatus == RequestStatus.OPEN}"
+							value="Закрыть заявку"
+							oncomplete="PF('confirmCloseDialogWV').show()" />
+					</h:panelGroup>
+				</h:panelGroup>
+			</p:dialog>
+
+			<p:selectOneMenu value="#{policyOrders.statusFilter}">
+				<p:ajax process="@this" update="@form" />
+				<f:selectItem itemLabel="Select One" itemValue="#{null}"
+					noSelectionOption="true" />
+				<f:selectItems value="#{requestStatusService.selectableItemsSI}" />
+			</p:selectOneMenu>
+
 			<p:dataTable widgetVar="requestTable" var="req"
-				value="#{policyOrders.expressOrders}">
-				<p:column headerText="Id">
+				value="#{policyOrders.expressOrdersByStatus}" selectionMode="single"
+				selection="#{policyOrder.currentOrder}" rowKey="#{req.id}">
+				<p:ajax event="rowSelect" process="@this"
+					update="@form:viewOrderDialogWrapper"
+					oncomplete="PF('viewOrderDialogWV').show()" />
+				<p:column width="20" headerText="Номер">
 					<h:outputText value="#{req.id}" />
 				</p:column>
-				<p:column headerText="Create time">
+				<p:column headerText="Дата создания">
 					<ui:decorate template="out-datetime.include.xhtml">
 						<ui:param name="value" value="#{req.created}" />
 					</ui:decorate>
 				</p:column>
-				<p:column headerText="Status" filterBy="#{req.requestStatus}"
-					filterMatchMode="exact">
-					<f:facet name="filter">
-						<p:selectOneMenu onchange="PF('requestTable').filter()">
-							<f:selectItem itemLabel="Select One" itemValue="#{null}"
-								noSelectionOption="true" />
-							<f:selectItems value="#{requestStatusService.selectableItemsSI}" />
-						</p:selectOneMenu>
-					</f:facet>
-					<p:inplace id="requestStatus"
-						label="#{requestStatusService.displayName(req.requestStatus)}">
-						<p:selectOneMenu value="#{req.requestStatus}">
-							<f:selectItem itemLabel="Select One" itemValue="#{null}"
-								noSelectionOption="true" />
-							<f:selectItems value="#{requestStatusService.selectableItemsSI}" />
-							<p:ajax process="@this" update="requestStatus" listener="#{mainFacade.onRequestStatusChanged(req)}"/>
-						</p:selectOneMenu>
-					</p:inplace>
+				<p:column width="100" headerText="Статус">
+					<h:outputText
+						value="#{requestStatusService.displayName(req.requestStatus)}" />
 				</p:column>
 				<p:column headerText="Close time">
 					<ui:decorate template="out-datetime.include.xhtml">
 						<ui:param name="value" value="#{req.closed}" />
 					</ui:decorate>
 				</p:column>
-				<p:column headerText="Closing result">
+				<p:column headerText="Причина закрытия">
 					<h:outputText
 						value="#{closingResultService.displayName(req.closingResult)}" />
 				</p:column>
-				<p:column headerText="Premium cost" style="text-align: right">
+				<p:column headerText="Стоимость премии" style="text-align: right">
 					<ui:decorate template="out-money.include.xhtml">
 						<ui:param name="value"
 							value="#{req.policy.calculation.premiumCost}" />
 					</ui:decorate>
 				</p:column>
-				<p:column headerText="Requester name">
+				<p:column headerText="Имя заявителя">
 					<h:outputText value="#{req.requester.name}" />
 				</p:column>
-				<p:column headerText="Requester email">
+				<p:column headerText="Email заявителя">
 					<h:outputText value="#{req.requester.email}" />
 				</p:column>
-				<p:column headerText="Requester phone">
+				<p:column headerText="Телефон заявителя">
 					<h:outputText value="#{req.requester.phone}" />
 				</p:column>
 			</p:dataTable>
-
 		</h:form>
 	</ui:define>
 </ui:composition>

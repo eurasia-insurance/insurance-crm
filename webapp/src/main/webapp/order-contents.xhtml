@@ -70,8 +70,15 @@
 						value="#{policyOrder.currentOrder.policy.calculation.premiumCost}" />
 				</ui:decorate>
 			</h3>
+			<p:panelGrid columns="4">
+				<p:outputLabel value="Способ оплаты" />
+				<h:outputText
+					value="#{paymentMethodService.displayName(policyOrder.currentOrder.payment.method)}" />
+				<p:outputLabel value="Статус оплаты" />
+				<h:outputText
+					value="#{paymentStatusService.displayName(policyOrder.currentOrder.payment.status)}" />
+			</p:panelGrid>
 		</h:panelGroup>
-
 
 		<h:panelGroup
 			rendered="#{policyOrder.currentOrder.obtaining.method == PolicyObtainingMethod.DELIVERY}">
@@ -152,7 +159,8 @@
 				value="#{policyOrder.currentOrder.policy.insuredVehicles}"
 				var="vehicle">
 				<p:column style="width:16px">
-					<p:rowToggler expandLabel="" rendered="#{mainFacade.vehicleHasImages(vehicle)}" />
+					<p:rowToggler expandLabel=""
+						rendered="#{mainFacade.vehicleHasImages(vehicle)}" />
 				</p:column>
 				<p:column headerText="Регион авто">
 					<h:outputText value="#{kzAreaService.displayName(vehicle.region)}" />

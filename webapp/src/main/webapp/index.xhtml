@@ -89,6 +89,14 @@
 							value="#{req.policy.calculation.premiumCost}" />
 					</ui:decorate>
 				</p:column>
+				<p:column width="200" headerText="Способ оплаты">
+					<h:outputText
+						value="#{paymentMethodService.displayName(req.payment.method)}" />
+				</p:column>
+				<p:column width="100" headerText="Статус оплаты">
+					<h:outputText
+						value="#{paymentStatusService.displayName(req.payment.status)}" />
+				</p:column>
 				<p:column headerText="Имя заявителя">
 					<h:outputText value="#{req.requester.name}" />
 				</p:column>

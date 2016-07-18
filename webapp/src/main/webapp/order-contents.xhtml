@@ -152,7 +152,7 @@
 				value="#{policyOrder.currentOrder.policy.insuredVehicles}"
 				var="vehicle">
 				<p:column style="width:16px">
-					<p:rowToggler expandLabel="" rendered="#{mainFacade.vehicleHasImages(vehicle)}" />
+					<p:rowToggler rendered="#{mainFacade.vehicleHasImages(vehicle)}" />
 				</p:column>
 				<p:column headerText="Регион авто">
 					<h:outputText value="#{kzAreaService.displayName(vehicle.region)}" />

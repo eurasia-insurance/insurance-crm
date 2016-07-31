@@ -9,7 +9,7 @@
 
 	<groupId>kz.theeurasia.eurasia36.crm</groupId>
 	<artifactId>parent</artifactId>
-	<version>1.1-SNAPSHOT</version>
+	<version>1.1-rc1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>Eurasia36 : CRM : Parent</name>

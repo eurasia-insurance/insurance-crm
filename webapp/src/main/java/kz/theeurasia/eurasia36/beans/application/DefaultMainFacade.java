@@ -8,11 +8,9 @@ import javax.inject.Named;
 import com.lapsa.insurance.crm.RequestStatus;
 import com.lapsa.insurance.domain.InsuredDriverData;
 import com.lapsa.insurance.domain.InsuredVehicleData;
-import com.lapsa.insurance.domain.PolicyExpressOrder;
-import com.lapsa.insurance.domain.TwoSidedDocumentScan;
-import com.lapsa.insurance.domain.UploadedImage;
+import com.lapsa.insurance.domain.policy.PolicyRequest;
 import com.lapsa.insurance.persistence.dao.PeristenceOperationFailed;
-import com.lapsa.insurance.persistence.dao.PolicyExpressOrderDAO;
+import com.lapsa.insurance.persistence.dao.PolicyRequestDAO;
 
 import kz.theeurasia.eurasia36.application.MainFacade;
 import kz.theeurasia.eurasia36.application.UIMessages;
@@ -24,7 +22,7 @@ import kz.theeurasia.eurasia36.beans.view.PolicyOrders;
 public class DefaultMainFacade implements MainFacade {
 
     @EJB
-    private PolicyExpressOrderDAO policyExpressOrderDAO;
+    private PolicyRequestDAO policyExpressOrderDAO;
 
     @Inject
     private FacesMessagesFacade facesMessagesFacade;
@@ -33,7 +31,7 @@ public class DefaultMainFacade implements MainFacade {
     private PolicyOrders policyOrders;
 
     @Override
-    public String doCloseRequest(PolicyExpressOrder order) {
+    public String doCloseRequest(PolicyRequest order) {
 	order.setRequestStatus(RequestStatus.CLOSED);
 	try {
 	    policyExpressOrderDAO.save(order);

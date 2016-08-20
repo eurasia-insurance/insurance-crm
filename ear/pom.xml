@@ -25,6 +25,10 @@
 			<artifactId>insurance-persistence-impl-jpa</artifactId>
 			<type>ejb</type>
 		</dependency>
+		<dependency>
+			<groupId>com.lapsa.lapsa-lib</groupId>
+			<artifactId>lapsa-cdiutils</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>

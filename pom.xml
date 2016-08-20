@@ -24,6 +24,7 @@
 		<kz-lib.version>2.0</kz-lib.version>
 		<international-lib.version>2.0.1</international-lib.version>
 		<insurance-lib.version>1.4-SNAPSHOT</insurance-lib.version>
+		<lapsa-lib.version>1.1</lapsa-lib.version>
 		<!-- EJBs & WARs -->
 		<insurance-persistence-impl-jpa.version>1.2-SNAPSHOT</insurance-persistence-impl-jpa.version>
 	</properties>
@@ -88,6 +89,11 @@
 				<groupId>com.lapsa.insurance-lib</groupId>
 				<artifactId>insurance-persistence</artifactId>
 				<version>${insurance-lib.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.lapsa.lapsa-lib</groupId>
+				<artifactId>lapsa-cdiutils</artifactId>
+				<version>${lapsa-lib.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.lapsa.insurance-lib</groupId>

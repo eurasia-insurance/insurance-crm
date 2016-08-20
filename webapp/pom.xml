@@ -70,7 +70,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.lapsa.insurance-lib</groupId>
-			<artifactId>insurance-services-impl-cda</artifactId>
+			<artifactId>insurance-services-impl-cdi</artifactId>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>

@@ -27,7 +27,7 @@
 		<lapsa-lib.version>1.1</lapsa-lib.version>
 		<!-- EJBs & WARs -->
 		<insurance-persistence-impl-jpa.version>1.2-SNAPSHOT</insurance-persistence-impl-jpa.version>
-		<insurance-services-impl-cda.version>1.0-SNAPSHOT</insurance-services-impl-cda.version>
+		<insurance-services-impl-cdi.version>1.0-SNAPSHOT</insurance-services-impl-cdi.version>
 	</properties>
 
 	<dependencyManagement>
@@ -98,8 +98,8 @@
 			</dependency>
 			<dependency>
 				<groupId>com.lapsa.insurance-lib</groupId>
-				<artifactId>insurance-services-impl-cda</artifactId>
-				<version>${insurance-services-impl-cda.version}</version>
+				<artifactId>insurance-services-impl-cdi</artifactId>
+				<version>${insurance-services-impl-cdi.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.lapsa.insurance-lib</groupId>

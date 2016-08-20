@@ -50,7 +50,7 @@
 				closeOnEscape="true" minimizable="false" maximizable="true">
 				<h:panelGroup id="viewOrderDialogWrapper">
 					<h:panelGroup rendered="#{not empty policyOrder.currentOrder}">
-						<ui:decorate template="order-contents.xhtml" />
+						<ui:include src="insurance-request.include.xhtml" />
 						<p:commandButton process="@this"
 							update="@form:confirmCloseDialogWrapper"
 							rendered="#{policyOrder.currentOrder.requestStatus == RequestStatus.OPEN}"

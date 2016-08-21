@@ -8,9 +8,9 @@ import org.omnifaces.cdi.ViewScoped;
 
 import com.lapsa.insurance.crm.RequestStatus;
 
-@Named("policyOrdersFilter")
+@Named("insuranceRequestsFilter")
 @ViewScoped
-public class PolicyOrdersFilter implements Serializable {
+public class InsuranceRequestsFilter implements Serializable {
 
     private static final long serialVersionUID = -6980458753963030228L;
 

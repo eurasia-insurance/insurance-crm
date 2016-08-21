@@ -10,11 +10,6 @@
 	template="/WEB-INF/templates/clean.xhtml">
 	<ui:define name="page-title">#{ui['name.site']}</ui:define>
 	<ui:define name="page-content">
-		<o:importConstants type="com.lapsa.insurance.crm.ClosingResult" />
-		<o:importConstants type="com.lapsa.insurance.crm.RequestStatus" />
-		<o:importConstants
-			type="com.lapsa.insurance.elements.PolicyObtainingMethod" />
-
 		<h:form>
 
 			<p:dialog widgetVar="imageDialogWV" closeOnEscape="true"
@@ -30,47 +25,52 @@
 			<p:dialog widgetVar="confirmCloseDialogWV"
 				header="Укажите причину закрытия" closeOnEscape="true">
 				<h:panelGroup id="confirmCloseDialogWrapper">
-					<h:panelGroup rendered="#{not empty policyOrder.currentOrder}">
-						<p:selectOneRadio
-							value="#{policyOrder.currentOrder.closingResult}" required="true">
+					<h:panelGroup rendered="#{not empty insuranceRequest.value}">
+						<p:selectOneRadio value="#{insuranceRequest.value.closingResult}"
+							required="true">
 							<f:selectItems value="#{closingResultService.selectableItemsSI}" />
 						</p:selectOneRadio>
 						<p:commandButton value="Закрыть"
-							actionListener="#{mainFacade.doCloseRequest(policyOrder.currentOrder)}"
+							actionListener="#{mainFacade.doCloseRequest(insuranceRequest.value)}"
 							process="@form" update="@form"
-							oncomplete="PF('confirmCloseDialogWV').hide(); PF('viewOrderDialogWV').hide()" />
+							oncomplete="PF('confirmCloseDialogWV').hide(); PF('viewInsuranceRequestDialogWV').hide()" />
 						<p:button value="Отмена"
 							onclick="PF('confirmCloseDialogWV').hide(); return false;" />
 					</h:panelGroup>
 				</h:panelGroup>
 			</p:dialog>
 
-			<p:dialog widgetVar="viewOrderDialogWV" modal="true" closable="true"
-				minHeight="800" minWidth="1024" width="1024" height="800"
-				closeOnEscape="true" minimizable="false" maximizable="true">
-				<h:panelGroup id="viewOrderDialogWrapper">
-					<h:panelGroup rendered="#{not empty policyOrder.currentOrder}">
+			<p:dialog widgetVar="viewInsuranceRequestDialogWV" modal="true"
+				closable="true" minHeight="800" minWidth="1024" width="1024"
+				height="800" closeOnEscape="true" minimizable="false"
+				maximizable="true">
+				<h:panelGroup id="viewInsuranceRequestDialogWrapper">
+					<h:panelGroup rendered="#{not empty insuranceRequest.value}">
 						<ui:include src="insurance-request.include.xhtml" />
 						<p:commandButton process="@this"
 							update="@form:confirmCloseDialogWrapper"
-							rendered="#{policyOrder.currentOrder.requestStatus == RequestStatus.OPEN}"
+							rendered="#{insuranceRequest.value.requestStatus == 'OPEN'}"
 							value="Закрыть заявку"
 							oncomplete="PF('confirmCloseDialogWV').show()" />
 					</h:panelGroup>
 				</h:panelGroup>
 			</p:dialog>
 
-			<p:selectOneMenu value="#{policyOrders.statusFilter}">
+			<p:selectOneMenu value="#{insuranceRequests.statusFilter}">
 				<p:ajax process="@this" update="@form" />
 				<f:selectItems value="#{requestStatusService.selectableItemsSI}" />
 			</p:selectOneMenu>
 
 			<p:dataTable widgetVar="requestTable" var="req"
-				value="#{policyOrders.expressOrdersByStatus}" selectionMode="single"
-				selection="#{policyOrder.currentOrder}" rowKey="#{req.id}">
+				value="#{insuranceRequests.insuranceRequestByStatus}"
+				selectionMode="single" selection="#{insuranceRequest.value}"
+				rowKey="#{req.id}">
 				<p:ajax event="rowSelect" process="@this"
-					update="@form:viewOrderDialogWrapper"
-					oncomplete="PF('viewOrderDialogWV').show()" />
+					update="@form:viewInsuranceRequestDialogWrapper"
+					oncomplete="PF('viewInsuranceRequestDialogWV').show()" />
+				<p:column headerText="Страховой продукт">
+					<h:outputText value="#{insuranceProductTypeService.displayName(req.productType)}" />
+				</p:column>
 				<p:column width="20" headerText="Номер">
 					<h:outputText value="#{req.id}" />
 				</p:column>
@@ -86,7 +86,7 @@
 				<p:column headerText="Стоимость премии" style="text-align: right">
 					<ui:decorate template="out-money.include.xhtml">
 						<ui:param name="value"
-							value="#{req.policy.calculation.premiumCost}" />
+							value="#{req.product.calculation.premiumCost}" />
 					</ui:decorate>
 				</p:column>
 				<p:column width="200" headerText="Способ оплаты">

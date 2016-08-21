@@ -2,42 +2,41 @@ package kz.theeurasia.eurasia36.beans.view;
 
 import java.io.Serializable;
 
-import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.omnifaces.cdi.ViewScoped;
 
-import com.lapsa.insurance.domain.policy.PolicyRequest;
+import com.lapsa.insurance.domain.InsuranceRequest;
+import com.lapsa.insurance.persistence.dao.InsuranceRequestDAO;
 import com.lapsa.insurance.persistence.dao.PeristenceOperationFailed;
-import com.lapsa.insurance.persistence.dao.PolicyRequestDAO;
 
 import kz.theeurasia.eurasia36.beans.api.FacesMessagesFacade;
 
-@Named("policyOrder")
+@Named("insuranceRequest")
 @ViewScoped
-public class PolicyOrder implements Serializable {
+public class InsuranceRequestHolder implements Serializable {
     private static final long serialVersionUID = -2574434730269891652L;
 
-    private PolicyRequest currentOrder;
+    private InsuranceRequest value;
 
     @Inject
     private FacesMessagesFacade facesMessagesFacade;
 
-    @EJB
-    private PolicyRequestDAO policyExpressOrderDAO;
+    @Inject
+    private InsuranceRequestDAO insuranceRequestDAO;
 
-    public PolicyRequest getCurrentOrder() {
-	return currentOrder;
+    public InsuranceRequest getValue() {
+	return value;
     }
 
-    public void setCurrentOrder(PolicyRequest currentOrder) {
-	this.currentOrder = currentOrder;
+    public void setValue(InsuranceRequest value) {
+	this.value = value;
     }
 
     public String doSave() {
 	try {
-	    currentOrder = policyExpressOrderDAO.save(currentOrder);
+	    value = insuranceRequestDAO.save(value);
 	} catch (PeristenceOperationFailed e) {
 	    facesMessagesFacade.addExceptionMessage(e);
 	}

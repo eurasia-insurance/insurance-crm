@@ -10,15 +10,15 @@ import javax.inject.Named;
 import org.omnifaces.cdi.ViewScoped;
 
 import com.lapsa.insurance.crm.RequestStatus;
-import com.lapsa.insurance.domain.policy.PolicyRequest;
+import com.lapsa.insurance.domain.InsuranceRequest;
+import com.lapsa.insurance.persistence.dao.InsuranceRequestDAO;
 import com.lapsa.insurance.persistence.dao.PeristenceOperationFailed;
-import com.lapsa.insurance.persistence.dao.PolicyRequestDAO;
 
 import kz.theeurasia.eurasia36.beans.api.FacesMessagesFacade;
 
-@Named("policyOrders")
+@Named("insuranceRequests")
 @ViewScoped
-public class PolicyOrders implements Serializable {
+public class InsuranceRequests implements Serializable {
 
     private static final long serialVersionUID = 7249376610273191727L;
 
@@ -26,17 +26,17 @@ public class PolicyOrders implements Serializable {
     private FacesMessagesFacade facesMessagesFacade;
 
     @EJB
-    private PolicyRequestDAO policyRequestDAO;
+    private InsuranceRequestDAO insuranceRequestDAO;
 
     private RequestStatus statusFilter = RequestStatus.OPEN;
 
-    private List<PolicyRequest> expressOrdersByStatus;
+    private List<InsuranceRequest> requestsByStatus;
 
-    public List<PolicyRequest> getExpressOrdersByStatus() {
+    public List<InsuranceRequest> getInsuranceRequestByStatus() {
 	try {
-	    if (expressOrdersByStatus == null)
-		expressOrdersByStatus = policyRequestDAO.findByStatus(statusFilter);
-	    return expressOrdersByStatus;
+	    if (requestsByStatus == null)
+		requestsByStatus = insuranceRequestDAO.findByStatus(statusFilter);
+	    return requestsByStatus;
 	} catch (PeristenceOperationFailed e) {
 	    facesMessagesFacade.addExceptionMessage(e);
 	}
@@ -44,7 +44,7 @@ public class PolicyOrders implements Serializable {
     }
 
     public void forceRefresh() {
-	expressOrdersByStatus = null;
+	requestsByStatus = null;
     }
 
     // GENERATED

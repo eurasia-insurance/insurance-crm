@@ -1,41 +1,40 @@
 package kz.theeurasia.eurasia36.beans.application;
 
-import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.lapsa.insurance.crm.RequestStatus;
+import com.lapsa.insurance.domain.InsuranceRequest;
 import com.lapsa.insurance.domain.policy.PolicyDriver;
 import com.lapsa.insurance.domain.policy.PolicyVehicle;
-import com.lapsa.insurance.domain.policy.PolicyRequest;
+import com.lapsa.insurance.persistence.dao.InsuranceRequestDAO;
 import com.lapsa.insurance.persistence.dao.PeristenceOperationFailed;
-import com.lapsa.insurance.persistence.dao.PolicyRequestDAO;
 
 import kz.theeurasia.eurasia36.application.MainFacade;
 import kz.theeurasia.eurasia36.application.UIMessages;
 import kz.theeurasia.eurasia36.beans.api.FacesMessagesFacade;
-import kz.theeurasia.eurasia36.beans.view.PolicyOrders;
+import kz.theeurasia.eurasia36.beans.view.InsuranceRequests;
 
 @Named("mainFacade")
 @ApplicationScoped
 public class DefaultMainFacade implements MainFacade {
 
-    @EJB
-    private PolicyRequestDAO policyExpressOrderDAO;
+    @Inject
+    private InsuranceRequestDAO insuranceRequestDAO;
 
     @Inject
     private FacesMessagesFacade facesMessagesFacade;
 
     @Inject
-    private PolicyOrders policyOrders;
+    private InsuranceRequests insuranceRequests;
 
     @Override
-    public String doCloseRequest(PolicyRequest order) {
-	order.setRequestStatus(RequestStatus.CLOSED);
+    public String doCloseRequest(InsuranceRequest request) {
+	request.setRequestStatus(RequestStatus.CLOSED);
 	try {
-	    policyExpressOrderDAO.save(order);
-	    policyOrders.forceRefresh();
+	    insuranceRequestDAO.save(request);
+	    insuranceRequests.forceRefresh();
 	} catch (PeristenceOperationFailed e) {
 	    facesMessagesFacade.addExceptionMessage(UIMessages.ERROR_INTERNAL_SERVER_ERROR, e);
 	}
@@ -43,10 +42,10 @@ public class DefaultMainFacade implements MainFacade {
     }
 
     public boolean vehicleHasImages(PolicyVehicle vehicle) {
-	if (vehicle != null && vehicle.getVehicleData() != null && vehicle.getVehicleData().getCertificateData() != null
-		&& vehicle.getVehicleData().getCertificateData().getScan() != null
-		&& (vehicle.getVehicleData().getCertificateData().getScan().getFrontside() != null
-			|| vehicle.getVehicleData().getCertificateData().getScan().getBackside() != null))
+	if (vehicle != null && vehicle.getCertificateData() != null
+		&& vehicle.getCertificateData().getScan() != null
+		&& (vehicle.getCertificateData().getScan().getFrontside() != null
+			|| vehicle.getCertificateData().getScan().getBackside() != null))
 	    return true;
 	return false;
     }

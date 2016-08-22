@@ -23,19 +23,21 @@
 			</p:dialog>
 
 			<p:dialog widgetVar="confirmCloseDialogWV"
-				header="Укажите причину закрытия" closeOnEscape="true">
+				header="Укажите причину закрытия" closeOnEscape="true" modal="true">
 				<h:panelGroup id="confirmCloseDialogWrapper">
 					<h:panelGroup rendered="#{not empty insuranceRequest.value}">
-						<p:selectOneRadio value="#{insuranceRequest.value.closingResult}"
+						<p:selectOneMenu value="#{insuranceRequest.value.closingResult}"
 							required="true">
 							<f:selectItems value="#{closingResultService.selectableItemsSI}" />
-						</p:selectOneRadio>
-						<p:commandButton value="Закрыть"
-							actionListener="#{mainFacade.doCloseRequest(insuranceRequest.value)}"
-							process="@form" update="@form"
-							oncomplete="PF('confirmCloseDialogWV').hide(); PF('viewInsuranceRequestDialogWV').hide()" />
-						<p:button value="Отмена"
-							onclick="PF('confirmCloseDialogWV').hide(); return false;" />
+						</p:selectOneMenu>
+						<p:panelGrid columns="2">
+							<p:commandButton value="Закрыть"
+								action="#{mainFacade.doCloseRequest(insuranceRequest.value)}"
+								process="@form" update="@form" ajax="true"
+								oncomplete="PF('confirmCloseDialogWV').hide(); PF('viewInsuranceRequestDialogWV').hide()" />
+							<p:button value="Отмена"
+								onclick="PF('confirmCloseDialogWV').hide(); return false;" />
+						</p:panelGrid>
 					</h:panelGroup>
 				</h:panelGroup>
 			</p:dialog>
@@ -47,11 +49,6 @@
 				<h:panelGroup id="viewInsuranceRequestDialogWrapper">
 					<h:panelGroup rendered="#{not empty insuranceRequest.value}">
 						<ui:include src="insurance-request.include.xhtml" />
-						<p:commandButton process="@this"
-							update="@form:confirmCloseDialogWrapper"
-							rendered="#{insuranceRequest.value.requestStatus == 'OPEN'}"
-							value="Закрыть заявку"
-							oncomplete="PF('confirmCloseDialogWV').show()" />
 					</h:panelGroup>
 				</h:panelGroup>
 			</p:dialog>
@@ -69,7 +66,8 @@
 					update="@form:viewInsuranceRequestDialogWrapper"
 					oncomplete="PF('viewInsuranceRequestDialogWV').show()" />
 				<p:column headerText="Страховой продукт">
-					<h:outputText value="#{insuranceProductTypeService.displayName(req.productType)}" />
+					<h:outputText
+						value="#{insuranceProductTypeService.displayName(req.productType)}" />
 				</p:column>
 				<p:column width="20" headerText="Номер">
 					<h:outputText value="#{req.id}" />

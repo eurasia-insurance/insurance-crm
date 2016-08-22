@@ -22,177 +22,67 @@
 </style>
 
 	<h3 style="margin-top: 0">
-		<h:outputText value="Заявка # #{insuranceRequest.value.id}" />
+		<h:outputText
+			value="Заявка # #{insuranceRequest.value.id} : #{insuranceProductTypeService.displayName(insuranceRequest.value.productType)}" />
 	</h3>
 
-	<p:panelGrid columns="1">
 
-		<p:panelGrid columns="2">
-			<p:panelGrid columns="2">
-				<h:outputText value="ФИО" />
-				<h:outputText value="#{insuranceRequest.value.requester.name}" />
-				<h:outputText value="Телефон" />
-				<h:outputText value="#{insuranceRequest.value.requester.phone}" />
-				<h:outputText value="E-mail" />
-				<h:outputText value="#{insuranceRequest.value.requester.email}" />
-				<h:outputText value="Предпочитаемый язык" />
-				<h:outputText
-					value="#{localizationLanguageService.displayName(insuranceRequest.value.requester.preferLanguage)}" />
-			</p:panelGrid>
+	<!-- >> rendered POLICY -->
+	<h:panelGroup
+		rendered="#{insuranceRequest.value.productType == 'POLICY'}">
+		<ui:include src="insurance-request.menu.include.xhtml" />
+		<p:accordionPanel dynamic="true" cache="true" activeIndex="0">
+			<p:tab title="Общие сведения">
+				<ui:include src="insurance-request.general.include.xhtml" />
+			</p:tab>
+			<p:tab title="Доставка"
+				rendered="#{insuranceRequest.value.obtaining.method == 'DELIVERY'}">
+				<ui:include src="insurance-request.obtaining.delivery.include.xhtml" />
+			</p:tab>
+			<p:tab title="Самовывоз"
+				rendered="#{insuranceRequest.value.obtaining.method == 'PICKUP'}">
+				<ui:include src="insurance-request.obtaining.pickup.include.xhtml" />
+			</p:tab>
+			<p:tab title="Оплата">
+				<ui:include src="insurance-request.payment.include.xhtml" />
+			</p:tab>
+			<p:tab title="Список застрахованных водителей">
+				<ui:include src="insurance-request.policy.drivers.include.xhtml" />
+			</p:tab>
+			<p:tab title="Список застрахованных транспортных средств">
+				<ui:include src="insurance-request.policy.vehicles.include.xhtml" />
+			</p:tab>
+		</p:accordionPanel>
+	</h:panelGroup>
+	<!-- << rendered POLICY -->
 
-			<p:panelGrid columns="2">
-				<h:outputText value="Дата создания" />
-				<ui:decorate template="out-datetime.include.xhtml">
-					<ui:param name="value" value="#{insuranceRequest.value.created}" />
-				</ui:decorate>
-				<h:outputText value="Дата последнего обновления" />
-				<ui:decorate template="out-datetime.include.xhtml">
-					<ui:param name="value" value="#{insuranceRequest.value.updated}" />
-				</ui:decorate>
-				<h:outputText value="Статус" />
-				<h:outputText
-					value="#{requestStatusService.displayName(insuranceRequest.value.requestStatus)}" />
-				<h:outputText value="Дата закрытия" />
-				<ui:decorate template="out-datetime.include.xhtml">
-					<ui:param name="value" value="#{insuranceRequest.value.closed}" />
-				</ui:decorate>
-				<h:outputText value="Результат" />
-				<h:outputText
-					value="#{closingResultService.displayName(insuranceRequest.value.closingResult)}" />
-			</p:panelGrid>
-		</p:panelGrid>
-
-		<h:panelGroup>
-			<h3>
-				<h:outputText value="Стоимость полиса " />
-				<ui:decorate template="out-money.include.xhtml">
-					<ui:param name="value"
-						value="#{insuranceRequest.value.product.calculation.premiumCost}" />
-				</ui:decorate>
-			</h3>
-			<p:panelGrid columns="4">
-				<p:outputLabel value="Способ оплаты" />
-				<h:outputText
-					value="#{paymentMethodService.displayName(insuranceRequest.value.payment.method)}" />
-				<p:outputLabel value="Статус оплаты" />
-				<h:outputText
-					value="#{paymentStatusService.displayName(insuranceRequest.value.payment.status)}" />
-			</p:panelGrid>
-		</h:panelGroup>
-
-		<h:panelGroup
-			rendered="#{insuranceRequest.value.obtaining.method == 'DELIVERY'}">
-			<h3>Способ получения полиса: ДОСТАВКА</h3>
-			<p:panelGrid columns="4">
-				<h:outputText value="Дата доставки" />
-				<ui:decorate template="out-date.include.xhtml">
-					<ui:param name="value"
-						value="#{insuranceRequest.value.obtaining.deliveryDate}" />
-				</ui:decorate>
-				<h:outputText value="Город доставки" />
-				<h:outputText
-					value="#{kzCityService.displayName(insuranceRequest.value.obtaining.deliveryCity)}" />
-				<h:outputText value="Время доставки" />
-				<h:outputText
-					value="#{deliveryTimeSlotService.displayName(insuranceRequest.value.obtaining.deliveryTime)}" />
-				<h:outputText value="Адрес доставки:" />
-				<h:outputText
-					value="#{insuranceRequest.value.obtaining.deliveryAddress}" />
-
-			</p:panelGrid>
-		</h:panelGroup>
-		<h:panelGroup
-			rendered="#{insuranceRequest.value.obtaining.method == 'PICKUP'}">
-			<h3>Способ получения полиса: САМОВЫВОЗ</h3>
-			<h:outputText
-				value="#{companyPointOfSaleService.displayNameFull(insuranceRequest.value.obtaining.pickupPOS)}" />
-		</h:panelGroup>
-
-
-		<!-- >> policyRequestWrapper -->
-		<h:panelGroup id="policyRequestWrapper"
-			rendered="#{insuranceRequest.value.productType == 'POLICY'}">
-
-			<h3>Список застрахованных водителей</h3>
-			<p:dataTable value="#{insuranceRequest.value.policy.insuredDrivers}"
-				var="driver">
-				<p:column style="width:16px">
-					<p:rowToggler rendered="#{mainFacade.driverHasImages(driver)}" />
-				</p:column>
-				<p:column headerText="ИИН">
-					<h:outputText value="#{driver.idNumber}" />
-				</p:column>
-				<p:column headerText="Класс">
-					<h:outputText
-						value="#{insuranceClassTypeService.displayName(driver.insuranceClassType)}" />
-				</p:column>
-				<p:column headerText="Водительский стаж">
-					<h:outputText
-						value="#{insuredExpirienceClassService.displayName(driver.expirienceClass)}" />
-				</p:column>
-				<p:column headerText="Возраст">
-					<h:outputText
-						value="#{insuredAgeClassService.displayName(driver.ageClass)}" />
-				</p:column>
-
-				<p:rowExpansion>
-					<ui:decorate template="out-image.include.xhtml">
-						<ui:param name="value"
-							value="#{driver.driverLicenseData.scan.frontside}" />
-					</ui:decorate>
-					<ui:decorate template="out-image.include.xhtml">
-						<ui:param name="value"
-							value="#{driver.driverLicenseData.scan.backside}" />
-					</ui:decorate>
-					<ui:decorate template="out-image.include.xhtml">
-						<ui:param name="value"
-							value="#{driver.identityCardData.scan.frontside}" />
-					</ui:decorate>
-					<ui:decorate template="out-image.include.xhtml">
-						<ui:param name="value"
-							value="#{driver.identityCardData.scan.backside}" />
-					</ui:decorate>
-				</p:rowExpansion>
-			</p:dataTable>
-
-			<h3>Список застрахованных транспортных средств</h3>
-			<p:dataTable value="#{insuranceRequest.value.policy.insuredVehicles}"
-				var="vehicle">
-				<p:column style="width:16px">
-					<p:rowToggler rendered="#{mainFacade.vehicleHasImages(vehicle)}" />
-				</p:column>
-				<p:column headerText="Регион авто">
-					<h:outputText value="#{kzAreaService.displayName(vehicle.area)}" />
-				</p:column>
-				<p:column headerText="Город">
-					<h:outputText value="#{kzCityService.displayName(vehicle.city)}" />
-				</p:column>
-				<p:column headerText="Возраст авто">
-					<h:outputText
-						value="#{vehicleAgeClassService.displayName(vehicle.vehicleAgeClass)}" />
-				</p:column>
-				<p:column headerText="Класс авто">
-					<h:outputText
-						value="#{vehicleClassService.displayName(vehicle.vehicleClass)}" />
-				</p:column>
-				<p:rowExpansion>
-					<ui:decorate template="out-image.include.xhtml">
-						<ui:param name="value"
-							value="#{vehicle.vehicleData.certificateData.scan.frontside}" />
-					</ui:decorate>
-					<ui:decorate template="out-image.include.xhtml">
-						<ui:param name="value"
-							value="#{vehicle.vehicleData.certificateData.scan.backside}" />
-					</ui:decorate>
-				</p:rowExpansion>
-			</p:dataTable>
-
-		</h:panelGroup>
-		<!-- << policyRequestWrapper -->
-
-
-
-	</p:panelGrid>
-
+	<!-- >> rendered CASCO -->
+	<h:panelGroup
+		rendered="#{insuranceRequest.value.productType == 'CASCO'}">
+		<ui:include src="insurance-request.menu.include.xhtml" />
+		<p:accordionPanel dynamic="true" cache="true" activeIndex="0">
+			<p:tab title="Общие сведения">
+				<ui:include src="insurance-request.general.include.xhtml" />
+			</p:tab>
+			<p:tab title="Доставка"
+				rendered="#{insuranceRequest.value.obtaining.method == 'DELIVERY'}">
+				<ui:include src="insurance-request.obtaining.delivery.include.xhtml" />
+			</p:tab>
+			<p:tab title="Самовывоз"
+				rendered="#{insuranceRequest.value.obtaining.method == 'PICKUP'}">
+				<ui:include src="insurance-request.obtaining.pickup.include.xhtml" />
+			</p:tab>
+			<p:tab title="Оплата">
+				<ui:include src="insurance-request.payment.include.xhtml" />
+			</p:tab>
+			<p:tab title="Список водителей допущенных к управлению ТС">
+				<ui:include src="insurance-request.casco.drivers.include.xhtml" />
+			</p:tab>
+			<p:tab title="Информация о застрахованном ТС">
+				<!-- 				<ui:include src="insurance-request.casco.vehicle.include.xhtml" /> -->
+			</p:tab>
+		</p:accordionPanel>
+	</h:panelGroup>
+	<!-- << rendered CASCO -->
 
 </ui:composition>

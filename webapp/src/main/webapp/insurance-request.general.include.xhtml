@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<!-- >> mainTwoColumnsGrid -->
+	<p:panelGrid id="mainTwoColumnsGrid" columns="2">
+
+		<!-- >> row 1 -->
+		<p:panelGrid columns="2">
+			<h:outputText value="ФИО" />
+			<h:outputText value="#{insuranceRequest.value.requester.name}" />
+			<h:outputText value="Телефон" />
+			<h:outputText value="#{insuranceRequest.value.requester.phone}" />
+			<h:outputText value="E-mail" />
+			<h:outputText value="#{insuranceRequest.value.requester.email}" />
+			<h:outputText value="Предпочитаемый язык" />
+			<h:outputText
+				value="#{localizationLanguageService.displayName(insuranceRequest.value.requester.preferLanguage)}" />
+		</p:panelGrid>
+
+		<p:panelGrid columns="2">
+			<h:outputText value="Дата заявки" />
+			<ui:decorate template="out-datetime.include.xhtml">
+				<ui:param name="value" value="#{insuranceRequest.value.created}" />
+			</ui:decorate>
+			<h:outputText value="Статус заявки" />
+			<h:outputText
+				value="#{requestStatusService.displayName(insuranceRequest.value.requestStatus)}" />
+			<h:outputText value="Дата закрытия заявки" />
+			<ui:decorate template="out-datetime.include.xhtml">
+				<ui:param name="value" value="#{insuranceRequest.value.closed}" />
+			</ui:decorate>
+			<h:outputText value="Результат" />
+			<h:outputText
+				value="#{closingResultService.displayName(insuranceRequest.value.closingResult)}" />
+		</p:panelGrid>
+		<!-- << row 1 -->
+
+	</p:panelGrid>
+	<!-- << mainTwoColumnsGrid -->
+
+	<ui:include src="insurance-request.payment.include.xhtml" />
+
+</ui:composition>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:panelGrid columns="2">
+		<h:outputText value="Стоимость премии" />
+		<ui:decorate template="out-money.include.xhtml">
+			<ui:param name="value"
+				value="#{insuranceRequest.value.product.calculation.premiumCost}" />
+		</ui:decorate>
+		<p:outputLabel value="Способ оплаты" />
+		<h:outputText
+			value="#{paymentMethodService.displayName(insuranceRequest.value.payment.method)}" />
+		<p:outputLabel value="Статус оплаты" />
+		<h:outputText
+			value="#{paymentStatusService.displayName(insuranceRequest.value.payment.status)}" />
+	</p:panelGrid>
+
+</ui:composition>

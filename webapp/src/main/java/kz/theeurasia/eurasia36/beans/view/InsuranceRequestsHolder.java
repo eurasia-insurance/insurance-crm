@@ -3,58 +3,27 @@ package kz.theeurasia.eurasia36.beans.view;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.ejb.EJB;
-import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.omnifaces.cdi.ViewScoped;
 
-import com.lapsa.insurance.crm.RequestStatus;
 import com.lapsa.insurance.domain.InsuranceRequest;
-import com.lapsa.insurance.persistence.dao.InsuranceRequestDAO;
-import com.lapsa.insurance.persistence.dao.PeristenceOperationFailed;
 
-import kz.theeurasia.eurasia36.beans.api.FacesMessagesFacade;
+import kz.theeurasia.eurasia36.beans.api.WritableValueHolder;
 
 @Named("insuranceRequests")
 @ViewScoped
-public class InsuranceRequests implements Serializable {
+public class InsuranceRequestsHolder extends DefaultWritableValueHolder<List<InsuranceRequest>>
+	implements Serializable, WritableValueHolder<List<InsuranceRequest>> {
 
     private static final long serialVersionUID = 7249376610273191727L;
 
-    @Inject
-    private FacesMessagesFacade facesMessagesFacade;
-
-    @EJB
-    private InsuranceRequestDAO insuranceRequestDAO;
-
-    private RequestStatus statusFilter = RequestStatus.OPEN;
-
-    private List<InsuranceRequest> requestsByStatus;
-
-    public List<InsuranceRequest> getInsuranceRequestByStatus() {
-	try {
-	    if (requestsByStatus == null)
-		requestsByStatus = insuranceRequestDAO.findByStatus(statusFilter);
-	    return requestsByStatus;
-	} catch (PeristenceOperationFailed e) {
-	    facesMessagesFacade.addExceptionMessage(e);
-	}
-	return null;
+    public List<InsuranceRequest> getRequests() {
+	return super.getValue();
     }
 
-    public void forceRefresh() {
-	requestsByStatus = null;
+    public void setRequests(List<InsuranceRequest> requests) {
+	super.setValue(requests);
     }
 
-    // GENERATED
-
-    public RequestStatus getStatusFilter() {
-	return statusFilter;
-    }
-
-    public void setStatusFilter(RequestStatus statusFilter) {
-	this.statusFilter = statusFilter;
-	forceRefresh();
-    }
 }

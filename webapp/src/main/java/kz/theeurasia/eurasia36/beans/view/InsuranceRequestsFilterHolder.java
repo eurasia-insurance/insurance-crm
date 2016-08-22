@@ -6,22 +6,72 @@ import javax.inject.Named;
 
 import org.omnifaces.cdi.ViewScoped;
 
+import com.lapsa.insurance.crm.ClosingResult;
+import com.lapsa.insurance.crm.PaymentStatus;
 import com.lapsa.insurance.crm.RequestStatus;
+import com.lapsa.insurance.elements.ObtainingMethod;
+import com.lapsa.insurance.elements.PaymentMethod;
+
+import kz.theeurasia.eurasia36.beans.api.WritableValueHolder;
 
 @Named("insuranceRequestsFilter")
 @ViewScoped
-public class InsuranceRequestsFilter implements Serializable {
+public class InsuranceRequestsFilterHolder extends DefaultWritableValueHolder<DefaultInsuranceRequestFitler>
+	implements Serializable, WritableValueHolder<DefaultInsuranceRequestFitler> {
 
     private static final long serialVersionUID = -6980458753963030228L;
 
-    private RequestStatus[] requestStatuses;
+    private boolean advanced = false;
 
-    public RequestStatus[] getRequestStatuses() {
-	return requestStatuses;
+    // GENERATED
+
+    public boolean isAdvanced() {
+	return advanced;
     }
 
-    public void setRequestStatuses(RequestStatus[] requestStatuses) {
-	this.requestStatuses = requestStatuses;
+    public void setAdvanced(boolean advanced) {
+	this.advanced = advanced;
     }
 
+    // DELEGATE
+
+    public RequestStatus getRequestStatus() {
+	return value.getRequestStatus();
+    }
+
+    public void setRequestStatus(RequestStatus requestStatus) {
+	value.setRequestStatus(requestStatus);
+    }
+
+    public PaymentMethod getPaymentMethod() {
+	return value.getPaymentMethod();
+    }
+
+    public void setPaymentMethod(PaymentMethod paymentMethod) {
+	value.setPaymentMethod(paymentMethod);
+    }
+
+    public PaymentStatus getPaymentStatus() {
+	return value.getPaymentStatus();
+    }
+
+    public void setPaymentStatus(PaymentStatus paymentStatus) {
+	value.setPaymentStatus(paymentStatus);
+    }
+
+    public ObtainingMethod getObtainingMethod() {
+	return value.getObtainingMethod();
+    }
+
+    public void setObtainingMethod(ObtainingMethod obtainingMethod) {
+	value.setObtainingMethod(obtainingMethod);
+    }
+
+    public ClosingResult getClosingResult() {
+	return value.getClosingResult();
+    }
+
+    public void setClosingResult(ClosingResult closingResult) {
+	value.setClosingResult(closingResult);
+    }
 }

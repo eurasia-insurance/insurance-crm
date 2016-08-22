@@ -1,5 +1,7 @@
 package kz.theeurasia.eurasia36.beans.api;
 
+import javax.faces.model.SelectItem;
+
 public interface ConfigurationFacade {
 
     long getMaximumImagefileSize();
@@ -7,4 +9,6 @@ public interface ConfigurationFacade {
     int getImageThumbnailWidth();
 
     int getImageThumbnailHeight();
+    
+    SelectItem getNoneSI();
 }

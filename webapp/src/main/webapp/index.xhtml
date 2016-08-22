@@ -12,6 +12,10 @@
 	<ui:define name="page-content">
 		<h:form>
 
+			<f:metadata>
+				<f:viewAction action="#{mainFacade.doInitialize}" />
+			</f:metadata>
+
 			<p:dialog widgetVar="imageDialogWV" closeOnEscape="true"
 				position="center,center" modal="true" maximizable="true">
 				<h:panelGroup id="imageDialogWrapper">
@@ -53,15 +57,126 @@
 				</h:panelGroup>
 			</p:dialog>
 
-			<p:selectOneMenu value="#{insuranceRequests.statusFilter}">
-				<p:ajax process="@this" update="@form" />
-				<f:selectItems value="#{requestStatusService.selectableItemsSI}" />
-			</p:selectOneMenu>
+			<p:panel id="filterPanel">
+				<h:panelGrid columns="3"
+					rendered="#{not insuranceRequestsFilter.advanced}">
+					<p:outputLabel value="Статус заявки: "
+						for="requestStatusesFilterBasic" />
+					<p:selectOneMenu id="requestStatusesFilterBasic"
+						value="#{insuranceRequestsFilter.requestStatus}">
+						<p:ajax process="@this" update="@form"
+							listener="#{mainFacade.onFilterChanged}" />
+						<f:selectItem value="#{configurationFacade.noneSI}" />
+						<f:selectItems value="#{requestStatusService.selectableItemsSI}" />
+					</p:selectOneMenu>
+					<p:commandLink process="filterPanel" update="filterPanel"
+						value="Расширенные параметры">
+						<f:setPropertyActionListener
+							target="#{insuranceRequestsFilter.advanced}" value="#{true}" />
+					</p:commandLink>
+				</h:panelGrid>
+
+
+				<p:panelGrid rendered="#{insuranceRequestsFilter.advanced}">
+
+					<p:row>
+						<p:column>
+							<p:outputLabel value="Статус заявки: "
+								for="requestStatusesFilter" />
+						</p:column>
+						<p:column>
+							<p:selectOneMenu id="requestStatusesFilter"
+								value="#{insuranceRequestsFilter.requestStatus}">
+								<p:ajax process="@this" update="@form"
+									listener="#{mainFacade.onRequestStatusFilterChanged}" />
+								<f:selectItem value="#{configurationFacade.noneSI}" />
+								<f:selectItems value="#{requestStatusService.selectableItemsSI}" />
+							</p:selectOneMenu>
+						</p:column>
+
+						<p:column>
+							<p:outputLabel value="Причина закрытия: "
+								for="closingResultFilter" />
+						</p:column>
+						<p:column>
+							<p:selectOneMenu id="closingResultFilter"
+								value="#{insuranceRequestsFilter.closingResult}"
+								disabled="#{insuranceRequestsFilter.requestStatus eq 'OPEN'}">
+								<p:ajax process="@this" update="@form"
+									listener="#{mainFacade.onFilterChanged}" />
+								<f:selectItem value="#{configurationFacade.noneSI}" />
+								<f:selectItems value="#{closingResultService.selectableItemsSI}" />
+							</p:selectOneMenu>
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column>
+							<p:outputLabel value="Способ оплаты: " for="paymentMethodsFilter" />
+						</p:column>
+						<p:column>
+							<p:selectOneMenu id="paymentMethodsFilter"
+								value="#{insuranceRequestsFilter.paymentMethod}">
+								<p:ajax process="@this" update="@form"
+									listener="#{mainFacade.onFilterChanged}" />
+								<f:selectItem value="#{configurationFacade.noneSI}" />
+								<f:selectItems value="#{paymentMethodService.selectableItemsSI}" />
+							</p:selectOneMenu>
+						</p:column>
+						<p:column>
+							<p:outputLabel value="Статус оплаты: " for="paymentStatusFilter" />
+						</p:column>
+						<p:column>
+							<p:selectOneMenu id="paymentStatusFilter"
+								value="#{insuranceRequestsFilter.paymentStatus}">
+								<p:ajax process="@this" update="@form"
+									listener="#{mainFacade.onFilterChanged}" />
+								<f:selectItem value="#{configurationFacade.noneSI}" />
+								<f:selectItems value="#{paymentStatusService.selectableItemsSI}" />
+							</p:selectOneMenu>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<p:outputLabel value="Способ доставки: "
+								for="obtainingMethodFilter" />
+						</p:column>
+						<p:column>
+							<p:selectOneMenu id="obtainingMethodFilter"
+								value="#{insuranceRequestsFilter.obtainingMethod}">
+								<p:ajax process="@this" update="@form"
+									listener="#{mainFacade.onFilterChanged}" />
+								<f:selectItem value="#{configurationFacade.noneSI}" />
+								<f:selectItems
+									value="#{obtainingMethodService.selectableItemsSI}" />
+							</p:selectOneMenu>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column colspan="2">
+							<p:commandButton value="Очистить"
+								action="#{mainFacade.doResetFilter}" process="@this"
+								update="@form" />
+							<p:commandLink process="filterPanel" update="filterPanel"
+								value="Упрощенные параметры">
+								<f:setPropertyActionListener
+									target="#{insuranceRequestsFilter.advanced}" value="#{false}" />
+							</p:commandLink>
+						</p:column>
+					</p:row>
+
+
+				</p:panelGrid>
+
+
+			</p:panel>
 
 			<p:dataTable widgetVar="requestTable" var="req"
-				value="#{insuranceRequests.insuranceRequestByStatus}"
-				selectionMode="single" selection="#{insuranceRequest.value}"
-				rowKey="#{req.id}">
+				value="#{insuranceRequests.requests}" selectionMode="single"
+				selection="#{insuranceRequest.value}" rowKey="#{req.id}" rows="5"
+				paginator="true"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				sortMode="multipe" sortOrder="DESCENDING" sortBy="#{req.created}">
 				<p:ajax event="rowSelect" process="@this"
 					update="@form:viewInsuranceRequestDialogWrapper"
 					oncomplete="PF('viewInsuranceRequestDialogWV').show()" />
@@ -69,47 +184,54 @@
 					<h:outputText
 						value="#{insuranceProductTypeService.displayName(req.productType)}" />
 				</p:column>
-				<p:column width="20" headerText="Номер">
+				<p:column width="20" headerText="Номер" sortBy="#{req.id}">
 					<h:outputText value="#{req.id}" />
 				</p:column>
-				<p:column headerText="Дата создания">
+				<p:column headerText="Дата создания" sortBy="#{req.created}">
 					<ui:decorate template="out-datetime.include.xhtml">
 						<ui:param name="value" value="#{req.created}" />
 					</ui:decorate>
 				</p:column>
-				<p:column width="100" headerText="Статус">
+				<p:column width="100" headerText="Статус"
+					sortBy="#{req.requestStatus}">
 					<h:outputText
 						value="#{requestStatusService.displayName(req.requestStatus)}" />
 				</p:column>
-				<p:column headerText="Стоимость премии" style="text-align: right">
+				<p:column headerText="Стоимость премии" style="text-align: right"
+					sortBy="#{req.product.calculation.premiumCost}">
 					<ui:decorate template="out-money.include.xhtml">
 						<ui:param name="value"
 							value="#{req.product.calculation.premiumCost}" />
 					</ui:decorate>
 				</p:column>
-				<p:column width="200" headerText="Способ оплаты">
+				<p:column width="200" headerText="Способ оплаты"
+					sortBy="#{req.payment.method}">
 					<h:outputText
 						value="#{paymentMethodService.displayName(req.payment.method)}" />
 				</p:column>
-				<p:column width="100" headerText="Статус оплаты">
+				<p:column width="100" headerText="Статус оплаты"
+					sortBy="#{req.payment.status}">
 					<h:outputText
 						value="#{paymentStatusService.displayName(req.payment.status)}" />
 				</p:column>
-				<p:column headerText="Имя заявителя">
+				<p:column headerText="Имя заявителя" sortBy="#{req.requester.name}">
 					<h:outputText value="#{req.requester.name}" />
 				</p:column>
-				<p:column headerText="Email заявителя">
+				<p:column headerText="Email заявителя"
+					sortBy="#{req.requester.email}">
 					<h:outputText value="#{req.requester.email}" />
 				</p:column>
-				<p:column headerText="Телефон заявителя">
+				<p:column headerText="Телефон заявителя"
+					sortBy="#{req.requester.phone}">
 					<h:outputText value="#{req.requester.phone}" />
 				</p:column>
-				<p:column headerText="Дата закрытия">
+				<p:column headerText="Дата закрытия" sortBy="#{req.closed}">
 					<ui:decorate template="out-datetime.include.xhtml">
 						<ui:param name="value" value="#{req.closed}" />
 					</ui:decorate>
 				</p:column>
-				<p:column headerText="Причина закрытия">
+				<p:column headerText="Причина закрытия"
+					sortBy="#{req.closingResult}">
 					<h:outputText
 						value="#{closingResultService.displayName(req.closingResult)}" />
 				</p:column>

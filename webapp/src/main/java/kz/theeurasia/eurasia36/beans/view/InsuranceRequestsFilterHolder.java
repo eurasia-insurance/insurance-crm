@@ -9,6 +9,7 @@ import org.omnifaces.cdi.ViewScoped;
 import com.lapsa.insurance.crm.ClosingResult;
 import com.lapsa.insurance.crm.PaymentStatus;
 import com.lapsa.insurance.crm.RequestStatus;
+import com.lapsa.insurance.elements.InsuranceProductType;
 import com.lapsa.insurance.elements.ObtainingMethod;
 import com.lapsa.insurance.elements.PaymentMethod;
 
@@ -41,6 +42,14 @@ public class InsuranceRequestsFilterHolder extends DefaultWritableValueHolder<De
 
     public void setRequestStatus(RequestStatus requestStatus) {
 	value.setRequestStatus(requestStatus);
+    }
+
+    public InsuranceProductType getInsuranceProductType() {
+	return value.getInsuranceProductType();
+    }
+
+    public void setInsuranceProductType(InsuranceProductType insuranceProductType) {
+	value.setInsuranceProductType(insuranceProductType);
     }
 
     public PaymentMethod getPaymentMethod() {

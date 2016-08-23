@@ -3,6 +3,7 @@ package kz.theeurasia.eurasia36.beans.view;
 import com.lapsa.insurance.crm.ClosingResult;
 import com.lapsa.insurance.crm.PaymentStatus;
 import com.lapsa.insurance.crm.RequestStatus;
+import com.lapsa.insurance.elements.InsuranceProductType;
 import com.lapsa.insurance.elements.ObtainingMethod;
 import com.lapsa.insurance.elements.PaymentMethod;
 import com.lapsa.insurance.persistence.dao.filter.InsuranceRequestFitler;
@@ -10,6 +11,7 @@ import com.lapsa.insurance.persistence.dao.filter.InsuranceRequestFitler;
 public class DefaultInsuranceRequestFitler implements InsuranceRequestFitler {
 
     private RequestStatus requestStatus;
+    private InsuranceProductType insuranceProductType;
     private ClosingResult closingResult;
     private PaymentMethod paymentMethod;
     private PaymentStatus paymentStatus;
@@ -22,6 +24,14 @@ public class DefaultInsuranceRequestFitler implements InsuranceRequestFitler {
 
     public void setRequestStatus(RequestStatus requestStatus) {
 	this.requestStatus = requestStatus;
+    }
+
+    public InsuranceProductType getInsuranceProductType() {
+	return insuranceProductType;
+    }
+
+    public void setInsuranceProductType(InsuranceProductType insuranceProductType) {
+	this.insuranceProductType = insuranceProductType;
     }
 
     @Override

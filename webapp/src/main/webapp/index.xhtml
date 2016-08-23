@@ -221,7 +221,7 @@
 				sortMode="multipe" sortOrder="DESCENDING" sortBy="#{req.created}">
 				<p:ajax event="rowSelect" process="@this"
 					update="@form:viewInsuranceRequestDialogWrapper"
-					oncomplete="PF('viewInsuranceRequestDialogWV').show()" />
+					oncomplete="PF('insuranceRequestDialogWV').show()" />
 				<p:column headerText="Страховой продукт">
 					<h:outputText
 						value="#{insuranceProductTypeService.displayNameShort(req.productType)}" />

@@ -17,7 +17,7 @@
 			Сведения о застрахованных водителях
 			</f:facet>
 			<p:column width="16">
-				<p:rowToggler rendered="#{mainFacade.driverHasImages(driver)}" />
+				<p:rowToggler />
 			</p:column>
 			<p:column headerText="ИИН">
 				<h:outputText value="#{driver.idNumber}" />
@@ -61,7 +61,7 @@
 			Сведения о застрахованных транспортных средствах
 			</f:facet>
 			<p:column width="16">
-				<p:rowToggler rendered="#{mainFacade.vehicleHasImages(vehicle)}" />
+				<p:rowToggler />
 			</p:column>
 			<p:column headerText="Регион авто">
 				<h:outputText

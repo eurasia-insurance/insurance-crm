@@ -10,11 +10,11 @@
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 
 	<!-- >> dialog -->
-	<p:dialog widgetVar="confirmCloseDialogWV"
+	<p:dialog widgetVar="insuranceRequestCloseDialogWV"
 		header="Укажите причину закрытия" closeOnEscape="true" modal="true">
 
 		<!-- >> wrapper -->
-		<h:panelGroup id="confirmCloseDialogWrapper">
+		<h:panelGroup id="insuranceRequestCloseDialogWrapper">
 
 			<!-- >> rendered -->
 			<h:panelGroup rendered="#{not empty insuranceRequest.value}">
@@ -36,12 +36,12 @@
 						<p:column>
 							<p:commandButton value="Закрыть"
 								action="#{mainFacade.doCloseRequest(insuranceRequest.value)}"
-								process="confirmCloseDialogWrapper" update="@form"
-								onsuccess="PF('confirmCloseDialogWV').hide(); PF('viewInsuranceRequestDialogWV').hide()" />
+								process="insuranceRequestCloseDialogWrapper" update="@form"
+								onsuccess="PF('insuranceRequestCloseDialogWV').hide(); PF('viewInsuranceRequestDialogWV').hide()" />
 						</p:column>
 						<p:column>
 							<p:button value="Отмена"
-								onclick="PF('confirmCloseDialogWV').hide(); return false;" />
+								onclick="PF('insuranceRequestCloseDialogWV').hide(); return false;" />
 						</p:column>
 					</p:row>
 				</p:panelGrid>

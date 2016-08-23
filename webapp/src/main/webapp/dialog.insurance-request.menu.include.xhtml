@@ -5,8 +5,8 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<p:menubar>
-		<p:menuitem process="@this" update="@form:confirmCloseDialogWrapper"
-			value="Закрыть" onsuccess="PF('confirmCloseDialogWV').show()"
+		<p:menuitem process="@this" update="@form:insuranceRequestCloseDialogWrapper"
+			value="Закрыть" onsuccess="PF('insuranceRequestCloseDialogWV').show()"
 			icon="ui-icon-close"
 			disabled="#{insuranceRequest.value.requestStatus eq 'CLOSED'}" />
 	</p:menubar>

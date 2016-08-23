@@ -4,18 +4,38 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 
-	<p:panelGrid columns="2">
-		<h:outputText value="Стоимость премии" />
-		<ui:decorate template="out-money.include.xhtml">
-			<ui:param name="value"
-				value="#{insuranceRequest.value.product.calculation.premiumCost}" />
-		</ui:decorate>
-		<p:outputLabel value="Способ оплаты" />
-		<h:outputText
-			value="#{paymentMethodService.displayName(insuranceRequest.value.payment.method)}" />
-		<p:outputLabel value="Статус оплаты" />
-		<h:outputText
-			value="#{paymentStatusService.displayName(insuranceRequest.value.payment.status)}" />
-	</p:panelGrid>
+	<p:panel>
+		<p:panelGrid>
+			<p:row>
+				<p:column styleClass="ui-widget-header">
+					<h:outputText value="Стоимость премии" />
+				</p:column>
+				<p:column>
+					<ui:decorate template="out-money.include.xhtml">
+						<ui:param name="value"
+							value="#{insuranceRequest.value.product.calculation.premiumCost}" />
+					</ui:decorate>
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column styleClass="ui-widget-header">
+					<p:outputLabel value="Способ оплаты" />
+				</p:column>
+				<p:column>
+					<h:outputText
+						value="#{paymentMethodService.displayNameShort(insuranceRequest.value.payment.method)}" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column styleClass="ui-widget-header">
+					<p:outputLabel value="Статус оплаты" />
+				</p:column>
+				<p:column>
+					<h:outputText
+						value="#{paymentStatusService.displayNameShort(insuranceRequest.value.payment.status)}" />
+				</p:column>
+			</p:row>
+		</p:panelGrid>
+	</p:panel>
 
 </ui:composition>

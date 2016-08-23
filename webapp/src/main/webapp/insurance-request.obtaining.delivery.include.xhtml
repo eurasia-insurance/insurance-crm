@@ -4,22 +4,47 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 
-	<p:panelGrid columns="4">
-		<h:outputText value="Дата доставки" />
-		<ui:decorate template="out-date.include.xhtml">
-			<ui:param name="value"
-				value="#{insuranceRequest.value.obtaining.deliveryDate}" />
-		</ui:decorate>
-		<h:outputText value="Город доставки" />
-		<h:outputText
-			value="#{kzCityService.displayName(insuranceRequest.value.obtaining.deliveryCity)}" />
-		<h:outputText value="Время доставки" />
-		<h:outputText
-			value="#{deliveryTimeSlotService.displayName(insuranceRequest.value.obtaining.deliveryTime)}" />
-		<h:outputText value="Адрес доставки:" />
-		<h:outputText
-			value="#{insuranceRequest.value.obtaining.deliveryAddress}" />
-
-	</p:panelGrid>
+	<p:panel>
+		<p:panelGrid>
+			<p:row>
+				<p:column styleClass="ui-widget-header">
+					<p:outputLabel value="Дата доставки" />
+				</p:column>
+				<p:column>
+					<ui:decorate template="out-date.include.xhtml">
+						<ui:param name="value"
+							value="#{insuranceRequest.value.obtaining.deliveryDate}" />
+					</ui:decorate>
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column styleClass="ui-widget-header">
+					<p:outputLabel value="Время доставки" />
+				</p:column>
+				<p:column>
+					<h:outputText
+						value="#{deliveryTimeSlotService.displayNameShort(insuranceRequest.value.obtaining.deliveryTime)}" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column styleClass="ui-widget-header">
+					<p:outputLabel value="Город доставки" />
+				</p:column>
+				<p:column>
+					<h:outputText
+						value="#{kzCityService.displayNameShort(insuranceRequest.value.obtaining.deliveryCity)}" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column styleClass="ui-widget-header">
+					<p:outputLabel value="Адрес доставки:" />
+				</p:column>
+				<p:column>
+					<h:outputText
+						value="#{insuranceRequest.value.obtaining.deliveryAddress}" />
+				</p:column>
+			</p:row>
+		</p:panelGrid>
+	</p:panel>
 
 </ui:composition>

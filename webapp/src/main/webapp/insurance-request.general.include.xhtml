@@ -4,42 +4,73 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 
-	<!-- >> mainTwoColumnsGrid -->
-	<p:panelGrid id="mainTwoColumnsGrid" columns="2">
-
-		<!-- >> row 1 -->
-		<p:panelGrid columns="2">
-			<h:outputText value="ФИО" />
-			<h:outputText value="#{insuranceRequest.value.requester.name}" />
-			<h:outputText value="Телефон" />
-			<h:outputText value="#{insuranceRequest.value.requester.phone}" />
-			<h:outputText value="E-mail" />
-			<h:outputText value="#{insuranceRequest.value.requester.email}" />
-			<h:outputText value="Предпочитаемый язык" />
-			<h:outputText
-				value="#{localizationLanguageService.displayName(insuranceRequest.value.requester.preferLanguage)}" />
+	<p:panel>
+		<p:panelGrid>
+			<p:row>
+				<p:column styleClass="ui-widget-header">
+					<p:outputLabel value="ФИО" />
+				</p:column>
+				<p:column>
+					<h:outputText value="#{insuranceRequest.value.requester.name}" />
+				</p:column>
+				<p:column styleClass="ui-widget-header">
+					<p:outputLabel value="Дата заявки" />
+				</p:column>
+				<p:column>
+					<ui:decorate template="out-datetime.include.xhtml">
+						<ui:param name="value" value="#{insuranceRequest.value.created}" />
+					</ui:decorate>
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column styleClass="ui-widget-header">
+					<p:outputLabel value="Телефон" />
+				</p:column>
+				<p:column>
+					<h:outputText value="#{insuranceRequest.value.requester.phone}" />
+				</p:column>
+				<p:column styleClass="ui-widget-header">
+					<p:outputLabel value="Статус заявки" />
+				</p:column>
+				<p:column>
+					<h:outputText
+						value="#{requestStatusService.displayNameShort(insuranceRequest.value.requestStatus)}" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column styleClass="ui-widget-header">
+					<h:outputText value="E-mail" />
+				</p:column>
+				<p:column>
+					<h:outputText value="#{insuranceRequest.value.requester.email}" />
+				</p:column>
+				<p:column styleClass="ui-widget-header">
+					<p:outputLabel value="Дата закрытия заявки" />
+				</p:column>
+				<p:column>
+					<ui:decorate template="out-datetime.include.xhtml">
+						<ui:param name="value" value="#{insuranceRequest.value.closed}" />
+					</ui:decorate>
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column styleClass="ui-widget-header">
+					<p:outputLabel value="Предпочитаемый язык" />
+				</p:column>
+				<p:column>
+					<h:outputText
+						value="#{localizationLanguageService.displayName(insuranceRequest.value.requester.preferLanguage)}" />
+				</p:column>
+				<p:column styleClass="ui-widget-header">
+					<p:outputLabel value="Результат" />
+				</p:column>
+				<p:column>
+					<h:outputText
+						value="#{closingResultService.displayNameShort(insuranceRequest.value.closingResult)}" />
+				</p:column>
+			</p:row>
 		</p:panelGrid>
-
-		<p:panelGrid columns="2">
-			<h:outputText value="Дата заявки" />
-			<ui:decorate template="out-datetime.include.xhtml">
-				<ui:param name="value" value="#{insuranceRequest.value.created}" />
-			</ui:decorate>
-			<h:outputText value="Статус заявки" />
-			<h:outputText
-				value="#{requestStatusService.displayName(insuranceRequest.value.requestStatus)}" />
-			<h:outputText value="Дата закрытия заявки" />
-			<ui:decorate template="out-datetime.include.xhtml">
-				<ui:param name="value" value="#{insuranceRequest.value.closed}" />
-			</ui:decorate>
-			<h:outputText value="Результат" />
-			<h:outputText
-				value="#{closingResultService.displayName(insuranceRequest.value.closingResult)}" />
-		</p:panelGrid>
-		<!-- << row 1 -->
-
-	</p:panelGrid>
-	<!-- << mainTwoColumnsGrid -->
+	</p:panel>
 
 	<ui:include src="insurance-request.payment.include.xhtml" />
 

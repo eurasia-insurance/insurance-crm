@@ -4,7 +4,36 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 
-	<h:outputText
-		value="#{companyPointOfSaleService.displayNameFull(insuranceRequest.value.obtaining.pickupPOS)}" />
+	<p:panel>
+		<p:panelGrid>
+			<p:row>
+				<p:column styleClass="ui-widget-header">
+					<p:outputLabel value="Офис" />
+				</p:column>
+				<p:column>
+					<h:outputText
+						value="#{insuranceRequest.value.obtaining.pickupPOS.name}" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column styleClass="ui-widget-header">
+					<p:outputLabel value="Город" />
+				</p:column>
+				<p:column>
+					<h:outputText
+						value="#{kzCityService.displayNameShort(insuranceRequest.value.obtaining.pickupPOS.address.city)}" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column styleClass="ui-widget-header">
+					<p:outputLabel value="Адрес" />
+				</p:column>
+				<p:column>
+					<h:outputText
+						value="#{insuranceRequest.value.obtaining.pickupPOS.address.street}" />
+				</p:column>
+			</p:row>
+		</p:panelGrid>
+	</p:panel>
 
 </ui:composition>

@@ -10,18 +10,18 @@
 			<p:rowToggler rendered="#{mainFacade.vehicleHasImages(vehicle)}" />
 		</p:column>
 		<p:column headerText="Регион авто">
-			<h:outputText value="#{kzAreaService.displayName(vehicle.area)}" />
+			<h:outputText value="#{kzAreaService.displayNameShort(vehicle.area)}" />
 		</p:column>
 		<p:column headerText="Город">
-			<h:outputText value="#{kzCityService.displayName(vehicle.city)}" />
+			<h:outputText value="#{kzCityService.displayNameShort(vehicle.city)}" />
 		</p:column>
 		<p:column headerText="Возраст авто">
 			<h:outputText
-				value="#{vehicleAgeClassService.displayName(vehicle.vehicleAgeClass)}" />
+				value="#{vehicleAgeClassService.displayNameShort(vehicle.vehicleAgeClass)}" />
 		</p:column>
 		<p:column headerText="Класс авто">
 			<h:outputText
-				value="#{vehicleClassService.displayName(vehicle.vehicleClass)}" />
+				value="#{vehicleClassService.displayNameShort(vehicle.vehicleClass)}" />
 		</p:column>
 		<p:rowExpansion>
 			<ui:decorate template="out-image.include.xhtml">

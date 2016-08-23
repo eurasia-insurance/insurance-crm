@@ -9,80 +9,89 @@
 	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 
-	<style>
-.ui-panelgrid {
-	width: 100%;
-}
 
-.ui-panelgrid, .ui-panelgrid .ui-panelgrid-cell {
-	border-style: hidden;
-	/* 	 10px solid black; */
-	vertical-align: top;
-}
-</style>
+	<!-- >> wrapper -->
+	<h:panelGroup id="viewInsuranceRequestDialogWrapper">
 
-	<h3 style="margin-top: 0">
-		<h:outputText
-			value="Заявка # #{insuranceRequest.value.id} : #{insuranceProductTypeService.displayName(insuranceRequest.value.productType)}" />
-	</h3>
+		<!-- >> rendered -->
+		<h:panelGroup rendered="#{not empty insuranceRequest.value}">
 
+			<p:dialog widgetVar="viewInsuranceRequestDialogWV" modal="true"
+				closable="true" minHeight="800" minWidth="1024" width="1024"
+				height="800" closeOnEscape="true" minimizable="false"
+				maximizable="true"
+				header=" #{insuranceProductTypeService.displayNameShort(insuranceRequest.value.productType)} # #{insuranceRequest.value.id} : #{insuranceRequest.value.requester.name}">
 
-	<!-- >> rendered POLICY -->
-	<h:panelGroup
-		rendered="#{insuranceRequest.value.productType == 'POLICY'}">
-		<ui:include src="insurance-request.menu.include.xhtml" />
-		<p:accordionPanel dynamic="true" cache="true" activeIndex="0">
-			<p:tab title="Общие сведения">
-				<ui:include src="insurance-request.general.include.xhtml" />
-			</p:tab>
-			<p:tab title="Доставка"
-				rendered="#{insuranceRequest.value.obtaining.method == 'DELIVERY'}">
-				<ui:include src="insurance-request.obtaining.delivery.include.xhtml" />
-			</p:tab>
-			<p:tab title="Самовывоз"
-				rendered="#{insuranceRequest.value.obtaining.method == 'PICKUP'}">
-				<ui:include src="insurance-request.obtaining.pickup.include.xhtml" />
-			</p:tab>
-			<p:tab title="Оплата">
-				<ui:include src="insurance-request.payment.include.xhtml" />
-			</p:tab>
-			<p:tab title="Список застрахованных водителей">
-				<ui:include src="insurance-request.policy.drivers.include.xhtml" />
-			</p:tab>
-			<p:tab title="Список застрахованных транспортных средств">
-				<ui:include src="insurance-request.policy.vehicles.include.xhtml" />
-			</p:tab>
-		</p:accordionPanel>
+				<ui:include src="insurance-request.menu.include.xhtml" />
+
+				<!-- >> rendered POLICY -->
+				<h:panelGroup
+					rendered="#{insuranceRequest.value.productType == 'POLICY'}">
+					<p:accordionPanel dynamic="true" cache="true" activeIndex="0">
+						<p:tab title="Общие сведения">
+							<ui:include src="insurance-request.general.include.xhtml" />
+						</p:tab>
+						<p:tab title="Доставка"
+							rendered="#{insuranceRequest.value.obtaining.method == 'DELIVERY'}">
+							<ui:include
+								src="insurance-request.obtaining.delivery.include.xhtml" />
+						</p:tab>
+						<p:tab title="Самовывоз"
+							rendered="#{insuranceRequest.value.obtaining.method == 'PICKUP'}">
+							<ui:include
+								src="insurance-request.obtaining.pickup.include.xhtml" />
+						</p:tab>
+						<p:tab title="Оплата">
+							<ui:include src="insurance-request.payment.include.xhtml" />
+						</p:tab>
+						<p:tab title="Список застрахованных водителей">
+							<ui:include src="insurance-request.policy.drivers.include.xhtml" />
+						</p:tab>
+						<p:tab title="Список застрахованных транспортных средств">
+							<ui:include src="insurance-request.policy.vehicles.include.xhtml" />
+						</p:tab>
+					</p:accordionPanel>
+				</h:panelGroup>
+				<!-- << rendered POLICY -->
+
+				<!-- >> rendered CASCO -->
+				<h:panelGroup
+					rendered="#{insuranceRequest.value.productType == 'CASCO'}">
+					<p:accordionPanel dynamic="true" cache="true" activeIndex="0">
+						<p:tab title="Общие сведения">
+							<ui:include src="insurance-request.general.include.xhtml" />
+						</p:tab>
+						<p:tab title="Доставка"
+							rendered="#{insuranceRequest.value.obtaining.method == 'DELIVERY'}">
+							<ui:include
+								src="insurance-request.obtaining.delivery.include.xhtml" />
+						</p:tab>
+						<p:tab title="Самовывоз"
+							rendered="#{insuranceRequest.value.obtaining.method == 'PICKUP'}">
+							<ui:include
+								src="insurance-request.obtaining.pickup.include.xhtml" />
+						</p:tab>
+						<p:tab title="Оплата">
+							<ui:include src="insurance-request.payment.include.xhtml" />
+						</p:tab>
+						<p:tab title="Список водителей допущенных к управлению ТС">
+							<ui:include src="insurance-request.casco.drivers.include.xhtml" />
+						</p:tab>
+						<p:tab title="Информация о застрахованном ТС">
+							<ui:include src="insurance-request.casco.vehicle.include.xhtml">
+								<ui:param name="casco" value="#{insuranceRequest.value.product}" />
+							</ui:include>
+						</p:tab>
+					</p:accordionPanel>
+				</h:panelGroup>
+				<!-- << rendered CASCO -->
+
+			</p:dialog>
+
+		</h:panelGroup>
+		<!-- << rendered -->
+
 	</h:panelGroup>
-	<!-- << rendered POLICY -->
-
-	<!-- >> rendered CASCO -->
-	<h:panelGroup
-		rendered="#{insuranceRequest.value.productType == 'CASCO'}">
-		<ui:include src="insurance-request.menu.include.xhtml" />
-		<p:accordionPanel dynamic="true" cache="true" activeIndex="0">
-			<p:tab title="Общие сведения">
-				<ui:include src="insurance-request.general.include.xhtml" />
-			</p:tab>
-			<p:tab title="Доставка"
-				rendered="#{insuranceRequest.value.obtaining.method == 'DELIVERY'}">
-				<ui:include src="insurance-request.obtaining.delivery.include.xhtml" />
-			</p:tab>
-			<p:tab title="Самовывоз"
-				rendered="#{insuranceRequest.value.obtaining.method == 'PICKUP'}">
-				<ui:include src="insurance-request.obtaining.pickup.include.xhtml" />
-			</p:tab>
-			<p:tab title="Оплата">
-				<ui:include src="insurance-request.payment.include.xhtml" />
-			</p:tab>
-			<p:tab title="Список водителей допущенных к управлению ТС">
-				<ui:include src="insurance-request.casco.drivers.include.xhtml" />
-			</p:tab>
-			<p:tab title="Информация о застрахованном ТС">
-				<!-- 				<ui:include src="insurance-request.casco.vehicle.include.xhtml" /> -->
-			</p:tab>
-		</p:accordionPanel>
-	</h:panelGroup>
-	<!-- << rendered CASCO -->
+	<!-- << wrapper -->
 
 </ui:composition>

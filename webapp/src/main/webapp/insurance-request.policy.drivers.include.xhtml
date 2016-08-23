@@ -14,15 +14,15 @@
 		</p:column>
 		<p:column headerText="Класс">
 			<h:outputText
-				value="#{insuranceClassTypeService.displayName(driver.insuranceClassType)}" />
+				value="#{insuranceClassTypeService.displayNameShort(driver.insuranceClassType)}" />
 		</p:column>
 		<p:column headerText="Водительский стаж">
 			<h:outputText
-				value="#{insuredExpirienceClassService.displayName(driver.expirienceClass)}" />
+				value="#{insuredExpirienceClassService.displayNameShort(driver.expirienceClass)}" />
 		</p:column>
 		<p:column headerText="Возраст">
 			<h:outputText
-				value="#{insuredAgeClassService.displayName(driver.ageClass)}" />
+				value="#{insuredAgeClassService.displayNameShort(driver.ageClass)}" />
 		</p:column>
 		<p:rowExpansion>
 			<ui:decorate template="out-image.include.xhtml">

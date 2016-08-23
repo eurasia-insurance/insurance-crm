@@ -16,6 +16,7 @@
 		<!-- >> rendered -->
 		<h:panelGroup rendered="#{not empty insuranceRequest.value}">
 
+			<!-- >> dialog -->
 			<p:dialog widgetVar="viewInsuranceRequestDialogWV" modal="true"
 				closable="true" minHeight="800" minWidth="1024" width="1024"
 				height="800" closeOnEscape="true" minimizable="false"
@@ -45,10 +46,12 @@
 							<ui:include src="dialog.insurance-request.payment.include.xhtml" />
 						</p:tab>
 						<p:tab title="Список застрахованных водителей">
-							<ui:include src="dialog.insurance-request.policy.drivers.include.xhtml" />
+							<ui:include
+								src="dialog.insurance-request.policy.drivers.include.xhtml" />
 						</p:tab>
 						<p:tab title="Список застрахованных транспортных средств">
-							<ui:include src="dialog.insurance-request.policy.vehicles.include.xhtml" />
+							<ui:include
+								src="dialog.insurance-request.policy.vehicles.include.xhtml" />
 						</p:tab>
 					</p:accordionPanel>
 				</h:panelGroup>
@@ -75,10 +78,12 @@
 							<ui:include src="dialog.insurance-request.payment.include.xhtml" />
 						</p:tab>
 						<p:tab title="Список водителей допущенных к управлению ТС">
-							<ui:include src="dialog.insurance-request.casco.drivers.include.xhtml" />
+							<ui:include
+								src="dialog.insurance-request.casco.drivers.include.xhtml" />
 						</p:tab>
 						<p:tab title="Информация о застрахованном ТС">
-							<ui:include src="dialog.insurance-request.casco.vehicle.include.xhtml">
+							<ui:include
+								src="dialog.insurance-request.casco.vehicle.include.xhtml">
 								<ui:param name="casco" value="#{insuranceRequest.value.product}" />
 							</ui:include>
 						</p:tab>
@@ -87,6 +92,7 @@
 				<!-- << rendered CASCO -->
 
 			</p:dialog>
+			<!-- << dialog -->
 
 		</h:panelGroup>
 		<!-- << rendered -->

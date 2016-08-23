@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<o:importConstants
+		type="com.lapsa.insurance.elements.InsuranceProductType" />
+
+	<c:set var="casco" value="#{insuranceRequest.value.casco}" />
+
+	<p:tab
+		title="#{insuranceProductTypeService.displayName(InsuranceProductType.CASCO)}">
+
+
+		<p:panel>
+			<p:panelGrid>
+				<p:row>
+					<p:column styleClass="ui-widget-header">
+						<p:outputLabel value="Покрытие:" />
+					</p:column>
+					<p:column>
+						<ui:include src="out-option-yesno.include.xhtml">
+							<ui:param name="value" value="#{casco.coverRoadAccidents}" />
+							<ui:param name="label" value="ущерб от ДТП" />
+						</ui:include>
+						<ui:include src="out-option-yesno.include.xhtml">
+							<ui:param name="value" value="#{casco.coverRoadAccidents}" />
+							<ui:param name="label"
+								value="от других видов ущерба, включая угон" />
+						</ui:include>
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+		</p:panel>
+
+		<!-- >> insuredDrivers dataTable -->
+		<p:dataTable value="#{casco.insuredDrivers}" var="driver"
+			rowIndexVar="rowIndex">
+			<p:column width="16">
+				<p:rowToggler />
+			</p:column>
+			<p:column headerText="Допущенные к управлению">Удостоверение личности водителя #{rowIndex + 1}</p:column>
+			<p:rowExpansion>
+				<ui:decorate template="out-image.include.xhtml">
+					<ui:param name="value"
+						value="#{driver.driverLicenseData.scan.frontside}" />
+				</ui:decorate>
+				<ui:decorate template="out-image.include.xhtml">
+					<ui:param name="value"
+						value="#{driver.driverLicenseData.scan.backside}" />
+				</ui:decorate>
+				<ui:decorate template="out-image.include.xhtml">
+					<ui:param name="value"
+						value="#{driver.identityCardData.scan.frontside}" />
+				</ui:decorate>
+				<ui:decorate template="out-image.include.xhtml">
+					<ui:param name="value"
+						value="#{driver.identityCardData.scan.backside}" />
+				</ui:decorate>
+			</p:rowExpansion>
+		</p:dataTable>
+		<!-- << insuredDrivers dataTable -->
+
+
+	</p:tab>
+
+</ui:composition>

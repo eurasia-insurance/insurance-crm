@@ -14,11 +14,11 @@
 		<style>
 .ui-panelgrid {
 	/* 	width: 100%; */
-	
 }
 
-.ui-panel {
-	margin-bottom: 10px;
+.ui-panel, .ui-datatable, .ui-panelgrid {
+	margin-bottom: .5em;
+	margin-top: .5em;
 }
 
 .ui-panelgrid, .ui-panelgrid .ui-panelgrid-cell {
@@ -70,7 +70,8 @@
 							</p:selectOneMenu>
 						</p:column>
 						<p:column>
-							<p:outputLabel value="Тип заявки:" for="insuranceProductTypeFilterBasic" />
+							<p:outputLabel value="Тип заявки:"
+								for="insuranceProductTypeFilterBasic" />
 						</p:column>
 						<p:column>
 							<p:selectOneMenu id="insuranceProductTypeFilterBasic"

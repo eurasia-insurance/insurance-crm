@@ -4,47 +4,51 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 
-	<p:panel>
-		<p:panelGrid>
-			<p:row>
-				<p:column styleClass="ui-widget-header">
-					<p:outputLabel value="Дата доставки" />
-				</p:column>
-				<p:column>
-					<ui:decorate template="out-date.include.xhtml">
-						<ui:param name="value"
-							value="#{insuranceRequest.value.obtaining.deliveryDate}" />
-					</ui:decorate>
-				</p:column>
-			</p:row>
-			<p:row>
-				<p:column styleClass="ui-widget-header">
-					<p:outputLabel value="Время доставки" />
-				</p:column>
-				<p:column>
-					<h:outputText
-						value="#{deliveryTimeSlotService.displayNameShort(insuranceRequest.value.obtaining.deliveryTime)}" />
-				</p:column>
-			</p:row>
-			<p:row>
-				<p:column styleClass="ui-widget-header">
-					<p:outputLabel value="Город доставки" />
-				</p:column>
-				<p:column>
-					<h:outputText
-						value="#{kzCityService.displayNameShort(insuranceRequest.value.obtaining.deliveryCity)}" />
-				</p:column>
-			</p:row>
-			<p:row>
-				<p:column styleClass="ui-widget-header">
-					<p:outputLabel value="Адрес доставки:" />
-				</p:column>
-				<p:column>
-					<h:outputText
-						value="#{insuranceRequest.value.obtaining.deliveryAddress}" />
-				</p:column>
-			</p:row>
-		</p:panelGrid>
-	</p:panel>
+	<p:tab title="Доставка">
+
+		<p:panel>
+			<p:panelGrid>
+				<p:row>
+					<p:column styleClass="ui-widget-header">
+						<p:outputLabel value="Дата доставки" />
+					</p:column>
+					<p:column>
+						<ui:decorate template="out-date.include.xhtml">
+							<ui:param name="value"
+								value="#{insuranceRequest.value.obtaining.deliveryDate}" />
+						</ui:decorate>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column styleClass="ui-widget-header">
+						<p:outputLabel value="Время доставки" />
+					</p:column>
+					<p:column>
+						<h:outputText
+							value="#{deliveryTimeSlotService.displayNameShort(insuranceRequest.value.obtaining.deliveryTime)}" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column styleClass="ui-widget-header">
+						<p:outputLabel value="Город доставки" />
+					</p:column>
+					<p:column>
+						<h:outputText
+							value="#{kzCityService.displayNameShort(insuranceRequest.value.obtaining.deliveryCity)}" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column styleClass="ui-widget-header">
+						<p:outputLabel value="Адрес доставки:" />
+					</p:column>
+					<p:column>
+						<h:outputText
+							value="#{insuranceRequest.value.obtaining.deliveryAddress}" />
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+		</p:panel>
+
+	</p:tab>
 
 </ui:composition>

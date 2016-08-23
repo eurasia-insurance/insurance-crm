@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<o:importConstants
+		type="com.lapsa.insurance.elements.InsuranceProductType" />
+
+	<p:tab
+		title="#{insuranceProductTypeService.displayName(InsuranceProductType.POLICY)}">
+
+		<p:dataTable value="#{insuranceRequest.value.policy.insuredDrivers}"
+			var="driver">
+			<f:facet name="header">
+			Сведения о застрахованных водителях
+			</f:facet>
+			<p:column width="16">
+				<p:rowToggler rendered="#{mainFacade.driverHasImages(driver)}" />
+			</p:column>
+			<p:column headerText="ИИН">
+				<h:outputText value="#{driver.idNumber}" />
+			</p:column>
+			<p:column headerText="Класс">
+				<h:outputText
+					value="#{insuranceClassTypeService.displayNameShort(driver.insuranceClassType)}" />
+			</p:column>
+			<p:column headerText="Водительский стаж">
+				<h:outputText
+					value="#{insuredExpirienceClassService.displayNameShort(driver.expirienceClass)}" />
+			</p:column>
+			<p:column headerText="Возраст">
+				<h:outputText
+					value="#{insuredAgeClassService.displayNameShort(driver.ageClass)}" />
+			</p:column>
+			<p:rowExpansion>
+				<ui:decorate template="out-image.include.xhtml">
+					<ui:param name="value"
+						value="#{driver.driverLicenseData.scan.frontside}" />
+				</ui:decorate>
+				<ui:decorate template="out-image.include.xhtml">
+					<ui:param name="value"
+						value="#{driver.driverLicenseData.scan.backside}" />
+				</ui:decorate>
+				<ui:decorate template="out-image.include.xhtml">
+					<ui:param name="value"
+						value="#{driver.identityCardData.scan.frontside}" />
+				</ui:decorate>
+				<ui:decorate template="out-image.include.xhtml">
+					<ui:param name="value"
+						value="#{driver.identityCardData.scan.backside}" />
+				</ui:decorate>
+			</p:rowExpansion>
+		</p:dataTable>
+
+
+		<p:dataTable value="#{insuranceRequest.value.policy.insuredVehicles}"
+			var="vehicle">
+			<f:facet name="header">
+			Сведения о застрахованных транспортных средствах
+			</f:facet>
+			<p:column width="16">
+				<p:rowToggler rendered="#{mainFacade.vehicleHasImages(vehicle)}" />
+			</p:column>
+			<p:column headerText="Регион авто">
+				<h:outputText
+					value="#{kzAreaService.displayNameShort(vehicle.area)}" />
+			</p:column>
+			<p:column headerText="Город">
+				<h:outputText
+					value="#{kzCityService.displayNameShort(vehicle.city)}" />
+			</p:column>
+			<p:column headerText="Возраст авто">
+				<h:outputText
+					value="#{vehicleAgeClassService.displayNameShort(vehicle.vehicleAgeClass)}" />
+			</p:column>
+			<p:column headerText="Класс авто">
+				<h:outputText
+					value="#{vehicleClassService.displayNameShort(vehicle.vehicleClass)}" />
+			</p:column>
+			<p:rowExpansion>
+				<ui:decorate template="out-image.include.xhtml">
+					<ui:param name="value"
+						value="#{vehicle.vehicleData.certificateData.scan.frontside}" />
+				</ui:decorate>
+				<ui:decorate template="out-image.include.xhtml">
+					<ui:param name="value"
+						value="#{vehicle.vehicleData.certificateData.scan.backside}" />
+				</ui:decorate>
+			</p:rowExpansion>
+		</p:dataTable>
+
+	</p:tab>
+
+</ui:composition>

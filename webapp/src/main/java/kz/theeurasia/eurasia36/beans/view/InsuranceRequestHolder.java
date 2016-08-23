@@ -16,22 +16,31 @@ public class InsuranceRequestHolder extends DefaultWritableValueHolder<Insurance
 	implements Serializable, WritableValueHolder<InsuranceRequest> {
     private static final long serialVersionUID = -2574434730269891652L;
 
+    private static final String VERB_NONE = "none";
+
     public String getProductTypeVerb() {
 	if (value == null || value.getProductType() == null)
-	    return "none";
-	return value.getProductType().getVerb();
+	    return VERB_NONE;
+	switch (value.getProductType()) {
+	case CASCO:
+	    return "casco";
+	case POLICY:
+	    return "policy";
+	default:
+	    return VERB_NONE;
+	}
     }
 
     public String getObtainingMethodVerb() {
 	if (value == null || value.getObtaining() == null || value.getObtaining().getMethod() == null)
-	    return "none";
+	    return VERB_NONE;
 	switch (value.getObtaining().getMethod()) {
 	case DELIVERY:
 	    return "delivery";
 	case PICKUP:
 	    return "pickup";
 	default:
-	    return "none";
+	    return VERB_NONE;
 	}
     }
 }

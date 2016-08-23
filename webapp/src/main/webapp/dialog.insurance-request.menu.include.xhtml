@@ -5,10 +5,17 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<p:menubar>
-		<p:menuitem process="@this" update="@form:insuranceRequestCloseDialogWrapper"
-			value="Закрыть" onsuccess="PF('insuranceRequestCloseDialogWV').show()"
-			icon="ui-icon-close"
-			disabled="#{insuranceRequest.value.requestStatus eq 'CLOSED'}" />
+		<p:submenu label="Файл">
+			<p:menuitem value="Закрыть окно"
+				onclick="PF('insuranceRequestDialogWV').hide()" />
+		</p:submenu>
+		<p:submenu label="Заявка">
+			<p:menuitem process="@this"
+				update="@form:insuranceRequestCloseDialogWrapper" value="Закрыть заявку..."
+				onsuccess="PF('insuranceRequestCloseDialogWV').show()"
+				icon="ui-icon-close"
+				disabled="#{insuranceRequest.value.requestStatus eq 'CLOSED'}" />
+		</p:submenu>
 	</p:menubar>
 
 </ui:composition>

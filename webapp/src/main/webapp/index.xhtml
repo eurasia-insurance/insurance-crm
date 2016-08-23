@@ -45,26 +45,9 @@
 				</h:panelGroup>
 			</p:dialog>
 
-			<p:dialog widgetVar="confirmCloseDialogWV"
-				header="Укажите причину закрытия" closeOnEscape="true" modal="true">
-				<h:panelGroup id="confirmCloseDialogWrapper">
-					<h:panelGroup rendered="#{not empty insuranceRequest.value}">
-						<p:selectOneMenu value="#{insuranceRequest.value.closingResult}"
-							required="true">
-							<f:selectItems value="#{closingResultService.selectableItemsSI}" />
-						</p:selectOneMenu>
-						<p:panelGrid columns="2">
-							<p:commandButton value="Закрыть"
-								action="#{mainFacade.doCloseRequest(insuranceRequest.value)}"
-								process="@form" update="@form" ajax="true"
-								oncomplete="PF('confirmCloseDialogWV').hide(); PF('viewInsuranceRequestDialogWV').hide()" />
-							<p:button value="Отмена"
-								onclick="PF('confirmCloseDialogWV').hide(); return false;" />
-						</p:panelGrid>
-					</h:panelGroup>
-				</h:panelGroup>
-			</p:dialog>
 
+
+			<ui:include src="dialog.insurance-request-close.include.xhtml" />
 			<ui:include src="dialog.insurance-request.include.xhtml" />
 
 			<p:panel id="filterPanel">

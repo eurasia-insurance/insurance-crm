@@ -25,8 +25,7 @@
 							<p:outputLabel value="Причина закрытия заявки" />
 						</p:column>
 						<p:column>
-							<p:selectOneMenu value="#{insuranceRequest.value.closingResult}"
-								required="true">
+							<p:selectOneMenu value="#{insuranceRequest.value.closingResult}">
 								<f:selectItems value="#{closingResultService.selectableItemsSI}" />
 							</p:selectOneMenu>
 						</p:column>
@@ -37,8 +36,8 @@
 						<p:column>
 							<p:commandButton value="Закрыть"
 								action="#{mainFacade.doCloseRequest(insuranceRequest.value)}"
-								process="@form" update="@form" ajax="true"
-								oncomplete="PF('confirmCloseDialogWV').hide(); PF('viewInsuranceRequestDialogWV').hide()" />
+								process="confirmCloseDialogWrapper" update="@form"
+								onsuccess="PF('confirmCloseDialogWV').hide(); PF('viewInsuranceRequestDialogWV').hide()" />
 						</p:column>
 						<p:column>
 							<p:button value="Отмена"

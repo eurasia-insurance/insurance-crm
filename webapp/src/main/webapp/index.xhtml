@@ -190,13 +190,8 @@
 				<p:panelGrid>
 					<p:row>
 						<p:column>
-							<p:commandButton value="Очистить"
-								action="#{mainFacade.doResetFilter}" process="@this"
-								update="@form" />
-						</p:column>
-						<p:column>
 							<p:commandLink process="filterPanel" update="filterPanel"
-								value="Подробнее &gt;&gt;"
+								value="еще &gt;&gt;"
 								rendered="#{not insuranceRequestsFilter.advanced}">
 								<f:setPropertyActionListener
 									target="#{insuranceRequestsFilter.advanced}" value="#{true}" />
@@ -208,6 +203,11 @@
 									target="#{insuranceRequestsFilter.advanced}" value="#{false}" />
 							</p:commandLink>
 						</p:column>
+						<p:column>
+							<p:commandLink value="очистить критерии поиска"
+								action="#{mainFacade.doResetFilter}" process="@this"
+								update="@form" />
+						</p:column>
 					</p:row>
 				</p:panelGrid>
 			</p:panel>
@@ -218,7 +218,8 @@
 				selection="#{insuranceRequest.value}" rowKey="#{req.id}" rows="20"
 				paginator="true" paginatorAlwaysVisible="false"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-				sortMode="multipe" sortOrder="DESCENDING" sortBy="#{req.created}" emptyMessage="Нет заявок удовлетворяющих критериям поиска">
+				sortMode="multipe" sortOrder="DESCENDING" sortBy="#{req.created}"
+				emptyMessage="Нет заявок удовлетворяющих критериям поиска">
 				<p:ajax event="rowSelect" process="@this"
 					update="@form:viewInsuranceRequestDialogWrapper"
 					oncomplete="PF('insuranceRequestDialogWV').show()" />

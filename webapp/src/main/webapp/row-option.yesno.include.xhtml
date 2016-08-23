@@ -8,8 +8,14 @@
 	<!-- java.lang.Boolean value -->
 	<!-- java.lang.String label -->
 
-	<p:selectBooleanCheckbox value="#{value}" disabled="true" />
-	<p:outputLabel value="#{label}" />
-	<br />
+	<p:row>
+		<p:column styleClass="ui-widget-header">
+			<p:outputLabel value="#{label}:" />
+		</p:column>
+		<p:column>
+			<h:outputText value="ДА" rendered="#{value}" />
+			<h:outputText value="Нет" rendered="#{not value}" />
+		</p:column>
+	</p:row>
 
 </ui:composition>

@@ -10,5 +10,7 @@ public interface ConfigurationFacade {
 
     int getImageThumbnailHeight();
     
-    SelectItem getNoneSI();
+    SelectItem getAnySI();
+    
+    SelectItem getMustSelectSI();
 }

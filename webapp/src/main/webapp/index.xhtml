@@ -81,7 +81,7 @@
 								value="#{insuranceRequestsFilter.requestStatus}">
 								<p:ajax process="@this" update="@form"
 									listener="#{mainFacade.onFilterChanged}" />
-								<f:selectItem value="#{configurationFacade.noneSI}" />
+								<f:selectItem value="#{configurationFacade.anySI}" />
 								<f:selectItems
 									value="#{requestStatusService.selectableItemsShortSI}" />
 							</p:selectOneMenu>
@@ -102,7 +102,7 @@
 								value="#{insuranceRequestsFilter.requestStatus}">
 								<p:ajax process="@this" update="@form"
 									listener="#{mainFacade.onRequestStatusFilterChanged}" />
-								<f:selectItem value="#{configurationFacade.noneSI}" />
+								<f:selectItem value="#{configurationFacade.anySI}" />
 								<f:selectItems
 									value="#{requestStatusService.selectableItemsShortSI}" />
 							</p:selectOneMenu>
@@ -118,7 +118,7 @@
 								disabled="#{insuranceRequestsFilter.requestStatus eq 'OPEN'}">
 								<p:ajax process="@this" update="@form"
 									listener="#{mainFacade.onFilterChanged}" />
-								<f:selectItem value="#{configurationFacade.noneSI}" />
+								<f:selectItem value="#{configurationFacade.anySI}" />
 								<f:selectItems
 									value="#{closingResultService.selectableItemsShortSI}" />
 							</p:selectOneMenu>
@@ -134,7 +134,7 @@
 								value="#{insuranceRequestsFilter.paymentStatus}">
 								<p:ajax process="@this" update="@form"
 									listener="#{mainFacade.onFilterChanged}" />
-								<f:selectItem value="#{configurationFacade.noneSI}" />
+								<f:selectItem value="#{configurationFacade.anySI}" />
 								<f:selectItems
 									value="#{paymentStatusService.selectableItemsShortSI}" />
 							</p:selectOneMenu>
@@ -147,7 +147,7 @@
 								value="#{insuranceRequestsFilter.paymentMethod}">
 								<p:ajax process="@this" update="@form"
 									listener="#{mainFacade.onFilterChanged}" />
-								<f:selectItem value="#{configurationFacade.noneSI}" />
+								<f:selectItem value="#{configurationFacade.anySI}" />
 								<f:selectItems
 									value="#{paymentMethodService.selectableItemsShortSI}" />
 							</p:selectOneMenu>
@@ -164,7 +164,7 @@
 								value="#{insuranceRequestsFilter.obtainingMethod}">
 								<p:ajax process="@this" update="@form"
 									listener="#{mainFacade.onFilterChanged}" />
-								<f:selectItem value="#{configurationFacade.noneSI}" />
+								<f:selectItem value="#{configurationFacade.anySI}" />
 								<f:selectItems
 									value="#{obtainingMethodService.selectableItemsShortSI}" />
 							</p:selectOneMenu>

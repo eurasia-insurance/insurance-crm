@@ -28,7 +28,12 @@ public class DefaultConfigurationFacade implements ConfigurationFacade {
     }
 
     @Override
-    public SelectItem getNoneSI() {
+    public SelectItem getAnySI() {
 	return new SelectItem(null, "любой");
+    }
+
+    @Override
+    public SelectItem getMustSelectSI() {
+	return new SelectItem(null, "-- выберите значение --");
     }
 }

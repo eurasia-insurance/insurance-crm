@@ -10,26 +10,12 @@
 			<p:panelGrid>
 				<p:row>
 					<p:column styleClass="ui-widget-header">
-						<p:outputLabel value="ФИО" />
-					</p:column>
-					<p:column>
-						<h:outputText value="#{insuranceRequest.value.requester.name}" />
-					</p:column>
-					<p:column styleClass="ui-widget-header">
 						<p:outputLabel value="Дата заявки" />
 					</p:column>
 					<p:column>
 						<ui:decorate template="out-datetime.include.xhtml">
 							<ui:param name="value" value="#{insuranceRequest.value.created}" />
 						</ui:decorate>
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column styleClass="ui-widget-header">
-						<p:outputLabel value="Телефон" />
-					</p:column>
-					<p:column>
-						<h:outputText value="#{insuranceRequest.value.requester.phone}" />
 					</p:column>
 					<p:column styleClass="ui-widget-header">
 						<p:outputLabel value="Статус заявки" />
@@ -39,13 +25,10 @@
 							value="#{requestStatusService.displayNameShort(insuranceRequest.value.requestStatus)}" />
 					</p:column>
 				</p:row>
+			</p:panelGrid>
+			<p:panelGrid
+				rendered="#{insuranceRequest.value.requestStatus eq 'CLOSED'}">
 				<p:row>
-					<p:column styleClass="ui-widget-header">
-						<h:outputText value="E-mail" />
-					</p:column>
-					<p:column>
-						<h:outputText value="#{insuranceRequest.value.requester.email}" />
-					</p:column>
 					<p:column styleClass="ui-widget-header">
 						<p:outputLabel value="Дата закрытия заявки" />
 					</p:column>
@@ -53,15 +36,6 @@
 						<ui:decorate template="out-datetime.include.xhtml">
 							<ui:param name="value" value="#{insuranceRequest.value.closed}" />
 						</ui:decorate>
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column styleClass="ui-widget-header">
-						<p:outputLabel value="Предпочитаемый язык" />
-					</p:column>
-					<p:column>
-						<h:outputText
-							value="#{localizationLanguageService.displayName(insuranceRequest.value.requester.preferLanguage)}" />
 					</p:column>
 					<p:column styleClass="ui-widget-header">
 						<p:outputLabel value="Результат" />

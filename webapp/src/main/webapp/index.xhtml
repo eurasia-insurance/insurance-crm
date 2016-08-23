@@ -215,7 +215,7 @@
 							value="#{req.product.calculation.premiumCost}" />
 					</ui:decorate>
 				</p:column>
-				<p:column width="200" headerText="Способ оплаты"
+				<p:column width="150" headerText="Способ оплаты"
 					sortBy="#{req.payment.method}">
 					<h:outputText
 						value="#{paymentMethodService.displayNameShort(req.payment.method)}" />
@@ -225,23 +225,23 @@
 					<h:outputText
 						value="#{paymentStatusService.displayNameShort(req.payment.status)}" />
 				</p:column>
-				<p:column headerText="Имя заявителя" sortBy="#{req.requester.name}">
+				<p:column width="200" headerText="Имя заявителя" sortBy="#{req.requester.name}">
 					<h:outputText value="#{req.requester.name}" />
 				</p:column>
-				<p:column headerText="Email заявителя"
+				<p:column width="200" headerText="Email заявителя"
 					sortBy="#{req.requester.email}">
 					<h:outputText value="#{req.requester.email}" />
 				</p:column>
-				<p:column headerText="Телефон заявителя"
+				<p:column width="150" headerText="Телефон заявителя"
 					sortBy="#{req.requester.phone}">
 					<h:outputText value="#{req.requester.phone}" />
 				</p:column>
-				<p:column headerText="Дата закрытия" sortBy="#{req.closed}">
+				<p:column rendered="#{not empty req.closed}" headerText="Дата закрытия" sortBy="#{req.closed}">
 					<ui:decorate template="out-datetime.include.xhtml">
 						<ui:param name="value" value="#{req.closed}" />
 					</ui:decorate>
 				</p:column>
-				<p:column headerText="Причина закрытия"
+				<p:column rendered="#{not empty req.closingResult}" headerText="Причина закрытия"
 					sortBy="#{req.closingResult}">
 					<h:outputText
 						value="#{closingResultService.displayNameShort(req.closingResult)}" />

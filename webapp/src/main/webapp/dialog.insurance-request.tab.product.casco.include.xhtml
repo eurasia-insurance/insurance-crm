@@ -19,20 +19,191 @@
 			<p:panelGrid>
 				<p:row>
 					<p:column styleClass="ui-widget-header">
-						<p:outputLabel value="Покрытие:" />
+						<p:outputLabel value="Страховое покрытие:" />
 					</p:column>
 					<p:column>
-						<ui:include src="out-option-yesno.include.xhtml">
-							<ui:param name="value" value="#{casco.coverRoadAccidents}" />
-							<ui:param name="label" value="ущерб от ДТП" />
-						</ui:include>
-						<ui:include src="out-option-yesno.include.xhtml">
-							<ui:param name="value" value="#{casco.coverRoadAccidents}" />
-							<ui:param name="label"
-								value="от других видов ущерба, включая угон" />
-						</ui:include>
+						<p:panelGrid>
+							<ui:include src="row-option.yesno.include.xhtml">
+								<ui:param name="value" value="#{casco.coverRoadAccidents}" />
+								<ui:param name="label" value="ущерб от ДТП" />
+							</ui:include>
+							<ui:include src="row-option.yesno.include.xhtml">
+								<ui:param name="value" value="#{casco.coverRoadAccidents}" />
+								<ui:param name="label"
+									value="от других видов ущерба, включая угон" />
+							</ui:include>
+							<ui:include src="row-option.yesno.include.xhtml">
+								<ui:param name="value"
+									value="#{casco.thirdPartyLiabilityCoverage}" />
+								<ui:param name="label"
+									value="ответственность перед третьими лицами на сумму до ₸ 20 000 000" />
+							</ui:include>
+							<ui:include src="row-option.yesno.include.xhtml">
+								<ui:param name="value"
+									value="#{casco.driverAndPassengerCoverage}" />
+								<ui:param name="label"
+									value="жизнь и здоровье водителя и пассажиров" />
+							</ui:include>
+							<p:row rendered="#{casco.driverAndPassengerCoverage}">
+								<p:column styleClass="ui-widget-header">
+									<p:outputLabel value="количество застрахованных:" />
+								</p:column>
+								<p:column>
+									<h:outputText value="#{casco.driverAndPassengerCount}">
+										<f:convertNumber type="number" maxFractionDigits="0"
+											groupingUsed="true" integerOnly="true" />
+									</h:outputText>
+								</p:column>
+							</p:row>
+						</p:panelGrid>
 					</p:column>
 				</p:row>
+				<p:row>
+					<p:column styleClass="ui-widget-header">
+						<p:outputLabel value="Сведения о транспортном средстве:" />
+					</p:column>
+					<p:column>
+						<p:panelGrid>
+							<p:row>
+								<p:column styleClass="ui-widget-header">
+									<p:outputLabel value="Стоимость ТС:" />
+								</p:column>
+								<p:column>
+									<ui:include src="out-money.include.xhtml">
+										<ui:param name="value" value="#{casco.insuredVehicle.cost}" />
+									</ui:include>
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column styleClass="ui-widget-header">
+									<p:outputLabel value="Год выпуска ТС:" />
+								</p:column>
+								<p:column>
+									<h:outputText value="#{casco.insuredVehicle.yearOfManufacture}" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column styleClass="ui-widget-header">
+									<p:outputLabel value="Категория" />
+								</p:column>
+								<p:column>
+									<h:outputText
+										value="#{cascoCarAgeClassService.displayName(casco.insuredVehicle.carAgeClass)}" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column styleClass="ui-widget-header">
+									<p:outputLabel value="Регион регистрации авто" />
+								</p:column>
+								<p:column>
+									<h:outputText
+										value="#{kzAreaService.displayName(casco.insuredVehicle.area)}" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column styleClass="ui-widget-header">
+									<p:outputLabel value="Город регистрации авто" />
+								</p:column>
+								<p:column>
+									<h:outputText
+										value="#{kzCityService.displayName(casco.insuredVehicle.city)}" />
+								</p:column>
+							</p:row>
+						</p:panelGrid>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column styleClass="ui-widget-header">
+						<p:outputLabel value="Франшиза по частичному ущербу:" />
+					</p:column>
+					<p:column>
+						<h:outputText rendered="#{not casco.deductiblePartialRequired}"
+							value="Не применять" />
+						<p:panelGrid rendered="#{casco.deductiblePartialRequired}">
+							<h:panelGroup rendered="#{casco.deductiblePartialRequired}">
+								<p:row>
+									<p:column styleClass="ui-widget-header">
+										<p:outputLabel value="Размер франшизы по частичном ущербу:" />
+									</p:column>
+									<p:column>
+										<h:outputText
+											value="#{cascoDeductiblePartialRateService.displayName(casco.deductiblePartialRate)}" />
+									</p:column>
+								</p:row>
+								<ui:include src="row-option.yesno.include.xhtml">
+									<ui:param name="value"
+										value="#{casco.noGuiltNoDeductibleRequired}" />
+									<ui:param name="label"
+										value="НЕ применять франшизу в случае ДТП возникшего НЕ по вине застрахованного" />
+								</ui:include>
+							</h:panelGroup>
+						</p:panelGrid>
+					</p:column>
+				</p:row>
+
+
+				<p:row>
+					<p:column styleClass="ui-widget-header">
+						<p:outputLabel value="Франшиза по полному ущербу:" />
+					</p:column>
+					<p:column>
+						<p:panelGrid>
+							<p:row>
+								<p:column styleClass="ui-widget-header">
+									<p:outputLabel value="Размер франшизы по полному ущербу:" />
+								</p:column>
+								<p:column>
+									<h:outputText
+										value="#{cascoDeductibleFullRateService.displayName(casco.deductibleFullRate)}" />
+								</p:column>
+							</p:row>
+						</p:panelGrid>
+					</p:column>
+				</p:row>
+
+
+				<p:row>
+					<p:column styleClass="ui-widget-header">
+						<p:outputLabel value="Дополнительные опции:" />
+					</p:column>
+					<p:column>
+						<p:panelGrid>
+							<ui:include src="row-option.yesno.include.xhtml">
+								<ui:param name="value"
+									value="#{casco.specialServiceStationRequired}" />
+								<ui:param name="label"
+									value="направить на ремонт в специализированное СТО" />
+							</ui:include>
+							<ui:include src="row-option.yesno.include.xhtml">
+								<ui:param name="value" value="#{casco.noPoliceCallRequired}" />
+								<ui:param name="label"
+									value="не требовать оформления документов в Дорожной полиции при ущербе не более ₸ 200 000" />
+							</ui:include>
+							<ui:include src="row-option.yesno.include.xhtml">
+								<ui:param name="value" value="#{casco.helpWithPoliceRequired}" />
+								<ui:param name="label"
+									value="оказать помощь в сборе документов для оформления страхового случая в Дорожной полиции" />
+							</ui:include>
+							<ui:include src="row-option.yesno.include.xhtml">
+								<ui:param name="value" value="#{casco.evacuatorRequired}" />
+								<ui:param name="label"
+									value="возместить расходы на услуги эвакуатора стоимостью не более ₸ 10 000" />
+							</ui:include>
+							<ui:include src="row-option.yesno.include.xhtml">
+								<ui:param name="value" value="#{casco.replacementCarRequired}" />
+								<ui:param name="label"
+									value="предоставить подменный авто на время ремонта на СТО сроком до 10 дней" />
+							</ui:include>
+							<ui:include src="row-option.yesno.include.xhtml">
+								<ui:param name="value"
+									value="#{casco.contractEndsAfterFirstCase}" />
+								<ui:param name="label"
+									value="при возникновении страхового случая прекратить действие договора страхования" />
+							</ui:include>
+						</p:panelGrid>
+					</p:column>
+				</p:row>
+
 			</p:panelGrid>
 		</p:panel>
 
@@ -45,7 +216,10 @@
 			<p:column width="16">
 				<p:rowToggler />
 			</p:column>
-			<p:column headerText="Допущенные к управлению">Удостоверение личности водителя #{rowIndex + 1}</p:column>
+			<p:column headerText="Допущенные к управлению">
+				<p:outputLabel
+					value="Удостоверение личности водителя #{rowIndex + 1}" />
+			</p:column>
 			<p:rowExpansion>
 				<ui:decorate template="out-image.include.xhtml">
 					<ui:param name="value"
@@ -67,6 +241,42 @@
 		</p:dataTable>
 		<!-- << insuredDrivers dataTable -->
 
+		<!-- >> cascoVehicles dataTable -->
+		<p:dataTable value="#{insuranceRequest.cascoVehiclesAsList}"
+			var="vehicle" rowIndexVar="rowIndex">
+			<f:facet name="header">
+			Сведения об авто
+			</f:facet>
+			<p:column width="16">
+				<p:rowToggler />
+			</p:column>
+			<p:column headerText="Авто">
+				<p:outputLabel value="Фотографии документов и ТС" />
+			</p:column>
+			<p:rowExpansion>
+				<ui:decorate template="out-image.include.xhtml">
+					<ui:param name="value"
+						value="#{vehicle.certificateData.scan.frontside}" />
+				</ui:decorate>
+				<ui:decorate template="out-image.include.xhtml">
+					<ui:param name="value"
+						value="#{vehicle.certificateData.scan.backside}" />
+				</ui:decorate>
+				<ui:decorate template="out-image.include.xhtml">
+					<ui:param name="value" value="#{vehicle.view1}" />
+				</ui:decorate>
+				<ui:decorate template="out-image.include.xhtml">
+					<ui:param name="value" value="#{vehicle.view2}" />
+				</ui:decorate>
+				<ui:decorate template="out-image.include.xhtml">
+					<ui:param name="value" value="#{vehicle.view3}" />
+				</ui:decorate>
+				<ui:decorate template="out-image.include.xhtml">
+					<ui:param name="value" value="#{vehicle.view4}" />
+				</ui:decorate>
+			</p:rowExpansion>
+		</p:dataTable>
+		<!-- << cascoVehicles dataTable -->
 
 	</p:tab>
 

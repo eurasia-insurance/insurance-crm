@@ -22,33 +22,33 @@
 				maximizable="true"
 				header=" #{insuranceProductTypeService.displayNameShort(insuranceRequest.value.productType)} # #{insuranceRequest.value.id} : #{insuranceRequest.value.requester.name}">
 
-				<ui:include src="insurance-request.menu.include.xhtml" />
+				<ui:include src="dialog.insurance-request.menu.include.xhtml" />
 
 				<!-- >> rendered POLICY -->
 				<h:panelGroup
 					rendered="#{insuranceRequest.value.productType == 'POLICY'}">
 					<p:accordionPanel dynamic="true" cache="true" activeIndex="0">
 						<p:tab title="Общие сведения">
-							<ui:include src="insurance-request.general.include.xhtml" />
+							<ui:include src="dialog.insurance-request.general.include.xhtml" />
 						</p:tab>
 						<p:tab title="Доставка"
 							rendered="#{insuranceRequest.value.obtaining.method == 'DELIVERY'}">
 							<ui:include
-								src="insurance-request.obtaining.delivery.include.xhtml" />
+								src="dialog.insurance-request.obtaining.delivery.include.xhtml" />
 						</p:tab>
 						<p:tab title="Самовывоз"
 							rendered="#{insuranceRequest.value.obtaining.method == 'PICKUP'}">
 							<ui:include
-								src="insurance-request.obtaining.pickup.include.xhtml" />
+								src="dialog.insurance-request.obtaining.pickup.include.xhtml" />
 						</p:tab>
 						<p:tab title="Оплата">
-							<ui:include src="insurance-request.payment.include.xhtml" />
+							<ui:include src="dialog.insurance-request.payment.include.xhtml" />
 						</p:tab>
 						<p:tab title="Список застрахованных водителей">
-							<ui:include src="insurance-request.policy.drivers.include.xhtml" />
+							<ui:include src="dialog.insurance-request.policy.drivers.include.xhtml" />
 						</p:tab>
 						<p:tab title="Список застрахованных транспортных средств">
-							<ui:include src="insurance-request.policy.vehicles.include.xhtml" />
+							<ui:include src="dialog.insurance-request.policy.vehicles.include.xhtml" />
 						</p:tab>
 					</p:accordionPanel>
 				</h:panelGroup>
@@ -59,26 +59,26 @@
 					rendered="#{insuranceRequest.value.productType == 'CASCO'}">
 					<p:accordionPanel dynamic="true" cache="true" activeIndex="0">
 						<p:tab title="Общие сведения">
-							<ui:include src="insurance-request.general.include.xhtml" />
+							<ui:include src="dialog.insurance-request.general.include.xhtml" />
 						</p:tab>
 						<p:tab title="Доставка"
 							rendered="#{insuranceRequest.value.obtaining.method == 'DELIVERY'}">
 							<ui:include
-								src="insurance-request.obtaining.delivery.include.xhtml" />
+								src="dialog.insurance-request.obtaining.delivery.include.xhtml" />
 						</p:tab>
 						<p:tab title="Самовывоз"
 							rendered="#{insuranceRequest.value.obtaining.method == 'PICKUP'}">
 							<ui:include
-								src="insurance-request.obtaining.pickup.include.xhtml" />
+								src="dialog.insurance-request.obtaining.pickup.include.xhtml" />
 						</p:tab>
 						<p:tab title="Оплата">
-							<ui:include src="insurance-request.payment.include.xhtml" />
+							<ui:include src="dialog.insurance-request.payment.include.xhtml" />
 						</p:tab>
 						<p:tab title="Список водителей допущенных к управлению ТС">
-							<ui:include src="insurance-request.casco.drivers.include.xhtml" />
+							<ui:include src="dialog.insurance-request.casco.drivers.include.xhtml" />
 						</p:tab>
 						<p:tab title="Информация о застрахованном ТС">
-							<ui:include src="insurance-request.casco.vehicle.include.xhtml">
+							<ui:include src="dialog.insurance-request.casco.vehicle.include.xhtml">
 								<ui:param name="casco" value="#{insuranceRequest.value.product}" />
 							</ui:include>
 						</p:tab>

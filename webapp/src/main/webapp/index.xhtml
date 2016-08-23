@@ -65,8 +65,7 @@
 				</h:panelGroup>
 			</p:dialog>
 
-						<ui:include src="insurance-request.include.xhtml" />
-
+			<ui:include src="dialog.insurance-request.include.xhtml" />
 
 			<p:panel id="filterPanel">
 
@@ -83,7 +82,8 @@
 								<p:ajax process="@this" update="@form"
 									listener="#{mainFacade.onFilterChanged}" />
 								<f:selectItem value="#{configurationFacade.noneSI}" />
-								<f:selectItems value="#{requestStatusService.selectableItemsShortSI}" />
+								<f:selectItems
+									value="#{requestStatusService.selectableItemsShortSI}" />
 							</p:selectOneMenu>
 						</p:column>
 					</p:row>
@@ -103,7 +103,8 @@
 								<p:ajax process="@this" update="@form"
 									listener="#{mainFacade.onRequestStatusFilterChanged}" />
 								<f:selectItem value="#{configurationFacade.noneSI}" />
-								<f:selectItems value="#{requestStatusService.selectableItemsShortSI}" />
+								<f:selectItems
+									value="#{requestStatusService.selectableItemsShortSI}" />
 							</p:selectOneMenu>
 						</p:column>
 
@@ -118,7 +119,8 @@
 								<p:ajax process="@this" update="@form"
 									listener="#{mainFacade.onFilterChanged}" />
 								<f:selectItem value="#{configurationFacade.noneSI}" />
-								<f:selectItems value="#{closingResultService.selectableItemsShortSI}" />
+								<f:selectItems
+									value="#{closingResultService.selectableItemsShortSI}" />
 							</p:selectOneMenu>
 						</p:column>
 					</p:row>
@@ -133,7 +135,8 @@
 								<p:ajax process="@this" update="@form"
 									listener="#{mainFacade.onFilterChanged}" />
 								<f:selectItem value="#{configurationFacade.noneSI}" />
-								<f:selectItems value="#{paymentStatusService.selectableItemsShortSI}" />
+								<f:selectItems
+									value="#{paymentStatusService.selectableItemsShortSI}" />
 							</p:selectOneMenu>
 						</p:column>
 						<p:column>
@@ -145,7 +148,8 @@
 								<p:ajax process="@this" update="@form"
 									listener="#{mainFacade.onFilterChanged}" />
 								<f:selectItem value="#{configurationFacade.noneSI}" />
-								<f:selectItems value="#{paymentMethodService.selectableItemsShortSI}" />
+								<f:selectItems
+									value="#{paymentMethodService.selectableItemsShortSI}" />
 							</p:selectOneMenu>
 						</p:column>
 					</p:row>

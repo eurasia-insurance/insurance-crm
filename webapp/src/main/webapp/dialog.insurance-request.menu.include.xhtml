@@ -11,8 +11,9 @@
 		</p:submenu>
 		<p:submenu label="Заявка">
 			<p:menuitem process="@this"
-				update="@form:insuranceRequestCloseDialogWrapper" value="Закрыть заявку..."
-				onsuccess="PF('insuranceRequestCloseDialogWV').show()"
+				update="@form:insuranceRequestCloseDialogWrapper"
+				value="Закрыть заявку..."
+				oncomplete="PF('insuranceRequestCloseDialogWV').show()"
 				icon="ui-icon-close"
 				disabled="#{insuranceRequest.value.requestStatus eq 'CLOSED'}" />
 		</p:submenu>

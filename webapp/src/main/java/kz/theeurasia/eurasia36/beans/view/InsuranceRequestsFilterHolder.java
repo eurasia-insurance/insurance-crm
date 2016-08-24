@@ -7,6 +7,7 @@ import javax.inject.Named;
 import org.omnifaces.cdi.ViewScoped;
 
 import com.lapsa.insurance.crm.ClosingResult;
+import com.lapsa.insurance.crm.ObtainingStatus;
 import com.lapsa.insurance.crm.PaymentStatus;
 import com.lapsa.insurance.crm.RequestStatus;
 import com.lapsa.insurance.elements.InsuranceProductType;
@@ -23,6 +24,14 @@ public class InsuranceRequestsFilterHolder extends DefaultWritableValueHolder<De
     private static final long serialVersionUID = -6980458753963030228L;
 
     private boolean advanced = false;
+
+    public ObtainingStatus getObtainingStatus() {
+	return value.getObtainingStatus();
+    }
+
+    public void setObtainingStatus(ObtainingStatus obtainingStatus) {
+	value.setObtainingStatus(obtainingStatus);
+    }
 
     // GENERATED
 

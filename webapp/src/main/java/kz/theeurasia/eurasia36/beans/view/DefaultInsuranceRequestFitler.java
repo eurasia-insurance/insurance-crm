@@ -1,6 +1,7 @@
 package kz.theeurasia.eurasia36.beans.view;
 
 import com.lapsa.insurance.crm.ClosingResult;
+import com.lapsa.insurance.crm.ObtainingStatus;
 import com.lapsa.insurance.crm.PaymentStatus;
 import com.lapsa.insurance.crm.RequestStatus;
 import com.lapsa.insurance.elements.InsuranceProductType;
@@ -16,6 +17,7 @@ public class DefaultInsuranceRequestFitler implements InsuranceRequestFitler {
     private PaymentMethod paymentMethod;
     private PaymentStatus paymentStatus;
     private ObtainingMethod obtainingMethod;
+    private ObtainingStatus obtainingStatus;
 
     @Override
     public RequestStatus getRequestStatus() {
@@ -59,6 +61,15 @@ public class DefaultInsuranceRequestFitler implements InsuranceRequestFitler {
 
     public void setObtainingMethod(ObtainingMethod obtainingMethod) {
 	this.obtainingMethod = obtainingMethod;
+    }
+
+    @Override
+    public ObtainingStatus getObtainingStatus() {
+	return obtainingStatus;
+    }
+
+    public void setObtainingStatus(ObtainingStatus obtainingStatus) {
+	this.obtainingStatus = obtainingStatus;
     }
 
     @Override

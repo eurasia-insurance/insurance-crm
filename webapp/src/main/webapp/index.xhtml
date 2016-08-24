@@ -184,6 +184,21 @@
 							</p:selectOneMenu>
 						</p:column>
 
+						<p:column>
+							<p:outputLabel value="Статус доставки:"
+								for="obtainingStatusFilter" />
+						</p:column>
+						<p:column>
+							<p:selectOneMenu id="obtainingStatusFilter"
+								value="#{insuranceRequestsFilter.obtainingStatus}">
+								<p:ajax process="@this" update="@form"
+									listener="#{mainFacade.onFilterChanged}" />
+								<f:selectItem value="#{configurationFacade.anySI}" />
+								<f:selectItems
+									value="#{obtainingStatusService.selectableItemsShortSI}" />
+							</p:selectOneMenu>
+						</p:column>
+
 					</p:row>
 
 				</p:panelGrid>

@@ -35,6 +35,19 @@ public class InsuranceRequestHolder extends DefaultWritableValueHolder<Insurance
 	}
     }
 
+    public String getPaymentMethodVerb() {
+	if (value == null || value.getPayment() == null || value.getPayment().getMethod() == null)
+	    return VERB_NONE;
+	switch (value.getPayment().getMethod()) {
+	case PAYCARD_ONLINE:
+	    return "paycard-online";
+	case PAYCASH:
+	    return "paycash";
+	default:
+	    return VERB_NONE;
+	}
+    }
+
     public String getObtainingMethodVerb() {
 	if (value == null || value.getObtaining() == null || value.getObtaining().getMethod() == null)
 	    return VERB_NONE;

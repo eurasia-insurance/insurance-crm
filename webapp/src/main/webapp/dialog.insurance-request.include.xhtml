@@ -7,21 +7,24 @@
 	xmlns:comp="http://xmlns.jcp.org/jsf/composite"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 
 
 	<!-- >> wrapper -->
 	<h:panelGroup id="viewInsuranceRequestDialogWrapper">
 
+		<c:set var="request" value="#{insuranceRequest.value}" />
+
 		<!-- >> rendered -->
-		<h:panelGroup rendered="#{not empty insuranceRequest.value}">
+		<h:panelGroup rendered="#{not empty request}">
 
 			<!-- >> dialog -->
 			<p:dialog widgetVar="insuranceRequestDialogWV" modal="true"
 				closable="true" minHeight="800" minWidth="1024" width="1024"
 				height="800" closeOnEscape="true" minimizable="false"
 				maximizable="true"
-				header="#{insuranceProductTypeService.displayNameShort(insuranceRequest.value.productType)} # #{insuranceRequest.value.id} : #{insuranceRequest.value.requester.name}">
+				header="#{insuranceProductTypeService.displayNameShort(request.productType)} # #{request.id} : #{request.requester.name}">
 
 				<ui:include src="dialog.insurance-request.menu.include.xhtml" />
 
@@ -35,7 +38,7 @@
 					<ui:include
 						src="dialog.insurance-request.tab.obtaining.#{insuranceRequest.obtainingMethodVerb}.include.xhtml" />
 					<ui:include
-						src="dialog.insurance-request.tab.payment.include.xhtml" />
+						src="dialog.insurance-request.tab.payment.#{insuranceRequest.paymentMethodVerb}.include.xhtml" />
 				</p:accordionPanel>
 
 			</p:dialog>

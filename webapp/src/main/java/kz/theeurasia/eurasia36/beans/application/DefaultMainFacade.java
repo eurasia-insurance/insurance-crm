@@ -8,6 +8,8 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import com.lapsa.insurance.crm.ObtainingStatus;
+import com.lapsa.insurance.crm.PaymentStatus;
 import com.lapsa.insurance.crm.RequestStatus;
 import com.lapsa.insurance.domain.InsuranceRequest;
 import com.lapsa.insurance.domain.casco.CascoRequest;
@@ -15,6 +17,7 @@ import com.lapsa.insurance.domain.policy.PolicyRequest;
 import com.lapsa.insurance.elements.InsuranceProductType;
 import com.lapsa.insurance.persistence.dao.CascoRequestDAO;
 import com.lapsa.insurance.persistence.dao.InsuranceRequestDAO;
+import com.lapsa.insurance.persistence.dao.NotPersistedException;
 import com.lapsa.insurance.persistence.dao.PeristenceOperationFailed;
 import com.lapsa.insurance.persistence.dao.PolicyRequestDAO;
 import com.lapsa.insurance.persistence.dao.filter.InsuranceRequestFitler;
@@ -22,6 +25,7 @@ import com.lapsa.insurance.persistence.dao.filter.InsuranceRequestFitler;
 import kz.theeurasia.eurasia36.application.MainFacade;
 import kz.theeurasia.eurasia36.application.UIMessages;
 import kz.theeurasia.eurasia36.beans.api.FacesMessagesFacade;
+import kz.theeurasia.eurasia36.beans.api.InsuranceRequestHolder;
 import kz.theeurasia.eurasia36.beans.view.DefaultInsuranceRequestFitler;
 import kz.theeurasia.eurasia36.beans.view.InsuranceRequestsFilterHolder;
 import kz.theeurasia.eurasia36.beans.view.InsuranceRequestsHolder;
@@ -30,23 +34,20 @@ import kz.theeurasia.eurasia36.beans.view.InsuranceRequestsHolder;
 @ApplicationScoped
 public class DefaultMainFacade implements MainFacade {
 
-    @Inject
-    private InsuranceRequestsHolder insuranceRequestsHolder;
-
-    @Inject
-    private InsuranceRequestsFilterHolder insuranceRequestsFilterHolder;
-
-    @Inject
-    private FacesMessagesFacade facesMessagesFacade;
-
     @Override
     public void onFilterChanged(AjaxBehaviorEvent event) {
 	refreshRequests();
     }
 
+    @Override
     public void onRequestStatusFilterChanged(AjaxBehaviorEvent event) {
 	fireRequestStatusFilterChanged();
 	refreshRequests();
+    }
+
+    @Override
+    public void onClosingResultChanged(AjaxBehaviorEvent event) {
+	fireClosingResultChanged();
     }
 
     @Override
@@ -64,13 +65,29 @@ public class DefaultMainFacade implements MainFacade {
     }
 
     @Override
-    public String doCloseRequest(InsuranceRequest request) {
-	closeRequest(request);
+    public String doCloseRequest() {
+	closeRequest();
+	refreshRequests();
+	return null;
+    }
+
+    @Override
+    public String doResetRequest() {
+	reloadRequest();
 	refreshRequests();
 	return null;
     }
 
     // PRIVATE
+
+    @Inject
+    private InsuranceRequestsHolder insuranceRequestsHolder;
+
+    @Inject
+    private InsuranceRequestsFilterHolder insuranceRequestsFilterHolder;
+
+    @Inject
+    private FacesMessagesFacade facesMessagesFacade;
 
     @Inject
     private InsuranceRequestDAO insuranceRequestDAO;
@@ -81,11 +98,37 @@ public class DefaultMainFacade implements MainFacade {
     @Inject
     private CascoRequestDAO cascoRequestDAO;
 
-    private void closeRequest(InsuranceRequest request) {
-	request.setRequestStatus(RequestStatus.CLOSED);
+    @Inject
+    private InsuranceRequestHolder insuranceRequestHolder;
+
+    private void fireClosingResultChanged() {
+	InsuranceRequest req = insuranceRequestHolder.getValue();
+	switch (req.getClosingResult()) {
+	case CANCELED:
+	case TEST:
+	    req.getObtaining().setStatus(ObtainingStatus.CANCELED);
+	    req.getPayment().setStatus(PaymentStatus.CANCELED);
+	    break;
+	case COMPLETED:
+	default:
+	}
+    }
+
+    private void closeRequest() {
+	insuranceRequestHolder.getValue().setRequestStatus(RequestStatus.CLOSED);
 	try {
-	    insuranceRequestDAO.save(request);
+	    insuranceRequestHolder.setValue(insuranceRequestDAO.save(insuranceRequestHolder.getValue()));
 	} catch (PeristenceOperationFailed e) {
+	    facesMessagesFacade.addExceptionMessage(UIMessages.ERROR_INTERNAL_SERVER_ERROR, e);
+	}
+    }
+
+    private void reloadRequest() {
+	try {
+	    insuranceRequestHolder.setValue(insuranceRequestDAO.restore(insuranceRequestHolder.getValue()));
+	} catch (PeristenceOperationFailed e) {
+	    facesMessagesFacade.addExceptionMessage(UIMessages.ERROR_INTERNAL_SERVER_ERROR, e);
+	} catch (NotPersistedException e) {
 	    facesMessagesFacade.addExceptionMessage(UIMessages.ERROR_INTERNAL_SERVER_ERROR, e);
 	}
     }

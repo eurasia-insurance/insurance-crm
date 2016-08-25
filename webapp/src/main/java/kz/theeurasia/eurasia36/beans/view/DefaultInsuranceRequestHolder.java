@@ -12,16 +12,17 @@ import com.lapsa.insurance.domain.InsuranceRequest;
 import com.lapsa.insurance.domain.casco.Casco;
 import com.lapsa.insurance.domain.casco.CascoVehicle;
 
-import kz.theeurasia.eurasia36.beans.api.WritableValueHolder;
+import kz.theeurasia.eurasia36.beans.api.InsuranceRequestHolder;
 
 @Named("insuranceRequest")
 @ViewScoped
-public class InsuranceRequestHolder extends DefaultWritableValueHolder<InsuranceRequest>
-	implements Serializable, WritableValueHolder<InsuranceRequest> {
+public class DefaultInsuranceRequestHolder extends DefaultWritableValueHolder<InsuranceRequest>
+	implements Serializable, InsuranceRequestHolder {
     private static final long serialVersionUID = -2574434730269891652L;
 
     private static final String VERB_NONE = "none";
 
+    @Override
     public String getProductTypeVerb() {
 	if (value == null || value.getProductType() == null)
 	    return VERB_NONE;
@@ -35,6 +36,7 @@ public class InsuranceRequestHolder extends DefaultWritableValueHolder<Insurance
 	}
     }
 
+    @Override
     public String getPaymentMethodVerb() {
 	if (value == null || value.getPayment() == null || value.getPayment().getMethod() == null)
 	    return VERB_NONE;
@@ -48,6 +50,7 @@ public class InsuranceRequestHolder extends DefaultWritableValueHolder<Insurance
 	}
     }
 
+    @Override
     public String getObtainingMethodVerb() {
 	if (value == null || value.getObtaining() == null || value.getObtaining().getMethod() == null)
 	    return VERB_NONE;
@@ -61,6 +64,7 @@ public class InsuranceRequestHolder extends DefaultWritableValueHolder<Insurance
 	}
     }
 
+    @Override
     public List<CascoVehicle> getCascoVehiclesAsList() {
 	if (value != null && value.getProduct() != null && value.getProduct() instanceof Casco) {
 	    Casco casco = (Casco) value.getProduct();

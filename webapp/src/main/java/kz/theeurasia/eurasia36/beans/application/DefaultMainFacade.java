@@ -8,8 +8,6 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.lapsa.insurance.crm.ObtainingStatus;
-import com.lapsa.insurance.crm.PaymentStatus;
 import com.lapsa.insurance.crm.RequestStatus;
 import com.lapsa.insurance.domain.InsuranceRequest;
 import com.lapsa.insurance.domain.casco.CascoRequest;
@@ -46,11 +44,6 @@ public class DefaultMainFacade implements MainFacade {
     }
 
     @Override
-    public void onClosingResultChanged(AjaxBehaviorEvent event) {
-	fireClosingResultChanged();
-    }
-
-    @Override
     public String doInitialize() {
 	resetFilter();
 	refreshRequests();
@@ -65,8 +58,8 @@ public class DefaultMainFacade implements MainFacade {
     }
 
     @Override
-    public String doCloseRequest() {
-	closeRequest();
+    public String doSaveRequest() {
+	saveRequest();
 	refreshRequests();
 	return null;
     }
@@ -101,21 +94,7 @@ public class DefaultMainFacade implements MainFacade {
     @Inject
     private InsuranceRequestHolder insuranceRequestHolder;
 
-    private void fireClosingResultChanged() {
-	InsuranceRequest req = insuranceRequestHolder.getValue();
-	switch (req.getClosingResult()) {
-	case CANCELED:
-	case TEST:
-	    req.getObtaining().setStatus(ObtainingStatus.CANCELED);
-	    req.getPayment().setStatus(PaymentStatus.CANCELED);
-	    break;
-	case COMPLETED:
-	default:
-	}
-    }
-
-    private void closeRequest() {
-	insuranceRequestHolder.getValue().setRequestStatus(RequestStatus.CLOSED);
+    private void saveRequest() {
 	try {
 	    insuranceRequestHolder.setValue(insuranceRequestDAO.save(insuranceRequestHolder.getValue()));
 	} catch (PeristenceOperationFailed e) {

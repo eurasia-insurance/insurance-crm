@@ -11,9 +11,7 @@
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 
 	<p:remoteCommand name="fireCloseInsuranceRequestCloseDialog"
-		action="#{mainFacade.doResetRequest}" process="@this" update="@none"
-		onsuccess="PF('insuranceRequestCloseDialogWV').hide()" />
-
+		action="#{mainFacade.doResetRequest}" process="@this" update="@none" />
 
 	<!-- >> dialog -->
 	<p:dialog widgetVar="insuranceRequestCloseDialogWV"
@@ -35,9 +33,7 @@
 						</p:column>
 						<p:column>
 							<p:selectOneMenu value="#{request.closingResult}">
-								<p:ajax process="@this"
-									update="insuranceRequestCloseDialogWrapper"
-									listener="#{mainFacade.onClosingResultChanged}" />
+								<p:ajax process="@this" update="@this" />
 								<f:selectItem value="#{configurationFacade.mustSelectSI}" />
 								<f:selectItems
 									value="#{closingResultService.selectableItemsShortSI}" />
@@ -51,15 +47,23 @@
 							<p:outputLabel value="Способ доставки:" />
 						</p:column>
 						<p:column>
-							<h:outputText
-								value="#{obtainingMethodService.displayNameShort(request.obtaining.method)}" />
+							<p:selectOneMenu value="#{request.obtaining.method}">
+								<p:ajax process="@this" update="@this" />
+								<f:selectItem value="#{configurationFacade.mustSelectSI}" />
+								<f:selectItems
+									value="#{obtainingMethodService.selectableItemsShortSI}" />
+							</p:selectOneMenu>
 						</p:column>
 						<p:column>
 							<p:outputLabel value="Статус доставки:" />
 						</p:column>
 						<p:column>
-							<h:outputText
-								value="#{obtainingStatusService.displayNameShort(request.obtaining.status)}" />
+							<p:selectOneMenu value="#{request.obtaining.status}">
+								<p:ajax process="@this" update="@this" />
+								<f:selectItem value="#{configurationFacade.mustSelectSI}" />
+								<f:selectItems
+									value="#{obtainingStatusService.selectableItemsShortSI}" />
+							</p:selectOneMenu>
 						</p:column>
 					</p:row>
 					<p:row>
@@ -67,15 +71,23 @@
 							<p:outputLabel value="Способ оплаты:" />
 						</p:column>
 						<p:column>
-							<h:outputText
-								value="#{paymentMethodService.displayNameShort(request.payment.method)}" />
+							<p:selectOneMenu value="#{request.payment.method}">
+								<p:ajax process="@this" update="@this" />
+								<f:selectItem value="#{configurationFacade.mustSelectSI}" />
+								<f:selectItems
+									value="#{paymentMethodService.selectableItemsShortSI}" />
+							</p:selectOneMenu>
 						</p:column>
 						<p:column>
 							<p:outputLabel value="Статус оплаты:" />
 						</p:column>
 						<p:column>
-							<h:outputText
-								value="#{paymentStatusService.displayNameShort(request.payment.status)}" />
+							<p:selectOneMenu value="#{request.payment.status}">
+								<p:ajax process="@this" update="@this" />
+								<f:selectItem value="#{configurationFacade.mustSelectSI}" />
+								<f:selectItems
+									value="#{paymentStatusService.selectableItemsShortSI}" />
+							</p:selectOneMenu>
 						</p:column>
 					</p:row>
 				</p:panelGrid>
@@ -83,13 +95,16 @@
 					<p:row>
 						<p:column>
 							<p:commandButton value="Закрыть заявку"
-								action="#{mainFacade.doCloseRequest}"
+								action="#{mainFacade.doSaveRequest}"
 								process="insuranceRequestCloseDialogWrapper" update="@form"
-								onsuccess="PF('insuranceRequestCloseDialogWV').hide(); PF('insuranceRequestDialogWV').hide()" />
+								onsuccess="PF('insuranceRequestCloseDialogWV').hide(); PF('insuranceRequestDialogWV').hide()">
+								<f:setPropertyActionListener value="CLOSED"
+									target="#{request.requestStatus}" />
+							</p:commandButton>
 						</p:column>
 						<p:column>
 							<p:button value="Отмена"
-								onclick="fireCloseInsuranceRequestCloseDialog(); return false;" />
+								onclick="PF('insuranceRequestCloseDialogWV').hide(); return false;" />
 						</p:column>
 					</p:row>
 				</p:panelGrid>

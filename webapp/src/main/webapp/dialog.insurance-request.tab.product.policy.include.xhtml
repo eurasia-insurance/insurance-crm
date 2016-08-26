@@ -9,7 +9,8 @@
 	<o:importConstants
 		type="com.lapsa.insurance.elements.InsuranceProductType" />
 
-	<c:set var="policy" value="#{insuranceRequest.value.policy}" />
+	<c:set var="req" value="#{insuranceRequest.value}" />
+	<c:set var="policy" value="#{req.policy}" />
 
 	<p:tab
 		title="#{insuranceProductTypeService.displayName(InsuranceProductType.POLICY)}">

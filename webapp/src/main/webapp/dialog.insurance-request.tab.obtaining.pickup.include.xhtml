@@ -2,7 +2,11 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui">
+
+	<c:set var="req" value="#{insuranceRequest.value}" />
+	<c:set var="obt" value="#{req.obtaining}" />
 
 	<p:tab title="Самовывоз">
 
@@ -13,8 +17,7 @@
 						<p:outputLabel value="Офис" />
 					</p:column>
 					<p:column>
-						<h:outputText
-							value="#{insuranceRequest.value.obtaining.pickupPOS.name}" />
+						<h:outputText value="#{obt.pickupPOS.name}" />
 					</p:column>
 				</p:row>
 				<p:row>
@@ -23,7 +26,7 @@
 					</p:column>
 					<p:column>
 						<h:outputText
-							value="#{kzCityService.displayNameShort(insuranceRequest.value.obtaining.pickupPOS.address.city)}" />
+							value="#{kzCityService.displayNameShort(obt.pickupPOS.address.city)}" />
 					</p:column>
 				</p:row>
 				<p:row>
@@ -31,8 +34,7 @@
 						<p:outputLabel value="Адрес" />
 					</p:column>
 					<p:column>
-						<h:outputText
-							value="#{insuranceRequest.value.obtaining.pickupPOS.address.street}" />
+						<h:outputText value="#{obt.pickupPOS.address.street}" />
 					</p:column>
 				</p:row>
 			</p:panelGrid>

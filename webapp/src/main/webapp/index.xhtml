@@ -253,9 +253,9 @@
 						<ui:param name="value" value="#{req.created}" />
 					</ui:decorate>
 				</p:column>
-				<p:column headerText="Статус" sortBy="#{req.requestStatus}">
+				<p:column headerText="Статус" sortBy="#{req.status}">
 					<h:outputText
-						value="#{requestStatusService.displayNameShort(req.requestStatus)}" />
+						value="#{requestStatusService.displayNameShort(req.status)}" />
 				</p:column>
 				<p:column headerText="Стоимость премии" style="text-align: right"
 					sortBy="#{req.product.calculation.premiumCost}">

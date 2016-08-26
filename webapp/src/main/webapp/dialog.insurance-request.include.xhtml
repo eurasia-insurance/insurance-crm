@@ -14,17 +14,17 @@
 	<!-- >> wrapper -->
 	<h:panelGroup id="viewInsuranceRequestDialogWrapper">
 
-		<c:set var="request" value="#{insuranceRequest.value}" />
+		<c:set var="req" value="#{insuranceRequest.value}" />
 
 		<!-- >> rendered -->
-		<h:panelGroup rendered="#{not empty request}">
+		<h:panelGroup rendered="#{not empty req}">
 
 			<!-- >> dialog -->
 			<p:dialog widgetVar="insuranceRequestDialogWV" modal="true"
 				closable="true" minHeight="800" minWidth="1024" width="1024"
 				height="800" closeOnEscape="true" minimizable="false"
 				maximizable="true"
-				header="#{insuranceProductTypeService.displayNameShort(request.productType)} # #{request.id} : #{request.requester.name}">
+				header="#{insuranceProductTypeService.displayNameShort(req.productType)} # #{req.id} : #{req.requester.name}">
 
 				<ui:include src="dialog.insurance-request.menu.include.xhtml" />
 

@@ -5,9 +5,13 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:o="http://omnifaces.org/ui"
 	xmlns:comp="http://xmlns.jcp.org/jsf/composite"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+	<c:set var="req" value="#{insuranceRequest.value}" />
+	<c:set var="rqr" value="#{req.requester}" />
 
 	<p:tab title="Страхователь">
 
@@ -18,7 +22,7 @@
 						<p:outputLabel value="ФИО" />
 					</p:column>
 					<p:column>
-						<h:outputText value="#{insuranceRequest.value.requester.name}" />
+						<h:outputText value="#{rqr.name}" />
 					</p:column>
 				</p:row>
 				<p:row>
@@ -26,7 +30,7 @@
 						<p:outputLabel value="Телефон" />
 					</p:column>
 					<p:column>
-						<h:outputText value="#{insuranceRequest.value.requester.phone}" />
+						<h:outputText value="#{rqr.phone}" />
 					</p:column>
 				</p:row>
 				<p:row>
@@ -34,7 +38,7 @@
 						<h:outputText value="E-mail" />
 					</p:column>
 					<p:column>
-						<h:outputText value="#{insuranceRequest.value.requester.email}" />
+						<h:outputText value="#{rqr.email}" />
 					</p:column>
 				</p:row>
 				<p:row>
@@ -43,9 +47,19 @@
 					</p:column>
 					<p:column>
 						<h:outputText
-							value="#{localizationLanguageService.displayName(insuranceRequest.value.requester.preferLanguage)}" />
+							value="#{localizationLanguageService.displayName(rqr.preferLanguage)}" />
 					</p:column>
 				</p:row>
+				<ui:include src="row-option.yesno.include.xhtml">
+					<ui:param name="value" value="#{rqr.allowSpam}" />
+					<ui:param name="label"
+						value="Согласие на получение рассылок и уведомлений" />
+				</ui:include>
+				<ui:include src="row-option.yesno.include.xhtml">
+					<ui:param name="value" value="#{rqr.allowProcessPersonalData}" />
+					<ui:param name="label"
+						value="Cогласие на сбор, обработку и хранение персональных данных" />
+				</ui:include>
 			</p:panelGrid>
 		</p:panel>
 

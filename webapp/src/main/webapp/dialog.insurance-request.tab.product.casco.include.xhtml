@@ -9,7 +9,8 @@
 	<o:importConstants
 		type="com.lapsa.insurance.elements.InsuranceProductType" />
 
-	<c:set var="casco" value="#{insuranceRequest.value.casco}" />
+	<c:set var="req" value="#{insuranceRequest.value}" />
+	<c:set var="casco" value="#{req.casco}" />
 
 	<p:tab
 		title="#{insuranceProductTypeService.displayName(InsuranceProductType.CASCO)}">

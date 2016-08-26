@@ -5,8 +5,7 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui">
 
-
-	<c:set var="request" value="#{insuranceRequest.value}" />
+	<c:set var="req" value="#{insuranceRequest.value}" />
 
 	<p:menubar>
 		<p:submenu label="Файл">
@@ -18,7 +17,7 @@
 				update="@form:insuranceRequestCloseDialogWrapper"
 				value="Закрыть заявку..."
 				oncomplete="PF('insuranceRequestCloseDialogWV').show()"
-				icon="ui-icon-close" disabled="#{request.requestStatus eq 'CLOSED'}" />
+				icon="ui-icon-close" disabled="#{req.status eq 'CLOSED'}" />
 		</p:submenu>
 	</p:menubar>
 

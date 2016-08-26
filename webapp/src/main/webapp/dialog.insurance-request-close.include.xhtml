@@ -99,7 +99,7 @@
 								process="insuranceRequestCloseDialogWrapper" update="@form"
 								onsuccess="PF('insuranceRequestCloseDialogWV').hide(); PF('insuranceRequestDialogWV').hide()">
 								<f:setPropertyActionListener value="CLOSED"
-									target="#{request.requestStatus}" />
+									target="#{request.status}" />
 							</p:commandButton>
 						</p:column>
 						<p:column>

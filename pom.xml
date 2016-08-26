@@ -108,6 +108,11 @@
 				<version>${insurance-persistence-impl-jpa.version}</version>
 				<type>ejb</type>
 			</dependency>
+			<dependency>
+				<groupId>com.lapsa.lapsa-lib</groupId>
+				<artifactId>lapsa-validation</artifactId>
+				<version>${lapsa-lib.version}</version>
+			</dependency>
 			<!-- external -->
 			<dependency>
 				<groupId>org.primefaces</groupId>

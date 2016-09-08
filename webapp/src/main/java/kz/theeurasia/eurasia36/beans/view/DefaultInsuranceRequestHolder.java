@@ -73,4 +73,9 @@ public class DefaultInsuranceRequestHolder extends DefaultWritableValueHolder<In
 	}
 	return null;
     }
+
+    @Override
+    public void reset() {
+	this.value = null;
+    }
 }

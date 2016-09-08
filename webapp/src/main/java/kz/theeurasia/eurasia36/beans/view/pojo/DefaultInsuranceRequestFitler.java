@@ -1,4 +1,4 @@
-package kz.theeurasia.eurasia36.beans.view;
+package kz.theeurasia.eurasia36.beans.view.pojo;
 
 import com.lapsa.insurance.crm.ClosingResult;
 import com.lapsa.insurance.crm.ObtainingStatus;

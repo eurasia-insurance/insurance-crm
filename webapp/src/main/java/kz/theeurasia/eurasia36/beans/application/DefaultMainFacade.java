@@ -24,9 +24,9 @@ import kz.theeurasia.eurasia36.application.MainFacade;
 import kz.theeurasia.eurasia36.application.UIMessages;
 import kz.theeurasia.eurasia36.beans.api.FacesMessagesFacade;
 import kz.theeurasia.eurasia36.beans.api.InsuranceRequestHolder;
-import kz.theeurasia.eurasia36.beans.view.DefaultInsuranceRequestFitler;
-import kz.theeurasia.eurasia36.beans.view.InsuranceRequestsFilterHolder;
-import kz.theeurasia.eurasia36.beans.view.InsuranceRequestsHolder;
+import kz.theeurasia.eurasia36.beans.api.InsuranceRequestsFilterHolder;
+import kz.theeurasia.eurasia36.beans.api.InsuranceRequestsHolder;
+import kz.theeurasia.eurasia36.beans.view.pojo.DefaultInsuranceRequestFitler;
 
 @Named("mainFacade")
 @ApplicationScoped

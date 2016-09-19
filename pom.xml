@@ -26,6 +26,7 @@
 		<international-lib.version>2.0.1</international-lib.version>
 		<insurance-lib.version>1.4-SNAPSHOT</insurance-lib.version>
 		<lapsa-lib.version>1.1</lapsa-lib.version>
+		<donkeyfaces-lib.version>1.0-SNAPSHOT</donkeyfaces-lib.version>
 		<!-- EJBs & WARs -->
 		<insurance-persistence-impl-jpa.version>1.2-SNAPSHOT</insurance-persistence-impl-jpa.version>
 		<insurance-services-impl-cdi.version>1.0-SNAPSHOT</insurance-services-impl-cdi.version>
@@ -112,6 +113,11 @@
 				<groupId>com.lapsa.lapsa-lib</groupId>
 				<artifactId>lapsa-validation</artifactId>
 				<version>${lapsa-lib.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.lapsa.donkeyfaces-lib</groupId>
+				<artifactId>donkeyfaces-faces</artifactId>
+				<version>${donkeyfaces-lib.version}</version>
 			</dependency>
 			<!-- external -->
 			<dependency>

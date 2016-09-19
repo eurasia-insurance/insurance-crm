@@ -7,6 +7,7 @@
 	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
 	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:df="http://lapsa.com/donkeyfaces"
 	template="/WEB-INF/templates/clean.xhtml">
 	<ui:define name="page-title">#{ui['name.site']}</ui:define>
 	<ui:define name="page-content">
@@ -38,16 +39,6 @@
 			<f:metadata>
 				<f:viewAction action="#{mainFacade.doInitialize}" />
 			</f:metadata>
-
-			<p:dialog widgetVar="imageDialogWV" closeOnEscape="true"
-				position="center,center" modal="true" maximizable="true">
-				<h:panelGroup id="imageDialogWrapper">
-					<o:graphicImage value="#{imageView.resized.content}" dataURI="true"
-						width="#{imageView.resized.width}"
-						height="#{imageView.resized.height}"
-						rendered="#{not empty imageView.resized}" />
-				</h:panelGroup>
-			</p:dialog>
 
 			<ui:include src="dialog.insurance-request-close.include.xhtml" />
 			<ui:include src="dialog.insurance-request.include.xhtml" />

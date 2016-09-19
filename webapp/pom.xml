@@ -81,6 +81,12 @@
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
+		<dependency>
+			<groupId>com.lapsa.donkeyfaces-lib</groupId>
+			<artifactId>donkeyfaces-faces</artifactId>
+			<scope>compile</scope>
+			<optional>false</optional>
+		</dependency>
 		<!-- external -->
 		<dependency>
 			<groupId>org.primefaces</groupId>

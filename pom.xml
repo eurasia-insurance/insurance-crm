@@ -23,7 +23,7 @@
 		<kz-lib.version>2.0</kz-lib.version>
 		<international-lib.version>2.0.1</international-lib.version>
 		<insurance-lib.version>1.3.4.1</insurance-lib.version>
-		<insurance-persistence-impl-jpa.version>1.1</insurance-persistence-impl-jpa.version>
+		<insurance-persistence-impl-jpa.version>1.1.1</insurance-persistence-impl-jpa.version>
 	</properties>
 
 	<dependencyManagement>

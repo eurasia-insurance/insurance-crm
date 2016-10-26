@@ -4,6 +4,7 @@ import com.lapsa.insurance.crm.ClosingResult;
 import com.lapsa.insurance.crm.ObtainingStatus;
 import com.lapsa.insurance.crm.PaymentStatus;
 import com.lapsa.insurance.crm.RequestStatus;
+import com.lapsa.insurance.crm.RequestType;
 import com.lapsa.insurance.elements.InsuranceProductType;
 import com.lapsa.insurance.elements.ObtainingMethod;
 import com.lapsa.insurance.elements.PaymentMethod;
@@ -12,6 +13,7 @@ import com.lapsa.insurance.persistence.dao.filter.InsuranceRequestFitler;
 public class DefaultInsuranceRequestFitler implements InsuranceRequestFitler {
 
     private RequestStatus requestStatus;
+    private RequestType requestType;
     private InsuranceProductType insuranceProductType;
     private ClosingResult closingResult;
     private PaymentMethod paymentMethod;
@@ -26,6 +28,15 @@ public class DefaultInsuranceRequestFitler implements InsuranceRequestFitler {
 
     public void setRequestStatus(RequestStatus requestStatus) {
 	this.requestStatus = requestStatus;
+    }
+
+    @Override
+    public RequestType getRequestType() {
+	return requestType;
+    }
+
+    public void setRequestType(RequestType requestType) {
+	this.requestType = requestType;
     }
 
     public InsuranceProductType getInsuranceProductType() {
@@ -80,4 +91,5 @@ public class DefaultInsuranceRequestFitler implements InsuranceRequestFitler {
     public void setClosingResult(ClosingResult closingResult) {
 	this.closingResult = closingResult;
     }
+
 }

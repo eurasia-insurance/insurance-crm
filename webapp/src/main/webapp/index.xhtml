@@ -63,7 +63,7 @@
 							</p:selectOneMenu>
 						</p:column>
 						<p:column>
-							<p:outputLabel value="Тип заявки:"
+							<p:outputLabel value="Продукт:"
 								for="insuranceProductTypeFilterBasic" />
 						</p:column>
 						<p:column>
@@ -100,8 +100,21 @@
 						</p:column>
 
 						<p:column>
-							<p:outputLabel value="Тип заявки:"
-								for="insuranceProductTypeFilter" />
+							<p:outputLabel value="Тип заявки: " for="requestTypeFilter" />
+						</p:column>
+						<p:column>
+							<p:selectOneMenu id="requestTypeFilter"
+								value="#{insuranceRequestsFilter.requestType}">
+								<p:ajax process="@this" update="@form"
+									listener="#{mainFacade.onFilterChanged}" />
+								<f:selectItem value="#{configurationFacade.anySI}" />
+								<f:selectItems
+									value="#{requestTypeService.selectableItemsShortSI}" />
+							</p:selectOneMenu>
+						</p:column>
+
+						<p:column>
+							<p:outputLabel value="Продукт:" for="insuranceProductTypeFilter" />
 						</p:column>
 						<p:column>
 							<p:selectOneMenu id="insuranceProductTypeFilter"
@@ -232,9 +245,13 @@
 				<p:ajax event="rowSelect" process="@this"
 					update="@form:viewInsuranceRequestDialogWrapper"
 					oncomplete="PF('insuranceRequestDialogWV').show()" />
-				<p:column headerText="Страховой продукт">
+				<p:column headerText="Продукт">
 					<h:outputText
 						value="#{insuranceProductTypeService.displayNameShort(req.productType)}" />
+				</p:column>
+				<p:column headerText="Тип" sortBy="#{req.type}">
+					<h:outputText
+						value="#{requestTypeService.displayNameShort(req.type)}" />
 				</p:column>
 				<p:column headerText="Номер" sortBy="#{req.id}">
 					<h:outputText value="#{req.id}" />

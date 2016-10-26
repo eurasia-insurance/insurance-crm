@@ -4,6 +4,7 @@ import com.lapsa.insurance.crm.ClosingResult;
 import com.lapsa.insurance.crm.ObtainingStatus;
 import com.lapsa.insurance.crm.PaymentStatus;
 import com.lapsa.insurance.crm.RequestStatus;
+import com.lapsa.insurance.crm.RequestType;
 import com.lapsa.insurance.elements.InsuranceProductType;
 import com.lapsa.insurance.elements.ObtainingMethod;
 import com.lapsa.insurance.elements.PaymentMethod;
@@ -23,6 +24,10 @@ public interface InsuranceRequestsFilterHolder extends WritableValueHolder<Defau
     RequestStatus getRequestStatus();
 
     void setRequestStatus(RequestStatus requestStatus);
+
+    RequestType getRequestType();
+
+    void setRequestType(RequestType requestType);
 
     InsuranceProductType getInsuranceProductType();
 

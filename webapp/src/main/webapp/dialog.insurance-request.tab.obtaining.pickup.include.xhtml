@@ -37,6 +37,15 @@
 						<h:outputText value="#{obt.pickupPOS.address.street}" />
 					</p:column>
 				</p:row>
+				<p:row>
+					<p:column styleClass="ui-widget-header">
+						<p:outputLabel value="Статус получения" />
+					</p:column>
+					<p:column>
+						<h:outputText
+							value="#{obtainingStatusService.displayNameShort(obt.status)}" />
+					</p:column>
+				</p:row>
 			</p:panelGrid>
 		</p:panel>
 

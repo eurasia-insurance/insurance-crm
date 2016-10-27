@@ -9,7 +9,8 @@
 	<c:set var="pym" value="#{req.payment}" />
 	<c:set var="clc" value="#{req.product.calculation}" />
 
-	<p:tab title="#{paymentMethodService.displayName(pym.method)}">
+	<p:tab title="#{paymentMethodService.displayName(pym.method)}"
+		rendered="#{pym.method eq 'PAYCARD_ONLINE'}">
 
 		<p:panel>
 			<p:panelGrid>

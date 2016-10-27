@@ -13,7 +13,8 @@
 	<c:set var="casco" value="#{req.casco}" />
 
 	<p:tab
-		title="#{insuranceProductTypeService.displayName(InsuranceProductType.CASCO)}">
+		title="#{insuranceProductTypeService.displayName(InsuranceProductType.CASCO)}"
+		rendered="#{req.productType eq InsuranceProductType.CASCO}">
 
 		<p:panel>
 			<p:panelGrid>
@@ -226,16 +227,13 @@
 						value="#{driver.driverLicenseData.frontside}" />
 				</ui:decorate>
 				<ui:decorate template="out-image.include.xhtml">
-					<ui:param name="value"
-						value="#{driver.driverLicenseData.backside}" />
+					<ui:param name="value" value="#{driver.driverLicenseData.backside}" />
 				</ui:decorate>
 				<ui:decorate template="out-image.include.xhtml">
-					<ui:param name="value"
-						value="#{driver.identityCardData.frontside}" />
+					<ui:param name="value" value="#{driver.identityCardData.frontside}" />
 				</ui:decorate>
 				<ui:decorate template="out-image.include.xhtml">
-					<ui:param name="value"
-						value="#{driver.identityCardData.backside}" />
+					<ui:param name="value" value="#{driver.identityCardData.backside}" />
 				</ui:decorate>
 			</p:rowExpansion>
 		</p:dataTable>
@@ -255,12 +253,10 @@
 			</p:column>
 			<p:rowExpansion>
 				<ui:decorate template="out-image.include.xhtml">
-					<ui:param name="value"
-						value="#{vehicle.certificateData.frontside}" />
+					<ui:param name="value" value="#{vehicle.certificateData.frontside}" />
 				</ui:decorate>
 				<ui:decorate template="out-image.include.xhtml">
-					<ui:param name="value"
-						value="#{vehicle.certificateData.backside}" />
+					<ui:param name="value" value="#{vehicle.certificateData.backside}" />
 				</ui:decorate>
 				<ui:decorate template="out-image.include.xhtml">
 					<ui:param name="value" value="#{vehicle.view1}" />

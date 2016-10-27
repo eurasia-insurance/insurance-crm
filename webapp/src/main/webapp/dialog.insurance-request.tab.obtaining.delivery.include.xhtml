@@ -8,7 +8,7 @@
 	<c:set var="req" value="#{insuranceRequest.value}" />
 	<c:set var="obt" value="#{req.obtaining}" />
 
-	<p:tab title="Доставка">
+	<p:tab title="#{obtainingMethodService.displayName(obt.method)}" rendered="#{obt.method eq 'DELIVERY'}">
 
 		<p:panel>
 			<p:panelGrid>

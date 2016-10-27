@@ -20,50 +20,6 @@ public class DefaultInsuranceRequestHolder extends DefaultWritableValueHolder<In
 	implements Serializable, InsuranceRequestHolder {
     private static final long serialVersionUID = -2574434730269891652L;
 
-    private static final String VERB_NONE = "none";
-
-    @Override
-    public String getProductTypeVerb() {
-	if (value == null || value.getProductType() == null)
-	    return VERB_NONE;
-	switch (value.getProductType()) {
-	case CASCO:
-	    return "casco";
-	case POLICY:
-	    return "policy";
-	default:
-	    return VERB_NONE;
-	}
-    }
-
-    @Override
-    public String getPaymentMethodVerb() {
-	if (value == null || value.getPayment() == null || value.getPayment().getMethod() == null)
-	    return VERB_NONE;
-	switch (value.getPayment().getMethod()) {
-	case PAYCARD_ONLINE:
-	    return "paycard-online";
-	case PAYCASH:
-	    return "paycash";
-	default:
-	    return VERB_NONE;
-	}
-    }
-
-    @Override
-    public String getObtainingMethodVerb() {
-	if (value == null || value.getObtaining() == null || value.getObtaining().getMethod() == null)
-	    return VERB_NONE;
-	switch (value.getObtaining().getMethod()) {
-	case DELIVERY:
-	    return "delivery";
-	case PICKUP:
-	    return "pickup";
-	default:
-	    return VERB_NONE;
-	}
-    }
-
     @Override
     public List<CascoVehicle> getCascoVehiclesAsList() {
 	if (value != null && value.getProduct() != null && value.getProduct() instanceof Casco) {

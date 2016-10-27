@@ -9,10 +9,4 @@ public interface InsuranceRequestHolder extends WritableValueHolder<InsuranceReq
 
     List<CascoVehicle> getCascoVehiclesAsList();
 
-    String getObtainingMethodVerb();
-
-    String getPaymentMethodVerb();
-
-    String getProductTypeVerb();
-
 }

@@ -64,12 +64,19 @@
 			<p:column width="16">
 				<p:rowToggler />
 			</p:column>
+			<p:column headerText="Временный въезд">
+				<h:panelGroup>
+					<ui:include src="yesno.include.xhtml">
+						<ui:param name="value" value="#{vehicle.temporaryEntry}" />
+					</ui:include>
+				</h:panelGroup>
+			</p:column>
 			<p:column headerText="Регион авто">
-				<h:outputText
+				<h:outputText rendered="#{not vehicle.temporaryEntry}"
 					value="#{kzAreaService.displayNameShort(vehicle.area)}" />
 			</p:column>
 			<p:column headerText="Город">
-				<h:outputText
+				<h:outputText rendered="#{not vehicle.temporaryEntry}"
 					value="#{kzCityService.displayNameShort(vehicle.city)}" />
 			</p:column>
 			<p:column headerText="Возраст авто">

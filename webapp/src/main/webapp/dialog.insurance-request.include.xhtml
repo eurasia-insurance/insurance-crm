@@ -28,24 +28,13 @@
 
 				<ui:include src="dialog.insurance-request.menu.include.xhtml" />
 
-				<p:accordionPanel dynamic="true" cache="true" activeIndex="0">
-					<ui:include
-						src="dialog.insurance-request.tab.general.include.xhtml" />
-					<ui:include
-						src="dialog.insurance-request.tab.requester.include.xhtml" />
-					<ui:include
-						src="dialog.insurance-request.tab.product.casco.include.xhtml" />
-					<ui:include
-						src="dialog.insurance-request.tab.product.policy.include.xhtml" />
-					<ui:include
-						src="dialog.insurance-request.tab.obtaining.delivery.include.xhtml" />
-					<ui:include
-						src="dialog.insurance-request.tab.obtaining.pickup.include.xhtml" />
-					<ui:include
-						src="dialog.insurance-request.tab.payment.paycard-online.include.xhtml" />
-					<ui:include
-						src="dialog.insurance-request.tab.payment.paycash.include.xhtml" />
-				</p:accordionPanel>
+				<p:tabView dynamic="true" cache="true">
+					<ui:include src="dialog.insurance-request.tab.request.include.xhtml" />
+					<ui:include src="dialog.insurance-request.tab.notifications.xhtml" />
+				</p:tabView>
+
+
+
 
 			</p:dialog>
 			<!-- << dialog -->

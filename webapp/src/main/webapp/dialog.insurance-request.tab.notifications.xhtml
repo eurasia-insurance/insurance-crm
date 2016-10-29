@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<c:set var="req" value="#{insuranceRequest.value}" />
+
+	<p:tab title="Уведомления">
+
+		<p:dataTable value="#{req.notifications}" var="ntf"
+			emptyMessage="Уведомлений не назначено">
+			<f:facet name="header">
+				<h:outputText value="Сведения об уведомлениях" />
+			</f:facet>
+			<p:column headerText="Тип" width="300">
+				<h:outputText value="#{ntf.class.simpleName}" />
+			</p:column>
+			<p:column headerText="Дата создания">
+				<ui:include src="out-datetime.include.xhtml">
+					<ui:param name="value" value="#{ntf.created}" />
+				</ui:include>
+			</p:column>
+			<p:column headerText="Статус">
+				<h:outputText
+					value="#{notificationStatusService.displayName(ntf.status)}" />
+			</p:column>
+			<p:column headerText="Дата уведомления">
+				<ui:include src="out-datetime.include.xhtml">
+					<ui:param name="value" value="#{ntf.sent}" />
+				</ui:include>
+			</p:column>
+		</p:dataTable>
+	</p:tab>
+
+</ui:composition>

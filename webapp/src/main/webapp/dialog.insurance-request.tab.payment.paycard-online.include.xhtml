@@ -33,6 +33,14 @@
 							value="#{paymentStatusService.displayNameShort(pym.status)}" />
 					</p:column>
 				</p:row>
+				<p:row>
+					<p:column styleClass="ui-widget-header">
+						<p:outputLabel value="Референс" />
+					</p:column>
+					<p:column>
+						<h:outputText value="#{pym.paymentReference}" />
+					</p:column>
+				</p:row>
 			</p:panelGrid>
 		</p:panel>
 

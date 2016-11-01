@@ -1,0 +1,27 @@
+.ui-panelgrid {
+	/* 	width: 100%; */
+	
+}
+
+.ui-panel, .ui-datatable, .ui-panelgrid {
+	margin-bottom: .5em;
+	margin-top: .5em;
+}
+
+.ui-panelgrid, .ui-panelgrid .ui-panelgrid-cell {
+	border-style: hidden;
+	/* 	 10px solid black; */
+	vertical-align: middle;
+}
+
+.col-request-UNCOMPLETE {
+	
+}
+
+.col-request-EXPRESS {
+	background: #f5fed8;
+}
+
+.col-request-ONLINE {
+	background: #d8fee0;
+}

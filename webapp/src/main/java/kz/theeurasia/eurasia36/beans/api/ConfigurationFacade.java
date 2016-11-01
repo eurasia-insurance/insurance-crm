@@ -13,4 +13,6 @@ public interface ConfigurationFacade {
     SelectItem getAnySI();
     
     SelectItem getMustSelectSI();
+
+    String getVersion();
 }

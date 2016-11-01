@@ -12,24 +12,10 @@
 	<ui:define name="page-title">#{ui['name.site']}</ui:define>
 	<ui:define name="page-content">
 
-		<style>
-.ui-panelgrid {
-	/* 	width: 100%; */
-	
-}
-
-.ui-panel, .ui-datatable, .ui-panelgrid {
-	margin-bottom: .5em;
-	margin-top: .5em;
-}
-
-.ui-panelgrid, .ui-panelgrid .ui-panelgrid-cell {
-	border-style: hidden;
-	/* 	 10px solid black; */
-	vertical-align: middle;
-}
-</style>
-
+		<f:facet name="last">
+			<df:outputStylesheet library="css" name="style.css"
+				prodName="style.min.css" />
+		</f:facet>
 
 		<h:form id="form">
 
@@ -234,7 +220,6 @@
 				</p:panelGrid>
 			</p:panel>
 
-
 			<p:dataTable widgetVar="requestTable" var="req"
 				value="#{insuranceRequests.requests}" selectionMode="single"
 				selection="#{insuranceRequest.value}" rowKey="#{req.id}" rows="20"
@@ -249,7 +234,8 @@
 					<h:outputText
 						value="#{insuranceProductTypeService.displayNameShort(req.productType)}" />
 				</p:column>
-				<p:column headerText="Тип" sortBy="#{req.type}">
+				<p:column headerText="Тип" sortBy="#{req.type}"
+					styleClass="#{not empty req.type ? ('col-request-' += req.type) : ''}">
 					<h:outputText
 						value="#{requestTypeService.displayNameShort(req.type)}" />
 				</p:column>

@@ -23,7 +23,7 @@
 		<!-- APIs -->
 		<kz-lib.version>2.1.1</kz-lib.version>
 		<international-lib.version>2.0.2</international-lib.version>
-		<insurance-lib.version>1.4.3</insurance-lib.version>
+		<insurance-lib.version>1.5-SNAPSHOT</insurance-lib.version>
 		<lapsa-lib.version>1.1.1</lapsa-lib.version>
 		<donkeyfaces-lib.version>1.1</donkeyfaces-lib.version>
 		<!-- EJBs & WARs -->

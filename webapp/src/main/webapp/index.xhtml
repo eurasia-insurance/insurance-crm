@@ -38,7 +38,7 @@
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				sortMode="multipe" sortOrder="DESCENDING" sortBy="#{req.created}"
 				emptyMessage="Нет заявок удовлетворяющих критериям поиска">
-				<p:ajax event="rowSelect" process="@this"
+				<p:ajax event="rowDblselect" process="@this"
 					update="@form:viewInsuranceRequestDialogWrapper"
 					oncomplete="PF('insuranceRequestDialogWV').show()" />
 				<p:column headerText="Продукт">

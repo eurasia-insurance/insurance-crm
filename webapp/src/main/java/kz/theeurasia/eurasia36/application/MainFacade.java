@@ -10,8 +10,6 @@ public interface MainFacade {
 
     String doResetFilter();
 
-    void onRequestStatusFilterChanged(AjaxBehaviorEvent event);
-
     String doResetRequest();
 
     String doSaveRequest();

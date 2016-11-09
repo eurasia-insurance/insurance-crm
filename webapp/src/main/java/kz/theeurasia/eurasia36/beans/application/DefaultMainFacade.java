@@ -38,12 +38,6 @@ public class DefaultMainFacade implements MainFacade {
     }
 
     @Override
-    public void onRequestStatusFilterChanged(AjaxBehaviorEvent event) {
-	fireRequestStatusFilterChanged();
-	refreshRequests();
-    }
-
-    @Override
     public String doInitialize() {
 	resetFilter();
 	refreshRequests();
@@ -110,11 +104,6 @@ public class DefaultMainFacade implements MainFacade {
 	} catch (NotPersistedException e) {
 	    facesMessagesFacade.addExceptionMessage(UIMessages.ERROR_INTERNAL_SERVER_ERROR, e);
 	}
-    }
-
-    private void fireRequestStatusFilterChanged() {
-	if (RequestStatus.OPEN.equals(insuranceRequestsFilterHolder.getRequestStatus()))
-	    insuranceRequestsFilterHolder.setClosingResult(null);
     }
 
     private void resetFilter() {

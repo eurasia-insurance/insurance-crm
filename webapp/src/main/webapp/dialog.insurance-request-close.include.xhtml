@@ -29,21 +29,6 @@
 				<p:panelGrid>
 					<p:row>
 						<p:column>
-							<p:outputLabel value="Причина закрытия заявки" />
-						</p:column>
-						<p:column>
-							<p:selectOneMenu value="#{request.closingResult}">
-								<p:ajax process="@this" update="@this" />
-								<f:selectItem value="#{configurationFacade.mustSelectSI}" />
-								<f:selectItems
-									value="#{closingResultService.allItemsShortSI}" />
-							</p:selectOneMenu>
-						</p:column>
-					</p:row>
-				</p:panelGrid>
-				<p:panelGrid>
-					<p:row>
-						<p:column>
 							<p:outputLabel value="Способ доставки:" />
 						</p:column>
 						<p:column>

@@ -38,14 +38,14 @@ public class DefaultMainFacade implements MainFacade {
     }
 
     @Override
-    public void onRequestStatusFilterChanged(AjaxBehaviorEvent event) {
-	fireRequestStatusFilterChanged();
+    public String doRefresh() {
 	refreshRequests();
+	return null;
     }
 
     @Override
     public String doInitialize() {
-	resetFilter();
+	initFilter();
 	refreshRequests();
 	return null;
     }
@@ -112,14 +112,15 @@ public class DefaultMainFacade implements MainFacade {
 	}
     }
 
-    private void fireRequestStatusFilterChanged() {
-	if (RequestStatus.OPEN.equals(insuranceRequestsFilterHolder.getRequestStatus()))
-	    insuranceRequestsFilterHolder.setClosingResult(null);
+    private void initFilter() {
+	resetFilter();
+	insuranceRequestsFilterHolder.setRequestStatus(RequestStatus.OPEN);
     }
 
     private void resetFilter() {
+	RequestStatus last = insuranceRequestsFilterHolder.getRequestStatus();
 	insuranceRequestsFilterHolder.setValue(new DefaultInsuranceRequestFitler());
-	insuranceRequestsFilterHolder.setRequestStatus(RequestStatus.OPEN);
+	insuranceRequestsFilterHolder.setRequestStatus(last);
     }
 
     private void refreshRequests() {

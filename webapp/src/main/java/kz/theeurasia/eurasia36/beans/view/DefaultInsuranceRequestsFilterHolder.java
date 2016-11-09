@@ -6,11 +6,13 @@ import javax.inject.Named;
 
 import org.omnifaces.cdi.ViewScoped;
 
-import com.lapsa.insurance.crm.ClosingResult;
 import com.lapsa.insurance.crm.ObtainingStatus;
 import com.lapsa.insurance.crm.PaymentStatus;
+import com.lapsa.insurance.crm.ProgressStatus;
 import com.lapsa.insurance.crm.RequestStatus;
 import com.lapsa.insurance.crm.RequestType;
+import com.lapsa.insurance.crm.TransactionProblem;
+import com.lapsa.insurance.crm.TransactionStatus;
 import com.lapsa.insurance.elements.InsuranceProductType;
 import com.lapsa.insurance.elements.ObtainingMethod;
 import com.lapsa.insurance.elements.PaymentMethod;
@@ -117,12 +119,32 @@ public class DefaultInsuranceRequestsFilterHolder extends DefaultWritableValueHo
     }
 
     @Override
-    public ClosingResult getClosingResult() {
-	return value.getClosingResult();
+    public ProgressStatus getProgressStatus() {
+	return value.getProgressStatus();
     }
 
     @Override
-    public void setClosingResult(ClosingResult closingResult) {
-	value.setClosingResult(closingResult);
+    public void setProgressStatus(ProgressStatus progressStatus) {
+	value.setProgressStatus(progressStatus);
+    }
+
+    @Override
+    public TransactionStatus getTransactionStatus() {
+	return value.getTransactionStatus();
+    }
+
+    @Override
+    public void setTransactionStatus(TransactionStatus transactionStatus) {
+	value.setTransactionStatus(transactionStatus);
+    }
+
+    @Override
+    public TransactionProblem getTransactionProblem() {
+	return value.getTransactionProblem();
+    }
+
+    @Override
+    public void setTransactionProblem(TransactionProblem transactionProblem) {
+	value.setTransactionProblem(transactionProblem);
     }
 }

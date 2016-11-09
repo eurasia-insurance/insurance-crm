@@ -13,4 +13,6 @@ public interface MainFacade {
     String doResetRequest();
 
     String doSaveRequest();
+
+    String doRefresh();
 }

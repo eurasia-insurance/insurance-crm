@@ -38,8 +38,14 @@ public class DefaultMainFacade implements MainFacade {
     }
 
     @Override
+    public String doRefresh() {
+	refreshRequests();
+	return null;
+    }
+
+    @Override
     public String doInitialize() {
-	resetFilter();
+	initFilter();
 	refreshRequests();
 	return null;
     }
@@ -106,9 +112,15 @@ public class DefaultMainFacade implements MainFacade {
 	}
     }
 
-    private void resetFilter() {
-	insuranceRequestsFilterHolder.setValue(new DefaultInsuranceRequestFitler());
+    private void initFilter() {
+	resetFilter();
 	insuranceRequestsFilterHolder.setRequestStatus(RequestStatus.OPEN);
+    }
+
+    private void resetFilter() {
+	RequestStatus last = insuranceRequestsFilterHolder.getRequestStatus();
+	insuranceRequestsFilterHolder.setValue(new DefaultInsuranceRequestFitler());
+	insuranceRequestsFilterHolder.setRequestStatus(last);
     }
 
     private void refreshRequests() {

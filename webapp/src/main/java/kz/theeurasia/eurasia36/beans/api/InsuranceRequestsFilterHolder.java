@@ -1,10 +1,12 @@
 package kz.theeurasia.eurasia36.beans.api;
 
-import com.lapsa.insurance.crm.ClosingResult;
 import com.lapsa.insurance.crm.ObtainingStatus;
 import com.lapsa.insurance.crm.PaymentStatus;
+import com.lapsa.insurance.crm.ProgressStatus;
 import com.lapsa.insurance.crm.RequestStatus;
 import com.lapsa.insurance.crm.RequestType;
+import com.lapsa.insurance.crm.TransactionProblem;
+import com.lapsa.insurance.crm.TransactionStatus;
 import com.lapsa.insurance.elements.InsuranceProductType;
 import com.lapsa.insurance.elements.ObtainingMethod;
 import com.lapsa.insurance.elements.PaymentMethod;
@@ -45,8 +47,16 @@ public interface InsuranceRequestsFilterHolder extends WritableValueHolder<Defau
 
     void setObtainingMethod(ObtainingMethod obtainingMethod);
 
-    ClosingResult getClosingResult();
+    ProgressStatus getProgressStatus();
 
-    void setClosingResult(ClosingResult closingResult);
+    void setProgressStatus(ProgressStatus progressStatus);
+
+    TransactionStatus getTransactionStatus();
+
+    void setTransactionStatus(TransactionStatus transactionStatus);
+
+    TransactionProblem getTransactionProblem();
+
+    void setTransactionProblem(TransactionProblem transactionProblem);
 
 }

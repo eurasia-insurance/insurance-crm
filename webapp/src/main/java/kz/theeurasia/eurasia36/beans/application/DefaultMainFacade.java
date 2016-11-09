@@ -1,6 +1,7 @@
 package kz.theeurasia.eurasia36.beans.application;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -8,6 +9,7 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import com.lapsa.insurance.crm.ProgressStatus;
 import com.lapsa.insurance.crm.RequestStatus;
 import com.lapsa.insurance.domain.InsuranceRequest;
 import com.lapsa.insurance.domain.casco.CascoRequest;
@@ -68,6 +70,35 @@ public class DefaultMainFacade implements MainFacade {
     public String doResetRequest() {
 	reloadRequest();
 	refreshRequests();
+	return null;
+    }
+
+    @Override
+    public String doSetStart(InsuranceRequest insuranceRequest) {
+	insuranceRequest.setProgressStatus(ProgressStatus.ON_PROCESS);
+	insuranceRequest.setAccepted(new Date());
+	insuranceRequestDAO.save(insuranceRequest);
+	return null;
+    }
+
+    @Override
+    public String doSetOnProcess(InsuranceRequest insuranceRequest) {
+	insuranceRequest.setProgressStatus(ProgressStatus.ON_PROCESS);
+	insuranceRequestDAO.save(insuranceRequest);
+	return null;
+    }
+
+    @Override
+    public String doSetOnHold(InsuranceRequest insuranceRequest) {
+	insuranceRequest.setProgressStatus(ProgressStatus.ON_HOLD);
+	insuranceRequestDAO.save(insuranceRequest);
+	return null;
+    }
+
+    @Override
+    public String doSetFinish(InsuranceRequest insuranceRequest) {
+	insuranceRequest.setProgressStatus(ProgressStatus.FINISHED);
+	insuranceRequestDAO.save(insuranceRequest);
 	return null;
     }
 

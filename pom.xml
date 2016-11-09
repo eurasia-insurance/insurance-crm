@@ -20,6 +20,8 @@
 	</modules>
 
 	<properties>
+		<!-- UTILs -->
+		<font-awesome-lib.version>4.7.0</font-awesome-lib.version>
 		<!-- APIs -->
 		<kz-lib.version>2.1.1</kz-lib.version>
 		<international-lib.version>2.0.2</international-lib.version>
@@ -117,6 +119,11 @@
 				<groupId>com.lapsa.donkeyfaces-lib</groupId>
 				<artifactId>donkeyfaces-faces</artifactId>
 				<version>${donkeyfaces-lib.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.lapsa.font-awesome-lib</groupId>
+				<artifactId>font-awesome</artifactId>
+				<version>${font-awesome-lib.version}</version>
 			</dependency>
 			<!-- external -->
 			<dependency>

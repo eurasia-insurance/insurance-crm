@@ -1,10 +1,12 @@
 package kz.theeurasia.eurasia36.beans.view.pojo;
 
-import com.lapsa.insurance.crm.ClosingResult;
 import com.lapsa.insurance.crm.ObtainingStatus;
 import com.lapsa.insurance.crm.PaymentStatus;
+import com.lapsa.insurance.crm.ProgressStatus;
 import com.lapsa.insurance.crm.RequestStatus;
 import com.lapsa.insurance.crm.RequestType;
+import com.lapsa.insurance.crm.TransactionProblem;
+import com.lapsa.insurance.crm.TransactionStatus;
 import com.lapsa.insurance.elements.InsuranceProductType;
 import com.lapsa.insurance.elements.ObtainingMethod;
 import com.lapsa.insurance.elements.PaymentMethod;
@@ -15,11 +17,13 @@ public class DefaultInsuranceRequestFitler implements InsuranceRequestFitler {
     private RequestStatus requestStatus;
     private RequestType requestType;
     private InsuranceProductType insuranceProductType;
-    private ClosingResult closingResult;
     private PaymentMethod paymentMethod;
     private PaymentStatus paymentStatus;
     private ObtainingMethod obtainingMethod;
     private ObtainingStatus obtainingStatus;
+    private ProgressStatus progressStatus;
+    private TransactionStatus transactionStatus;
+    private TransactionProblem transactionProblem;
 
     @Override
     public RequestStatus getRequestStatus() {
@@ -84,12 +88,30 @@ public class DefaultInsuranceRequestFitler implements InsuranceRequestFitler {
     }
 
     @Override
-    public ClosingResult getClosingResult() {
-	return closingResult;
+    public ProgressStatus getProgressStatus() {
+	return progressStatus;
     }
 
-    public void setClosingResult(ClosingResult closingResult) {
-	this.closingResult = closingResult;
+    public void setProgressStatus(ProgressStatus progressStatus) {
+	this.progressStatus = progressStatus;
+    }
+
+    @Override
+    public TransactionStatus getTransactionStatus() {
+	return transactionStatus;
+    }
+
+    public void setTransactionStatus(TransactionStatus transactionStatus) {
+	this.transactionStatus = transactionStatus;
+    }
+
+    @Override
+    public TransactionProblem getTransactionProblem() {
+	return transactionProblem;
+    }
+
+    public void setTransactionProblem(TransactionProblem transactionProblem) {
+	this.transactionProblem = transactionProblem;
     }
 
 }

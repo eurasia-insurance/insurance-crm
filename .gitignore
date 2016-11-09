@@ -14,3 +14,5 @@ dependency-reduced-pom.xml
 buildNumber.properties
 # Mac OS X service directories
 .DS_Store
+# Other
+*.bak

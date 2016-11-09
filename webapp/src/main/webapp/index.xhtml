@@ -93,11 +93,6 @@
 						<ui:param name="value" value="#{req.closed}" />
 					</ui:decorate>
 				</p:column>
-				<p:column headerText="Причина закрытия"
-					sortBy="#{req.closingResult}">
-					<h:outputText
-						value="#{closingResultService.displayNameShort(req.closingResult)}" />
-				</p:column>
 			</p:dataTable>
 
 		</h:form>

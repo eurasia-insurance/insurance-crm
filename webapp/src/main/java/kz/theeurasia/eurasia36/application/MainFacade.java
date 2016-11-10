@@ -20,11 +20,15 @@ public interface MainFacade {
 
     String doCloseRequest();
 
-    String doSetStart(InsuranceRequest insuranceRequest);
+    // parameter based
 
-    String doSetOnProcess(InsuranceRequest insuranceRequest);
+    String doAcceptRequest(InsuranceRequest insuranceRequest);
 
-    String doSetOnHold(InsuranceRequest insuranceRequest);
+    String doResumeRequest(InsuranceRequest insuranceRequest);
 
-    String doSetFinish(InsuranceRequest insuranceRequest);
+    String doPauseRequest(InsuranceRequest insuranceRequest);
+
+    String doCompleteRequest(InsuranceRequest insuranceRequest);
+
+    String doResetRequest(InsuranceRequest insuranceRequest);
 }

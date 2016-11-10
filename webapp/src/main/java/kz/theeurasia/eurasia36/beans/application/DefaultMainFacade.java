@@ -80,31 +80,44 @@ public class DefaultMainFacade implements MainFacade {
 	return null;
     }
 
-    public String doSetStart(InsuranceRequest insuranceRequest) {
-	insuranceRequest.setProgressStatus(ProgressStatus.ON_PROCESS);
-	insuranceRequest.setAccepted(new Date());
-	insuranceRequestDAO.save(insuranceRequest);
+    // parameter based
+
+    @Override
+    public String doAcceptRequest(InsuranceRequest insuranceRequest) {
+	acceptRequest(insuranceRequest);
+	saveRequest(insuranceRequest);
+	// refreshRequests();
 	return null;
     }
 
     @Override
-    public String doSetOnProcess(InsuranceRequest insuranceRequest) {
-	insuranceRequest.setProgressStatus(ProgressStatus.ON_PROCESS);
-	insuranceRequestDAO.save(insuranceRequest);
+    public String doResumeRequest(InsuranceRequest insuranceRequest) {
+	resumeRequest(insuranceRequest);
+	saveRequest(insuranceRequest);
+	// refreshRequests();
 	return null;
     }
 
     @Override
-    public String doSetOnHold(InsuranceRequest insuranceRequest) {
-	insuranceRequest.setProgressStatus(ProgressStatus.ON_HOLD);
-	insuranceRequestDAO.save(insuranceRequest);
+    public String doPauseRequest(InsuranceRequest insuranceRequest) {
+	pauseRequest(insuranceRequest);
+	saveRequest(insuranceRequest);
+	// refreshRequests();
 	return null;
     }
 
     @Override
-    public String doSetFinish(InsuranceRequest insuranceRequest) {
-	insuranceRequest.setProgressStatus(ProgressStatus.FINISHED);
-	insuranceRequestDAO.save(insuranceRequest);
+    public String doCompleteRequest(InsuranceRequest insuranceRequest) {
+	completeRequest(insuranceRequest);
+	saveRequest(insuranceRequest);
+	// refreshRequests();
+	return null;
+    }
+
+    @Override
+    public String doResetRequest(InsuranceRequest insuranceRequest) {
+	resetRequest(insuranceRequest);
+//	refreshRequests();
 	return null;
     }
 
@@ -132,8 +145,7 @@ public class DefaultMainFacade implements MainFacade {
     private InsuranceRequestHolder insuranceRequestHolder;
 
     private void closeRequest() {
-	insuranceRequestHolder.getValue().setClosed(new Date());
-	insuranceRequestHolder.getValue().setStatus(RequestStatus.CLOSED);
+	closeRequest(insuranceRequestHolder.getValue());
     }
 
     private void saveRequest() {
@@ -187,4 +199,48 @@ public class DefaultMainFacade implements MainFacade {
 	    }
 	insuranceRequestsHolder.setRequests(requests);
     }
+
+    // parametere based methods
+
+    private void closeRequest(InsuranceRequest insuranceRequest) {
+	insuranceRequest.setClosed(new Date());
+	insuranceRequest.setStatus(RequestStatus.CLOSED);
+    }
+
+    private void resetRequest(InsuranceRequest insuranceRequest) {
+	try {
+	    insuranceRequestDAO.restore(insuranceRequest);
+	} catch (PeristenceOperationFailed e) {
+	    facesMessagesFacade.addExceptionMessage(UIMessages.ERROR_INTERNAL_SERVER_ERROR, e);
+	} catch (NotPersistedException e) {
+	    facesMessagesFacade.addExceptionMessage(UIMessages.ERROR_INTERNAL_SERVER_ERROR, e);
+	}
+    }
+
+    private void saveRequest(InsuranceRequest request) {
+	try {
+	    request.setUpdated(new Date());
+	    insuranceRequestDAO.save(request);
+	} catch (PeristenceOperationFailed e) {
+	    facesMessagesFacade.addExceptionMessage(UIMessages.ERROR_INTERNAL_SERVER_ERROR, e);
+	}
+    }
+
+    private void acceptRequest(InsuranceRequest insuranceRequest) {
+	insuranceRequest.setProgressStatus(ProgressStatus.ON_PROCESS);
+	insuranceRequest.setAccepted(new Date());
+    }
+
+    private void resumeRequest(InsuranceRequest insuranceRequest) {
+	insuranceRequest.setProgressStatus(ProgressStatus.ON_PROCESS);
+    }
+
+    private void pauseRequest(InsuranceRequest insuranceRequest) {
+	insuranceRequest.setProgressStatus(ProgressStatus.ON_HOLD);
+    }
+
+    private void completeRequest(InsuranceRequest insuranceRequest) {
+	insuranceRequest.setProgressStatus(ProgressStatus.FINISHED);
+    }
+
 }

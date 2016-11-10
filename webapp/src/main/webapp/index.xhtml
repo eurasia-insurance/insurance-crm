@@ -72,23 +72,23 @@
 						<ui:param name="value" value="#{req.created}" />
 					</ui:decorate>
 				</p:column>
-				<p:column width="50">
+				<p:column width="70">
 					<p:commandLink process="@this" update="@form"
-						styleClass="request-action-icon"
+						styleClass="request-icon"
 						rendered="#{req.progressStatus eq 'NEW'}"
 						action="#{mainFacade.doAcceptRequest(req)}"
 						oncomplete="refreshRequests()">
 						<i class="fa fa-play-circle" aria-hidden="true" />
 					</p:commandLink>
 					<p:commandLink process="@this" update="@form"
-						styleClass="request-action-icon"
+						styleClass="request-icon"
 						rendered="#{req.progressStatus eq 'ON_HOLD'}"
 						action="#{mainFacade.doResumeRequest(req)}"
 						oncomplete="refreshRequests()">
 						<i class="fa fa-play-circle" aria-hidden="true" />
 					</p:commandLink>
 					<p:commandLink process="@this" update="@form"
-						styleClass="request-action-icon"
+						styleClass="request-icon"
 						action="#{mainFacade.doPauseRequest(req)}"
 						rendered="#{req.progressStatus eq 'ON_PROCESS'}"
 						oncomplete="refreshRequests()">
@@ -96,7 +96,7 @@
 					</p:commandLink>
 					<p:commandLink process="@this"
 						update="@form:progressCompleteDialogWrapper"
-						styleClass="request-action-icon"
+						styleClass="request-icon"
 						rendered="#{req.progressStatus eq 'ON_PROCESS'}"
 						oncomplete="PF('progressCompleteDialogWV').show()">
 						<p:resetInput target="@form:progressCompleteDialogWrapper" />
@@ -104,6 +104,7 @@
 							value="#{req}" />
 						<i class="fa fa-check-circle" aria-hidden="true" />
 					</p:commandLink>
+
 				</p:column>
 				<p:column headerText="Стадия">
 					<h:outputText

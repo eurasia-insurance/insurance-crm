@@ -26,12 +26,20 @@
 	background: #d8fee0;
 }
 
-.request-action-icon .fa {
-	font-size: 1.5em;
+.request-icon .fa {
+	font-size: 1.8em;
 	text-shadow: none;
 }
 
- A.request-action-icon, A.request-action-icon:hover {
+.green-icon {
+	color: #00FF00;
+}
+
+.red-icon {
+	color: #FF0000;
+}
+
+A.request-icon, A.request-icon:hover {
 	text-decoration: none;
 }
 

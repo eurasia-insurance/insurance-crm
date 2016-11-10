@@ -25,3 +25,25 @@
 .col-request-ONLINE {
 	background: #d8fee0;
 }
+
+.request-action-icon .fa {
+	font-size: 1.5em;
+	text-shadow: none;
+}
+
+ A.request-action-icon, A.request-action-icon:hover {
+	text-decoration: none;
+}
+
+.row-request-progress-NEW, .row-request-progress-NEW .ui-state-hover,
+	.row-request-progress-NEW TR.ui-state-hover, .row-request-progress-NEW .ui-state-highlight
+	{
+	font-weight: bold;
+}
+
+.row-request-progress-ON_HOLD, .row-request-progress-ON_HOLD .ui-state-hover,
+	.row-request-progress-ON_HOLD TR.ui-state-hover,
+	.row-request-progress-ON_HOLD .ui-state-highlight {
+	color: #bbbbbb !important;
+	font-style: italic !important;
+}

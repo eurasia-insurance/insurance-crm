@@ -31,7 +31,18 @@
 			<ui:include src="dialog.insurance-request-close.include.xhtml" />
 			<ui:include src="dialog.insurance-request.include.xhtml" />
 
+			<h:panelGroup id="progressCompleteDialogWrapper">
+				<ui:include src="dialog.progress-complete.include.xhtml">
+					<ui:param name="dialogWV" value="progressCompleteDialogWV" />
+					<ui:param name="ir" value="#{insuranceRequest.value}" />
+					<ui:param name="onHide" value="refreshRequests();" />
+				</ui:include>
+			</h:panelGroup>
+
 			<ui:include src="filter.include.xhtml" />
+
+			<p:remoteCommand name="refreshRequests" process="@this"
+				update="@form" action="#{mainFacade.doRefresh}" />
 
 			<p:dataTable widgetVar="requestTable" var="req"
 				value="#{insuranceRequests.requests}" selectionMode="single"
@@ -65,25 +76,32 @@
 					<p:commandLink process="@this" update="@form"
 						styleClass="request-action-icon"
 						rendered="#{req.progressStatus eq 'NEW'}"
-						action="#{mainFacade.doSetStart(req)}">
+						action="#{mainFacade.doAcceptRequest(req)}"
+						oncomplete="refreshRequests()">
 						<i class="fa fa-play-circle" aria-hidden="true" />
 					</p:commandLink>
 					<p:commandLink process="@this" update="@form"
 						styleClass="request-action-icon"
 						rendered="#{req.progressStatus eq 'ON_HOLD'}"
-						action="#{mainFacade.doSetOnProcess(req)}">
+						action="#{mainFacade.doResumeRequest(req)}"
+						oncomplete="refreshRequests()">
 						<i class="fa fa-play-circle" aria-hidden="true" />
 					</p:commandLink>
 					<p:commandLink process="@this" update="@form"
 						styleClass="request-action-icon"
-						action="#{mainFacade.doSetOnHold(req)}"
-						rendered="#{req.progressStatus eq 'ON_PROCESS'}">
+						action="#{mainFacade.doPauseRequest(req)}"
+						rendered="#{req.progressStatus eq 'ON_PROCESS'}"
+						oncomplete="refreshRequests()">
 						<i class="fa fa-pause-circle" aria-hidden="true" />
 					</p:commandLink>
-					<p:commandLink process="@this" update="@form"
+					<p:commandLink process="@this"
+						update="@form:progressCompleteDialogWrapper"
 						styleClass="request-action-icon"
-						action="#{mainFacade.doSetFinish(req)}"
-						rendered="#{req.progressStatus eq 'ON_PROCESS'}">
+						rendered="#{req.progressStatus eq 'ON_PROCESS'}"
+						oncomplete="PF('progressCompleteDialogWV').show()">
+						<p:resetInput target="@form:progressCompleteDialogWrapper" />
+						<f:setPropertyActionListener target="#{insuranceRequest.value}"
+							value="#{req}" />
 						<i class="fa fa-check-circle" aria-hidden="true" />
 					</p:commandLink>
 				</p:column>

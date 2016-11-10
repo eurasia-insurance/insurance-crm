@@ -108,6 +108,15 @@
 				<p:column headerText="Стадия">
 					<h:outputText
 						value="#{progressStatusService.displayNameShort(req.progressStatus)}" />
+					<h:panelGroup styleClass="request-icon red-icon "
+						rendered="#{req.transactionStatus eq 'NOT_COMPLETED'}">
+						<i class="fa fa-ban " aria-hidden="true" />
+					</h:panelGroup>
+					<h:panelGroup styleClass="request-icon green-icon "
+						rendered="#{req.transactionStatus eq 'COMPLETED'}">
+						<i class="fa fa-check " aria-hidden="true" />
+
+					</h:panelGroup>
 				</p:column>
 				<p:column headerText="Стоимость премии" style="text-align: right"
 					sortBy="#{req.product.calculation.premiumCost}">

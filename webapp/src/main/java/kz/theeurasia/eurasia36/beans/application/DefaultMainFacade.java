@@ -1,6 +1,7 @@
 package kz.theeurasia.eurasia36.beans.application;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -71,6 +72,13 @@ public class DefaultMainFacade implements MainFacade {
 	return null;
     }
 
+    @Override
+    public String doCloseRequest() {
+	closeRequest();
+	saveRequest();
+	return null;
+    }
+
     // PRIVATE
 
     @Inject
@@ -94,8 +102,14 @@ public class DefaultMainFacade implements MainFacade {
     @Inject
     private InsuranceRequestHolder insuranceRequestHolder;
 
+    private void closeRequest() {
+	insuranceRequestHolder.getValue().setClosed(new Date());
+	insuranceRequestHolder.getValue().setStatus(RequestStatus.CLOSED);
+    }
+
     private void saveRequest() {
 	try {
+	    insuranceRequestHolder.getValue().setUpdated(new Date());
 	    insuranceRequestHolder.setValue(insuranceRequestDAO.save(insuranceRequestHolder.getValue()));
 	} catch (PeristenceOperationFailed e) {
 	    facesMessagesFacade.addExceptionMessage(UIMessages.ERROR_INTERNAL_SERVER_ERROR, e);

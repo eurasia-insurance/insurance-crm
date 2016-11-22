@@ -76,8 +76,9 @@
 
 				<p:ajax event="rowSelect" process="@this" update="@form:mainToolbar" />
 
-				<p:ajax event="rowDblselect" process="@this"
-					update="@form:requestDialog"
+				<p:ajax event="rowDblselect"
+					listener="#{mainFacade.doAcceptRequestOnce}" process="@this"
+					update="@this @form:mainToolbar @form:requestDialog"
 					oncomplete="PF('requestDialogWV').show(); return false;" />
 
 				<p:column headerText="Продукт">

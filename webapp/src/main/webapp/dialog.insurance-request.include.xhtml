@@ -19,15 +19,17 @@
 			<p:dialog widgetVar="#{dialogWV}"
 				header="#{insuranceProductTypeService.displayNameShort(ir.productType)} # #{ir.id} : #{ir.requester.name}"
 				closeOnEscape="true" modal="true" width="1024" height="800"
-				closable="true" resizable="false" maximizable="true" position="center">
+				closable="true" resizable="false" maximizable="true"
+				position="center">
 
 				<!-- >> wrapper -->
 				<h:panelGroup id="content">
 
-				<p:tabView dynamic="true" cache="true">
-					<ui:include src="dialog.insurance-request.tab.request.include.xhtml" />
-					<ui:include src="dialog.insurance-request.tab.notifications.xhtml" />
-				</p:tabView>
+					<p:tabView dynamic="true" cache="true">
+						<ui:include
+							src="dialog.insurance-request.tab.request.include.xhtml" />
+						<ui:include src="dialog.insurance-request.tab.notifications.xhtml" />
+					</p:tabView>
 
 				</h:panelGroup>
 				<!-- << wrapper -->

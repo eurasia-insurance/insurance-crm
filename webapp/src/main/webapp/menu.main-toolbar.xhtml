@@ -13,28 +13,29 @@
 	<f:subview>
 
 		<!-- >> toolbar -->
-		<p:toolbar id="mainToolbar">
+		<p:toolbar id="requestToolbar">
 			<f:facet name="left">
 				<p:commandButton value="Принять в обработку"
 					icon="fa fa-play-circle" disabled="#{ir.progressStatus ne 'NEW'}"
 					action="#{mainFacade.doAcceptRequest}" process="@this"
-					update="@this mainToolbar #{update}" />
+					update="requestToolbar #{update}" />
 
 				<p:commandButton value="Приостановить" icon="fa fa-pause-circle"
 					disabled="#{ir.progressStatus ne 'ON_PROCESS'}"
 					rendered="#{ir.progressStatus ne 'ON_HOLD'}"
 					action="#{mainFacade.doPauseRequest}" process="@this"
-					update="@this mainToolbar #{update}" />
+					update="requestToolbar #{update}" />
 
 				<p:commandButton value="Возобновить" icon="fa fa-play-circle"
 					disabled="#{ir.progressStatus ne 'ON_HOLD'}"
 					rendered="#{ir.progressStatus eq 'ON_HOLD'}"
 					action="#{mainFacade.doResumeRequest}" process="@this"
-					update="@this mainToolbar #{update}" />
+					update="requestToolbar #{update}" />
 
-				<p:commandButton value="Обработка завершена..." icon="fa fa-check-circle"
+				<p:commandButton value="Обработка завершена..."
+					icon="fa fa-check-circle"
 					disabled="#{ir.progressStatus ne 'ON_PROCESS'}" process="@this"
-					update="@this @form:requestProgressCompleteDialog"
+					update="@form:requestProgressCompleteDialog"
 					oncomplete="PF('requestProgressCompleteDialogWV').show(); return false;">
 					<p:resetInput target="@form:requestProgressCompleteDialog" />
 				</p:commandButton>
@@ -44,15 +45,15 @@
 				</h:panelGroup>
 
 				<p:commandButton value="Закрыть заявку..." icon="fa fa-window-close"
-					disabled="#{ir.progressStatus ne 'FINISHED' or ir.status eq 'CLOSED'}" process="@this"
-					update="@this @form:requestCloseDialog"
+					disabled="#{ir.progressStatus ne 'FINISHED' or ir.status eq 'CLOSED'}"
+					process="@this" update="@form:requestCloseDialog"
 					oncomplete="PF('requestCloseDialogWV').show(); return false;">
 					<p:resetInput target="@form:requestCloseDialog" />
 				</p:commandButton>
 
 			</f:facet>
 		</p:toolbar>
-		<p:sticky target="mainToolbar" />
+		<p:sticky target="requestToolbar" />
 		<!-- << toolbar -->
 
 	</f:subview>

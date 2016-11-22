@@ -40,7 +40,7 @@
 					<ui:param name="dialogWV" value="requestCloseDialogWV" />
 					<ui:param name="ir" value="#{insuranceRequest.value}" />
 					<ui:param name="update"
-						value="@form:requestsTable @form:mainToolbarWrapper" />
+						value="@form:requestsTable @form:mainToolbar @form:requestDialog" />
 				</ui:include>
 			</h:panelGroup>
 
@@ -49,16 +49,19 @@
 					<ui:param name="dialogWV" value="requestProgressCompleteDialogWV" />
 					<ui:param name="ir" value="#{insuranceRequest.value}" />
 					<ui:param name="update"
-						value="@form:requestsTable @form:mainToolbarWrapper" />
+						value="@form:requestsTable @form:mainToolbar @form:requestDialog" />
 				</ui:include>
 			</h:panelGroup>
 
-			<ui:include src="filter.include.xhtml" />
+			<h:panelGroup id="filterPanel">
+				<ui:include src="filter.include.xhtml" />
+			</h:panelGroup>
 
-			<h:panelGroup id="mainToolbarWrapper">
+			<h:panelGroup id="mainToolbar">
 				<ui:include src="menu.main-toolbar.xhtml">
 					<ui:param name="ir" value="#{insuranceRequest.value}" />
-					<ui:param name="update" value="@form:requestsTable @form:mainToolbarWrapper" />
+					<ui:param name="update"
+						value="@form:requestsTable @form:mainToolbar" />
 				</ui:include>
 			</h:panelGroup>
 
@@ -71,8 +74,7 @@
 				emptyMessage="Нет заявок удовлетворяющих критериям поиска"
 				rowStyleClass="row-request-progress-#{req.progressStatus}">
 
-				<p:ajax event="rowSelect" process="@this"
-					update="@form:mainToolbarWrapper" />
+				<p:ajax event="rowSelect" process="@this" update="@form:mainToolbar" />
 
 				<p:ajax event="rowDblselect" process="@this"
 					update="@form:requestDialog"

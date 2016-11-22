@@ -5,10 +5,10 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui">
 
-	<c:set var="req" value="#{insuranceRequest.value}" />
-	<c:set var="obt" value="#{req.obtaining}" />
+	<c:set var="obt" value="#{ir.obtaining}" />
 
-	<p:tab title="#{obtainingMethodService.displayName(obt.method)}" rendered="#{obt.method eq 'DELIVERY'}">
+	<p:tab title="#{obtainingMethodService.displayName(obt.method)}"
+		rendered="#{obt.method eq 'DELIVERY'}">
 
 		<p:panel>
 			<p:panelGrid>

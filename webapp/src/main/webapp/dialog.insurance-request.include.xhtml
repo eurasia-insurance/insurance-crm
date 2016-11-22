@@ -10,31 +10,29 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 
-
-	<!-- >> wrapper -->
-	<h:panelGroup id="viewInsuranceRequestDialogWrapper">
-
-		<c:set var="req" value="#{insuranceRequest.value}" />
+	<f:subview>
 
 		<!-- >> rendered -->
-		<h:panelGroup rendered="#{not empty req}">
+		<h:panelGroup rendered="#{not empty ir}">
 
 			<!-- >> dialog -->
-			<p:dialog widgetVar="insuranceRequestDialogWV" modal="true"
-				closable="true" minHeight="800" minWidth="1024" width="1024"
-				height="800" closeOnEscape="true" minimizable="false"
-				maximizable="true"
-				header="#{insuranceProductTypeService.displayNameShort(req.productType)} # #{req.id} : #{req.requester.name}">
+			<p:dialog widgetVar="#{dialogWV}"
+				header="#{insuranceProductTypeService.displayNameShort(ir.productType)} # #{ir.id} : #{ir.requester.name}"
+				closeOnEscape="true" modal="true" width="1024" height="800"
+				closable="true" resizable="false" maximizable="true"
+				position="center">
 
-				<ui:include src="dialog.insurance-request.menu.include.xhtml" />
+				<!-- >> wrapper -->
+				<h:panelGroup id="content">
 
-				<p:tabView dynamic="true" cache="true">
-					<ui:include src="dialog.insurance-request.tab.request.include.xhtml" />
-					<ui:include src="dialog.insurance-request.tab.notifications.xhtml" />
-				</p:tabView>
+					<p:tabView dynamic="true" cache="true">
+						<ui:include
+							src="dialog.insurance-request.tab.request.include.xhtml" />
+						<ui:include src="dialog.insurance-request.tab.notifications.xhtml" />
+					</p:tabView>
 
-
-
+				</h:panelGroup>
+				<!-- << wrapper -->
 
 			</p:dialog>
 			<!-- << dialog -->
@@ -42,7 +40,6 @@
 		</h:panelGroup>
 		<!-- << rendered -->
 
-	</h:panelGroup>
-	<!-- << wrapper -->
+	</f:subview>
 
 </ui:composition>

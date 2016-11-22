@@ -28,23 +28,44 @@
 				<f:viewAction action="#{mainFacade.doInitialize}" />
 			</f:metadata>
 
-			<ui:include src="dialog.insurance-request-close.include.xhtml" />
-			<ui:include src="dialog.insurance-request.include.xhtml" />
-
-			<h:panelGroup id="progressCompleteDialogWrapper">
-				<ui:include src="dialog.progress-complete.include.xhtml">
-					<ui:param name="dialogWV" value="progressCompleteDialogWV" />
+			<h:panelGroup id="requestDialog">
+				<ui:include src="dialog.insurance-request.include.xhtml">
+					<ui:param name="dialogWV" value="requestDialogWV" />
 					<ui:param name="ir" value="#{insuranceRequest.value}" />
-					<ui:param name="onHide" value="refreshRequests();" />
 				</ui:include>
 			</h:panelGroup>
 
-			<ui:include src="filter.include.xhtml" />
+			<h:panelGroup id="requestCloseDialog">
+				<ui:include src="dialog.insurance-request-close.include.xhtml">
+					<ui:param name="dialogWV" value="requestCloseDialogWV" />
+					<ui:param name="ir" value="#{insuranceRequest.value}" />
+					<ui:param name="update"
+						value="@form:requestsTable @form:mainToolbar @form:requestDialog" />
+				</ui:include>
+			</h:panelGroup>
 
-			<p:remoteCommand name="refreshRequests" process="@this"
-				update="@form" action="#{mainFacade.doRefresh}" />
+			<h:panelGroup id="requestProgressCompleteDialog">
+				<ui:include src="dialog.progress-complete.include.xhtml">
+					<ui:param name="dialogWV" value="requestProgressCompleteDialogWV" />
+					<ui:param name="ir" value="#{insuranceRequest.value}" />
+					<ui:param name="update"
+						value="@form:requestsTable @form:mainToolbar @form:requestDialog" />
+				</ui:include>
+			</h:panelGroup>
 
-			<p:dataTable widgetVar="requestTable" var="req"
+			<h:panelGroup id="filterPanel">
+				<ui:include src="filter.include.xhtml" />
+			</h:panelGroup>
+
+			<h:panelGroup id="mainToolbar">
+				<ui:include src="menu.main-toolbar.xhtml">
+					<ui:param name="ir" value="#{insuranceRequest.value}" />
+					<ui:param name="update"
+						value="@form:requestsTable @form:mainToolbar" />
+				</ui:include>
+			</h:panelGroup>
+
+			<p:dataTable id="requestsTable" widgetVar="requestTable" var="req"
 				value="#{insuranceRequests.requests}" selectionMode="single"
 				selection="#{insuranceRequest.value}" rowKey="#{req.id}" rows="20"
 				paginator="true" paginatorAlwaysVisible="false"
@@ -52,9 +73,14 @@
 				sortMode="multipe" sortOrder="DESCENDING" sortBy="#{req.created}"
 				emptyMessage="Нет заявок удовлетворяющих критериям поиска"
 				rowStyleClass="row-request-progress-#{req.progressStatus}">
-				<p:ajax event="rowDblselect" process="@this"
-					update="@form:viewInsuranceRequestDialogWrapper"
-					oncomplete="PF('insuranceRequestDialogWV').show()" />
+
+				<p:ajax event="rowSelect" process="@this" update="@form:mainToolbar" />
+
+				<p:ajax event="rowDblselect"
+					listener="#{mainFacade.doAcceptRequestOnce}" process="@this"
+					update="@this @form:mainToolbar @form:requestDialog"
+					oncomplete="PF('requestDialogWV').show(); return false;" />
+
 				<p:column headerText="Продукт">
 					<h:outputText
 						value="#{insuranceProductTypeService.displayNameShort(req.productType)}" />
@@ -72,40 +98,6 @@
 						<ui:param name="value" value="#{req.created}" />
 					</ui:decorate>
 				</p:column>
-				<p:column width="70">
-					<p:commandLink process="@this" update="@form"
-						styleClass="request-icon"
-						rendered="#{req.progressStatus eq 'NEW'}"
-						action="#{mainFacade.doAcceptRequest(req)}"
-						oncomplete="refreshRequests()">
-						<i class="fa fa-play-circle" aria-hidden="true" />
-					</p:commandLink>
-					<p:commandLink process="@this" update="@form"
-						styleClass="request-icon"
-						rendered="#{req.progressStatus eq 'ON_HOLD'}"
-						action="#{mainFacade.doResumeRequest(req)}"
-						oncomplete="refreshRequests()">
-						<i class="fa fa-play-circle" aria-hidden="true" />
-					</p:commandLink>
-					<p:commandLink process="@this" update="@form"
-						styleClass="request-icon"
-						action="#{mainFacade.doPauseRequest(req)}"
-						rendered="#{req.progressStatus eq 'ON_PROCESS'}"
-						oncomplete="refreshRequests()">
-						<i class="fa fa-pause-circle" aria-hidden="true" />
-					</p:commandLink>
-					<p:commandLink process="@this"
-						update="@form:progressCompleteDialogWrapper"
-						styleClass="request-icon"
-						rendered="#{req.progressStatus eq 'ON_PROCESS'}"
-						oncomplete="PF('progressCompleteDialogWV').show()">
-						<p:resetInput target="@form:progressCompleteDialogWrapper" />
-						<f:setPropertyActionListener target="#{insuranceRequest.value}"
-							value="#{req}" />
-						<i class="fa fa-check-circle" aria-hidden="true" />
-					</p:commandLink>
-
-				</p:column>
 				<p:column headerText="Стадия">
 					<h:outputText
 						value="#{progressStatusService.displayNameShort(req.progressStatus)}" />
@@ -116,7 +108,6 @@
 					<h:panelGroup styleClass="request-icon green-icon "
 						rendered="#{req.transactionStatus eq 'COMPLETED'}">
 						<i class="fa fa-check " aria-hidden="true" />
-
 					</h:panelGroup>
 				</p:column>
 				<p:column headerText="Стоимость премии" style="text-align: right"

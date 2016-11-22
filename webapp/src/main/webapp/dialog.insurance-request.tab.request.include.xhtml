@@ -5,8 +5,6 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui">
 
-	<c:set var="req" value="#{insuranceRequest.value}" />
-
 	<p:tab title="Заявка на страхование">
 		<p:accordionPanel dynamic="true" cache="true" activeIndex="0">
 			<ui:include src="dialog.insurance-request.tab.general.include.xhtml" />
@@ -26,5 +24,5 @@
 				src="dialog.insurance-request.tab.payment.paycash.include.xhtml" />
 		</p:accordionPanel>
 	</p:tab>
-	
+
 </ui:composition>

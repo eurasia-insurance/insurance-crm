@@ -5,66 +5,76 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 
-	<p:panel id="filterPanel">
+	<f:subview>
 
-		<p:panelGrid>
-			<p:row>
-				<p:column>
-					<p:commandLink process="@this" update="@form" value="Открытые"
-						action="#{mainFacade.doRefresh}"
-						style="#{insuranceRequestsFilter.requestStatus == 'OPEN' ? 'font-weight: bold' : ''}">
-						<f:setPropertyActionListener
-							target="#{insuranceRequestsFilter.requestStatus}" value="OPEN" />
-					</p:commandLink>
-				</p:column>
-				<p:column>
-					<p:commandLink process="@this" update="@form" value="Закрытые"
-						action="#{mainFacade.doRefresh}"
-						style="#{insuranceRequestsFilter.requestStatus == 'CLOSED' ? 'font-weight: bold' : ''}">
-						<f:setPropertyActionListener
-							target="#{insuranceRequestsFilter.requestStatus}" value="CLOSED" />
-					</p:commandLink>
-				</p:column>
-				<p:column>
-					<p:commandLink process="@this" update="@form" value="Все"
-						action="#{mainFacade.doRefresh}"
-						style="#{insuranceRequestsFilter.requestStatus == null ? 'font-weight: bold' : ''}">
-						<f:setPropertyActionListener
-							target="#{insuranceRequestsFilter.requestStatus}" value="#{null}" />
-					</p:commandLink>
-				</p:column>
-			</p:row>
-		</p:panelGrid>
+		<p:panel>
 
-		<ui:include src="filter.simple.include.xhtml" />
-		<ui:include src="filter.advanced.include.xhtml" />
+			<!-- >> wrapper -->
+			<h:panelGroup id="content">
 
-		<p:panelGrid>
-			<p:row>
-				<p:column>
-					<p:commandLink process="filterPanel" update="filterPanel"
-						value="еще &gt;&gt;"
-						rendered="#{not insuranceRequestsFilter.advanced}">
-						<f:setPropertyActionListener
-							target="#{insuranceRequestsFilter.advanced}" value="#{true}" />
-					</p:commandLink>
-					<p:commandLink process="filterPanel" update="filterPanel"
-						value="&lt;&lt; проще"
-						rendered="#{insuranceRequestsFilter.advanced}">
-						<f:setPropertyActionListener
-							target="#{insuranceRequestsFilter.advanced}" value="#{false}" />
-					</p:commandLink>
-				</p:column>
-				<p:column>
-					<p:commandLink value="очистить критерии поиска"
-						action="#{mainFacade.doResetFilter}" process="@this"
-						update="@form" />
-				</p:column>
-			</p:row>
-		</p:panelGrid>
+				<p:panelGrid>
+					<p:row>
+						<p:column>
+							<p:commandLink process="@this" update="@form" value="Открытые"
+								action="#{mainFacade.doRefresh}"
+								style="#{insuranceRequestsFilter.requestStatus == 'OPEN' ? 'font-weight: bold' : ''}">
+								<f:setPropertyActionListener
+									target="#{insuranceRequestsFilter.requestStatus}" value="OPEN" />
+							</p:commandLink>
+						</p:column>
+						<p:column>
+							<p:commandLink process="@this" update="@form" value="Закрытые"
+								action="#{mainFacade.doRefresh}"
+								style="#{insuranceRequestsFilter.requestStatus == 'CLOSED' ? 'font-weight: bold' : ''}">
+								<f:setPropertyActionListener
+									target="#{insuranceRequestsFilter.requestStatus}"
+									value="CLOSED" />
+							</p:commandLink>
+						</p:column>
+						<p:column>
+							<p:commandLink process="@this" update="@form" value="Все"
+								action="#{mainFacade.doRefresh}"
+								style="#{insuranceRequestsFilter.requestStatus == null ? 'font-weight: bold' : ''}">
+								<f:setPropertyActionListener
+									target="#{insuranceRequestsFilter.requestStatus}"
+									value="#{null}" />
+							</p:commandLink>
+						</p:column>
+					</p:row>
+				</p:panelGrid>
 
+				<ui:include src="filter.simple.include.xhtml" />
+				<ui:include src="filter.advanced.include.xhtml" />
 
+				<p:panelGrid>
+					<p:row>
+						<p:column>
+							<p:commandLink process="content" update="content"
+								value="еще &gt;&gt;"
+								rendered="#{not insuranceRequestsFilter.advanced}">
+								<f:setPropertyActionListener
+									target="#{insuranceRequestsFilter.advanced}" value="#{true}" />
+							</p:commandLink>
+							<p:commandLink process="content" update="content"
+								value="&lt;&lt; проще"
+								rendered="#{insuranceRequestsFilter.advanced}">
+								<f:setPropertyActionListener
+									target="#{insuranceRequestsFilter.advanced}" value="#{false}" />
+							</p:commandLink>
+						</p:column>
+						<p:column>
+							<p:commandLink value="очистить критерии поиска"
+								action="#{mainFacade.doResetFilter}" process="@this"
+								update="@form" />
+						</p:column>
+					</p:row>
+				</p:panelGrid>
 
-	</p:panel>
+			</h:panelGroup>
+			<!-- << wrapper -->
+
+		</p:panel>
+
+	</f:subview>
 
 </ui:composition>

@@ -10,95 +10,92 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 
-	<p:remoteCommand name="fireCloseInsuranceRequestCloseDialog"
-		action="#{mainFacade.doResetRequest}" process="@this" update="@none" />
+	<f:subview>
 
-	<!-- >> dialog -->
-	<p:dialog widgetVar="insuranceRequestCloseDialogWV"
-		header="Укажите причину закрытия" closeOnEscape="true" modal="true"
-		onHide="fireCloseInsuranceRequestCloseDialog();">
+		<!-- >> rendered -->
+		<h:panelGroup rendered="#{not empty ir}">
 
-		<!-- >> wrapper -->
-		<h:panelGroup id="insuranceRequestCloseDialogWrapper">
+			<!-- >> dialog -->
+			<p:dialog widgetVar="#{dialogWV}"
+				header="Закрыть заявку #{ir.id} '#{ir.requester.name}'?"
+				closeOnEscape="false" modal="true" width="1024" height="300"
+				closable="false" resizable="false" position="center">
 
-			<c:set var="request" value="#{insuranceRequest.value}" />
+				<!-- >> wrapper -->
+				<h:panelGroup id="content">
 
-			<!-- >> rendered -->
-			<h:panelGroup rendered="#{not empty request}">
+					<p:panel>
+						<p:panelGrid>
+							<p:row>
+								<p:column>
+									<p:outputLabel value="Способ доставки:" />
+								</p:column>
+								<p:column>
+									<p:selectOneMenu value="#{ir.obtaining.method}">
+										<p:ajax process="@this" update="@this" />
+										<f:selectItem value="#{configurationFacade.mustSelectSI}" />
+										<f:selectItems
+											value="#{obtainingMethodService.allItemsShortSI}" />
+									</p:selectOneMenu>
+								</p:column>
+								<p:column>
+									<p:outputLabel value="Статус доставки:" />
+								</p:column>
+								<p:column>
+									<p:selectOneMenu value="#{ir.obtaining.status}">
+										<p:ajax process="@this" update="@this" />
+										<f:selectItem value="#{configurationFacade.mustSelectSI}" />
+										<f:selectItems
+											value="#{obtainingStatusService.allItemsShortSI}" />
+									</p:selectOneMenu>
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column>
+									<p:outputLabel value="Способ оплаты:" />
+								</p:column>
+								<p:column>
+									<p:selectOneMenu value="#{ir.payment.method}">
+										<p:ajax process="@this" update="@this" />
+										<f:selectItem value="#{configurationFacade.mustSelectSI}" />
+										<f:selectItems value="#{paymentMethodService.allItemsShortSI}" />
+									</p:selectOneMenu>
+								</p:column>
+								<p:column>
+									<p:outputLabel value="Статус оплаты:" />
+								</p:column>
+								<p:column>
+									<p:selectOneMenu value="#{ir.payment.status}">
+										<p:ajax process="@this" update="@this" />
+										<f:selectItem value="#{configurationFacade.mustSelectSI}" />
+										<f:selectItems value="#{paymentStatusService.allItemsShortSI}" />
+									</p:selectOneMenu>
+								</p:column>
+							</p:row>
+						</p:panelGrid>
+					</p:panel>
 
-				<p:panelGrid>
-					<p:row>
-						<p:column>
-							<p:outputLabel value="Способ доставки:" />
-						</p:column>
-						<p:column>
-							<p:selectOneMenu value="#{request.obtaining.method}">
-								<p:ajax process="@this" update="@this" />
-								<f:selectItem value="#{configurationFacade.mustSelectSI}" />
-								<f:selectItems
-									value="#{obtainingMethodService.allItemsShortSI}" />
-							</p:selectOneMenu>
-						</p:column>
-						<p:column>
-							<p:outputLabel value="Статус доставки:" />
-						</p:column>
-						<p:column>
-							<p:selectOneMenu value="#{request.obtaining.status}">
-								<p:ajax process="@this" update="@this" />
-								<f:selectItem value="#{configurationFacade.mustSelectSI}" />
-								<f:selectItems
-									value="#{obtainingStatusService.allItemsShortSI}" />
-							</p:selectOneMenu>
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column>
-							<p:outputLabel value="Способ оплаты:" />
-						</p:column>
-						<p:column>
-							<p:selectOneMenu value="#{request.payment.method}">
-								<p:ajax process="@this" update="@this" />
-								<f:selectItem value="#{configurationFacade.mustSelectSI}" />
-								<f:selectItems
-									value="#{paymentMethodService.allItemsShortSI}" />
-							</p:selectOneMenu>
-						</p:column>
-						<p:column>
-							<p:outputLabel value="Статус оплаты:" />
-						</p:column>
-						<p:column>
-							<p:selectOneMenu value="#{request.payment.status}">
-								<p:ajax process="@this" update="@this" />
-								<f:selectItem value="#{configurationFacade.mustSelectSI}" />
-								<f:selectItems
-									value="#{paymentStatusService.allItemsShortSI}" />
-							</p:selectOneMenu>
-						</p:column>
-					</p:row>
-				</p:panelGrid>
-				<p:panelGrid>
-					<p:row>
-						<p:column>
+					<p:toolbar>
+						<f:facet name="right">
 							<p:commandButton value="Закрыть заявку"
-								action="#{mainFacade.doCloseRequest}"
-								process="insuranceRequestCloseDialogWrapper" update="@form"
-								onsuccess="PF('insuranceRequestCloseDialogWV').hide(); PF('insuranceRequestDialogWV').hide()" />
-						</p:column>
-						<p:column>
-							<p:button value="Отмена"
-								onclick="PF('insuranceRequestCloseDialogWV').hide(); return false;" />
-						</p:column>
-					</p:row>
-				</p:panelGrid>
+								action="#{mainFacade.doCloseRequest}" process="content"
+								update="content #{update}"
+								oncomplete="hideIfValidated(PF('#{dialogWV}'), args)" />
+							<p:commandButton value="Отмена"
+								action="#{mainFacade.doCancelEditRequest}" process="@this"
+								update="content #{update}" oncomplete="PF('#{dialogWV}').hide()" />
+						</f:facet>
+					</p:toolbar>
 
-			</h:panelGroup>
-			<!-- << rendered -->
+				</h:panelGroup>
+				<!-- << wrapper -->
+
+			</p:dialog>
+			<!-- << dialog -->
 
 		</h:panelGroup>
-		<!-- << wrapper -->
+		<!-- << rendered -->
 
-	</p:dialog>
-	<!-- << dialog -->
-
+	</f:subview>
 
 </ui:composition>

@@ -2,8 +2,6 @@ package kz.theeurasia.eurasia36.application;
 
 import javax.faces.event.AjaxBehaviorEvent;
 
-import com.lapsa.insurance.domain.InsuranceRequest;
-
 public interface MainFacade {
 
     void onFilterChanged(AjaxBehaviorEvent event);
@@ -12,23 +10,18 @@ public interface MainFacade {
 
     String doResetFilter();
 
-    String doResetRequest();
-
-    String doSaveRequest();
+    String doCancelEditRequest();
 
     String doRefresh();
 
     String doCloseRequest();
 
-    // parameter based
+    String doAcceptRequestOnce();
 
-    String doAcceptRequest(InsuranceRequest insuranceRequest);
+    String doPauseRequest();
 
-    String doResumeRequest(InsuranceRequest insuranceRequest);
+    String doResumeRequest();
 
-    String doPauseRequest(InsuranceRequest insuranceRequest);
+    String doCompleteRequest();
 
-    String doCompleteRequest(InsuranceRequest insuranceRequest);
-
-    String doResetRequest(InsuranceRequest insuranceRequest);
 }

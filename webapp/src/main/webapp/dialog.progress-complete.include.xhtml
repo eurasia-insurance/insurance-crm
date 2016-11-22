@@ -17,14 +17,12 @@
 
 			<!-- >> dialog -->
 			<p:dialog widgetVar="#{dialogWV}"
-				header="Результаты '#{ir.requester.name}'?" closeOnEscape="true"
-				modal="true" onhide="#{onHide}" width="600" height="300">
-
-				<p:ajax event="close" process="@this" update="@none"
-					listener="#{mainFacade.doResetRequest(ir)}" oncomplete="#{onHide};" />
+				header="Результаты '#{ir.requester.name}'?" closeOnEscape="false"
+				modal="true" width="600" height="300" closable="false"
+				resizable="false" position="center">
 
 				<!-- >> wrapper -->
-				<h:panelGroup id="progressDialogWrapper">
+				<h:panelGroup id="content">
 
 					<p:panel>
 						<p:panelGrid id="panel">
@@ -60,14 +58,13 @@
 
 					<p:toolbar>
 						<f:facet name="right">
-							<p:commandButton value="OK" process="progressDialogWrapper"
-								action="#{mainFacade.doCompleteRequest(ir)}"
-								update="progressDialogWrapper"
-								oncomplete="hideIfValidated(PF('#{dialogWV}'), args)">
-								<p:resetInput target="progressDialogWrapper" />
-							</p:commandButton>
-							<p:button value="Отмена"
-								onclick="PF('#{dialogWV}').hide(); return false;" />
+							<p:commandButton value="OK"
+								action="#{mainFacade.doCompleteRequest}" process="content"
+								update="content #{update}"
+								oncomplete="hideIfValidated(PF('#{dialogWV}'), args)" />
+							<p:commandButton value="Отмена"
+								action="#{mainFacade.doCancelEditRequest}" process="@this"
+								update="content #{update}" oncomplete="PF('#{dialogWV}').hide()" />
 						</f:facet>
 					</p:toolbar>
 				</h:panelGroup>

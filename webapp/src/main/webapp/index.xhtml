@@ -56,48 +56,10 @@
 			<ui:include src="filter.include.xhtml" />
 
 			<h:panelGroup id="mainToolbarWrapper">
-				<p:toolbar id="mainToolbar">
-					<f:facet name="left">
-						<p:commandButton value="Принять в обработку"
-							icon="fa fa-play-circle"
-							disabled="#{insuranceRequest.value.progressStatus ne 'NEW'}"
-							action="#{mainFacade.doAcceptRequest}" process="@this"
-							update="@this, requestsTable, mainToolbarWrapper" />
-
-						<p:commandButton value="Приостановить" icon="fa fa-pause-circle"
-							disabled="#{insuranceRequest.value.progressStatus ne 'ON_PROCESS'}"
-							rendered="#{insuranceRequest.value.progressStatus ne 'ON_HOLD'}"
-							action="#{mainFacade.doPauseRequest}" process="@this"
-							update="@this, requestsTable, mainToolbarWrapper" />
-
-						<p:commandButton value="Возобновить" icon="fa fa-play-circle"
-							disabled="#{insuranceRequest.value.progressStatus ne 'ON_HOLD'}"
-							rendered="#{insuranceRequest.value.progressStatus eq 'ON_HOLD'}"
-							action="#{mainFacade.doResumeRequest}" process="@this"
-							update="@this, requestsTable, mainToolbarWrapper" />
-
-						<p:commandButton value="Завершено..." icon="fa fa-check-circle"
-							disabled="#{insuranceRequest.value.progressStatus ne 'ON_PROCESS'}"
-							process="@this" update="@this, requestProgressCompleteDialog"
-							oncomplete="PF('requestProgressCompleteDialogWV').show(); return false;">
-							<p:resetInput target="requestProgressCompleteDialog" />
-						</p:commandButton>
-
-						<h:panelGroup styleClass="ui-separator">
-							<h:panelGroup class="ui-icon ui-icon-grip-dotted-vertical" />
-						</h:panelGroup>
-
-						<p:commandButton value="Закрыть заявку..."
-							icon="fa fa-window-close"
-							disabled="#{insuranceRequest.value.progressStatus ne 'FINISHED'}"
-							process="@this" update="@this, requestCloseDialog"
-							oncomplete="PF('requestCloseDialogWV').show(); return false;">
-							<p:resetInput target="requestCloseDialog" />
-						</p:commandButton>
-
-					</f:facet>
-				</p:toolbar>
-				<p:sticky target="mainToolbarWrapper" />
+				<ui:include src="menu.main-toolbar.xhtml">
+					<ui:param name="ir" value="#{insuranceRequest.value}" />
+					<ui:param name="update" value="@form:requestsTable @form:mainToolbarWrapper" />
+				</ui:include>
 			</h:panelGroup>
 
 			<p:dataTable id="requestsTable" widgetVar="requestTable" var="req"

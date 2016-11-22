@@ -39,9 +39,9 @@
 				</ui:include>
 			</h:panelGroup>
 
-			<h:panelGroup id="progressCompleteDialog">
+			<h:panelGroup id="requestProgressCompleteDialog">
 				<ui:include src="dialog.progress-complete.include.xhtml">
-					<ui:param name="dialogWV" value="progressCompleteDialogWV" />
+					<ui:param name="dialogWV" value="requestProgressCompleteDialogWV" />
 					<ui:param name="ir" value="#{insuranceRequest.value}" />
 					<ui:param name="update"
 						value="@form:requestsTable @form:mainToolbarWrapper" />
@@ -76,10 +76,14 @@
 
 						<p:commandButton value="Завершено..." icon="fa fa-check-circle"
 							disabled="#{insuranceRequest.value.progressStatus ne 'ON_PROCESS'}"
-							process="@this" update="@this, progressCompleteDialog"
-							oncomplete="PF('progressCompleteDialogWV').show(); return false;">
-							<p:resetInput target="progressCompleteDialog" />
+							process="@this" update="@this, requestProgressCompleteDialog"
+							oncomplete="PF('requestProgressCompleteDialogWV').show(); return false;">
+							<p:resetInput target="requestProgressCompleteDialog" />
 						</p:commandButton>
+
+						<h:panelGroup styleClass="ui-separator">
+							<h:panelGroup class="ui-icon ui-icon-grip-dotted-vertical" />
+						</h:panelGroup>
 
 						<p:commandButton value="Закрыть заявку..."
 							icon="fa fa-window-close"

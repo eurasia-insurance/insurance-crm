@@ -60,15 +60,25 @@ public class DefaultMainFacade implements MainFacade {
     }
 
     @Override
-    public String doSaveRequest() {
+    public String doAcceptRequest() {
+	acceptRequest();
 	saveRequest();
 	refreshRequests();
 	return null;
     }
 
     @Override
-    public String doResetRequest() {
-	reloadRequest();
+    public String doPauseRequest() {
+	pauseRequest();
+	saveRequest();
+	refreshRequests();
+	return null;
+    }
+
+    @Override
+    public String doResumeRequest() {
+	resumeRequest();
+	saveRequest();
 	refreshRequests();
 	return null;
     }
@@ -77,47 +87,22 @@ public class DefaultMainFacade implements MainFacade {
     public String doCloseRequest() {
 	closeRequest();
 	saveRequest();
-	return null;
-    }
-
-    // parameter based
-
-    @Override
-    public String doAcceptRequest(InsuranceRequest insuranceRequest) {
-	acceptRequest(insuranceRequest);
-	saveRequest(insuranceRequest);
-	// refreshRequests();
+	refreshRequests();
 	return null;
     }
 
     @Override
-    public String doResumeRequest(InsuranceRequest insuranceRequest) {
-	resumeRequest(insuranceRequest);
-	saveRequest(insuranceRequest);
-	// refreshRequests();
+    public String doCancelEditRequest() {
+	resetRequest();
+	refreshRequests();
 	return null;
     }
 
     @Override
-    public String doPauseRequest(InsuranceRequest insuranceRequest) {
-	pauseRequest(insuranceRequest);
-	saveRequest(insuranceRequest);
-	// refreshRequests();
-	return null;
-    }
-
-    @Override
-    public String doCompleteRequest(InsuranceRequest insuranceRequest) {
-	completeRequest(insuranceRequest);
-	saveRequest(insuranceRequest);
-	// refreshRequests();
-	return null;
-    }
-
-    @Override
-    public String doResetRequest(InsuranceRequest insuranceRequest) {
-	resetRequest(insuranceRequest);
-//	refreshRequests();
+    public String doCompleteRequest() {
+	completeRequest();
+	saveRequest();
+	refreshRequests();
 	return null;
     }
 
@@ -143,29 +128,6 @@ public class DefaultMainFacade implements MainFacade {
 
     @Inject
     private InsuranceRequestHolder insuranceRequestHolder;
-
-    private void closeRequest() {
-	closeRequest(insuranceRequestHolder.getValue());
-    }
-
-    private void saveRequest() {
-	try {
-	    insuranceRequestHolder.getValue().setUpdated(new Date());
-	    insuranceRequestHolder.setValue(insuranceRequestDAO.save(insuranceRequestHolder.getValue()));
-	} catch (PeristenceOperationFailed e) {
-	    facesMessagesFacade.addExceptionMessage(UIMessages.ERROR_INTERNAL_SERVER_ERROR, e);
-	}
-    }
-
-    private void reloadRequest() {
-	try {
-	    insuranceRequestHolder.setValue(insuranceRequestDAO.restore(insuranceRequestHolder.getValue()));
-	} catch (PeristenceOperationFailed e) {
-	    facesMessagesFacade.addExceptionMessage(UIMessages.ERROR_INTERNAL_SERVER_ERROR, e);
-	} catch (NotPersistedException e) {
-	    facesMessagesFacade.addExceptionMessage(UIMessages.ERROR_INTERNAL_SERVER_ERROR, e);
-	}
-    }
 
     private void initFilter() {
 	resetFilter();
@@ -200,16 +162,22 @@ public class DefaultMainFacade implements MainFacade {
 	insuranceRequestsHolder.setRequests(requests);
     }
 
-    // parametere based methods
-
-    private void closeRequest(InsuranceRequest insuranceRequest) {
-	insuranceRequest.setClosed(new Date());
-	insuranceRequest.setStatus(RequestStatus.CLOSED);
+    private void saveRequest() {
+	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
+	try {
+	    insuranceRequest.setUpdated(new Date());
+	    InsuranceRequest insuranceRequestSaved = insuranceRequestDAO.save(insuranceRequest);
+	    insuranceRequestHolder.setValue(insuranceRequestSaved);
+	} catch (PeristenceOperationFailed e) {
+	    facesMessagesFacade.addExceptionMessage(UIMessages.ERROR_INTERNAL_SERVER_ERROR, e);
+	}
     }
 
-    private void resetRequest(InsuranceRequest insuranceRequest) {
+    private void resetRequest() {
+	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
 	try {
-	    insuranceRequestDAO.restore(insuranceRequest);
+	    InsuranceRequest insuranceRequestSaved = insuranceRequestDAO.restore(insuranceRequest);
+	    insuranceRequestHolder.setValue(insuranceRequestSaved);
 	} catch (PeristenceOperationFailed e) {
 	    facesMessagesFacade.addExceptionMessage(UIMessages.ERROR_INTERNAL_SERVER_ERROR, e);
 	} catch (NotPersistedException e) {
@@ -217,30 +185,31 @@ public class DefaultMainFacade implements MainFacade {
 	}
     }
 
-    private void saveRequest(InsuranceRequest request) {
-	try {
-	    request.setUpdated(new Date());
-	    insuranceRequestDAO.save(request);
-	} catch (PeristenceOperationFailed e) {
-	    facesMessagesFacade.addExceptionMessage(UIMessages.ERROR_INTERNAL_SERVER_ERROR, e);
-	}
+    private void closeRequest() {
+	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
+	insuranceRequest.setClosed(new Date());
+	insuranceRequest.setStatus(RequestStatus.CLOSED);
     }
 
-    private void acceptRequest(InsuranceRequest insuranceRequest) {
+    private void acceptRequest() {
+	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
 	insuranceRequest.setProgressStatus(ProgressStatus.ON_PROCESS);
 	insuranceRequest.setAccepted(new Date());
     }
 
-    private void resumeRequest(InsuranceRequest insuranceRequest) {
+    private void resumeRequest() {
+	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
 	insuranceRequest.setProgressStatus(ProgressStatus.ON_PROCESS);
     }
 
-    private void pauseRequest(InsuranceRequest insuranceRequest) {
+    private void pauseRequest() {
+	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
 	insuranceRequest.setProgressStatus(ProgressStatus.ON_HOLD);
     }
 
-    private void completeRequest(InsuranceRequest insuranceRequest) {
+    private void completeRequest() {
+	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
 	insuranceRequest.setProgressStatus(ProgressStatus.FINISHED);
+	insuranceRequest.setCompleted(new Date());
     }
-
 }

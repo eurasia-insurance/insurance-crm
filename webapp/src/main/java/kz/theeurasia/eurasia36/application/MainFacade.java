@@ -26,4 +26,8 @@ public interface MainFacade {
 
     void onTransactionStatusChanged(AjaxBehaviorEvent event);
 
+    void onObtainingMethodChanged(AjaxBehaviorEvent event);
+
+    void onPaymentMethodChanged(AjaxBehaviorEvent event);
+
 }

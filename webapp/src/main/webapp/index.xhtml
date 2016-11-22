@@ -28,7 +28,12 @@
 				<f:viewAction action="#{mainFacade.doInitialize}" />
 			</f:metadata>
 
-			<ui:include src="dialog.insurance-request.include.xhtml" />
+			<h:panelGroup id="requestDialog">
+				<ui:include src="dialog.insurance-request.include.xhtml">
+					<ui:param name="dialogWV" value="requestDialogWV" />
+					<ui:param name="ir" value="#{insuranceRequest.value}" />
+				</ui:include>
+			</h:panelGroup>
 
 			<h:panelGroup id="requestCloseDialog">
 				<ui:include src="dialog.insurance-request-close.include.xhtml">
@@ -110,9 +115,9 @@
 				<p:ajax event="rowSelect" process="@this"
 					update="@form:mainToolbarWrapper" />
 
-				<!-- 				<p:ajax event="rowDblselect" process="@this" -->
-				<!-- 					update="@form:viewInsuranceRequestDialogWrapper" -->
-				<!-- 					oncomplete="PF('insuranceRequestDialogWV').show()" /> -->
+				<p:ajax event="rowDblselect" process="@this"
+					update="@form:requestDialog"
+					oncomplete="PF('requestDialogWV').show(); return false;" />
 
 				<p:column headerText="Продукт">
 					<h:outputText

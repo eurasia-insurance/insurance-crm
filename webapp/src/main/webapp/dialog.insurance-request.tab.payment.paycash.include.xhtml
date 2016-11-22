@@ -5,9 +5,8 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui">
 
-	<c:set var="req" value="#{insuranceRequest.value}" />
-	<c:set var="pym" value="#{req.payment}" />
-	<c:set var="clc" value="#{req.product.calculation}" />
+	<c:set var="pym" value="#{ir.payment}" />
+	<c:set var="clc" value="#{ir.product.calculation}" />
 
 	<p:tab title="#{paymentMethodService.displayName(pym.method)}" rendered="#{pym.method eq 'PAYCASH'}">
 

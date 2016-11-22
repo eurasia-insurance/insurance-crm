@@ -5,8 +5,6 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui">
 
-	<c:set var="req" value="#{insuranceRequest.value}" />
-
 	<p:tab title="Общие сведения">
 
 		<p:panel>
@@ -17,7 +15,7 @@
 					</p:column>
 					<p:column>
 						<ui:decorate template="out-datetime.include.xhtml">
-							<ui:param name="value" value="#{req.created}" />
+							<ui:param name="value" value="#{ir.created}" />
 						</ui:decorate>
 					</p:column>
 					<p:column styleClass="ui-widget-header">
@@ -25,19 +23,19 @@
 					</p:column>
 					<p:column>
 						<h:outputText
-							value="#{requestStatusService.displayNameShort(req.status)}" />
+							value="#{requestStatusService.displayNameShort(ir.status)}" />
 					</p:column>
 				</p:row>
 			</p:panelGrid>
 			<p:panelGrid
-				rendered="#{req.status eq 'CLOSED'}">
+				rendered="#{ir.status eq 'CLOSED'}">
 				<p:row>
 					<p:column styleClass="ui-widget-header">
 						<p:outputLabel value="Дата закрытия заявки" />
 					</p:column>
 					<p:column>
 						<ui:decorate template="out-datetime.include.xhtml">
-							<ui:param name="value" value="#{req.closed}" />
+							<ui:param name="value" value="#{ir.closed}" />
 						</ui:decorate>
 					</p:column>
 					<p:column styleClass="ui-widget-header">
@@ -45,7 +43,7 @@
 					</p:column>
 					<p:column>
 						<h:outputText
-							value="#{closingResultService.displayNameShort(req.closingResult)}" />
+							value="#{closingResultService.displayNameShort(ir.closingResult)}" />
 					</p:column>
 				</p:row>
 			</p:panelGrid>

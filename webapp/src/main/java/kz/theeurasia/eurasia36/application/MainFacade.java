@@ -24,4 +24,10 @@ public interface MainFacade {
 
     String doCompleteRequest();
 
+    void onTransactionStatusChanged(AjaxBehaviorEvent event);
+
+    void onObtainingMethodChanged(AjaxBehaviorEvent event);
+
+    void onPaymentMethodChanged(AjaxBehaviorEvent event);
+
 }

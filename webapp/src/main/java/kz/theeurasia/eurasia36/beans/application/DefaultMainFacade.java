@@ -9,12 +9,19 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import com.lapsa.insurance.crm.ObtainingStatus;
+import com.lapsa.insurance.crm.PaymentStatus;
 import com.lapsa.insurance.crm.ProgressStatus;
 import com.lapsa.insurance.crm.RequestStatus;
+import com.lapsa.insurance.crm.TransactionStatus;
 import com.lapsa.insurance.domain.InsuranceRequest;
+import com.lapsa.insurance.domain.ObtainingData;
+import com.lapsa.insurance.domain.PaymentData;
 import com.lapsa.insurance.domain.casco.CascoRequest;
 import com.lapsa.insurance.domain.policy.PolicyRequest;
 import com.lapsa.insurance.elements.InsuranceProductType;
+import com.lapsa.insurance.elements.ObtainingMethod;
+import com.lapsa.insurance.elements.PaymentMethod;
 import com.lapsa.insurance.persistence.dao.CascoRequestDAO;
 import com.lapsa.insurance.persistence.dao.InsuranceRequestDAO;
 import com.lapsa.insurance.persistence.dao.NotPersistedException;
@@ -107,6 +114,21 @@ public class DefaultMainFacade implements MainFacade {
 	saveRequest();
 	refreshRequests();
 	return null;
+    }
+
+    @Override
+    public void onTransactionStatusChanged(AjaxBehaviorEvent event) {
+	handleTransactionStatusChange();
+    }
+
+    @Override
+    public void onObtainingMethodChanged(AjaxBehaviorEvent event) {
+	handleObtainingMethodChange();
+    }
+
+    @Override
+    public void onPaymentMethodChanged(AjaxBehaviorEvent event) {
+	handlePaymentMethodChange();
     }
 
     // PRIVATE
@@ -215,4 +237,45 @@ public class DefaultMainFacade implements MainFacade {
 	insuranceRequest.setProgressStatus(ProgressStatus.FINISHED);
 	insuranceRequest.setCompleted(new Date());
     }
+
+    private void handleTransactionStatusChange() {
+	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
+	if (insuranceRequest.getTransactionStatus() == TransactionStatus.COMPLETED)
+	    insuranceRequest.setTransactionProblem(null);
+    }
+
+    private void handleObtainingMethodChange() {
+	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
+	ObtainingData obt = insuranceRequest.getObtaining();
+	switch (obt.getMethod()) {
+	case DELIVERY:
+	case PICKUP:
+	    if (obt.getStatus() == ObtainingStatus.UNDEFINED)
+		obt.setStatus(null);
+	    break;
+	default:
+	    obt.setMethod(ObtainingMethod.UNDEFINED);
+	case UNDEFINED:
+	    obt.setStatus(ObtainingStatus.UNDEFINED);
+	    break;
+	}
+    }
+
+    private void handlePaymentMethodChange() {
+	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
+	PaymentData pym = insuranceRequest.getPayment();
+	switch (pym.getMethod()) {
+	case PAYCARD_ONLINE:
+	case PAYCASH:
+	    if (pym.getStatus() == PaymentStatus.UNDEFINED)
+		pym.setStatus(null);
+	    break;
+	default:
+	    pym.setMethod(PaymentMethod.UNDEFINED);
+	case UNDEFINED:
+	    pym.setStatus(PaymentStatus.UNDEFINED);
+	    break;
+	}
+    }
+
 }

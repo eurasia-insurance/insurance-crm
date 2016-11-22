@@ -24,4 +24,6 @@ public interface MainFacade {
 
     String doCompleteRequest();
 
+    void onTransactionStatusChanged(AjaxBehaviorEvent event);
+
 }

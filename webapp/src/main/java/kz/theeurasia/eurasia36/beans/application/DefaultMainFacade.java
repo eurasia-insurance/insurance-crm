@@ -11,6 +11,7 @@ import javax.inject.Named;
 
 import com.lapsa.insurance.crm.ProgressStatus;
 import com.lapsa.insurance.crm.RequestStatus;
+import com.lapsa.insurance.crm.TransactionStatus;
 import com.lapsa.insurance.domain.InsuranceRequest;
 import com.lapsa.insurance.domain.casco.CascoRequest;
 import com.lapsa.insurance.domain.policy.PolicyRequest;
@@ -107,6 +108,11 @@ public class DefaultMainFacade implements MainFacade {
 	saveRequest();
 	refreshRequests();
 	return null;
+    }
+
+    @Override
+    public void onTransactionStatusChanged(AjaxBehaviorEvent event) {
+	handleTransactionStatusChange();
     }
 
     // PRIVATE
@@ -214,5 +220,11 @@ public class DefaultMainFacade implements MainFacade {
 	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
 	insuranceRequest.setProgressStatus(ProgressStatus.FINISHED);
 	insuranceRequest.setCompleted(new Date());
+    }
+
+    private void handleTransactionStatusChange() {
+	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
+	if (insuranceRequest.getTransactionStatus() == TransactionStatus.COMPLETED)
+	    insuranceRequest.setTransactionProblem(null);
     }
 }

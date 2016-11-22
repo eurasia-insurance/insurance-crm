@@ -16,7 +16,7 @@ public interface MainFacade {
 
     String doCloseRequest();
 
-    String doAcceptRequest();
+    String doAcceptRequestOnce();
 
     String doPauseRequest();
 

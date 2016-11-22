@@ -60,10 +60,13 @@ public class DefaultMainFacade implements MainFacade {
     }
 
     @Override
-    public String doAcceptRequest() {
-	acceptRequest();
-	saveRequest();
-	refreshRequests();
+    public String doAcceptRequestOnce() {
+	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
+	if (insuranceRequest.getAccepted() == null) {
+	    acceptRequest();
+	    saveRequest();
+	    refreshRequests();
+	}
 	return null;
     }
 

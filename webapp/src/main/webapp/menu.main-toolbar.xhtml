@@ -17,7 +17,7 @@
 			<f:facet name="left">
 				<p:commandButton value="Принять в обработку"
 					icon="fa fa-play-circle" disabled="#{ir.progressStatus ne 'NEW'}"
-					action="#{mainFacade.doAcceptRequest}" process="@this"
+					action="#{mainFacade.doAcceptRequestOnce}" process="@this"
 					update="requestToolbar #{update}" />
 
 				<p:commandButton value="Приостановить" icon="fa fa-pause-circle"

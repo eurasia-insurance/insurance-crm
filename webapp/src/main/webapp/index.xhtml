@@ -117,14 +117,6 @@
 							value="#{req.product.calculation.premiumCost}" />
 					</ui:decorate>
 				</p:column>
-				<p:column headerText="Способ оплаты" sortBy="#{req.payment.method}">
-					<h:outputText
-						value="#{paymentMethodService.displayNameShort(req.payment.method)}" />
-				</p:column>
-				<p:column headerText="Статус оплаты" sortBy="#{req.payment.status}">
-					<h:outputText
-						value="#{paymentStatusService.displayNameShort(req.payment.status)}" />
-				</p:column>
 				<p:column headerText="Имя заявителя" sortBy="#{req.requester.name}">
 					<h:outputText value="#{req.requester.name}" />
 				</p:column>
@@ -140,6 +132,12 @@
 					<ui:decorate template="out-datetime.include.xhtml">
 						<ui:param name="value" value="#{req.closed}" />
 					</ui:decorate>
+				</p:column>
+				<p:column headerText="Доп информация" sortable="false" width="200">
+					<h:panelGroup rendered="#{req.productType eq 'POLICY'}">
+						<h:outputText
+							value="ИИН: #{req.policy.insuredDrivers[0].idNumber} Авто: #{kzAreaService.displayNameShort(req.policy.insuredVehicles[0].area)}, #{kzCityService.displayNameShort(req.policy.insuredVehicles[0].city)}" />
+					</h:panelGroup>
 				</p:column>
 			</p:dataTable>
 

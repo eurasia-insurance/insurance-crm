@@ -133,6 +133,10 @@
 						<ui:param name="value" value="#{req.closed}" />
 					</ui:decorate>
 				</p:column>
+				<p:column headerText="Источник трафика">
+					<h:outputText rendered="#{not empty req.utmData.source}"
+						value="#{req.utmData.source} '#{req.utmData.term}'" />
+				</p:column>
 				<p:column headerText="Доп информация" sortable="false" width="200">
 					<h:panelGroup rendered="#{req.productType eq 'POLICY'}">
 						<h:outputText

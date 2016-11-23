@@ -128,12 +128,7 @@
 					sortBy="#{req.requester.phone}">
 					<h:outputText value="#{req.requester.phone}" />
 				</p:column>
-				<p:column headerText="Дата закрытия" sortBy="#{req.closed}">
-					<ui:decorate template="out-datetime.include.xhtml">
-						<ui:param name="value" value="#{req.closed}" />
-					</ui:decorate>
-				</p:column>
-				<p:column headerText="Доп информация" sortable="false" width="200">
+				<p:column headerText="Доп информация" sortable="false">
 					<h:panelGroup rendered="#{req.productType eq 'POLICY'}">
 						<h:outputText
 							value="ИИН: #{req.policy.insuredDrivers[0].idNumber} Авто: #{kzAreaService.displayNameShort(req.policy.insuredVehicles[0].area)}, #{kzCityService.displayNameShort(req.policy.insuredVehicles[0].city)}" />

@@ -128,6 +128,10 @@
 					sortBy="#{req.requester.phone}">
 					<h:outputText value="#{req.requester.phone}" />
 				</p:column>
+				<p:column headerText="Источник трафика">
+					<h:outputText rendered="#{not empty req.utmData.source}"
+						value="#{req.utmData.source} '#{req.utmData.term}'" />
+				</p:column>
 				<p:column headerText="Доп информация" sortable="false">
 					<h:panelGroup rendered="#{req.productType eq 'POLICY'}">
 						<h:outputText

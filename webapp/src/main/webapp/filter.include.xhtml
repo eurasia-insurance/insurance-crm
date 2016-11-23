@@ -49,13 +49,13 @@
 				<p:panelGrid>
 					<p:row>
 						<p:column>
-							<p:commandLink process="content" update="content"
+							<p:commandLink process="@this" update="content"
 								value="еще &gt;&gt;"
 								rendered="#{not insuranceRequestsFilter.advanced}">
 								<f:setPropertyActionListener
 									target="#{insuranceRequestsFilter.advanced}" value="#{true}" />
 							</p:commandLink>
-							<p:commandLink process="content" update="content"
+							<p:commandLink process="@this" update="content"
 								value="&lt;&lt; проще"
 								rendered="#{insuranceRequestsFilter.advanced}">
 								<f:setPropertyActionListener

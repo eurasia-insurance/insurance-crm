@@ -1,8 +1,16 @@
 package kz.theeurasia.eurasia36.beans.application;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalField;
+import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -62,6 +70,42 @@ public class DefaultMainFacade implements MainFacade {
     @Override
     public String doResetFilter() {
 	resetFilter();
+	refreshRequests();
+	return null;
+    }
+
+    public String doFilterCreatedToday() {
+	filterCreatedToday();
+	refreshRequests();
+	return null;
+    }
+
+    public String doFilterCreatedYesterday() {
+	filterCreatedYesterday();
+	refreshRequests();
+	return null;
+    }
+
+    public String doFilterCreatedThisWeek() {
+	filterCreatedThisWeek();
+	refreshRequests();
+	return null;
+    }
+
+    public String doFilterCreatedLastWeek() {
+	filterCreatedLastWeek();
+	refreshRequests();
+	return null;
+    }
+
+    public String doFilterCreatedThisMonth() {
+	filterCreatedThisMonth();
+	refreshRequests();
+	return null;
+    }
+
+    public String doFilterCreatedLastMonth() {
+	filterCreatedLastMonth();
 	refreshRequests();
 	return null;
     }
@@ -276,6 +320,71 @@ public class DefaultMainFacade implements MainFacade {
 	    pym.setStatus(PaymentStatus.UNDEFINED);
 	    break;
 	}
+    }
+
+    private void filterCreatedToday() {
+	LocalDateTime after = LocalDate.now().atStartOfDay();
+
+	DefaultInsuranceRequestFitler filter = insuranceRequestsFilterHolder.getValue();
+	filter.setCreatedAfter(fromLocalDateTime(after));
+	filter.setCreatedBefore(null);
+    }
+
+    private void filterCreatedYesterday() {
+	LocalDateTime after = LocalDate.now().minusDays(1).atStartOfDay();
+	LocalDateTime before = LocalDate.now().atStartOfDay()
+		.minus(1, ChronoUnit.SECONDS);
+
+	DefaultInsuranceRequestFitler filter = insuranceRequestsFilterHolder.getValue();
+	filter.setCreatedAfter(fromLocalDateTime(after));
+	filter.setCreatedBefore(fromLocalDateTime(before));
+    }
+
+    private void filterCreatedThisWeek() {
+	TemporalField dayOfWeekField = WeekFields.of(Locale.getDefault()).dayOfWeek();
+	DayOfWeek firstDayOfWeek = WeekFields.of(Locale.getDefault()).getFirstDayOfWeek();
+
+	LocalDateTime after = LocalDate.now().with(dayOfWeekField, firstDayOfWeek.getValue()).atStartOfDay();
+
+	DefaultInsuranceRequestFitler filter = insuranceRequestsFilterHolder.getValue();
+	filter.setCreatedAfter(fromLocalDateTime(after));
+	filter.setCreatedBefore(null);
+    }
+
+    private void filterCreatedLastWeek() {
+	TemporalField dayOfWeekField = WeekFields.of(Locale.getDefault()).dayOfWeek();
+	DayOfWeek firstDayOfWeek = WeekFields.of(Locale.getDefault()).getFirstDayOfWeek();
+
+	LocalDateTime after = LocalDate.now().with(dayOfWeekField, firstDayOfWeek.getValue()).minusWeeks(1)
+		.atStartOfDay();
+	LocalDateTime before = LocalDate.now().with(dayOfWeekField, firstDayOfWeek.getValue()).atStartOfDay().minus(1,
+		ChronoUnit.SECONDS);
+
+	DefaultInsuranceRequestFitler filter = insuranceRequestsFilterHolder.getValue();
+	filter.setCreatedAfter(fromLocalDateTime(after));
+	filter.setCreatedBefore(fromLocalDateTime(before));
+    }
+
+    private void filterCreatedThisMonth() {
+	LocalDateTime after = LocalDate.now().withDayOfMonth(1).atStartOfDay();
+
+	DefaultInsuranceRequestFitler filter = insuranceRequestsFilterHolder.getValue();
+	filter.setCreatedAfter(fromLocalDateTime(after));
+	filter.setCreatedBefore(null);
+    }
+
+    private void filterCreatedLastMonth() {
+	LocalDateTime after = LocalDate.now().withDayOfMonth(1).minusMonths(1).atStartOfDay();
+	LocalDateTime before = LocalDate.now().withDayOfMonth(1).atStartOfDay().minus(1,
+		ChronoUnit.SECONDS);
+
+	DefaultInsuranceRequestFitler filter = insuranceRequestsFilterHolder.getValue();
+	filter.setCreatedAfter(fromLocalDateTime(after));
+	filter.setCreatedBefore(fromLocalDateTime(before));
+    }
+
+    private static Date fromLocalDateTime(LocalDateTime value) {
+	return Date.from(value.atZone(ZoneId.systemDefault()).toInstant());
     }
 
 }

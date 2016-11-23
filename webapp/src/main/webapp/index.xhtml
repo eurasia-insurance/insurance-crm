@@ -133,6 +133,12 @@
 						<ui:param name="value" value="#{req.closed}" />
 					</ui:decorate>
 				</p:column>
+				<p:column headerText="Доп информация" sortable="false" width="200">
+					<h:panelGroup rendered="#{req.productType eq 'POLICY'}">
+						<h:outputText
+							value="ИИН: #{req.policy.insuredDrivers[0].idNumber} Авто: #{kzAreaService.displayNameShort(req.policy.insuredVehicles[0].area)}, #{kzCityService.displayNameShort(req.policy.insuredVehicles[0].city)}" />
+					</h:panelGroup>
+				</p:column>
 			</p:dataTable>
 
 		</h:form>

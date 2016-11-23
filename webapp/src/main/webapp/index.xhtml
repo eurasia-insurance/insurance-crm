@@ -117,14 +117,6 @@
 							value="#{req.product.calculation.premiumCost}" />
 					</ui:decorate>
 				</p:column>
-				<p:column headerText="Способ оплаты" sortBy="#{req.payment.method}">
-					<h:outputText
-						value="#{paymentMethodService.displayNameShort(req.payment.method)}" />
-				</p:column>
-				<p:column headerText="Статус оплаты" sortBy="#{req.payment.status}">
-					<h:outputText
-						value="#{paymentStatusService.displayNameShort(req.payment.status)}" />
-				</p:column>
 				<p:column headerText="Имя заявителя" sortBy="#{req.requester.name}">
 					<h:outputText value="#{req.requester.name}" />
 				</p:column>

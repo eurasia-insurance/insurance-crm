@@ -10,142 +10,235 @@
 		<!-- >> rendered -->
 		<h:panelGroup rendered="#{insuranceRequestsFilter.advanced}">
 
-			<!-- >> status -->
-			<p:panelGrid>
-				<p:row>
-					<p:column>
-						<p:outputLabel value="Стадия:" for="progressStatus" />
-					</p:column>
-					<p:column>
-						<p:selectOneMenu id="progressStatus"
-							value="#{insuranceRequestsFilter.progressStatus}">
-							<p:ajax process="@this" update="@form"
-								listener="#{mainFacade.onFilterChanged}" />
-							<f:selectItem value="#{configurationFacade.anySI}" />
-							<f:selectItems value="#{progressStatusService.allItemsShortSI}" />
-						</p:selectOneMenu>
-					</p:column>
-					<p:column>
-						<p:outputLabel value="Результат:" for="transactionStatus" />
-					</p:column>
-					<p:column>
-						<p:selectOneMenu id="transactionStatus"
-							value="#{insuranceRequestsFilter.transactionStatus}">
-							<p:ajax process="@this" update="@form"
-								listener="#{mainFacade.onFilterChanged}" />
-							<f:selectItem value="#{configurationFacade.anySI}" />
-							<f:selectItems
-								value="#{transactionStatusService.allItemsShortSI}" />
-						</p:selectOneMenu>
-					</p:column>
-					<p:column>
-						<p:outputLabel value="Причина:" for="transactionProblem" />
-					</p:column>
-					<p:column>
-						<p:selectOneMenu id="transactionProblem"
-							value="#{insuranceRequestsFilter.transactionProblem}">
-							<p:ajax process="@this" update="@form"
-								listener="#{mainFacade.onFilterChanged}" />
-							<f:selectItem value="#{configurationFacade.anySI}" />
-							<f:selectItems
-								value="#{transactionProblemService.allItemsShortSI}" />
-						</p:selectOneMenu>
-					</p:column>
-				</p:row>
-			</p:panelGrid>
-			<!-- << status -->
+			<p:panel>
+				<!-- >> status -->
+				<p:panelGrid>
+					<p:row>
+						<p:column>
+							<p:outputLabel value="Стадия:" for="progressStatus" />
+						</p:column>
+						<p:column>
+							<p:selectOneMenu id="progressStatus"
+								value="#{insuranceRequestsFilter.progressStatus}">
+								<p:ajax process="@this" update="@form"
+									listener="#{mainFacade.onFilterChanged}" />
+								<f:selectItem value="#{configurationFacade.anySI}" />
+								<f:selectItems value="#{progressStatusService.allItemsShortSI}" />
+							</p:selectOneMenu>
+						</p:column>
+						<p:column>
+							<p:outputLabel value="Результат:" for="transactionStatus" />
+						</p:column>
+						<p:column>
+							<p:selectOneMenu id="transactionStatus"
+								value="#{insuranceRequestsFilter.transactionStatus}">
+								<p:ajax process="@this" update="@form"
+									listener="#{mainFacade.onFilterChanged}" />
+								<f:selectItem value="#{configurationFacade.anySI}" />
+								<f:selectItems
+									value="#{transactionStatusService.allItemsShortSI}" />
+							</p:selectOneMenu>
+						</p:column>
+						<p:column>
+							<p:outputLabel value="Причина:" for="transactionProblem" />
+						</p:column>
+						<p:column>
+							<p:selectOneMenu id="transactionProblem"
+								value="#{insuranceRequestsFilter.transactionProblem}">
+								<p:ajax process="@this" update="@form"
+									listener="#{mainFacade.onFilterChanged}" />
+								<f:selectItem value="#{configurationFacade.anySI}" />
+								<f:selectItems
+									value="#{transactionProblemService.allItemsShortSI}" />
+							</p:selectOneMenu>
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+				<!-- << status -->
 
-			<!-- >> product -->
-			<p:panelGrid>
-				<p:row>
-					<p:column>
-						<p:outputLabel value="Тип заявки: " for="requestType" />
-					</p:column>
-					<p:column>
-						<p:selectOneMenu id="requestType"
-							value="#{insuranceRequestsFilter.requestType}">
-							<p:ajax process="@this" update="@form"
-								listener="#{mainFacade.onFilterChanged}" />
-							<f:selectItem value="#{configurationFacade.anySI}" />
-							<f:selectItems value="#{requestTypeService.allItemsShortSI}" />
-						</p:selectOneMenu>
-					</p:column>
-					<p:column>
-						<p:outputLabel value="Продукт:" for="insuranceProductType" />
-					</p:column>
-					<p:column>
-						<p:selectOneMenu id="insuranceProductType"
-							value="#{insuranceRequestsFilter.insuranceProductType}">
-							<p:ajax process="@this" update="@form"
-								listener="#{mainFacade.onFilterChanged}" />
-							<f:selectItem value="#{configurationFacade.anySI}" />
-							<f:selectItems
-								value="#{insuranceProductTypeService.allItemsShortSI}" />
-						</p:selectOneMenu>
-					</p:column>
-				</p:row>
-			</p:panelGrid>
+				<!-- >> product -->
+				<p:panelGrid>
+					<p:row>
+						<p:column>
+							<p:outputLabel value="Тип заявки: " for="requestType" />
+						</p:column>
+						<p:column>
+							<p:selectOneMenu id="requestType"
+								value="#{insuranceRequestsFilter.requestType}">
+								<p:ajax process="@this" update="@form"
+									listener="#{mainFacade.onFilterChanged}" />
+								<f:selectItem value="#{configurationFacade.anySI}" />
+								<f:selectItems value="#{requestTypeService.allItemsShortSI}" />
+							</p:selectOneMenu>
+						</p:column>
+						<p:column>
+							<p:outputLabel value="Продукт:" for="insuranceProductType" />
+						</p:column>
+						<p:column>
+							<p:selectOneMenu id="insuranceProductType"
+								value="#{insuranceRequestsFilter.insuranceProductType}">
+								<p:ajax process="@this" update="@form"
+									listener="#{mainFacade.onFilterChanged}" />
+								<f:selectItem value="#{configurationFacade.anySI}" />
+								<f:selectItems
+									value="#{insuranceProductTypeService.allItemsShortSI}" />
+							</p:selectOneMenu>
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+			</p:panel>
 			<!-- << product -->
 
-
 			<!-- >> payment obtaining -->
-			<p:panelGrid>
-				<p:row>
-					<p:column>
-						<p:outputLabel value="Статус оплаты: " for="paymentStatus" />
-					</p:column>
-					<p:column>
-						<p:selectOneMenu id="paymentStatus"
-							value="#{insuranceRequestsFilter.paymentStatus}">
-							<p:ajax process="@this" update="@form"
-								listener="#{mainFacade.onFilterChanged}" />
-							<f:selectItem value="#{configurationFacade.anySI}" />
-							<f:selectItems value="#{paymentStatusService.allItemsShortSI}" />
-						</p:selectOneMenu>
-					</p:column>
-					<p:column>
-						<p:outputLabel value="Способ оплаты: " for="paymentMethods" />
-					</p:column>
-					<p:column>
-						<p:selectOneMenu id="paymentMethods"
-							value="#{insuranceRequestsFilter.paymentMethod}">
-							<p:ajax process="@this" update="@form"
-								listener="#{mainFacade.onFilterChanged}" />
-							<f:selectItem value="#{configurationFacade.anySI}" />
-							<f:selectItems value="#{paymentMethodService.allItemsShortSI}" />
-						</p:selectOneMenu>
-					</p:column>
-				</p:row>
-
-				<p:row>
-					<p:column>
-						<p:outputLabel value="Способ доставки: " for="obtainingMethod" />
-					</p:column>
-					<p:column>
-						<p:selectOneMenu id="obtainingMethod"
-							value="#{insuranceRequestsFilter.obtainingMethod}">
-							<p:ajax process="@this" update="@form"
-								listener="#{mainFacade.onFilterChanged}" />
-							<f:selectItem value="#{configurationFacade.anySI}" />
-							<f:selectItems value="#{obtainingMethodService.allItemsShortSI}" />
-						</p:selectOneMenu>
-					</p:column>
-					<p:column>
-						<p:outputLabel value="Статус доставки:" for="obtainingStatus" />
-					</p:column>
-					<p:column>
-						<p:selectOneMenu id="obtainingStatus"
-							value="#{insuranceRequestsFilter.obtainingStatus}">
-							<p:ajax process="@this" update="@form"
-								listener="#{mainFacade.onFilterChanged}" />
-							<f:selectItem value="#{configurationFacade.anySI}" />
-							<f:selectItems value="#{obtainingStatusService.allItemsShortSI}" />
-						</p:selectOneMenu>
-					</p:column>
-				</p:row>
-
-			</p:panelGrid>
+			<p:panel>
+				<p:panelGrid>
+					<p:row>
+						<p:column>
+							<p:outputLabel value="Статус оплаты: " for="paymentStatus" />
+						</p:column>
+						<p:column>
+							<p:selectOneMenu id="paymentStatus"
+								value="#{insuranceRequestsFilter.paymentStatus}">
+								<p:ajax process="@this" update="@form"
+									listener="#{mainFacade.onFilterChanged}" />
+								<f:selectItem value="#{configurationFacade.anySI}" />
+								<f:selectItems value="#{paymentStatusService.allItemsShortSI}" />
+							</p:selectOneMenu>
+						</p:column>
+						<p:column>
+							<p:outputLabel value="Способ оплаты: " for="paymentMethods" />
+						</p:column>
+						<p:column>
+							<p:selectOneMenu id="paymentMethods"
+								value="#{insuranceRequestsFilter.paymentMethod}">
+								<p:ajax process="@this" update="@form"
+									listener="#{mainFacade.onFilterChanged}" />
+								<f:selectItem value="#{configurationFacade.anySI}" />
+								<f:selectItems value="#{paymentMethodService.allItemsShortSI}" />
+							</p:selectOneMenu>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<p:outputLabel value="Способ доставки: " for="obtainingMethod" />
+						</p:column>
+						<p:column>
+							<p:selectOneMenu id="obtainingMethod"
+								value="#{insuranceRequestsFilter.obtainingMethod}">
+								<p:ajax process="@this" update="@form"
+									listener="#{mainFacade.onFilterChanged}" />
+								<f:selectItem value="#{configurationFacade.anySI}" />
+								<f:selectItems value="#{obtainingMethodService.allItemsShortSI}" />
+							</p:selectOneMenu>
+						</p:column>
+						<p:column>
+							<p:outputLabel value="Статус доставки:" for="obtainingStatus" />
+						</p:column>
+						<p:column>
+							<p:selectOneMenu id="obtainingStatus"
+								value="#{insuranceRequestsFilter.obtainingStatus}">
+								<p:ajax process="@this" update="@form"
+									listener="#{mainFacade.onFilterChanged}" />
+								<f:selectItem value="#{configurationFacade.anySI}" />
+								<f:selectItems value="#{obtainingStatusService.allItemsShortSI}" />
+							</p:selectOneMenu>
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+			</p:panel>
 			<!-- << payment obtaining -->
+
+
+			<!-- >> dates -->
+			<p:panel>
+				<p:panelGrid>
+					<p:row>
+						<p:column>
+							<p:outputLabel value="Поступило с:" for="createdAfter" />
+						</p:column>
+						<p:column>
+							<p:calendar id="createdAfter"
+								value="#{insuranceRequestsFilter.createdAfter}" showOn="button"
+								pattern="dd.MM.yyyy HH:mm:ss">
+								<p:ajax event="dateSelect" process="@this" update="@form"
+									listener="#{mainFacade.onFilterChanged}" />
+							</p:calendar>
+						</p:column>
+						<p:column>
+							<p:outputLabel value="Поступило по:" for="createdBefore" />
+						</p:column>
+						<p:column>
+							<p:calendar id="createdBefore"
+								value="#{insuranceRequestsFilter.createdBefore}" showOn="button"
+								pattern="dd.MM.yyyy HH:mm:ss">
+								<p:ajax event="dateSelect" process="@this" update="@form"
+									listener="#{mainFacade.onFilterChanged}" />
+							</p:calendar>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<p:outputLabel value="Завершено с:" for="completedAfter" />
+						</p:column>
+						<p:column>
+							<p:calendar id="completedAfter"
+								value="#{insuranceRequestsFilter.completedAfter}"
+								showOn="button" pattern="dd.MM.yyyy HH:mm:ss">
+								<p:ajax event="dateSelect" process="@this" update="@form"
+									listener="#{mainFacade.onFilterChanged}" />
+							</p:calendar>
+						</p:column>
+						<p:column>
+							<p:outputLabel value="Завершено по:" for="completedBefore" />
+						</p:column>
+						<p:column>
+							<p:calendar id="completedBefore"
+								value="#{insuranceRequestsFilter.completedBefore}"
+								showOn="button" pattern="dd.MM.yyyy HH:mm:ss">
+								<p:ajax event="dateSelect" process="@this" update="@form"
+									listener="#{mainFacade.onFilterChanged}" />
+							</p:calendar>
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+				<p:panelGrid>
+					<p:row>
+						<p:column>
+							<p:commandButton value="За сегодня"
+								action="#{mainFacade.doFilterCreatedToday}" process="@this"
+								update="@form" />
+						</p:column>
+						<p:column>
+							<p:commandButton value="С начала недели"
+								action="#{mainFacade.doFilterCreatedThisWeek}" process="@this"
+								update="@form" />
+						</p:column>
+						<p:column>
+							<p:commandButton value="С начала месяца"
+								action="#{mainFacade.doFilterCreatedThisMonth}" process="@this"
+								update="@form" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<p:commandButton value="За вчера"
+								action="#{mainFacade.doFilterCreatedYesterday}" process="@this"
+								update="@form" />
+						</p:column>
+						<p:column>
+							<p:commandButton value="За прошлую неделю"
+								action="#{mainFacade.doFilterCreatedLastWeek}" process="@this"
+								update="@form" />
+						</p:column>
+						<p:column>
+							<p:commandButton value="За прошлый месяц"
+								action="#{mainFacade.doFilterCreatedLastMonth}" process="@this"
+								update="@form" />
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+			</p:panel>
+			<!-- << dates -->
 
 		</h:panelGroup>
 		<!-- << rendered -->

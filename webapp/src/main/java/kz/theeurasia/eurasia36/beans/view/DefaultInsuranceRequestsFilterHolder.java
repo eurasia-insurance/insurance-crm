@@ -1,6 +1,7 @@
 package kz.theeurasia.eurasia36.beans.view;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.inject.Named;
 
@@ -146,5 +147,45 @@ public class DefaultInsuranceRequestsFilterHolder extends DefaultWritableValueHo
     @Override
     public void setTransactionProblem(TransactionProblem transactionProblem) {
 	value.setTransactionProblem(transactionProblem);
+    }
+
+    @Override
+    public Date getCreatedAfter() {
+	return value.getCreatedAfter();
+    }
+
+    @Override
+    public void setCreatedAfter(Date createdAfter) {
+	value.setCreatedAfter(createdAfter);
+    }
+
+    @Override
+    public Date getCreatedBefore() {
+	return value.getCreatedBefore();
+    }
+
+    @Override
+    public void setCreatedBefore(Date createdBefore) {
+	value.setCreatedBefore(createdBefore);
+    }
+
+    @Override
+    public Date getCompletedAfter() {
+	return value.getCompletedAfter();
+    }
+
+    @Override
+    public void setCompletedFrom(Date completedFrom) {
+	value.setCompletedFrom(completedFrom);
+    }
+
+    @Override
+    public Date getCompletedBefore() {
+	return value.getCompletedBefore();
+    }
+
+    @Override
+    public void setCompletedBefore(Date completedBefore) {
+	value.setCompletedBefore(completedBefore);
     }
 }

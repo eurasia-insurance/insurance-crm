@@ -1,5 +1,7 @@
 package kz.theeurasia.eurasia36.beans.view.pojo;
 
+import java.util.Date;
+
 import com.lapsa.insurance.crm.ObtainingStatus;
 import com.lapsa.insurance.crm.PaymentStatus;
 import com.lapsa.insurance.crm.ProgressStatus;
@@ -24,6 +26,11 @@ public class DefaultInsuranceRequestFitler implements InsuranceRequestFitler {
     private ProgressStatus progressStatus;
     private TransactionStatus transactionStatus;
     private TransactionProblem transactionProblem;
+
+    private Date createdAfter;
+    private Date createdBefore;
+    private Date completedAfter;
+    private Date completedBefore;
 
     @Override
     public RequestStatus getRequestStatus() {
@@ -112,6 +119,42 @@ public class DefaultInsuranceRequestFitler implements InsuranceRequestFitler {
 
     public void setTransactionProblem(TransactionProblem transactionProblem) {
 	this.transactionProblem = transactionProblem;
+    }
+
+    @Override
+    public Date getCreatedAfter() {
+	return createdAfter;
+    }
+
+    public void setCreatedAfter(Date createdAfter) {
+	this.createdAfter = createdAfter;
+    }
+
+    @Override
+    public Date getCreatedBefore() {
+	return createdBefore;
+    }
+
+    public void setCreatedBefore(Date createdBefore) {
+	this.createdBefore = createdBefore;
+    }
+
+    @Override
+    public Date getCompletedAfter() {
+	return completedAfter;
+    }
+
+    public void setCompletedFrom(Date completedFrom) {
+	this.completedAfter = completedFrom;
+    }
+
+    @Override
+    public Date getCompletedBefore() {
+	return completedBefore;
+    }
+
+    public void setCompletedBefore(Date completedBefore) {
+	this.completedBefore = completedBefore;
     }
 
 }

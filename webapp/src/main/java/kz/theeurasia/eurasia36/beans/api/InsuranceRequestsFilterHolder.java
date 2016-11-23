@@ -1,5 +1,7 @@
 package kz.theeurasia.eurasia36.beans.api;
 
+import java.util.Date;
+
 import com.lapsa.insurance.crm.ObtainingStatus;
 import com.lapsa.insurance.crm.PaymentStatus;
 import com.lapsa.insurance.crm.ProgressStatus;
@@ -58,5 +60,21 @@ public interface InsuranceRequestsFilterHolder extends WritableValueHolder<Defau
     TransactionProblem getTransactionProblem();
 
     void setTransactionProblem(TransactionProblem transactionProblem);
+
+    Date getCreatedAfter();
+
+    void setCreatedAfter(Date createdAfter);
+
+    Date getCreatedBefore();
+
+    void setCreatedBefore(Date createdBefore);
+
+    Date getCompletedAfter();
+
+    void setCompletedFrom(Date completedFrom);
+
+    Date getCompletedBefore();
+
+    void setCompletedBefore(Date completedBefore);
 
 }

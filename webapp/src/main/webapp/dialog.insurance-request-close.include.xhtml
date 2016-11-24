@@ -46,15 +46,20 @@
 									<p:outputLabel value="Укажите причину" />
 								</p:column>
 								<p:column>
-									<p:selectOneRadio value="#{ir.transactionProblem}"
-										layout="grid" columns="1"
+									<p:selectOneMenu id="transactionProblem"
+										value="#{ir.transactionProblem}"
 										disabled="#{ir.transactionStatus ne 'NOT_COMPLETED'}">
+										<f:selectItem value="#{configurationFacade.mustSelectSI}" />
 										<f:selectItems
 											value="#{transactionProblemService.selectableItemsSI}" />
 										<p:ajax process="@this" update="@this" />
-									</p:selectOneRadio>
+									</p:selectOneMenu>
 								</p:column>
 							</p:row>
+						</p:panelGrid>
+					</p:panel>
+					<p:panel>
+						<p:panelGrid>
 							<p:row>
 								<p:column>
 									<p:outputLabel value="Способ доставки:" />

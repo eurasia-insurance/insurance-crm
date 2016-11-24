@@ -12,10 +12,8 @@
 	<h:outputScript library="js" name="main.js" />
 </h:head>
 <h:body>
-	<p:panel>
-		<ui:decorate template="ajax-status.include.xhtml" />
-		<ui:decorate template="debug.include.xhtml" />
-		<ui:insert name="page-content" />
-	</p:panel>
+	<ui:decorate template="ajax-status.include.xhtml" />
+	<ui:decorate template="debug.include.xhtml" />
+	<ui:insert name="page-content" />
 </h:body>
 </html>

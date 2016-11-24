@@ -100,11 +100,11 @@
 						rendered="#{req.progressStatus eq 'ON_HOLD'}">
 						<i class="fa fa-pause-circle-o" aria-hidden="true" />
 					</h:panelGroup>
-					<h:panelGroup styleClass="request-icon red-icon "
+					<h:panelGroup styleClass="request-icon icon-fail "
 						rendered="#{req.progressStatus eq 'FINISHED' and req.transactionStatus eq 'NOT_COMPLETED'}">
 						<i class="fa fa-ban " aria-hidden="true" />
 					</h:panelGroup>
-					<h:panelGroup styleClass="request-icon green-icon "
+					<h:panelGroup styleClass="request-icon icon-success "
 						rendered="#{req.progressStatus eq 'FINISHED' and req.transactionStatus eq 'COMPLETED'}">
 						<i class="fa fa-check " aria-hidden="true" />
 					</h:panelGroup>

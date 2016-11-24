@@ -93,24 +93,25 @@
 					update="@form:mainToolbar @form:requestDialog"
 					oncomplete="changeRowNewToOnProgress(); PF('requestDialogWV').show(); return false;" />
 
-				<p:column headerText="Продукт">
+				<p:column headerText="Продукт" width="60">
 					<h:outputText
 						value="#{insuranceProductTypeService.displayNameShort(req.productType)}" />
 				</p:column>
-				<p:column headerText="Тип" sortBy="#{req.type}"
+				<p:column headerText="Тип" width="100" sortBy="#{req.type}"
 					styleClass="#{not empty req.type ? ('col-request-' += req.type) : ''}">
 					<h:outputText
 						value="#{requestTypeService.displayNameShort(req.type)}" />
 				</p:column>
-				<p:column headerText="Номер" sortBy="#{req.id}">
+				<p:column headerText="Номер" sortBy="#{req.id}" width="50">
 					<h:outputText value="#{req.id}" />
 				</p:column>
-				<p:column headerText="Дата создания" sortBy="#{req.created}">
+				<p:column headerText="Дата создания" width="150"
+					sortBy="#{req.created}">
 					<ui:decorate template="out-datetime.include.xhtml">
 						<ui:param name="value" value="#{req.created}" />
 					</ui:decorate>
 				</p:column>
-				<p:column headerText="Стадия">
+				<p:column headerText="Стадия" width="130">
 					<h:outputText
 						value="#{progressStatusService.displayNameShort(req.progressStatus)}" />
 					<h:panelGroup styleClass="request-icon red-icon "
@@ -122,21 +123,22 @@
 						<i class="fa fa-check " aria-hidden="true" />
 					</h:panelGroup>
 				</p:column>
-				<p:column headerText="Стоимость премии" style="text-align: right"
+				<p:column headerText="Стоимость премии" width="100"
+					style="text-align: right"
 					sortBy="#{req.product.calculation.premiumCost}">
 					<ui:decorate template="out-money.include.xhtml">
 						<ui:param name="value"
 							value="#{req.product.calculation.premiumCost}" />
 					</ui:decorate>
 				</p:column>
-				<p:column headerText="Имя заявителя" sortBy="#{req.requester.name}">
+				<p:column headerText="Имя заявителя" width="220" sortBy="#{req.requester.name}">
 					<h:outputText value="#{req.requester.name}" />
 				</p:column>
-				<p:column headerText="Email заявителя"
+				<p:column headerText="Email заявителя" width="220"
 					sortBy="#{req.requester.email}">
 					<h:outputText value="#{req.requester.email}" />
 				</p:column>
-				<p:column headerText="Телефон заявителя"
+				<p:column headerText="Телефон заявителя" width="130"
 					sortBy="#{req.requester.phone}">
 					<h:outputText value="#{req.requester.phone}" />
 				</p:column>

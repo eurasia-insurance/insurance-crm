@@ -40,4 +40,17 @@ public class DefaultInsuranceRequestsHolder extends DefaultWritableValueHolder<L
     public InsuranceRequestDataModel getModel() {
 	return model;
     }
+
+    @Override
+    public int getRequestCountTotal() {
+	return value.size();
+    }
+
+    @Override
+    public double getRequestPremiumCostTotal() {
+	double tot = 0d;
+	for (InsuranceRequest ir : value)
+	    tot += ir.getProduct().getCalculation().getPremiumCost();
+	return tot;
+    }
 }

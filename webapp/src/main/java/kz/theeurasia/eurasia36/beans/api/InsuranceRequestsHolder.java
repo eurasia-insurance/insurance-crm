@@ -14,4 +14,8 @@ public interface InsuranceRequestsHolder extends WritableValueHolder<List<Insura
 
     InsuranceRequestDataModel getModel();
 
+    int getRequestCountTotal();
+
+    double getRequestPremiumCostTotal();
+
 }

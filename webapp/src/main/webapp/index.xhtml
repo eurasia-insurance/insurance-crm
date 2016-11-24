@@ -93,7 +93,8 @@
 					update="@form:mainToolbar @form:requestDialog"
 					oncomplete="changeRowNewToOnProgress(); PF('requestDialogWV').show(); return false;" />
 
-				<p:column headerText="Продукт" width="60">
+				<p:column headerText="Продукт" width="60"
+					sortBy="#{req.productType}">
 					<h:outputText
 						value="#{insuranceProductTypeService.displayNameShort(req.productType)}" />
 				</p:column>
@@ -111,7 +112,8 @@
 						<ui:param name="value" value="#{req.created}" />
 					</ui:decorate>
 				</p:column>
-				<p:column headerText="Стадия" width="130">
+				<p:column headerText="Стадия" width="130"
+					sortBy="#{req.progressStatus}">
 					<h:outputText
 						value="#{progressStatusService.displayNameShort(req.progressStatus)}" />
 					<h:panelGroup styleClass="request-icon red-icon "

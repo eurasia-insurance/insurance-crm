@@ -66,9 +66,9 @@
 			</h:panelGroup>
 
 			<p:dataTable id="requestsTable" widgetVar="requestTable" var="req"
-				value="#{insuranceRequests.requests}" selectionMode="single"
-				selection="#{insuranceRequest.value}" rowKey="#{req.id}" rows="20"
-				paginator="true" paginatorAlwaysVisible="false"
+				value="#{insuranceRequests.model}" selectionMode="single"
+				selection="#{insuranceRequest.value}" rows="20" paginator="true"
+				paginatorAlwaysVisible="false"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				sortMode="multipe" sortOrder="DESCENDING" sortBy="#{req.created}"
 				emptyMessage="Нет заявок удовлетворяющих критериям поиска"

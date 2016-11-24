@@ -17,10 +17,12 @@ public class DefaultInsuranceRequestsHolder extends DefaultWritableValueHolder<L
 	implements Serializable, InsuranceRequestsHolder {
 
     private static final long serialVersionUID = 7249376610273191727L;
+    private InsuranceRequestDataModel model;
 
     @Override
     public void reset() {
 	this.value = null;
+	this.model = new InsuranceRequestDataModel(null);
     }
 
     @Override
@@ -31,6 +33,11 @@ public class DefaultInsuranceRequestsHolder extends DefaultWritableValueHolder<L
     @Override
     public void setRequests(List<InsuranceRequest> requests) {
 	super.setValue(requests);
+	this.model = new InsuranceRequestDataModel(requests);
     }
 
+    @Override
+    public InsuranceRequestDataModel getModel() {
+	return model;
+    }
 }

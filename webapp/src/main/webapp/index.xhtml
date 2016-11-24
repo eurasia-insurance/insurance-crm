@@ -67,13 +67,10 @@
 			</h:panelGroup>
 
 			<script>
-				function changeRowNewToOnProgress() {
-					var tr = jQuery('tr[data-rk='
-							+ PF('requestsTableWV').selection + ']');
-					if (tr.hasClass('row-request-progress-NEW')) {
-						tr.removeClass('row-request-progress-NEW').addClass(
-								'row-request-progress-ON_PROCESS');
-					}
+				function onDblSelectComplete() {
+					jQuery(
+							'tr[data-rk=' + PF('requestsTableWV').selection
+									+ '] td:has(\'span.icon-new\')').empty();
 				}
 			</script>
 
@@ -91,8 +88,27 @@
 				<p:ajax event="rowDblselect"
 					listener="#{mainFacade.doAcceptRequestOnce}" process="@this"
 					update="@form:mainToolbar @form:requestDialog"
-					oncomplete="changeRowNewToOnProgress(); PF('requestDialogWV').show(); return false;" />
+					oncomplete="onDblSelectComplete(); PF('requestDialogWV').show(); return false;" />
 
+				<p:column width="25" sortBy="#{req.progressStatus}"
+					style="text-align: center">
+					<h:panelGroup styleClass="request-icon icon-new"
+						rendered="#{req.progressStatus eq 'NEW'}">
+						<i class="fa fa-exclamation" aria-hidden="true" />
+					</h:panelGroup>
+					<h:panelGroup styleClass="request-icon "
+						rendered="#{req.progressStatus eq 'ON_HOLD'}">
+						<i class="fa fa-pause-circle-o" aria-hidden="true" />
+					</h:panelGroup>
+					<h:panelGroup styleClass="request-icon red-icon "
+						rendered="#{req.progressStatus eq 'FINISHED' and req.transactionStatus eq 'NOT_COMPLETED'}">
+						<i class="fa fa-ban " aria-hidden="true" />
+					</h:panelGroup>
+					<h:panelGroup styleClass="request-icon green-icon "
+						rendered="#{req.progressStatus eq 'FINISHED' and req.transactionStatus eq 'COMPLETED'}">
+						<i class="fa fa-check " aria-hidden="true" />
+					</h:panelGroup>
+				</p:column>
 				<p:column headerText="Продукт" width="60"
 					sortBy="#{req.productType}">
 					<h:outputText
@@ -112,19 +128,6 @@
 						<ui:param name="value" value="#{req.created}" />
 					</ui:decorate>
 				</p:column>
-				<p:column headerText="Стадия" width="130"
-					sortBy="#{req.progressStatus}">
-					<h:outputText
-						value="#{progressStatusService.displayNameShort(req.progressStatus)}" />
-					<h:panelGroup styleClass="request-icon red-icon "
-						rendered="#{req.transactionStatus eq 'NOT_COMPLETED'}">
-						<i class="fa fa-ban " aria-hidden="true" />
-					</h:panelGroup>
-					<h:panelGroup styleClass="request-icon green-icon "
-						rendered="#{req.transactionStatus eq 'COMPLETED'}">
-						<i class="fa fa-check " aria-hidden="true" />
-					</h:panelGroup>
-				</p:column>
 				<p:column headerText="Стоимость премии" width="100"
 					style="text-align: right"
 					sortBy="#{req.product.calculation.premiumCost}">
@@ -133,7 +136,8 @@
 							value="#{req.product.calculation.premiumCost}" />
 					</ui:decorate>
 				</p:column>
-				<p:column headerText="Имя заявителя" width="220" sortBy="#{req.requester.name}">
+				<p:column headerText="Имя заявителя" width="220"
+					sortBy="#{req.requester.name}">
 					<h:outputText value="#{req.requester.name}" />
 				</p:column>
 				<p:column headerText="Email заявителя" width="220"

@@ -142,17 +142,16 @@
 					sortBy="#{req.requester.phone}">
 					<h:outputText value="#{req.requester.phone}" />
 				</p:column>
-				<p:column headerText="Источник трафика">
-					<h:panelGroup rendered="#{not empty req.utmData.source}">
-						#{req.utmData.source}<br />
-						'#{req.utmData.term}'
-					</h:panelGroup>
-				</p:column>
 				<p:column headerText="Доп информация" sortable="false">
 					<h:panelGroup rendered="#{req.productType eq 'POLICY'}"
 						style="white-space: nowrap">
 						ИИН: #{req.policy.insuredDrivers[0].idNumber}<br />
 						Авто: #{kzAreaService.displayNameShort(req.policy.insuredVehicles[0].area)}, #{kzCityService.displayNameShort(req.policy.insuredVehicles[0].city)}<br />
+					</h:panelGroup>
+				</p:column>
+				<p:column headerText="Источник трафика">
+					<h:panelGroup rendered="#{not empty req.utmData.source}">
+						#{req.utmData.source} '#{req.utmData.term}'
 					</h:panelGroup>
 				</p:column>
 			</p:dataTable>

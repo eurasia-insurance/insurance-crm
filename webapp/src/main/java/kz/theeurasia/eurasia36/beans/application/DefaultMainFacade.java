@@ -17,6 +17,8 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.primefaces.event.SelectEvent;
+
 import com.lapsa.insurance.crm.ObtainingStatus;
 import com.lapsa.insurance.crm.PaymentStatus;
 import com.lapsa.insurance.crm.ProgressStatus;
@@ -112,13 +114,17 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doAcceptRequestOnce() {
-	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
-	if (insuranceRequest.getAccepted() == null) {
-	    acceptRequest();
-	    saveRequest();
-	    refreshRequests();
-	}
+	acceptRequestOnce();
+	saveRequest();
+	refreshRequests();
 	return null;
+    }
+
+    @Override
+    public void onDatatableDblSelect(SelectEvent event) {
+	acceptRequestOnce();
+	saveRequest();
+	refreshRequests();
     }
 
     @Override
@@ -258,6 +264,13 @@ public class DefaultMainFacade implements MainFacade {
 	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
 	insuranceRequest.setClosed(new Date());
 	insuranceRequest.setStatus(RequestStatus.CLOSED);
+    }
+
+    private void acceptRequestOnce() {
+	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
+	if (insuranceRequest.getAccepted() == null) {
+	    acceptRequest();
+	}
     }
 
     private void acceptRequest() {

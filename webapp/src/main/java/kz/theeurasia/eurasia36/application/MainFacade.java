@@ -2,6 +2,8 @@ package kz.theeurasia.eurasia36.application;
 
 import javax.faces.event.AjaxBehaviorEvent;
 
+import org.primefaces.event.SelectEvent;
+
 public interface MainFacade {
 
     void onFilterChanged(AjaxBehaviorEvent event);
@@ -16,6 +18,8 @@ public interface MainFacade {
 
     String doCloseRequest();
 
+    void onDatatableDblSelect(SelectEvent event);
+
     String doAcceptRequestOnce();
 
     String doPauseRequest();
@@ -29,5 +33,4 @@ public interface MainFacade {
     void onObtainingMethodChanged(AjaxBehaviorEvent event);
 
     void onPaymentMethodChanged(AjaxBehaviorEvent event);
-
 }

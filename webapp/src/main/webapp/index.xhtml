@@ -66,7 +66,18 @@
 				</ui:include>
 			</h:panelGroup>
 
-			<p:dataTable id="requestsTable" widgetVar="requestTable" var="req"
+			<script>
+				function changeRowNewToOnProgress() {
+					var tr = jQuery('tr[data-rk='
+							+ PF('requestsTableWV').selection + ']');
+					if (tr.hasClass('row-request-progress-NEW')) {
+						tr.removeClass('row-request-progress-NEW').addClass(
+								'row-request-progress-ON_PROCESS');
+					}
+				}
+			</script>
+
+			<p:dataTable id="requestsTable" widgetVar="requestsTableWV" var="req"
 				value="#{insuranceRequests.model}" selectionMode="single"
 				selection="#{insuranceRequest.value}" rows="20" paginator="true"
 				paginatorAlwaysVisible="false"
@@ -79,8 +90,8 @@
 
 				<p:ajax event="rowDblselect"
 					listener="#{mainFacade.doAcceptRequestOnce}" process="@this"
-					update="@this @form:mainToolbar @form:requestDialog"
-					oncomplete="PF('requestDialogWV').show(); return false;" />
+					update="@form:mainToolbar @form:requestDialog"
+					oncomplete="changeRowNewToOnProgress(); PF('requestDialogWV').show(); return false;" />
 
 				<p:column headerText="Продукт">
 					<h:outputText

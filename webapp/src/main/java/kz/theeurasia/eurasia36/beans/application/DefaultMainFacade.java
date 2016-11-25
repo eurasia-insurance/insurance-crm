@@ -1,16 +1,14 @@
 package kz.theeurasia.eurasia36.beans.application;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -354,10 +352,8 @@ public class DefaultMainFacade implements MainFacade {
     }
 
     private void filterCreatedThisWeek() {
-	TemporalField dayOfWeekField = WeekFields.of(Locale.getDefault()).dayOfWeek();
-	DayOfWeek firstDayOfWeek = WeekFields.of(Locale.getDefault()).getFirstDayOfWeek();
-
-	LocalDateTime after = LocalDate.now().with(dayOfWeekField, firstDayOfWeek.getValue()).atStartOfDay();
+	LocalDateTime after = LocalDate.now()
+		.with(ChronoField.DAY_OF_WEEK, WeekFields.ISO.getFirstDayOfWeek().getValue()).atStartOfDay();
 
 	DefaultInsuranceRequestFitler filter = insuranceRequestsFilterHolder.getValue();
 	filter.setCreatedAfter(fromLocalDateTime(after));
@@ -365,13 +361,12 @@ public class DefaultMainFacade implements MainFacade {
     }
 
     private void filterCreatedLastWeek() {
-	TemporalField dayOfWeekField = WeekFields.of(Locale.getDefault()).dayOfWeek();
-	DayOfWeek firstDayOfWeek = WeekFields.of(Locale.getDefault()).getFirstDayOfWeek();
-
-	LocalDateTime after = LocalDate.now().with(dayOfWeekField, firstDayOfWeek.getValue()).minusWeeks(1)
+	LocalDateTime after = LocalDate.now()
+		.with(ChronoField.DAY_OF_WEEK, WeekFields.ISO.getFirstDayOfWeek().getValue()).minusWeeks(1)
 		.atStartOfDay();
-	LocalDateTime before = LocalDate.now().with(dayOfWeekField, firstDayOfWeek.getValue()).atStartOfDay().minus(1,
-		ChronoUnit.SECONDS);
+	LocalDateTime before = LocalDate.now()
+		.with(ChronoField.DAY_OF_WEEK, WeekFields.ISO.getFirstDayOfWeek().getValue()).atStartOfDay().minus(1,
+			ChronoUnit.SECONDS);
 
 	DefaultInsuranceRequestFitler filter = insuranceRequestsFilterHolder.getValue();
 	filter.setCreatedAfter(fromLocalDateTime(after));

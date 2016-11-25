@@ -43,6 +43,10 @@
 	color: #FF0000;
 }
 
+.icon-on-process {
+	color: #CCCCCC;
+}
+
 A.request-icon, A.request-icon:hover {
 	text-decoration: none;
 }

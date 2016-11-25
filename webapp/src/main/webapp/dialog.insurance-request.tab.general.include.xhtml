@@ -11,14 +11,6 @@
 			<p:panelGrid>
 				<p:row>
 					<p:column styleClass="ui-widget-header">
-						<p:outputLabel value="Дата заявки" />
-					</p:column>
-					<p:column>
-						<ui:decorate template="out-datetime.include.xhtml">
-							<ui:param name="value" value="#{ir.created}" />
-						</ui:decorate>
-					</p:column>
-					<p:column styleClass="ui-widget-header">
 						<p:outputLabel value="Статус заявки" />
 					</p:column>
 					<p:column>
@@ -26,8 +18,16 @@
 							value="#{requestStatusService.displayNameShort(ir.status)}" />
 					</p:column>
 				</p:row>
-			</p:panelGrid>
-			<p:panelGrid rendered="#{ir.status eq 'CLOSED'}">
+				<p:row>
+					<p:column styleClass="ui-widget-header">
+						<p:outputLabel value="Дата создания заявки" />
+					</p:column>
+					<p:column>
+						<ui:decorate template="out-datetime.include.xhtml">
+							<ui:param name="value" value="#{ir.created}" />
+						</ui:decorate>
+					</p:column>
+				</p:row>
 				<p:row>
 					<p:column styleClass="ui-widget-header">
 						<p:outputLabel value="Дата закрытия заявки" />
@@ -37,12 +37,67 @@
 							<ui:param name="value" value="#{ir.closed}" />
 						</ui:decorate>
 					</p:column>
+				</p:row>
+			</p:panelGrid>
+		</p:panel>
+
+		<p:panel>
+			<p:panelGrid>
+				<p:row>
+					<p:column styleClass="ui-widget-header">
+						<p:outputLabel value="Стадия обработки заявки" />
+					</p:column>
+					<p:column>
+						<h:outputText
+							value="#{progressStatusService.displayNameShort(ir.progressStatus)}" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column styleClass="ui-widget-header">
+						<p:outputLabel value="Дата принятия заявки в работу" />
+					</p:column>
+					<p:column>
+						<ui:decorate template="out-datetime.include.xhtml">
+							<ui:param name="value" value="#{ir.accepted}" />
+						</ui:decorate>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column styleClass="ui-widget-header">
+						<p:outputLabel value="Дата завершения работ" />
+					</p:column>
+					<p:column>
+						<ui:decorate template="out-datetime.include.xhtml">
+							<ui:param name="value" value="#{ir.completed}" />
+						</ui:decorate>
+					</p:column>
+				</p:row>
+
+				<p:row rendered="#{ir.progressStatus eq 'FINISHED'}">
 					<p:column styleClass="ui-widget-header">
 						<p:outputLabel value="Результат" />
 					</p:column>
 					<p:column>
+						<h:panelGroup styleClass="request-icon icon-fail "
+							rendered="#{ir.transactionStatus eq 'NOT_COMPLETED'}">
+							<i class="fa fa-ban " aria-hidden="true" />
+						</h:panelGroup>
+						<h:panelGroup styleClass="request-icon icon-success "
+							rendered="#{ir.transactionStatus eq 'COMPLETED'}">
+							<i class="fa fa-check " aria-hidden="true" />
+						</h:panelGroup>
 						<h:outputText
-							value="#{closingResultService.displayNameShort(ir.closingResult)}" />
+							value="#{transactionStatusService.displayNameShort(ir.transactionStatus)}" />
+					</p:column>
+				</p:row>
+				<p:row
+					rendered="#{ir.progressStatus eq 'FINISHED' and ir.transactionStatus eq 'NOT_COMPLETED'}">
+					<p:column styleClass="ui-widget-header">
+						<p:outputLabel value="Причина" />
+					</p:column>
+					<p:column>
+						<h:outputText
+							value="#{transactionProblemService.displayNameShort(ir.transactionProblem)}" />
 					</p:column>
 				</p:row>
 			</p:panelGrid>

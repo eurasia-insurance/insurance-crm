@@ -99,22 +99,40 @@
 
 				<p:column width="25" sortBy="#{req.progressStatus}"
 					style="text-align: center">
-					<h:panelGroup styleClass="request-icon icon-new"
-						rendered="#{req.progressStatus eq 'NEW'}">
-						<i class="fa fa-exclamation" aria-hidden="true" />
+					<h:panelGroup id="iconWrapper" styleClass="request-icon">
+						<h:panelGroup styleClass="icon-new"
+							rendered="#{req.progressStatus eq 'NEW'}">
+							<i class="fa fa-exclamation" aria-hidden="true" />
+						</h:panelGroup>
+						<h:panelGroup styleClass="icon-on-process "
+							rendered="#{req.progressStatus eq 'ON_PROCESS'}">
+							<i class="fa fa-spinner" aria-hidden="true" />
+						</h:panelGroup>
+						<h:panelGroup rendered="#{req.progressStatus eq 'ON_HOLD'}">
+							<i class="fa fa-pause" aria-hidden="true" />
+						</h:panelGroup>
+						<h:panelGroup styleClass="icon-fail "
+							rendered="#{req.progressStatus eq 'FINISHED' and req.transactionStatus eq 'NOT_COMPLETED'}">
+							<i class="fa fa-ban " aria-hidden="true" />
+						</h:panelGroup>
+						<h:panelGroup styleClass="icon-success "
+							rendered="#{req.progressStatus eq 'FINISHED' and req.transactionStatus eq 'COMPLETED'}">
+							<i class="fa fa-check " aria-hidden="true" />
+						</h:panelGroup>
 					</h:panelGroup>
-					<h:panelGroup styleClass="request-icon "
-						rendered="#{req.progressStatus eq 'ON_HOLD'}">
-						<i class="fa fa-pause-circle-o" aria-hidden="true" />
-					</h:panelGroup>
-					<h:panelGroup styleClass="request-icon icon-fail "
-						rendered="#{req.progressStatus eq 'FINISHED' and req.transactionStatus eq 'NOT_COMPLETED'}">
-						<i class="fa fa-ban " aria-hidden="true" />
-					</h:panelGroup>
-					<h:panelGroup styleClass="request-icon icon-success "
-						rendered="#{req.progressStatus eq 'FINISHED' and req.transactionStatus eq 'COMPLETED'}">
-						<i class="fa fa-check " aria-hidden="true" />
-					</h:panelGroup>
+					<p:tooltip for="iconWrapper" trackMouse="true">
+						<h:panelGroup rendered="#{req.progressStatus ne 'FINISHED'}">
+							<h:outputText
+								value="#{progressStatusService.displayName(req.progressStatus)}" />
+						</h:panelGroup>
+						<h:panelGroup rendered="#{req.progressStatus eq 'FINISHED'}">
+							<h:outputText rendered="#{req.transactionStatus eq 'COMPLETED'}"
+								value="#{transactionStatusService.displayName(req.transactionStatus)}" />
+							<h:outputText
+								rendered="#{req.transactionStatus eq 'NOT_COMPLETED'}"
+								value="#{transactionProblemService.displayName(req.transactionProblem)}" />
+						</h:panelGroup>
+					</p:tooltip>
 				</p:column>
 				<p:column headerText="Продукт" width="60"
 					sortBy="#{req.productType}">

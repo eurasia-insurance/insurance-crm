@@ -15,6 +15,19 @@
 		<!-- >> toolbar -->
 		<p:toolbar id="requestToolbar">
 			<f:facet name="left">
+
+				<p:commandButton value="Открыть..."
+					disabled="#{empty ir.progressStatus}"
+					action="#{mainFacade.doAcceptRequestOnce}" process="@this"
+					update="@form:mainToolbar @form:requestDialog"
+					oncomplete="removeIconNew(); PF('requestDialogWV').show(); return false;">
+					<p:resetInput target="@form:requestDialog" />
+				</p:commandButton>
+
+				<h:panelGroup styleClass="ui-separator">
+					<h:panelGroup class="ui-icon ui-icon-grip-dotted-vertical" />
+				</h:panelGroup>
+
 				<p:commandButton value="Принять в обработку"
 					icon="fa fa-play-circle" disabled="#{ir.progressStatus ne 'NEW'}"
 					action="#{mainFacade.doAcceptRequestOnce}" process="@this"

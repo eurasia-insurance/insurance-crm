@@ -75,7 +75,7 @@
 			</h:panelGroup>
 
 			<script>
-				function onDblSelectComplete() {
+				function removeIconNew() {
 					jQuery(
 							'tr[data-rk=' + PF('requestsTableWV').selection
 									+ '] td:has(\'span.icon-new\')').empty();
@@ -95,7 +95,7 @@
 				<p:ajax event="rowDblselect"
 					listener="#{mainFacade.doAcceptRequestOnce}" process="@this"
 					update="@form:mainToolbar @form:requestDialog"
-					oncomplete="onDblSelectComplete(); PF('requestDialogWV').show(); return false;" />
+					oncomplete="removeIconNew(); PF('requestDialogWV').show(); return false;" />
 
 				<p:column width="25" sortBy="#{req.progressStatus}"
 					style="text-align: center">

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>kz.theeurasia.eurasia36.crm</groupId>
+		<artifactId>parent</artifactId>
+		<version>1.4-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>eurasia36-crm-dependencies</artifactId>
+	<packaging>pom</packaging>
+
+	<name>Eurasia36 : CRM : App depdendencies</name>
+
+	<dependencies>
+		<!-- own -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>eurasia36-crm-webapp</artifactId>
+			<type>war</type>
+		</dependency>
+		<!-- internal insurance -->
+		<dependency>
+			<groupId>com.lapsa.insurance-lib</groupId>
+			<artifactId>insurance-services-impl-cdi</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.lapsa.insurance-lib</groupId>
+			<artifactId>insurance-persistence-impl-jpa</artifactId>
+			<type>ejb</type>
+		</dependency>
+	</dependencies>
+
+</project>

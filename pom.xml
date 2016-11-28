@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.lapsa.maven.pom</groupId>
@@ -16,6 +17,7 @@
 
 	<modules>
 		<module>webapp</module>
+		<module>dependencies</module>
 		<module>ear</module>
 	</modules>
 
@@ -31,24 +33,73 @@
 		<!-- EJBs & WARs -->
 		<insurance-persistence-impl-jpa.version>1.4-SNAPSHOT</insurance-persistence-impl-jpa.version>
 		<insurance-services-impl-cdi.version>1.2-SNAPSHOT</insurance-services-impl-cdi.version>
+		<!-- external -->
+		<primefaces.version>5.3.16</primefaces.version>
+		<primefaces-themes.version>1.0.10</primefaces-themes.version>
+		<primefaces-extensions.version>4.0.0</primefaces-extensions.version>
+		<omnifaces.version>2.5.1</omnifaces.version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
 			<!-- own -->
 			<dependency>
-				<groupId>kz.theeurasia.eurasia36.crm</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>eurasia36-crm-webapp</artifactId>
 				<version>${project.version}</version>
 				<type>war</type>
 			</dependency>
 			<dependency>
-				<groupId>kz.theeurasia.eurasia36.crm</groupId>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>eurasia36-crm-dependencies</artifactId>
+				<version>${project.version}</version>
+				<type>pom</type>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>eurasia36-crm-ear</artifactId>
 				<version>${project.version}</version>
 				<type>ear</type>
 			</dependency>
-			<!-- internal -->
+			<!-- internal insurance -->
+			<dependency>
+				<groupId>com.lapsa.insurance-lib</groupId>
+				<artifactId>insurance-elements</artifactId>
+				<version>${insurance-lib.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.lapsa.insurance-lib</groupId>
+				<artifactId>insurance-services</artifactId>
+				<version>${insurance-lib.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.lapsa.insurance-lib</groupId>
+				<artifactId>insurance-domain</artifactId>
+				<version>${insurance-lib.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.lapsa.insurance-lib</groupId>
+				<artifactId>insurance-persistence</artifactId>
+				<version>${insurance-lib.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.lapsa.insurance-lib</groupId>
+				<artifactId>insurance-validation</artifactId>
+				<version>${insurance-lib.version}</version>
+			</dependency>
+			<!-- internal insurance -->
+			<dependency>
+				<groupId>com.lapsa.insurance-lib</groupId>
+				<artifactId>insurance-persistence-impl-jpa</artifactId>
+				<version>${insurance-persistence-impl-jpa.version}</version>
+				<type>ejb</type>
+			</dependency>
+			<dependency>
+				<groupId>com.lapsa.insurance-lib</groupId>
+				<artifactId>insurance-services-impl-cdi</artifactId>
+				<version>${insurance-services-impl-cdi.version}</version>
+			</dependency>
+			<!-- internal kz -->
 			<dependency>
 				<groupId>com.lapsa.kz-lib</groupId>
 				<artifactId>kz-core</artifactId>
@@ -59,6 +110,7 @@
 				<artifactId>kz-eelib</artifactId>
 				<version>${kz-lib.version}</version>
 			</dependency>
+			<!-- internal international -->
 			<dependency>
 				<groupId>com.lapsa.international-lib</groupId>
 				<artifactId>international-core</artifactId>
@@ -69,57 +121,24 @@
 				<artifactId>international-eelib</artifactId>
 				<version>${international-lib.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>com.lapsa.insurance-lib</groupId>
-				<artifactId>insurance-elements</artifactId>
-				<version>${insurance-lib.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.lapsa.insurance-lib</groupId>
-				<artifactId>insurance-domain</artifactId>
-				<version>${insurance-lib.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.lapsa.insurance-lib</groupId>
-				<artifactId>insurance-validation</artifactId>
-				<version>${insurance-lib.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.lapsa.insurance-lib</groupId>
-				<artifactId>insurance-services</artifactId>
-				<version>${insurance-lib.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.lapsa.insurance-lib</groupId>
-				<artifactId>insurance-persistence</artifactId>
-				<version>${insurance-lib.version}</version>
-			</dependency>
+			<!-- internal lapsa -->
 			<dependency>
 				<groupId>com.lapsa.lapsa-lib</groupId>
 				<artifactId>lapsa-cdiutils</artifactId>
 				<version>${lapsa-lib.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.lapsa.insurance-lib</groupId>
-				<artifactId>insurance-services-impl-cdi</artifactId>
-				<version>${insurance-services-impl-cdi.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.lapsa.insurance-lib</groupId>
-				<artifactId>insurance-persistence-impl-jpa</artifactId>
-				<version>${insurance-persistence-impl-jpa.version}</version>
-				<type>ejb</type>
-			</dependency>
-			<dependency>
 				<groupId>com.lapsa.lapsa-lib</groupId>
 				<artifactId>lapsa-validation</artifactId>
 				<version>${lapsa-lib.version}</version>
 			</dependency>
+			<!-- internal donkeyfaces -->
 			<dependency>
 				<groupId>com.lapsa.donkeyfaces-lib</groupId>
 				<artifactId>donkeyfaces-faces</artifactId>
 				<version>${donkeyfaces-lib.version}</version>
 			</dependency>
+			<!-- internal font-awesome -->
 			<dependency>
 				<groupId>com.lapsa.font-awesome-lib</groupId>
 				<artifactId>font-awesome</artifactId>
@@ -129,22 +148,22 @@
 			<dependency>
 				<groupId>org.primefaces</groupId>
 				<artifactId>primefaces</artifactId>
-				<version>5.3.16</version>
+				<version>${primefaces.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.primefaces.extensions</groupId>
+				<groupId>org.primefaces.themes</groupId>
 				<artifactId>all-themes</artifactId>
-				<version>1.0.8</version>
+				<version>${primefaces-themes.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.primefaces.extensions</groupId>
 				<artifactId>primefaces-extensions</artifactId>
-				<version>4.0.0</version>
+				<version>${primefaces-extensions.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.omnifaces</groupId>
 				<artifactId>omnifaces</artifactId>
-				<version>2.4</version>
+				<version>${omnifaces.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

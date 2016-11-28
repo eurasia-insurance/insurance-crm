@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>kz.theeurasia.eurasia36.crm</groupId>
@@ -15,19 +16,11 @@
 	<dependencies>
 		<!-- own -->
 		<dependency>
-			<groupId>kz.theeurasia.eurasia36.crm</groupId>
-			<artifactId>eurasia36-crm-webapp</artifactId>
-			<type>war</type>
-		</dependency>
-		<!-- internal -->
-		<dependency>
-			<groupId>com.lapsa.insurance-lib</groupId>
-			<artifactId>insurance-persistence-impl-jpa</artifactId>
-			<type>ejb</type>
-		</dependency>
-		<dependency>
-			<groupId>com.lapsa.lapsa-lib</groupId>
-			<artifactId>lapsa-cdiutils</artifactId>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>eurasia36-crm-dependencies</artifactId>
+			<type>pom</type>
+			<scope>compile</scope>
+			<optional>false</optional>
 		</dependency>
 	</dependencies>
 

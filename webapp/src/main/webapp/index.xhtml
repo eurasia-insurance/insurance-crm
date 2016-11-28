@@ -78,7 +78,11 @@
 				function removeIconNew() {
 					jQuery(
 							'tr[data-rk=' + PF('requestsTableWV').selection
-									+ '] td:has(\'span.icon-new\')').empty();
+									+ '] span.icon-new')
+							.removeClass('icon-new')
+							.addClass('icon-on-process').find(
+									'i.fa-exclamation').removeClass(
+									'fa-exclamation').addClass('fa-spinner');
 				}
 			</script>
 
@@ -87,8 +91,8 @@
 				selection="#{insuranceRequest.value}" rows="20" paginator="true"
 				paginatorAlwaysVisible="false"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-				rowsPerPageTemplate="10,20,50,100,200"
-				sortMode="multipe" sortOrder="DESCENDING" sortBy="#{req.created}"
+				rowsPerPageTemplate="10,20,50,100,200" sortMode="multipe"
+				sortOrder="DESCENDING" sortBy="#{req.created}"
 				emptyMessage="Нет заявок удовлетворяющих критериям поиска">
 
 				<p:ajax event="rowSelect" process="@this" update="@form:mainToolbar" />

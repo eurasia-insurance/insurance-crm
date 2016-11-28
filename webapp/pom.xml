@@ -13,8 +13,7 @@
 	<name>Eurasia36 : CRM : Web-application ARchive</name>
 
 	<dependencies>
-		<!-- own -->
-		<!-- internal -->
+		<!-- internal insurance -->
 		<dependency>
 			<groupId>com.lapsa.insurance-lib</groupId>
 			<artifactId>insurance-elements</artifactId>
@@ -35,9 +34,16 @@
 		</dependency>
 		<dependency>
 			<groupId>com.lapsa.insurance-lib</groupId>
-			<artifactId>insurance-validation</artifactId>
-			<scope>runtime</scope>
+			<artifactId>insurance-persistence</artifactId>
+			<scope>compile</scope>
+			<optional>false</optional>
 		</dependency>
+		<dependency>
+			<groupId>com.lapsa.insurance-lib</groupId>
+			<artifactId>insurance-services-impl-cdi</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!-- internal kz -->
 		<dependency>
 			<groupId>com.lapsa.kz-lib</groupId>
 			<artifactId>kz-core</artifactId>
@@ -50,6 +56,7 @@
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
+		<!-- internal international -->
 		<dependency>
 			<groupId>com.lapsa.international-lib</groupId>
 			<artifactId>international-core</artifactId>
@@ -62,18 +69,7 @@
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
-		<dependency>
-			<groupId>com.lapsa.insurance-lib</groupId>
-			<artifactId>insurance-persistence</artifactId>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
-			<groupId>com.lapsa.insurance-lib</groupId>
-			<artifactId>insurance-services-impl-cdi</artifactId>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
+		<!-- internal lapsa -->
 		<dependency>
 			<groupId>com.lapsa.lapsa-lib</groupId>
 			<artifactId>lapsa-validation</artifactId>
@@ -81,15 +77,23 @@
 			<optional>false</optional>
 		</dependency>
 		<dependency>
+			<groupId>com.lapsa.lapsa-lib</groupId>
+			<artifactId>lapsa-cdiutils</artifactId>
+			<scope>compile</scope>
+			<optional>false</optional>
+		</dependency>
+		<!-- internal donkeyfaces -->
+		<dependency>
 			<groupId>com.lapsa.donkeyfaces-lib</groupId>
 			<artifactId>donkeyfaces-faces</artifactId>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
+		<!-- internal font-awesome -->
 		<dependency>
 			<groupId>com.lapsa.font-awesome-lib</groupId>
 			<artifactId>font-awesome</artifactId>
-			<scope>compile</scope>
+			<scope>runtime</scope>
 			<optional>false</optional>
 		</dependency>
 		<!-- external -->
@@ -99,7 +103,6 @@
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.primefaces.extensions/all-themes -->
 		<dependency>
 			<groupId>org.primefaces.extensions</groupId>
 			<artifactId>all-themes</artifactId>

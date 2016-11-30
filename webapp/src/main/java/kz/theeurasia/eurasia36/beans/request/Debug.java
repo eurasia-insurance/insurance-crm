@@ -9,7 +9,7 @@ import javax.inject.Named;
 @RequestScoped
 public class Debug {
     private static final boolean DEBUG = false;
-    
+
     public boolean isDebug() {
 	return DEBUG;
     }

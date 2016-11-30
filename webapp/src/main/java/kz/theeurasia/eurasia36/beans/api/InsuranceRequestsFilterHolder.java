@@ -25,6 +25,14 @@ public interface InsuranceRequestsFilterHolder extends WritableValueHolder<Defau
 
     void setAdvanced(boolean advanced);
 
+    boolean isAutoRefresh();
+
+    void setAutoRefresh(boolean autoRefresh);
+
+    int getAutoRefreshInterval();
+
+    void setAutoRefreshInterval(int autoRefreshInterval);
+
     RequestStatus getRequestStatus();
 
     void setRequestStatus(RequestStatus requestStatus);

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:comp="http://xmlns.jcp.org/jsf/composite"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:of="http://omnifaces.org/functions">
+
+	<f:subview>
+
+		<p:ajaxExceptionHandler type="java.lang.RuntimeException"
+			update="exceptionContent" onexception="PF('exceptionDialog').show();" />
+
+		<p:ajaxExceptionHandler
+			type="javax.faces.application.ViewExpiredException"
+			update="viewExpiredExceptionContent"
+			onexception="PF('viewExpiredExceptionDialog').show();" />
+
+		<p:dialog widgetVar="exceptionDialog" minimizable="false" modal="true"
+			maximizable="true" closable="false" position="center top"
+			width="1024" height="600">
+			<h:panelGroup id="exceptionContent">
+				<ui:include src="500.include.xhtml" />
+			</h:panelGroup>
+		</p:dialog>
+
+		<p:dialog widgetVar="viewExpiredExceptionDialog" minimizable="false"
+			modal="true" maximizable="true" closable="false"
+			position="center top" width="1024" height="600">
+			<h:panelGroup id="viewExpiredExceptionContent">
+				<ui:include src="expired.include.xhtml" />
+			</h:panelGroup>
+		</p:dialog>
+
+		<h:panelGroup rendered="#{debug.debug}">
+			<h:form>
+				<p:commandButton ajax="true" value="AJAX Exception" process="@form"
+					update="@form" action="#{debug.throwException}" />
+				<p:commandButton ajax="false" value="non-AJAX Exception"
+					process="@form" update="@form" action="#{debug.throwException}" />
+				<p:commandButton ajax="true" value="AJAX ViewExpired"
+					process="@form" update="@form" action="#{debug.throwViewExpired}" />
+				<p:commandButton ajax="false" value="non-AJAX ViewExpired"
+					process="@form" update="@form" action="#{debug.throwViewExpired}" />
+				<p:commandButton ajax="true" value="Long AJAX request"
+					process="@form" update="@form" action="#{debug.longAjaxRequest}" />
+			</h:form>
+		</h:panelGroup>
+
+	</f:subview>
+
+</ui:composition>

@@ -110,6 +110,14 @@
 					update="@form:mainToolbar @form:requestDialog"
 					oncomplete="removeIconNew(); PF('requestDialogWV').show(); return false;" />
 
+				<f:facet name="header">
+					<div style="text-align: right;">на <ui:include
+							src="out-datetime.include.xhtml">
+							<ui:param name="value" value="#{now}" />
+						</ui:include>
+					</div>
+				</f:facet>
+
 				<p:column width="25" sortBy="#{req.progressStatus}"
 					style="text-align: center">
 					<h:panelGroup id="iconWrapper" styleClass="request-icon">

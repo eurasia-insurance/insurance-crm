@@ -70,7 +70,7 @@
 				<ui:include src="menu.main-toolbar.xhtml">
 					<ui:param name="ir" value="#{insuranceRequest.value}" />
 					<ui:param name="update"
-						value="@form:requestsTable @form:mainToolbar" />
+						value="@form:requestsTable @form:mainToolbar @form:summaryPanel" />
 				</ui:include>
 			</h:panelGroup>
 
@@ -90,7 +90,7 @@
 				<p:poll rendered="#{insuranceRequestsFilter.autoRefresh}"
 					interval="#{insuranceRequestsFilter.autoRefreshInterval}"
 					autoStart="true" process="@this"
-					update="@form:requestsTable @form:mainToolbar"
+					update="@form:requestsTable @form:mainToolbar @form:summaryPanel"
 					listener="#{mainFacade.doRefresh}" />
 			</h:panelGroup>
 
@@ -109,6 +109,14 @@
 					listener="#{mainFacade.doAcceptRequestOnce}" process="@this"
 					update="@form:mainToolbar @form:requestDialog"
 					oncomplete="removeIconNew(); PF('requestDialogWV').show(); return false;" />
+
+				<f:facet name="header">
+					<div style="text-align: right;">на <ui:include
+							src="out-datetime.include.xhtml">
+							<ui:param name="value" value="#{now}" />
+						</ui:include>
+					</div>
+				</f:facet>
 
 				<p:column width="25" sortBy="#{req.progressStatus}"
 					style="text-align: center">

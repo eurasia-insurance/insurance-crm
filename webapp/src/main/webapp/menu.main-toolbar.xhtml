@@ -16,8 +16,8 @@
 		<p:toolbar id="requestToolbar">
 			<f:facet name="left">
 
-				<p:commandButton icon="fa fa-refresh" process="@this" update="@form"
-					action="#{mainFacade.doRefresh}" alt="Обновить" />
+				<p:commandButton icon="fa fa-refresh" process="@this"
+					update="requestToolbar #{update}" action="#{mainFacade.doRefresh}" />
 
 				<p:selectBooleanButton
 					value="#{insuranceRequestsFilter.autoRefresh}"

@@ -88,7 +88,8 @@
 
 			<p:poll rendered="#{insuranceRequestsFilter.autoRefresh}"
 				interval="#{insuranceRequestsFilter.autoRefreshInterval}"
-				autoStart="true" process="@this" update="@form"
+				autoStart="true" process="@this"
+				update="@form:requestsTable @form:mainToolbar"
 				listener="#{mainFacade.doRefresh}" />
 
 			<p:dataTable id="requestsTable" widgetVar="requestsTableWV" var="req"

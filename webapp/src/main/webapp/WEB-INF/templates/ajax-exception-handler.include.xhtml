@@ -35,6 +35,21 @@
 			</h:panelGroup>
 		</p:dialog>
 
+		<h:panelGroup rendered="#{debug.debug}">
+			<h:form>
+				<p:commandButton ajax="true" value="AJAX Exception" process="@form"
+					update="@form" action="#{debug.throwException}" />
+				<p:commandButton ajax="false" value="non-AJAX Exception"
+					process="@form" update="@form" action="#{debug.throwException}" />
+				<p:commandButton ajax="true" value="AJAX ViewExpired"
+					process="@form" update="@form" action="#{debug.throwViewExpired}" />
+				<p:commandButton ajax="false" value="non-AJAX ViewExpired"
+					process="@form" update="@form" action="#{debug.throwViewExpired}" />
+				<p:commandButton ajax="true" value="Long AJAX request"
+					process="@form" update="@form" action="#{debug.longAjaxRequest}" />
+			</h:form>
+		</h:panelGroup>
+
 	</f:subview>
 
 </ui:composition>

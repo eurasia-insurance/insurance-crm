@@ -70,7 +70,7 @@
 				<ui:include src="menu.main-toolbar.xhtml">
 					<ui:param name="ir" value="#{insuranceRequest.value}" />
 					<ui:param name="update"
-						value="@form:requestsTable @form:mainToolbar" />
+						value="@form:requestsTable @form:mainToolbar @form:summaryPanel" />
 				</ui:include>
 			</h:panelGroup>
 
@@ -90,7 +90,7 @@
 				<p:poll rendered="#{insuranceRequestsFilter.autoRefresh}"
 					interval="#{insuranceRequestsFilter.autoRefreshInterval}"
 					autoStart="true" process="@this"
-					update="@form:requestsTable @form:mainToolbar"
+					update="@form:requestsTable @form:mainToolbar @form:summaryPanel"
 					listener="#{mainFacade.doRefresh}" />
 			</h:panelGroup>
 

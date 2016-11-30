@@ -44,6 +44,11 @@
 										update="@form" />
 								</p:column>
 								<p:column>
+									<p:commandButton value="За вчера"
+										action="#{mainFacade.doFilterCreatedYesterday}"
+										process="@this" update="@form" />
+								</p:column>
+								<p:column>
 									<p:commandButton value="С начала недели"
 										action="#{mainFacade.doFilterCreatedThisWeek}" process="@this"
 										update="@form" />

@@ -29,6 +29,8 @@ public class DefaultInsuranceRequestsFilterHolder extends DefaultWritableValueHo
     private static final long serialVersionUID = -6980458753963030228L;
 
     private boolean advanced = false;
+    private boolean autoRefresh = false;
+    private int autoRefreshInterval = 30;
 
     @Override
     public void reset() {
@@ -47,8 +49,27 @@ public class DefaultInsuranceRequestsFilterHolder extends DefaultWritableValueHo
 	this.advanced = advanced;
     }
 
-    // DELEGATE
+    @Override
+    public boolean isAutoRefresh() {
+	return autoRefresh;
+    }
 
+    @Override
+    public void setAutoRefresh(boolean autoRefresh) {
+	this.autoRefresh = autoRefresh;
+    }
+
+    @Override
+    public int getAutoRefreshInterval() {
+	return autoRefreshInterval;
+    }
+
+    @Override
+    public void setAutoRefreshInterval(int autoRefreshInterval) {
+	this.autoRefreshInterval = autoRefreshInterval;
+    }
+
+    // DELEGATE
     @Override
     public ObtainingStatus getObtainingStatus() {
 	return value.getObtainingStatus();

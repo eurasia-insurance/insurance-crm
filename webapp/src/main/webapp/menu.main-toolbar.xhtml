@@ -16,6 +16,19 @@
 		<p:toolbar id="requestToolbar">
 			<f:facet name="left">
 
+				<p:commandButton icon="fa fa-refresh" process="@this"
+					update="requestToolbar #{update}" action="#{mainFacade.doRefresh}" />
+
+				<p:selectBooleanButton
+					value="#{insuranceRequestsFilter.autoRefresh}"
+					onLabel="Автообновление" offLabel="Автообновление">
+					<p:ajax process="@this" update="@form:autoRefreshPoll" />
+				</p:selectBooleanButton>
+
+				<h:panelGroup styleClass="ui-separator">
+					<h:panelGroup class="ui-icon ui-icon-grip-dotted-vertical" />
+				</h:panelGroup>
+
 				<p:commandButton value="Открыть..."
 					disabled="#{empty ir.progressStatus}"
 					action="#{mainFacade.doAcceptRequestOnce}" process="@this"

@@ -13,4 +13,15 @@
 			<var>ui</var>
 		</resource-bundle>
 	</application>
+	<!-- default rules -->
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-outcome>home</from-outcome>
+			<to-view-id>/index.html</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
 </faces-config>
+
+

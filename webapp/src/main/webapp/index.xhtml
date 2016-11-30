@@ -86,11 +86,13 @@
 				}
 			</script>
 
-			<p:poll rendered="#{insuranceRequestsFilter.autoRefresh}"
-				interval="#{insuranceRequestsFilter.autoRefreshInterval}"
-				autoStart="true" process="@this"
-				update="@form:requestsTable @form:mainToolbar"
-				listener="#{mainFacade.doRefresh}" />
+			<h:panelGroup id="autoRefreshPoll">
+				<p:poll rendered="#{insuranceRequestsFilter.autoRefresh}"
+					interval="#{insuranceRequestsFilter.autoRefreshInterval}"
+					autoStart="true" process="@this"
+					update="@form:requestsTable @form:mainToolbar"
+					listener="#{mainFacade.doRefresh}" />
+			</h:panelGroup>
 
 			<p:dataTable id="requestsTable" widgetVar="requestsTableWV" var="req"
 				value="#{insuranceRequests.model}" selectionMode="single"

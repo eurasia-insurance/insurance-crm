@@ -22,7 +22,7 @@
 				<p:selectBooleanButton
 					value="#{insuranceRequestsFilter.autoRefresh}"
 					onLabel="Автообновление" offLabel="Автообновление">
-					<p:ajax process="@this" update="@form" />
+					<p:ajax process="@this" update="@form:autoRefreshPoll" />
 				</p:selectBooleanButton>
 
 				<h:panelGroup styleClass="ui-separator">

@@ -144,8 +144,8 @@ public class DefaultInsuranceRequestFitler implements InsuranceRequestFitler {
 	return completedAfter;
     }
 
-    public void setCompletedFrom(Date completedFrom) {
-	this.completedAfter = completedFrom;
+    public void setCompletedAfter(Date completedAfter) {
+	this.completedAfter = completedAfter;
     }
 
     @Override

@@ -175,7 +175,7 @@
 	<scm>
 		<connection>scm:git:https://gitlab.lapsa.tech/eurasia36/eurasia36-crm.git</connection>
 		<developerConnection>scm:git:https://gitlab.lapsa.tech/eurasia36/eurasia36-crm.git</developerConnection>
-		<tag>HEAD<tag>
+		<tag>v123</tag>
 	</scm>
 
 	<issueManagement>

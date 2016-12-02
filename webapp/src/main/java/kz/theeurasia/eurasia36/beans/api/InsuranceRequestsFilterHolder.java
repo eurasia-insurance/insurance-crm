@@ -79,7 +79,7 @@ public interface InsuranceRequestsFilterHolder extends WritableValueHolder<Defau
 
     Date getCompletedAfter();
 
-    void setCompletedFrom(Date completedFrom);
+    void setCompletedAfter(Date completedFrom);
 
     Date getCompletedBefore();
 

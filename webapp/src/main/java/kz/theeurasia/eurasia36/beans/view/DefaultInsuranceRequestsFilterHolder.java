@@ -196,8 +196,8 @@ public class DefaultInsuranceRequestsFilterHolder extends DefaultWritableValueHo
     }
 
     @Override
-    public void setCompletedFrom(Date completedFrom) {
-	value.setCompletedFrom(completedFrom);
+    public void setCompletedAfter(Date completedAfter) {
+	value.setCompletedAfter(completedAfter);
     }
 
     @Override

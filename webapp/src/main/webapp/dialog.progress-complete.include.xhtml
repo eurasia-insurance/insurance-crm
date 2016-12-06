@@ -18,45 +18,15 @@
 			<!-- >> dialog -->
 			<p:dialog widgetVar="#{dialogWV}"
 				header="Результаты '#{ir.requester.name}'?" closeOnEscape="false"
-				modal="true" width="600" height="300" closable="false"
+				modal="true" width="650" height="340" closable="false"
 				resizable="false" position="center top">
 
 				<!-- >> wrapper -->
 				<h:panelGroup id="content">
 
-					<p:panel>
-						<p:panelGrid>
-							<p:row>
-								<p:column>
-									<p:outputLabel value="Договор заключен?" />
-								</p:column>
-								<p:column>
-									<p:selectOneButton value="#{ir.transactionStatus}"
-										layout="custom">
-										<f:selectItem itemLabel="Да" itemValue="COMPLETED" />
-										<f:selectItem itemLabel="Нет" itemValue="NOT_COMPLETED" />
-										<p:ajax listener="#{mainFacade.onTransactionStatusChanged}"
-											process="@this" update="transactionProblem" />
-									</p:selectOneButton>
-								</p:column>
-							</p:row>
-							<p:row>
-								<p:column>
-									<p:outputLabel value="Укажите причину" />
-								</p:column>
-								<p:column>
-									<p:selectOneMenu id="transactionProblem"
-										value="#{ir.transactionProblem}"
-										disabled="#{ir.transactionStatus ne 'NOT_COMPLETED'}">
-										<f:selectItem value="#{configurationFacade.mustSelectSI}" />
-										<f:selectItems
-											value="#{transactionProblemService.selectableItemsSI}" />
-										<p:ajax process="@this" update="@this" />
-									</p:selectOneMenu>
-								</p:column>
-							</p:row>
-						</p:panelGrid>
-					</p:panel>
+					<ui:include src="input.progress-complete.include.xhtml">
+						<ui:param name="extupdate" value="content" />
+					</ui:include>
 
 					<p:toolbar>
 						<f:facet name="right">

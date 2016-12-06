@@ -18,134 +18,19 @@
 			<!-- >> dialog -->
 			<p:dialog widgetVar="#{dialogWV}"
 				header="Закрыть заявку #{ir.id} '#{ir.requester.name}'?"
-				closeOnEscape="false" modal="true" width="1024" height="400"
+				closeOnEscape="false" modal="true" width="1024" height="480"
 				closable="false" resizable="false" position="center top">
 
 				<!-- >> wrapper -->
 				<h:panelGroup id="content">
 
-					<p:panel>
-						<p:panelGrid>
-							<p:row>
-								<p:column>
-									<p:outputLabel value="Договор заключен?" />
-								</p:column>
-								<p:column>
-									<p:selectOneButton value="#{ir.transactionStatus}"
-										layout="custom">
-										<f:selectItem itemLabel="Да" itemValue="COMPLETED" />
-										<f:selectItem itemLabel="Нет" itemValue="NOT_COMPLETED" />
-										<p:ajax process="@this"
-											listener="#{mainFacade.onTransactionStatusChanged}"
-											update="content" />
-									</p:selectOneButton>
-								</p:column>
-							</p:row>
-							<p:row>
-								<p:column>
-									<p:outputLabel value="Укажите причину" />
-								</p:column>
-								<p:column>
-									<p:selectOneMenu id="transactionProblem"
-										value="#{ir.transactionProblem}"
-										disabled="#{ir.transactionStatus ne 'NOT_COMPLETED'}">
-										<f:selectItem value="#{configurationFacade.mustSelectSI}" />
-										<f:selectItems
-											value="#{transactionProblemService.selectableItemsSI}" />
-										<p:ajax process="@this" update="@this" />
-									</p:selectOneMenu>
-								</p:column>
-							</p:row>
-						</p:panelGrid>
-					</p:panel>
-					<p:panel>
-						<p:panelGrid>
-							<p:row>
-								<p:column>
-									<p:outputLabel value="Способ доставки:" />
-								</p:column>
-								<p:column>
-									<p:selectOneMenu value="#{ir.obtaining.method}"
-										rendered="#{ir.transactionStatus eq 'COMPLETED'}">
-										<p:ajax listener="#{mainFacade.onObtainingMethodChanged}"
-											process="@this" update="content" />
-										<f:selectItem value="#{configurationFacade.mustSelectSI}" />
-										<f:selectItems
-											value="#{obtainingMethodService.valueItemsShortSI}" />
-									</p:selectOneMenu>
-									<p:selectOneMenu value="#{ir.obtaining.method}"
-										rendered="#{ir.transactionStatus ne 'COMPLETED'}">
-										<p:ajax listener="#{mainFacade.onObtainingMethodChanged}"
-											process="@this" update="content" />
-										<f:selectItem value="#{configurationFacade.mustSelectSI}" />
-										<f:selectItems
-											value="#{obtainingMethodService.allItemsShortSI}" />
-									</p:selectOneMenu>
-								</p:column>
-								<p:column>
-									<p:outputLabel value="Статус доставки:" />
-								</p:column>
-								<p:column>
-									<p:selectOneMenu value="#{ir.obtaining.status}"
-										rendered="#{ir.obtaining.method eq 'UNDEFINED'}">
-										<p:ajax process="@this" update="@this" />
-										<f:selectItem value="#{configurationFacade.mustSelectSI}" />
-										<f:selectItems
-											value="#{obtainingStatusService.nonValueItemsShortSI}" />
-									</p:selectOneMenu>
-									<p:selectOneMenu value="#{ir.obtaining.status}"
-										rendered="#{ir.obtaining.method ne 'UNDEFINED'}">
-										<p:ajax process="@this" update="@this" />
-										<f:selectItem value="#{configurationFacade.mustSelectSI}" />
-										<f:selectItems
-											value="#{obtainingStatusService.valueItemsShortSI}" />
-									</p:selectOneMenu>
-								</p:column>
-							</p:row>
-							<p:row>
-								<p:column>
-									<p:outputLabel value="Способ оплаты:" />
-								</p:column>
-								<p:column>
+					<ui:include src="input.progress-complete.include.xhtml">
+						<ui:param name="extupdate" value="content" />
+					</ui:include>
 
-									<p:selectOneMenu value="#{ir.payment.method}"
-										rendered="#{ir.transactionStatus eq 'COMPLETED'}">
-										<p:ajax listener="#{mainFacade.onPaymentMethodChanged}"
-											process="@this" update="content" />
-										<f:selectItem value="#{configurationFacade.mustSelectSI}" />
-										<f:selectItems
-											value="#{paymentMethodService.valueItemsShortSI}" />
-									</p:selectOneMenu>
-									<p:selectOneMenu value="#{ir.payment.method}"
-										rendered="#{ir.transactionStatus ne 'COMPLETED'}">
-										<p:ajax listener="#{mainFacade.onPaymentMethodChanged}"
-											process="@this" update="content" />
-										<f:selectItem value="#{configurationFacade.mustSelectSI}" />
-										<f:selectItems value="#{paymentMethodService.allItemsShortSI}" />
-									</p:selectOneMenu>
-								</p:column>
-								<p:column>
-									<p:outputLabel value="Статус оплаты:" />
-								</p:column>
-								<p:column>
-									<p:selectOneMenu value="#{ir.payment.status}"
-										rendered="#{ir.payment.method eq 'UNDEFINED'}">
-										<p:ajax process="@this" update="@this" />
-										<f:selectItem value="#{configurationFacade.mustSelectSI}" />
-										<f:selectItems
-											value="#{paymentStatusService.nonValueItemsShortSI}" />
-									</p:selectOneMenu>
-									<p:selectOneMenu value="#{ir.payment.status}"
-										rendered="#{ir.payment.method ne 'UNDEFINED'}">
-										<p:ajax process="@this" update="@this" />
-										<f:selectItem value="#{configurationFacade.mustSelectSI}" />
-										<f:selectItems
-											value="#{paymentStatusService.valueItemsShortSI}" />
-									</p:selectOneMenu>
-								</p:column>
-							</p:row>
-						</p:panelGrid>
-					</p:panel>
+					<ui:include src="input.payment-obtaining.include.xhtml">
+						<ui:param name="extupdate" value="content" />
+					</ui:include>
 
 					<p:toolbar>
 						<f:facet name="right">

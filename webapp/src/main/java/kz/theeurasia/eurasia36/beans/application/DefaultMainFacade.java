@@ -21,7 +21,7 @@ import com.lapsa.insurance.crm.ObtainingStatus;
 import com.lapsa.insurance.crm.PaymentStatus;
 import com.lapsa.insurance.crm.ProgressStatus;
 import com.lapsa.insurance.crm.RequestStatus;
-import com.lapsa.insurance.crm.TransactionStatus;
+import com.lapsa.insurance.domain.CalculationData;
 import com.lapsa.insurance.domain.InsuranceRequest;
 import com.lapsa.insurance.domain.ObtainingData;
 import com.lapsa.insurance.domain.PaymentData;
@@ -179,6 +179,22 @@ public class DefaultMainFacade implements MainFacade {
 	handlePaymentMethodChange();
     }
 
+    @Override
+    public void onActualPremiumCostChanged(AjaxBehaviorEvent event) {
+	handleActualPremiumCostChange();
+    }
+
+    @Override
+    public void onDiscountAmountChanged(AjaxBehaviorEvent event) {
+	handleDiscountAmountChange();
+    }
+
+    @Override
+    public String doSetDiscount(double discountPercent) {
+	setDiscountPercent(discountPercent);
+	return null;
+    }
+
     // PRIVATE
 
     @Inject
@@ -295,8 +311,39 @@ public class DefaultMainFacade implements MainFacade {
 
     private void handleTransactionStatusChange() {
 	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
-	if (insuranceRequest.getTransactionStatus() == TransactionStatus.COMPLETED)
+	CalculationData calc = insuranceRequest.getProduct().getCalculation();
+
+	switch (insuranceRequest.getTransactionStatus()) {
+	case COMPLETED:
 	    insuranceRequest.setTransactionProblem(null);
+	    calc.setActualPremiumCost(calc.getCalculatedPremiumCost());
+	    calc.setDiscountAmount(0d);
+	    break;
+	case NOT_COMPLETED:
+	    calc.setActualPremiumCost(0d);
+	    calc.setDiscountAmount(0d);
+	    break;
+	default:
+	}
+    }
+
+    private void handleActualPremiumCostChange() {
+	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
+	CalculationData calc = insuranceRequest.getProduct().getCalculation();
+	calc.setDiscountAmount(calc.getCalculatedPremiumCost() - calc.getActualPremiumCost());
+    }
+
+    private void handleDiscountAmountChange() {
+	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
+	CalculationData calc = insuranceRequest.getProduct().getCalculation();
+	calc.setActualPremiumCost(calc.getCalculatedPremiumCost() - calc.getDiscountAmount());
+    }
+
+    private void setDiscountPercent(double discountPercent) {
+	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
+	CalculationData calc = insuranceRequest.getProduct().getCalculation();
+	calc.setDiscountAmount(calc.getCalculatedPremiumCost() * discountPercent);
+	handleDiscountAmountChange();
     }
 
     private void handleObtainingMethodChange() {

@@ -30,8 +30,8 @@
 		<lapsa-lib.version>1.1.1</lapsa-lib.version>
 		<donkeyfaces-lib.version>1.1</donkeyfaces-lib.version>
 		<!-- EJBs & WARs -->
+		<insurance-services-impl-cdi.version>1.3-SNAPSHOT</insurance-services-impl-cdi.version>
 		<insurance-persistence-impl-jpa.version>1.5-SNAPSHOT</insurance-persistence-impl-jpa.version>
-		<insurance-services-impl-cdi.version>1.2</insurance-services-impl-cdi.version>
 		<!-- external -->
 		<primefaces.version>5.3.16</primefaces.version>
 		<primefaces-themes.version>1.0.10</primefaces-themes.version>

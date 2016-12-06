@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:comp="http://xmlns.jcp.org/jsf/composite"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+	<p:panel style="height: 260px;" id="progressCompletePanel">
+		<p:panelGrid>
+			<p:row>
+				<p:column>
+					<p:outputLabel value="Договор заключен?" />
+				</p:column>
+				<p:column>
+					<p:selectOneButton value="#{ir.transactionStatus}" layout="custom">
+						<f:selectItem itemLabel="Да" itemValue="COMPLETED" />
+						<f:selectItem itemLabel="Нет" itemValue="NOT_COMPLETED" />
+						<p:ajax listener="#{mainFacade.onTransactionStatusChanged}"
+							process="@this"
+							update="actualPolicyCostWrapper transactionProblemWrapper #{extupdate}" />
+					</p:selectOneButton>
+				</p:column>
+			</p:row>
+		</p:panelGrid>
+		<h:panelGroup id="actualPolicyCostWrapper">
+			<p:panelGrid rendered="#{ir.transactionStatus eq 'COMPLETED'}">
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Расчитанная стоимость премии" />
+					</p:column>
+					<p:column>
+						<ui:include src="out-money.include.xhtml">
+							<ui:param name="value"
+								value="#{ir.product.calculation.calculatedPremiumCost}" />
+						</ui:include>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Окончательная сумма сделки" />
+					</p:column>
+					<p:column>
+						<p:inputNumber value="#{ir.product.calculation.actualPremiumCost}"
+							symbol=" &#8376;" symbolPosition="e" decimalSeparator=","
+							decimalPlaces="2" thousandSeparator=" " minValue="0"
+							maxValue="#{ir.product.calculation.calculatedPremiumCost}">
+							<p:ajax listener="#{mainFacade.onActualPremiumCostChanged}"
+								process="@this" update="actualPolicyCostWrapper" />
+						</p:inputNumber>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Сумма скидки" />
+					</p:column>
+					<p:column>
+						<p:inputNumber value="#{ir.product.calculation.discountAmount}"
+							symbol=" &#8376;" symbolPosition="e" decimalSeparator=","
+							decimalPlaces="2" thousandSeparator=" " minValue="0"
+							maxValue="#{ir.product.calculation.calculatedPremiumCost}">
+							<p:ajax listener="#{mainFacade.onDiscountAmountChanged}"
+								process="@this" update="actualPolicyCostWrapper" />
+						</p:inputNumber>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="2">
+						<p:commandButton value="нет"
+							action="#{mainFacade.doSetDiscount(0)}" process="@this"
+							update="actualPolicyCostWrapper" />
+						<p:commandButton value="15%"
+							action="#{mainFacade.doSetDiscount(.15)}" process="@this"
+							update="actualPolicyCostWrapper" />
+						<p:commandButton value="20%"
+							action="#{mainFacade.doSetDiscount(.20)}" process="@this"
+							update="actualPolicyCostWrapper" />
+						<p:commandButton value="25%"
+							action="#{mainFacade.doSetDiscount(.25)}" process="@this"
+							update="actualPolicyCostWrapper" />
+						<p:commandButton value="30%"
+							action="#{mainFacade.doSetDiscount(.30)}" process="@this"
+							update="actualPolicyCostWrapper" />
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+		</h:panelGroup>
+		<h:panelGroup id="transactionProblemWrapper">
+			<p:panelGrid rendered="#{ir.transactionStatus eq 'NOT_COMPLETED'}">
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Укажите причину" />
+					</p:column>
+					<p:column>
+						<p:selectOneMenu id="transactionProblem"
+							value="#{ir.transactionProblem}">
+							<f:selectItem value="#{configurationFacade.mustSelectSI}" />
+							<f:selectItems
+								value="#{transactionProblemService.selectableItemsSI}" />
+							<p:ajax process="@this" update="@this" />
+						</p:selectOneMenu>
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+		</h:panelGroup>
+
+	</p:panel>
+
+</ui:composition>

@@ -33,4 +33,10 @@ public interface MainFacade {
     void onObtainingMethodChanged(AjaxBehaviorEvent event);
 
     void onPaymentMethodChanged(AjaxBehaviorEvent event);
+
+    void onActualPremiumCostChanged(AjaxBehaviorEvent event);
+
+    void onDiscountAmountChanged(AjaxBehaviorEvent event);
+
+    String doSetDiscount(double discountPercent);
 }

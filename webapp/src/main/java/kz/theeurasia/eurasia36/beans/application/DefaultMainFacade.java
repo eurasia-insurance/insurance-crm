@@ -304,7 +304,7 @@ public class DefaultMainFacade implements MainFacade {
 	insuranceRequest.setAccepted(new Date());
 	{
 	    String remoteUser = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
-	    logger.info(String.format("Accept request by '%1$s'", remoteUser));
+	    logger.info(String.format("Request accepted by '%1$s'", remoteUser));
 	    if (remoteUser != null && !remoteUser.isEmpty()) {
 		Manager manager;
 		try {

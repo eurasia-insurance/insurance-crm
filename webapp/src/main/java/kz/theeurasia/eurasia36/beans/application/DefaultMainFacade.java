@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -26,12 +27,15 @@ import com.lapsa.insurance.domain.InsuranceRequest;
 import com.lapsa.insurance.domain.ObtainingData;
 import com.lapsa.insurance.domain.PaymentData;
 import com.lapsa.insurance.domain.casco.CascoRequest;
+import com.lapsa.insurance.domain.crm.Manager;
 import com.lapsa.insurance.domain.policy.PolicyRequest;
 import com.lapsa.insurance.elements.InsuranceProductType;
 import com.lapsa.insurance.elements.ObtainingMethod;
 import com.lapsa.insurance.elements.PaymentMethod;
 import com.lapsa.insurance.persistence.dao.CascoRequestDAO;
+import com.lapsa.insurance.persistence.dao.EntityNotFound;
 import com.lapsa.insurance.persistence.dao.InsuranceRequestDAO;
+import com.lapsa.insurance.persistence.dao.ManagerDAO;
 import com.lapsa.insurance.persistence.dao.NotPersistedException;
 import com.lapsa.insurance.persistence.dao.PeristenceOperationFailed;
 import com.lapsa.insurance.persistence.dao.PolicyRequestDAO;
@@ -213,6 +217,9 @@ public class DefaultMainFacade implements MainFacade {
     private PolicyRequestDAO policyRequestDAO;
 
     @Inject
+    private ManagerDAO managerDAO;
+
+    @Inject
     private CascoRequestDAO cascoRequestDAO;
 
     @Inject
@@ -291,6 +298,22 @@ public class DefaultMainFacade implements MainFacade {
 	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
 	insuranceRequest.setProgressStatus(ProgressStatus.ON_PROCESS);
 	insuranceRequest.setAccepted(new Date());
+	{
+	    String remoteUser = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
+	    if (remoteUser != null && !remoteUser.isEmpty()) {
+		Manager manager;
+		try {
+		    manager = managerDAO.findByEmail(remoteUser);
+		} catch (PeristenceOperationFailed e) {
+		    throw new RuntimeException(e);
+		} catch (EntityNotFound e) {
+		    manager = new Manager();
+		    manager.setEmail(remoteUser);
+		}
+		insuranceRequest.setOwner(manager);
+	    }
+	}
+
     }
 
     private void resumeRequest() {

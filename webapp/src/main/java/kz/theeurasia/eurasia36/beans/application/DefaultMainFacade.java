@@ -304,14 +304,15 @@ public class DefaultMainFacade implements MainFacade {
 	insuranceRequest.setAccepted(new Date());
 	{
 	    String remoteUser = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
-	    logger.info(String.format("Request accepted by '%1$s'", remoteUser));
+
+	    remoteUser = "vadim.isaev@theeurasia.kz";
 	    if (remoteUser != null && !remoteUser.isEmpty()) {
+		logger.info(String.format("Request accepted by '%1$s'", remoteUser));
 		Manager manager;
 		try {
 		    manager = managerDAO.findByEmail(remoteUser);
-		} catch (PeristenceOperationFailed e) {
-		    throw new RuntimeException(e);
 		} catch (EntityNotFound e) {
+		    logger.finer(String.format("New Manager creating '%1$s'", remoteUser));
 		    manager = new Manager();
 		    manager.setEmail(remoteUser);
 		}

@@ -27,6 +27,7 @@
 				</p:column>
 			</p:row>
 		</p:panelGrid>
+		<c:set var="discountDisabled" value="#{ir.productType eq 'POLICY'}" />
 		<h:panelGroup id="actualPolicyCostWrapper">
 			<p:panelGrid rendered="#{ir.transactionStatus eq 'COMPLETED'}">
 				<p:row>
@@ -48,13 +49,14 @@
 						<p:inputNumber value="#{ir.product.calculation.actualPremiumCost}"
 							symbol=" &#8376;" symbolPosition="e" decimalSeparator=","
 							decimalPlaces="2" thousandSeparator=" " minValue="0"
-							maxValue="#{ir.product.calculation.calculatedPremiumCost}" disabled="#{ir.product.type eq 'POLICY'}">
+							maxValue="#{ir.product.calculation.calculatedPremiumCost}"
+							disabled="#{discountDisabled}">
 							<p:ajax listener="#{mainFacade.onActualPremiumCostChanged}"
 								process="@this" update="actualPolicyCostWrapper" />
 						</p:inputNumber>
 					</p:column>
 				</p:row>
-				<p:row rendered="#{ir.product.type ne 'POLICY'}">
+				<p:row rendered="#{not discountDisabled}">
 					<p:column>
 						<p:outputLabel value="Сумма скидки" />
 					</p:column>
@@ -68,7 +70,7 @@
 						</p:inputNumber>
 					</p:column>
 				</p:row>
-				<p:row rendered="#{ir.product.type ne 'POLICY'}">
+				<p:row rendered="#{not discountDisabled}">
 					<p:column colspan="2">
 						<p:commandButton value="нет"
 							action="#{mainFacade.doSetDiscount(0)}" process="@this"

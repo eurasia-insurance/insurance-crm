@@ -48,13 +48,13 @@
 						<p:inputNumber value="#{ir.product.calculation.actualPremiumCost}"
 							symbol=" &#8376;" symbolPosition="e" decimalSeparator=","
 							decimalPlaces="2" thousandSeparator=" " minValue="0"
-							maxValue="#{ir.product.calculation.calculatedPremiumCost}">
+							maxValue="#{ir.product.calculation.calculatedPremiumCost}" disabled="#{ir.product.type eq 'POLICY'}">
 							<p:ajax listener="#{mainFacade.onActualPremiumCostChanged}"
 								process="@this" update="actualPolicyCostWrapper" />
 						</p:inputNumber>
 					</p:column>
 				</p:row>
-				<p:row>
+				<p:row rendered="#{ir.product.type ne 'POLICY'}">
 					<p:column>
 						<p:outputLabel value="Сумма скидки" />
 					</p:column>
@@ -68,7 +68,7 @@
 						</p:inputNumber>
 					</p:column>
 				</p:row>
-				<p:row>
+				<p:row rendered="#{ir.product.type ne 'POLICY'}">
 					<p:column colspan="2">
 						<p:commandButton value="нет"
 							action="#{mainFacade.doSetDiscount(0)}" process="@this"

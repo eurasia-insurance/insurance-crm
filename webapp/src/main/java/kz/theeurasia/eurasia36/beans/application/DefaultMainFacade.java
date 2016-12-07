@@ -9,6 +9,7 @@ import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.context.FacesContext;
@@ -52,6 +53,9 @@ import kz.theeurasia.eurasia36.beans.view.pojo.DefaultInsuranceRequestFitler;
 @Named("mainFacade")
 @ApplicationScoped
 public class DefaultMainFacade implements MainFacade {
+
+    @Inject
+    private transient Logger logger;
 
     @Override
     public void onFilterChanged(AjaxBehaviorEvent event) {
@@ -300,6 +304,7 @@ public class DefaultMainFacade implements MainFacade {
 	insuranceRequest.setAccepted(new Date());
 	{
 	    String remoteUser = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
+	    logger.info(String.format("Accept request by '%1$s'", remoteUser));
 	    if (remoteUser != null && !remoteUser.isEmpty()) {
 		Manager manager;
 		try {

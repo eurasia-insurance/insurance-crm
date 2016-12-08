@@ -82,7 +82,7 @@
 			<f:facet name="right">
 				<h:outputText value="#{currentUser.value.name}" />
 				<h:outputText rendered="#{not empty currentUser.value.email}"
-					value="&amp;nbsp;(#{currentUser.value.email})" />
+					value="&amp;nbsp;(#{currentUser.value.email})" escape="false" />
 			</f:facet>
 
 		</p:toolbar>

@@ -17,12 +17,12 @@ import com.lapsa.insurance.domain.crm.User;
 import com.lapsa.insurance.persistence.dao.EntityNotFound;
 import com.lapsa.insurance.persistence.dao.UserDAO;
 
-import kz.theeurasia.eurasia36.beans.api.CurrentManagerHolder;
+import kz.theeurasia.eurasia36.beans.api.CurrentUserHolder;
 
-@Named("currentManager")
+@Named("currentUser")
 @ViewScoped
-public class DefaultCurrentManagerHolder extends DefaultWritableValueHolder<User>
-	implements Serializable, CurrentManagerHolder {
+public class DefaultCurrentUserHolder extends DefaultWritableValueHolder<User>
+	implements Serializable, CurrentUserHolder {
     private static final long serialVersionUID = 3813022087120135731L;
 
     private static final String DEFAULT_REMOTE_USER = "Guest";
@@ -67,7 +67,7 @@ public class DefaultCurrentManagerHolder extends DefaultWritableValueHolder<User
 	    name = DEFAULT_REMOTE_USER;
 
 	try {
-	    value = userDAO.findByEmail(name);
+	    value = userDAO.findByLogin(name);
 	} catch (EntityNotFound e) {
 	    logger.info(String.format("New User creating '%1$s'", name));
 	    value = new User();

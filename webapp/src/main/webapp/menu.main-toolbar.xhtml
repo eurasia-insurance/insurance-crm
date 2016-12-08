@@ -80,8 +80,7 @@
 			</f:facet>
 
 			<f:facet name="right">
-				<p:outputLabel value="Пользователь: " />
-				<h:outputText value="#{currentManager.value.email}" />
+				<h:outputText value="#{currentUser.value.name} (#{currentUser.value.email})" />
 			</f:facet>
 
 		</p:toolbar>

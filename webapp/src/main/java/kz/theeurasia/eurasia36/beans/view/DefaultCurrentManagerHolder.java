@@ -1,12 +1,15 @@
 package kz.theeurasia.eurasia36.beans.view;
 
 import java.io.Serializable;
+import java.security.Principal;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 
 import org.omnifaces.cdi.ViewScoped;
 
@@ -37,15 +40,38 @@ public class DefaultCurrentManagerHolder extends DefaultWritableValueHolder<Mana
 
     @Override
     public void reset() {
-	String remoteUser = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
-	if (remoteUser == null || remoteUser.isEmpty())
-	    remoteUser = DEFAULT_REMOTE_USER;
+	ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();
+	HttpServletRequest req = (HttpServletRequest) extContext.getRequest();
+
+	Principal principal = null;
+
+	if (principal == null)
+	    principal = extContext.getUserPrincipal();
+
+	if (principal == null) {
+	    principal = req.getUserPrincipal();
+	}
+
+	String name = null;
+
+	if (name == null && principal != null)
+	    name = principal.getName();
+
+	if (name == null)
+	    name = extContext.getRemoteUser();
+
+	if (name == null)
+	    name = req.getRemoteUser();
+
+	if (name == null)
+	    name = DEFAULT_REMOTE_USER;
+
 	try {
-	    value = managerDAO.findByEmail(remoteUser);
+	    value = managerDAO.findByEmail(name);
 	} catch (EntityNotFound e) {
-	    logger.info(String.format("New Manager creating '%1$s'", remoteUser));
+	    logger.info(String.format("New Manager creating '%1$s'", name));
 	    value = new Manager();
-	    value.setEmail(remoteUser);
+	    value.setEmail(name);
 	    value = managerDAO.save(value);
 	}
     }

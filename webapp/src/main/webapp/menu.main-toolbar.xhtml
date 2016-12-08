@@ -79,6 +79,12 @@
 				</p:commandButton>
 
 			</f:facet>
+
+			<f:facet name="right">
+				<p:outputLabel value="Пользователь: " />
+				<h:outputText value="#{currentManager.value.email}" />
+			</f:facet>
+
 		</p:toolbar>
 		<p:sticky target="requestToolbar" />
 		<!-- << toolbar -->

@@ -9,10 +9,8 @@ import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -28,15 +26,12 @@ import com.lapsa.insurance.domain.InsuranceRequest;
 import com.lapsa.insurance.domain.ObtainingData;
 import com.lapsa.insurance.domain.PaymentData;
 import com.lapsa.insurance.domain.casco.CascoRequest;
-import com.lapsa.insurance.domain.crm.Manager;
 import com.lapsa.insurance.domain.policy.PolicyRequest;
 import com.lapsa.insurance.elements.InsuranceProductType;
 import com.lapsa.insurance.elements.ObtainingMethod;
 import com.lapsa.insurance.elements.PaymentMethod;
 import com.lapsa.insurance.persistence.dao.CascoRequestDAO;
-import com.lapsa.insurance.persistence.dao.EntityNotFound;
 import com.lapsa.insurance.persistence.dao.InsuranceRequestDAO;
-import com.lapsa.insurance.persistence.dao.ManagerDAO;
 import com.lapsa.insurance.persistence.dao.NotPersistedException;
 import com.lapsa.insurance.persistence.dao.PeristenceOperationFailed;
 import com.lapsa.insurance.persistence.dao.PolicyRequestDAO;
@@ -44,6 +39,7 @@ import com.lapsa.insurance.persistence.dao.filter.InsuranceRequestFitler;
 
 import kz.theeurasia.eurasia36.application.MainFacade;
 import kz.theeurasia.eurasia36.application.UIMessages;
+import kz.theeurasia.eurasia36.beans.api.CurrentManagerHolder;
 import kz.theeurasia.eurasia36.beans.api.FacesMessagesFacade;
 import kz.theeurasia.eurasia36.beans.api.InsuranceRequestHolder;
 import kz.theeurasia.eurasia36.beans.api.InsuranceRequestsFilterHolder;
@@ -53,9 +49,6 @@ import kz.theeurasia.eurasia36.beans.view.pojo.DefaultInsuranceRequestFitler;
 @Named("mainFacade")
 @ApplicationScoped
 public class DefaultMainFacade implements MainFacade {
-
-    @Inject
-    private transient Logger logger;
 
     @Override
     public void onFilterChanged(AjaxBehaviorEvent event) {
@@ -221,13 +214,13 @@ public class DefaultMainFacade implements MainFacade {
     private PolicyRequestDAO policyRequestDAO;
 
     @Inject
-    private ManagerDAO managerDAO;
-
-    @Inject
     private CascoRequestDAO cascoRequestDAO;
 
     @Inject
     private InsuranceRequestHolder insuranceRequestHolder;
+
+    @Inject
+    private CurrentManagerHolder currentManager;
 
     private void initFilter() {
 	resetFilter();
@@ -302,24 +295,7 @@ public class DefaultMainFacade implements MainFacade {
 	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
 	insuranceRequest.setProgressStatus(ProgressStatus.ON_PROCESS);
 	insuranceRequest.setAccepted(new Date());
-	{
-	    String remoteUser = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
-
-	    remoteUser = "vadim.isaev@theeurasia.kz";
-	    if (remoteUser != null && !remoteUser.isEmpty()) {
-		logger.info(String.format("Request accepted by '%1$s'", remoteUser));
-		Manager manager;
-		try {
-		    manager = managerDAO.findByEmail(remoteUser);
-		} catch (EntityNotFound e) {
-		    logger.finer(String.format("New Manager creating '%1$s'", remoteUser));
-		    manager = new Manager();
-		    manager.setEmail(remoteUser);
-		}
-		insuranceRequest.setOwner(manager);
-	    }
-	}
-
+	insuranceRequest.setOwner(currentManager.getValue());
     }
 
     private void resumeRequest() {

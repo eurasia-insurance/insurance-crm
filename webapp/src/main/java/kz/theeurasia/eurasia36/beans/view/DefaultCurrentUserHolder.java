@@ -52,28 +52,48 @@ public class DefaultCurrentUserHolder extends DefaultWritableValueHolder<User>
 	    principal = req.getUserPrincipal();
 	}
 
-	String name = null;
+	String email = null;
 
-	if (name == null && principal != null)
-	    name = principal.getName();
+	if (email == null && principal != null)
+	    email = principal.getName();
 
-	if (name == null)
-	    name = extContext.getRemoteUser();
+	if (email == null)
+	    email = extContext.getRemoteUser();
 
-	if (name == null)
-	    name = req.getRemoteUser();
+	if (email == null)
+	    email = req.getRemoteUser();
 
-	if (name == null)
-	    name = DEFAULT_REMOTE_USER;
+	if (email == null)
+	    email = DEFAULT_REMOTE_USER;
 
 	try {
-	    value = userDAO.findByLogin(name);
+	    value = userDAO.findByLogin(email);
 	} catch (EntityNotFound e) {
-	    logger.info(String.format("New User creating '%1$s'", name));
+	    logger.info(String.format("New User creating '%1$s'", email));
 	    value = new User();
-	    value.setEmail(name);
+	    value.setLogin(email);
+	    value.setEmail(email);
+	    value.setName(stripEmailToName(email));
 	    value = userDAO.save(value);
 	}
+    }
+
+    private static String stripEmailToName(String email) {
+	if (email == null)
+	    return null;
+	String[] verbs = email.split("\\@")[0].split("[\\.\\s]");
+	StringBuffer sb = new StringBuffer();
+	for (int i = 0; i < verbs.length; i++) {
+	    String verb = verbs[i];
+	    if (verb.length() == 0)
+		continue;
+	    sb.append(Character.toUpperCase(verb.charAt(0)));
+	    if (verb.length() > 1)
+		sb.append(verb.substring(1));
+	    if (i < verbs.length - 1)
+		sb.append(" ");
+	}
+	return sb.toString();
     }
 
 }

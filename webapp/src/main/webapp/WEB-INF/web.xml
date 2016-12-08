@@ -3,25 +3,6 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
 	version="3.1">
 
-	<security-constraint>
-		<web-resource-collection>
-			<web-resource-name>entry-module</web-resource-name>
-			<url-pattern>/*</url-pattern>
-		</web-resource-collection>
-		<auth-constraint>
-			<role-name>user</role-name>
-		</auth-constraint>
-	</security-constraint>
-
-	<security-role>
-		<role-name>user</role-name>
-	</security-role>
-
-	<login-config>
-		<auth-method>BASIC</auth-method>
-		<realm-name>file</realm-name>
-	</login-config>
-
 	<!-- SERVLETs -->
 	<servlet>
 		<servlet-name>facesServlet</servlet-name>
@@ -108,5 +89,26 @@
 		<res-ref-name>jsf/ProjectStage</res-ref-name>
 		<res-type>java.lang.String</res-type>
 	</resource-ref>
+
+
+	<!-- SECURITYs -->
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>entry-module</web-resource-name>
+			<url-pattern>/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>user</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+	<security-role>
+		<role-name>user</role-name>
+	</security-role>
+
+	<login-config>
+		<auth-method>BASIC</auth-method>
+		<realm-name>file</realm-name>
+	</login-config>
 
 </web-app>

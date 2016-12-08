@@ -39,6 +39,7 @@ import com.lapsa.insurance.persistence.dao.filter.InsuranceRequestFitler;
 
 import kz.theeurasia.eurasia36.application.MainFacade;
 import kz.theeurasia.eurasia36.application.UIMessages;
+import kz.theeurasia.eurasia36.beans.api.CurrentUserHolder;
 import kz.theeurasia.eurasia36.beans.api.FacesMessagesFacade;
 import kz.theeurasia.eurasia36.beans.api.InsuranceRequestHolder;
 import kz.theeurasia.eurasia36.beans.api.InsuranceRequestsFilterHolder;
@@ -218,6 +219,9 @@ public class DefaultMainFacade implements MainFacade {
     @Inject
     private InsuranceRequestHolder insuranceRequestHolder;
 
+    @Inject
+    private CurrentUserHolder currentUser;
+
     private void initFilter() {
 	resetFilter();
 	insuranceRequestsFilterHolder.setRequestStatus(RequestStatus.OPEN);
@@ -278,19 +282,20 @@ public class DefaultMainFacade implements MainFacade {
 	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
 	insuranceRequest.setClosed(new Date());
 	insuranceRequest.setStatus(RequestStatus.CLOSED);
+	insuranceRequest.setClosedBy(currentUser.getValue());
     }
 
     private void acceptRequestOnce() {
 	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
-	if (insuranceRequest.getAccepted() == null) {
+	if (insuranceRequest.getAccepted() == null)
 	    acceptRequest();
-	}
     }
 
     private void acceptRequest() {
 	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
 	insuranceRequest.setProgressStatus(ProgressStatus.ON_PROCESS);
 	insuranceRequest.setAccepted(new Date());
+	insuranceRequest.setAcceptedBy(currentUser.getValue());
     }
 
     private void resumeRequest() {
@@ -307,6 +312,7 @@ public class DefaultMainFacade implements MainFacade {
 	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
 	insuranceRequest.setProgressStatus(ProgressStatus.FINISHED);
 	insuranceRequest.setCompleted(new Date());
+	insuranceRequest.setCompletedBy(currentUser.getValue());
     }
 
     private void handleTransactionStatusChange() {

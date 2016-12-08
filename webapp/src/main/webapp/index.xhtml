@@ -53,6 +53,14 @@
 				</ui:include>
 			</h:panelGroup>
 
+			<h:panelGroup id="mainToolbar">
+				<ui:include src="menu.main-toolbar.xhtml">
+					<ui:param name="ir" value="#{insuranceRequest.value}" />
+					<ui:param name="update"
+						value="@form:requestsTable @form:mainToolbar @form:summaryPanel" />
+				</ui:include>
+			</h:panelGroup>
+
 			<h:panelGroup id="filterPanel">
 				<ui:include src="filter.include.xhtml" />
 			</h:panelGroup>
@@ -63,14 +71,6 @@
 						value="#{insuranceRequests.requestCountTotal}" />
 					<ui:param name="amount"
 						value="#{insuranceRequests.requestPremiumCostTotal}" />
-				</ui:include>
-			</h:panelGroup>
-
-			<h:panelGroup id="mainToolbar">
-				<ui:include src="menu.main-toolbar.xhtml">
-					<ui:param name="ir" value="#{insuranceRequest.value}" />
-					<ui:param name="update"
-						value="@form:requestsTable @form:mainToolbar @form:summaryPanel" />
 				</ui:include>
 			</h:panelGroup>
 

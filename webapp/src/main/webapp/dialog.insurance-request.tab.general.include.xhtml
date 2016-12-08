@@ -36,6 +36,8 @@
 						<ui:decorate template="out-datetime.include.xhtml">
 							<ui:param name="value" value="#{ir.closed}" />
 						</ui:decorate>
+						<h:outputText rendered="#{not empty ir.closedBy}"
+							value="&amp;nbsp;(#{ir.closedBy.name})" escape="false" />
 					</p:column>
 				</p:row>
 			</p:panelGrid>
@@ -60,6 +62,8 @@
 						<ui:decorate template="out-datetime.include.xhtml">
 							<ui:param name="value" value="#{ir.accepted}" />
 						</ui:decorate>
+						<h:outputText rendered="#{not empty ir.acceptedBy}"
+							value="&amp;nbsp;(#{ir.acceptedBy.name})" escape="false" />
 					</p:column>
 				</p:row>
 				<p:row>
@@ -70,6 +74,8 @@
 						<ui:decorate template="out-datetime.include.xhtml">
 							<ui:param name="value" value="#{ir.completed}" />
 						</ui:decorate>
+						<h:outputText rendered="#{not empty ir.completedBy}"
+							value="&amp;nbsp;(#{ir.completedBy.name})" escape="false" />
 					</p:column>
 				</p:row>
 

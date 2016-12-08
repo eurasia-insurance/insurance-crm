@@ -13,15 +13,15 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.omnifaces.cdi.ViewScoped;
 
-import com.lapsa.insurance.domain.crm.Manager;
+import com.lapsa.insurance.domain.crm.User;
 import com.lapsa.insurance.persistence.dao.EntityNotFound;
-import com.lapsa.insurance.persistence.dao.ManagerDAO;
+import com.lapsa.insurance.persistence.dao.UserDAO;
 
 import kz.theeurasia.eurasia36.beans.api.CurrentManagerHolder;
 
 @Named("currentManager")
 @ViewScoped
-public class DefaultCurrentManagerHolder extends DefaultWritableValueHolder<Manager>
+public class DefaultCurrentManagerHolder extends DefaultWritableValueHolder<User>
 	implements Serializable, CurrentManagerHolder {
     private static final long serialVersionUID = 3813022087120135731L;
 
@@ -31,7 +31,7 @@ public class DefaultCurrentManagerHolder extends DefaultWritableValueHolder<Mana
     private transient Logger logger;
 
     @Inject
-    private ManagerDAO managerDAO;
+    private UserDAO userDAO;
 
     @PostConstruct
     public void init() {
@@ -67,12 +67,12 @@ public class DefaultCurrentManagerHolder extends DefaultWritableValueHolder<Mana
 	    name = DEFAULT_REMOTE_USER;
 
 	try {
-	    value = managerDAO.findByEmail(name);
+	    value = userDAO.findByEmail(name);
 	} catch (EntityNotFound e) {
-	    logger.info(String.format("New Manager creating '%1$s'", name));
-	    value = new Manager();
+	    logger.info(String.format("New User creating '%1$s'", name));
+	    value = new User();
 	    value.setEmail(name);
-	    value = managerDAO.save(value);
+	    value = userDAO.save(value);
 	}
     }
 

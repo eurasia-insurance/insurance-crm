@@ -5,13 +5,12 @@ import java.security.Principal;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
-
-import org.omnifaces.cdi.ViewScoped;
 
 import com.lapsa.insurance.domain.crm.User;
 import com.lapsa.insurance.persistence.dao.EntityNotFound;
@@ -20,7 +19,7 @@ import com.lapsa.insurance.persistence.dao.UserDAO;
 import kz.theeurasia.eurasia36.beans.api.CurrentUserHolder;
 
 @Named("currentUser")
-@ViewScoped
+@SessionScoped
 public class DefaultCurrentUserHolder extends DefaultWritableValueHolder<User>
 	implements Serializable, CurrentUserHolder {
     private static final long serialVersionUID = 3813022087120135731L;

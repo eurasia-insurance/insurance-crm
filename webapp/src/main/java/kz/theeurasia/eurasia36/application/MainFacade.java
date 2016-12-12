@@ -12,6 +12,18 @@ public interface MainFacade {
 
     String doResetFilter();
 
+    String doFilterCreatedToday();
+
+    String doFilterCreatedYesterday();
+
+    String doFilterCreatedThisWeek();
+
+    String doFilterCreatedLastWeek();
+
+    String doFilterCreatedThisMonth();
+
+    String doFilterCreatedLastMonth();
+
     String doCancelEditRequest();
 
     String doRefresh();

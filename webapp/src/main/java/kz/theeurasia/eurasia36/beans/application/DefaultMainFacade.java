@@ -53,6 +53,7 @@ public class DefaultMainFacade implements MainFacade {
     @Override
     public void onFilterChanged(AjaxBehaviorEvent event) {
 	refreshRequests();
+	unselectIfNotShown();
     }
 
     @Override

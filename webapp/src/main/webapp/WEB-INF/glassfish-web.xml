@@ -5,4 +5,8 @@
 		<role-name>user</role-name>
 		<group-name>eurasia36-crm-users</group-name>
 	</security-role-mapping>
+	<security-role-mapping>
+		<role-name>super-user</role-name>
+		<group-name>eurasia36-crm-super-users</group-name>
+	</security-role-mapping>
 </glassfish-web-app>

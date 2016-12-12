@@ -66,16 +66,20 @@
 					<p:resetInput target="@form:requestProgressCompleteDialog" />
 				</p:commandButton>
 
-				<h:panelGroup styleClass="ui-separator">
-					<h:panelGroup class="ui-icon ui-icon-grip-dotted-vertical" />
-				</h:panelGroup>
+				<h:panelGroup rendered="#{isSuperUser}">
 
-				<p:commandButton value="Закрыть..." icon="fa fa-window-close"
-					disabled="#{ir.progressStatus ne 'FINISHED' or ir.status eq 'CLOSED'}"
-					process="@this" update="@form:requestCloseDialog"
-					oncomplete="PF('requestCloseDialogWV').show(); return false;">
-					<p:resetInput target="@form:requestCloseDialog" />
-				</p:commandButton>
+					<h:panelGroup styleClass="ui-separator">
+						<h:panelGroup class="ui-icon ui-icon-grip-dotted-vertical" />
+					</h:panelGroup>
+
+					<p:commandButton value="Закрыть..." icon="fa fa-window-close"
+						disabled="#{ir.progressStatus ne 'FINISHED' or ir.status eq 'CLOSED'}"
+						process="@this" update="@form:requestCloseDialog"
+						oncomplete="PF('requestCloseDialogWV').show(); return false;">
+						<p:resetInput target="@form:requestCloseDialog" />
+					</p:commandButton>
+
+				</h:panelGroup>
 
 			</f:facet>
 

@@ -14,10 +14,6 @@ public class AuthorizationUtil {
     }
 
     public static void checkRoleAllowed(SecurityRole... rolesAllowed) {
-	ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
-	for (SecurityRole role : rolesAllowed)
-	    if (ctx.isUserInRole(role.getRoleName()))
-		return;
-	throw new UnauthorizedException("Уровень доступа недостаточен");
+	checkRoleAllowed("Уровень доступа недостаточен", rolesAllowed);
     }
 }

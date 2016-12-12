@@ -53,11 +53,13 @@ public class DefaultMainFacade implements MainFacade {
     @Override
     public void onFilterChanged(AjaxBehaviorEvent event) {
 	refreshRequests();
+	unselectIfNotShown();
     }
 
     @Override
     public String doRefresh() {
 	refreshRequests();
+	unselectIfNotShown();
 	return null;
     }
 
@@ -72,6 +74,7 @@ public class DefaultMainFacade implements MainFacade {
     public String doResetFilter() {
 	resetFilter();
 	refreshRequests();
+	unselectIfNotShown();
 	return null;
     }
 
@@ -79,6 +82,7 @@ public class DefaultMainFacade implements MainFacade {
     public String doFilterCreatedToday() {
 	filterCreatedToday();
 	refreshRequests();
+	unselectIfNotShown();
 	return null;
     }
 
@@ -86,6 +90,7 @@ public class DefaultMainFacade implements MainFacade {
     public String doFilterCreatedYesterday() {
 	filterCreatedYesterday();
 	refreshRequests();
+	unselectIfNotShown();
 	return null;
     }
 
@@ -93,6 +98,7 @@ public class DefaultMainFacade implements MainFacade {
     public String doFilterCreatedThisWeek() {
 	filterCreatedThisWeek();
 	refreshRequests();
+	unselectIfNotShown();
 	return null;
     }
 
@@ -100,6 +106,7 @@ public class DefaultMainFacade implements MainFacade {
     public String doFilterCreatedLastWeek() {
 	filterCreatedLastWeek();
 	refreshRequests();
+	unselectIfNotShown();
 	return null;
     }
 
@@ -107,6 +114,7 @@ public class DefaultMainFacade implements MainFacade {
     public String doFilterCreatedThisMonth() {
 	filterCreatedThisMonth();
 	refreshRequests();
+	unselectIfNotShown();
 	return null;
     }
 
@@ -114,6 +122,7 @@ public class DefaultMainFacade implements MainFacade {
     public String doFilterCreatedLastMonth() {
 	filterCreatedLastMonth();
 	refreshRequests();
+	unselectIfNotShown();
 	return null;
     }
 
@@ -122,6 +131,7 @@ public class DefaultMainFacade implements MainFacade {
 	acceptRequestOnce();
 	saveRequest();
 	refreshRequests();
+	unselectIfNotShown();
 	return null;
     }
 
@@ -137,6 +147,7 @@ public class DefaultMainFacade implements MainFacade {
 	pauseRequest();
 	saveRequest();
 	refreshRequests();
+	unselectIfNotShown();
 	return null;
     }
 
@@ -145,6 +156,7 @@ public class DefaultMainFacade implements MainFacade {
 	resumeRequest();
 	saveRequest();
 	refreshRequests();
+	unselectIfNotShown();
 	return null;
     }
 
@@ -153,6 +165,7 @@ public class DefaultMainFacade implements MainFacade {
 	closeRequest();
 	saveRequest();
 	refreshRequests();
+	unselectIfNotShown();
 	return null;
     }
 
@@ -160,6 +173,7 @@ public class DefaultMainFacade implements MainFacade {
     public String doCancelEditRequest() {
 	resetRequest();
 	refreshRequests();
+	unselectIfNotShown();
 	return null;
     }
 
@@ -168,6 +182,7 @@ public class DefaultMainFacade implements MainFacade {
 	completeRequest();
 	saveRequest();
 	refreshRequests();
+	unselectIfNotShown();
 	return null;
     }
 
@@ -282,6 +297,14 @@ public class DefaultMainFacade implements MainFacade {
 	} catch (NotPersistedException e) {
 	    facesMessagesFacade.addExceptionMessage(UIMessages.ERROR_INTERNAL_SERVER_ERROR, e);
 	}
+    }
+
+    private void unselectIfNotShown() {
+	InsuranceRequest request = insuranceRequestHolder.getValue();
+	List<InsuranceRequest> requests = insuranceRequestsHolder.getValue();
+	if (request != null && requests != null && !requests.contains(request))
+	    insuranceRequestHolder.reset();
+
     }
 
     private void closeRequest() {

@@ -1,5 +1,7 @@
 package kz.theeurasia.eurasia36.beans.application;
 
+import static kz.theeurasia.eurasia36.beans.application.AuthorizationUtil.*;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -162,6 +164,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doCloseRequest() {
+	checkRoleAllowed("Не хватает уровня доступа для закрытия заявки", SecurityRole.SUPER_USER);
 	closeRequest();
 	saveRequest();
 	refreshRequests();

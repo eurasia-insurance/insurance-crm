@@ -7,19 +7,14 @@
 	xmlns:cc="http://xmlns.jcp.org/jsf/composite"
 	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
 	xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
-	<!-- http://eurasia36.kz/crm -->
 
 	<cc:interface>
-
-		<!-- main -->
 		<cc:attribute name="value" required="true" type="java.util.Date" />
 		<cc:attribute name="useVerbal" required="false"
 			type="java.lang.Boolean" default="true" />
-
 	</cc:interface>
 
 	<cc:implementation>
-
 		<f:subview rendered="#{not empty cc.attrs.value}">
 			<c:choose>
 				<c:when test="#{cc.attrs.useVerbal}">
@@ -47,7 +42,6 @@
 				</c:otherwise>
 			</c:choose>
 		</f:subview>
-
 	</cc:implementation>
 
 </ui:component>

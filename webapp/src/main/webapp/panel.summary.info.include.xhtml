@@ -8,11 +8,10 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
 
-			Выбрано <strong>#{count}</strong> заявок на общую сумму <strong><ui:decorate
-			template="out-money.include.xhtml">
-			<ui:param name="value" value="#{amount}" />
-		</ui:decorate></strong>
+			Выбрано <strong>#{count}</strong> заявок на общую сумму 
+			<strong><crm:outputMoneyAmount value="#{amount}" /></strong>
 
 </ui:composition>

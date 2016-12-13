@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+	xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
+	<!-- http://eurasia36.kz/crm -->
+
+	<cc:interface>
+
+		<!-- main -->
+		<cc:attribute name="value" required="true" type="java.lang.Boolean" />
+
+	</cc:interface>
+
+	<cc:implementation>
+		<h:outputText value="ДА" rendered="#{cc.attrs.value}" />
+		<h:outputText value="Нет" rendered="#{not cc.attrs.value}" />
+	</cc:implementation>
+
+</ui:component>

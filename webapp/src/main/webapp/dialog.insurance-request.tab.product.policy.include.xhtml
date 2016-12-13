@@ -56,11 +56,7 @@
 				<p:rowToggler />
 			</p:column>
 			<p:column headerText="Временный въезд">
-				<h:panelGroup>
-					<ui:include src="yesno.include.xhtml">
-						<ui:param name="value" value="#{vehicle.temporaryEntry}" />
-					</ui:include>
-				</h:panelGroup>
+				<crm:outputYesNo value="#{vehicle.temporaryEntry}" />
 			</p:column>
 			<p:column headerText="Регион авто">
 				<h:outputText rendered="#{not vehicle.temporaryEntry}"

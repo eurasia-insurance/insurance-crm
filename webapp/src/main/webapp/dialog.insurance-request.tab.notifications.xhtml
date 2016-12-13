@@ -4,7 +4,8 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
 
 	<c:set var="req" value="#{insuranceRequest.value}" />
 
@@ -19,18 +20,14 @@
 				<h:outputText value="#{ntf.class.simpleName}" />
 			</p:column>
 			<p:column headerText="Дата создания">
-				<ui:include src="out-datetime.include.xhtml">
-					<ui:param name="value" value="#{ntf.created}" />
-				</ui:include>
+				<crm:outputDatetime value="#{ntf.created}" />
 			</p:column>
 			<p:column headerText="Статус">
 				<h:outputText
 					value="#{notificationStatusService.displayName(ntf.status)}" />
 			</p:column>
 			<p:column headerText="Дата уведомления">
-				<ui:include src="out-datetime.include.xhtml">
-					<ui:param name="value" value="#{ntf.sent}" />
-				</ui:include>
+				<crm:outputDatetime value="#{ntf.sent}" />
 			</p:column>
 		</p:dataTable>
 	</p:tab>

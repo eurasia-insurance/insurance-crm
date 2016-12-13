@@ -9,10 +9,10 @@ import com.lapsa.insurance.crm.RequestStatus;
 import com.lapsa.insurance.crm.RequestType;
 import com.lapsa.insurance.crm.TransactionProblem;
 import com.lapsa.insurance.crm.TransactionStatus;
+import com.lapsa.insurance.dao.filter.InsuranceRequestFitler;
 import com.lapsa.insurance.elements.InsuranceProductType;
 import com.lapsa.insurance.elements.ObtainingMethod;
 import com.lapsa.insurance.elements.PaymentMethod;
-import com.lapsa.insurance.persistence.dao.filter.InsuranceRequestFitler;
 
 public class DefaultInsuranceRequestFitler implements InsuranceRequestFitler {
 

@@ -26,7 +26,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.lapsa.insurance-lib</groupId>
-			<artifactId>insurance-persistence-impl-jpa</artifactId>
+			<artifactId>insurance-dao-impl-jpa</artifactId>
 			<type>ejb</type>
 		</dependency>
 		<!-- internal lapsa -->

@@ -12,10 +12,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 
+import com.lapsa.insurance.dao.EntityNotFound;
+import com.lapsa.insurance.dao.UserDAO;
 import com.lapsa.insurance.domain.crm.User;
 import com.lapsa.insurance.domain.crm.UserLogin;
-import com.lapsa.insurance.persistence.dao.EntityNotFound;
-import com.lapsa.insurance.persistence.dao.UserDAO;
 
 import kz.theeurasia.eurasia36.beans.api.CurrentUserHolder;
 

@@ -34,7 +34,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.lapsa.insurance-lib</groupId>
-			<artifactId>insurance-persistence</artifactId>
+			<artifactId>insurance-dao</artifactId>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>

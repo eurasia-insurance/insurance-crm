@@ -3,7 +3,8 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core">
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
 
 	<!-- java.lang.Boolean value -->
 	<!-- java.lang.String label -->
@@ -13,9 +14,7 @@
 			<p:outputLabel value="#{label}:" />
 		</p:column>
 		<p:column>
-			<ui:include src="yesno.include.xhtml">
-				<ui:param name="value" value="#{value}" />
-			</ui:include>
+			<crm:outputYesNo value="#{value}" />
 		</p:column>
 	</p:row>
 

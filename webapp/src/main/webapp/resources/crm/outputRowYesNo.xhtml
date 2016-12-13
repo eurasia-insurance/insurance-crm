@@ -11,10 +11,13 @@
 		<cc:attribute name="label" required="true" type="java.lang.String" />
 		<cc:attribute name="labelClass" required="false"
 			type="java.lang.String" default="ui-widget-header" />
+		<cc:attribute name="rendered" required="false"
+			type="java.lang.Boolean" default="true" />
 	</cc:interface>
 
 	<cc:implementation>
-		<crm:outputRow label="#{cc.attrs.label}">
+		<crm:outputRow rendered="#{cc.attrs.rendered}"
+			label="#{cc.attrs.label}">
 			<crm:outputYesNo value="#{cc.attrs.value}" />
 		</crm:outputRow>
 	</cc:implementation>

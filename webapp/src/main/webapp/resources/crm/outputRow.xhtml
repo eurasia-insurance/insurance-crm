@@ -10,10 +10,12 @@
 		<cc:attribute name="label" required="true" type="java.lang.String" />
 		<cc:attribute name="labelClass" required="false"
 			type="java.lang.String" default="ui-widget-header" />
+		<cc:attribute name="rendered" required="false"
+			type="java.lang.Boolean" default="true" />
 	</cc:interface>
 
 	<cc:implementation>
-		<p:row>
+		<p:row rendered="#{cc.attrs.rendered}">
 			<p:column styleClass="#{cc.attrs.labelClass}">
 				<p:outputLabel value="#{cc.attrs.label}" />
 			</p:column>

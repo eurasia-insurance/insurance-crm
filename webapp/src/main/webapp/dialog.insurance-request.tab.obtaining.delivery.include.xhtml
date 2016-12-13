@@ -18,24 +18,17 @@
 					<crm:outputDate value="#{obt.deliveryDate}" useVerbal="false" />
 				</crm:outputRow>
 
-				<crm:outputRow label="Время доставки">
-					<h:outputText
-						value="#{deliveryTimeSlotService.displayNameShort(obt.deliveryTime)}" />
-				</crm:outputRow>
+				<crm:outputRowText label="Время доставки"
+					value="#{deliveryTimeSlotService.displayNameShort(obt.deliveryTime)}" />
 
-				<crm:outputRow label="Город доставки">
-					<h:outputText
-						value="#{kzCityService.displayNameShort(obt.deliveryCity)}" />
-				</crm:outputRow>
+				<crm:outputRowText label="Город доставки"
+					value="#{kzCityService.displayNameShort(obt.deliveryCity)}" />
 
-				<crm:outputRow label="Адрес доставки">
-					<h:outputText value="#{obt.deliveryAddress}" />
-				</crm:outputRow>
+				<crm:outputRowText label="Адрес доставки"
+					value="#{obt.deliveryAddress}" />
 
-				<crm:outputRow label="Статус получения">
-					<h:outputText
-						value="#{obtainingStatusService.displayNameShort(obt.status)}" />
-				</crm:outputRow>
+				<crm:outputRowText label="Статус получения"
+					value="#{obtainingStatusService.displayNameShort(obt.status)}" />
 
 			</p:panelGrid>
 		</p:panel>

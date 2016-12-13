@@ -11,15 +11,11 @@
 		<p:panel>
 			<p:panelGrid>
 
-				<crm:outputRow label="Статус заявки">
-					<h:outputText
-						value="#{requestStatusService.displayNameShort(ir.status)}" />
-				</crm:outputRow>
+				<crm:outputRowText label="Статус заявки"
+					value="#{requestStatusService.displayNameShort(ir.status)}" />
 
-				<crm:outputRow label="Стадия обработки заявки">
-					<h:outputText
-						value="#{progressStatusService.displayNameShort(ir.progressStatus)}" />
-				</crm:outputRow>
+				<crm:outputRowText label="Стадия обработки заявки"
+					value="#{progressStatusService.displayNameShort(ir.progressStatus)}" />
 
 				<crm:outputRow rendered="#{ir.progressStatus eq 'FINISHED'}"
 					label="Результат">
@@ -39,12 +35,10 @@
 						value="#{transactionStatusService.displayNameShort(ir.transactionStatus)}" />
 				</crm:outputRow>
 
-				<crm:outputRow
+				<crm:outputRowText
 					rendered="#{ir.progressStatus eq 'FINISHED' and ir.transactionStatus eq 'NOT_COMPLETED'}"
-					label="Причина">
-					<h:outputText
-						value="#{transactionProblemService.displayNameShort(ir.transactionProblem)}" />
-				</crm:outputRow>
+					label="Причина"
+					value="#{transactionProblemService.displayNameShort(ir.transactionProblem)}" />
 
 			</p:panelGrid>
 		</p:panel>

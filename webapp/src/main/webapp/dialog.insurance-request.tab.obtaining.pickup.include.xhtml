@@ -14,23 +14,16 @@
 		<p:panel>
 			<p:panelGrid>
 
-				<crm:outputRow label="Офис">
-					<h:outputText value="#{obt.pickupPOS.name}" />
-				</crm:outputRow>
+				<crm:outputRowText label="Офис" value="#{obt.pickupPOS.name}" />
 
-				<crm:outputRow label="Город">
-					<h:outputText
-						value="#{kzCityService.displayNameShort(obt.pickupPOS.address.city)}" />
-				</crm:outputRow>
+				<crm:outputRowText label="Город"
+					value="#{kzCityService.displayNameShort(obt.pickupPOS.address.city)}" />
 
-				<crm:outputRow label="Адрес">
-					<h:outputText value="#{obt.pickupPOS.address.street}" />
-				</crm:outputRow>
+				<crm:outputRowText label="Адрес"
+					value="#{obt.pickupPOS.address.street}" />
 
-				<crm:outputRow label="Статус получения">
-					<h:outputText
-						value="#{obtainingStatusService.displayNameShort(obt.status)}" />
-				</crm:outputRow>
+				<crm:outputRowText label="Статус получения"
+					value="#{obtainingStatusService.displayNameShort(obt.status)}" />
 
 			</p:panelGrid>
 		</p:panel>

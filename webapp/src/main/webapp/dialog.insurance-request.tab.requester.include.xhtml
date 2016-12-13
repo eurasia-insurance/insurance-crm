@@ -18,22 +18,14 @@
 		<p:panel>
 			<p:panelGrid>
 
-				<crm:outputRow label="ФИО">
-					<h:outputText value="#{rqr.name}" />
-				</crm:outputRow>
+				<crm:outputRowText label="ФИО" value="#{rqr.name}" />
 
-				<crm:outputRow label="Телефон">
-					<h:outputText value="#{rqr.phone}" />
-				</crm:outputRow>
+				<crm:outputRowText label="Телефон" value="#{rqr.phone}" />
 
-				<crm:outputRow label="E-mail">
-					<h:outputText value="#{rqr.email}" />
-				</crm:outputRow>
+				<crm:outputRowText label="E-mail" value="#{rqr.email}" />
 
-				<crm:outputRow label="Предпочитаемый язык">
-					<h:outputText
-						value="#{localizationLanguageService.displayName(rqr.preferLanguage)}" />
-				</crm:outputRow>
+				<crm:outputRowText label="Предпочитаемый язык"
+					value="#{localizationLanguageService.displayName(rqr.preferLanguage)}" />
 
 				<crm:outputRowYesNo value="#{rqr.allowSpam}"
 					label="Согласие на получение рассылок и уведомлений" />

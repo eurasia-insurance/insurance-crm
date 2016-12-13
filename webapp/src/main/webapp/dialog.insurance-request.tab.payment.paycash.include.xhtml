@@ -19,10 +19,8 @@
 					<crm:outputMoneyAmount value="#{clc.premiumCost}" />
 				</crm:outputRow>
 
-				<crm:outputRow label="Статус оплаты">
-					<h:outputText
-						value="#{paymentStatusService.displayNameShort(pym.status)}" />
-				</crm:outputRow>
+				<crm:outputRowText label="Статус оплаты"
+					value="#{paymentStatusService.displayNameShort(pym.status)}" />
 
 			</p:panelGrid>
 		</p:panel>

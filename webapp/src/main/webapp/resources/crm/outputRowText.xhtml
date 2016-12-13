@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+	xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
+
+	<cc:interface>
+		<cc:attribute name="value" required="true" type="java.lang.String" />
+		<cc:attribute name="label" required="true" type="java.lang.String" />
+		<cc:attribute name="labelClass" required="false"
+			type="java.lang.String" />
+	</cc:interface>
+
+	<cc:implementation>
+		<crm:outputRow labelClass="#{cc.attrs.labelClass}"
+			label="#{cc.attrs.label}">
+			<h:outputText value="#{cc.attrs.value}" />
+		</crm:outputRow>
+	</cc:implementation>
+
+</ui:component>

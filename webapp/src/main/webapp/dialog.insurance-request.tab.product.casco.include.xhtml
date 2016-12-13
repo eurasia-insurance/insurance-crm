@@ -44,21 +44,14 @@
 						<crm:outputRow label="Стоимость ТС:">
 							<crm:outputMoneyAmount value="#{casco.insuredVehicle.cost}" />
 						</crm:outputRow>
-						<crm:outputRow label="Год выпуска ТС:">
-							<h:outputText value="#{casco.insuredVehicle.yearOfManufacture}" />
-						</crm:outputRow>
-						<crm:outputRow label="Категория">
-							<h:outputText
-								value="#{cascoCarAgeClassService.displayName(casco.insuredVehicle.carAgeClass)}" />
-						</crm:outputRow>
-						<crm:outputRow label="Регион регистрации авто">
-							<h:outputText
-								value="#{kzAreaService.displayName(casco.insuredVehicle.area)}" />
-						</crm:outputRow>
-						<crm:outputRow label="Город регистрации авто">
-							<h:outputText
-								value="#{kzCityService.displayName(casco.insuredVehicle.city)}" />
-						</crm:outputRow>
+						<crm:outputRowText label="Год выпуска ТС:"
+							value="#{casco.insuredVehicle.yearOfManufacture}" />
+						<crm:outputRowText label="Категория"
+							value="#{cascoCarAgeClassService.displayName(casco.insuredVehicle.carAgeClass)}" />
+						<crm:outputRowText label="Регион регистрации авто"
+							value="#{kzAreaService.displayName(casco.insuredVehicle.area)}" />
+						<crm:outputRowText label="Город регистрации авто"
+							value="#{kzCityService.displayName(casco.insuredVehicle.city)}" />
 					</p:panelGrid>
 				</crm:outputRow>
 
@@ -66,10 +59,8 @@
 					<h:outputText rendered="#{not casco.deductiblePartialRequired}"
 						value="Не применять" />
 					<p:panelGrid rendered="#{casco.deductiblePartialRequired}">
-						<crm:outputRow label="Размер франшизы по частичном ущербу:">
-							<h:outputText
-								value="#{cascoDeductiblePartialRateService.displayName(casco.deductiblePartialRate)}" />
-						</crm:outputRow>
+						<crm:outputRowText label="Размер франшизы по частичном ущербу:"
+							value="#{cascoDeductiblePartialRateService.displayName(casco.deductiblePartialRate)}" />
 						<crm:outputRowYesNo value="#{casco.noGuiltNoDeductibleRequired}"
 							label="НЕ применять франшизу в случае ДТП возникшего НЕ по вине застрахованного" />
 					</p:panelGrid>
@@ -77,10 +68,8 @@
 
 				<crm:outputRow label="Франшиза по полному ущербу:">
 					<p:panelGrid>
-						<crm:outputRow label="Размер франшизы по полному ущербу:">
-							<h:outputText
-								value="#{cascoDeductibleFullRateService.displayName(casco.deductibleFullRate)}" />
-						</crm:outputRow>
+						<crm:outputRowText label="Размер франшизы по полному ущербу:"
+							value="#{cascoDeductibleFullRateService.displayName(casco.deductibleFullRate)}" />
 					</p:panelGrid>
 				</crm:outputRow>
 

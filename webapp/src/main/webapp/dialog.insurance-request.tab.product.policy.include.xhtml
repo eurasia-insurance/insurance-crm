@@ -4,7 +4,8 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
+	xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
 
 	<o:importConstants
 		type="com.lapsa.insurance.elements.InsuranceProductType" />
@@ -38,19 +39,10 @@
 					value="#{insuredAgeClassService.displayNameShort(driver.ageClass)}" />
 			</p:column>
 			<p:rowExpansion>
-				<ui:decorate template="out-image.include.xhtml">
-					<ui:param name="value"
-						value="#{driver.driverLicenseData.frontside}" />
-				</ui:decorate>
-				<ui:decorate template="out-image.include.xhtml">
-					<ui:param name="value" value="#{driver.driverLicenseData.backside}" />
-				</ui:decorate>
-				<ui:decorate template="out-image.include.xhtml">
-					<ui:param name="value" value="#{driver.identityCardData.frontside}" />
-				</ui:decorate>
-				<ui:decorate template="out-image.include.xhtml">
-					<ui:param name="value" value="#{driver.identityCardData.backside}" />
-				</ui:decorate>
+				<crm:outputScanImage value="#{driver.driverLicenseData.frontside}" />
+				<crm:outputScanImage value="#{driver.driverLicenseData.backside}" />
+				<crm:outputScanImage value="#{driver.identityCardData.frontside}" />
+				<crm:outputScanImage value="#{driver.identityCardData.backside}" />
 			</p:rowExpansion>
 		</p:dataTable>
 
@@ -87,12 +79,8 @@
 					value="#{vehicleClassService.displayNameShort(vehicle.vehicleClass)}" />
 			</p:column>
 			<p:rowExpansion>
-				<ui:decorate template="out-image.include.xhtml">
-					<ui:param name="value" value="#{vehicle.certificateData.frontside}" />
-				</ui:decorate>
-				<ui:decorate template="out-image.include.xhtml">
-					<ui:param name="value" value="#{vehicle.certificateData.backside}" />
-				</ui:decorate>
+				<crm:outputScanImage value="#{vehicle.certificateData.frontside}" />
+				<crm:outputScanImage value="#{vehicle.certificateData.backside}" />
 			</p:rowExpansion>
 		</p:dataTable>
 

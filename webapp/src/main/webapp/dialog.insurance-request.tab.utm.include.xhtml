@@ -8,52 +8,34 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:pe="http://primefaces.org/ui/extensions"
-	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
 
 	<p:tab title="UTM-метки">
 
 		<p:panel>
 			<p:panelGrid>
-				<p:row>
-					<p:column styleClass="ui-widget-header">
-						<p:outputLabel value="Источник кампании (utm_source):" />
-					</p:column>
-					<p:column>
-						<h:outputText value="#{ir.utmData.source}" />
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column styleClass="ui-widget-header">
-						<p:outputLabel value="Тип трафика (utm_medium):" />
-					</p:column>
-					<p:column>
-						<h:outputText value="#{ir.utmData.medium}" />
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column styleClass="ui-widget-header">
-						<p:outputLabel value="Название кампании (utm_campaign):" />
-					</p:column>
-					<p:column>
-						<h:outputText value="#{ir.utmData.campaign}" />
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column styleClass="ui-widget-header">
-						<p:outputLabel value="Идентификатор объявления (utm_content):" />
-					</p:column>
-					<p:column>
-						<h:outputText value="#{ir.utmData.content}" />
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column styleClass="ui-widget-header">
-						<p:outputLabel value="Ключевое слово (utm_term):" />
-					</p:column>
-					<p:column>
-						<h:outputText value="#{ir.utmData.term}" />
-					</p:column>
-				</p:row>
+
+				<crm:outputRow label="Источник кампании (utm_source):">
+					<h:outputText value="#{ir.utmData.source}" />
+				</crm:outputRow>
+
+				<crm:outputRow label="Тип трафика (utm_medium):">
+					<h:outputText value="#{ir.utmData.medium}" />
+				</crm:outputRow>
+
+				<crm:outputRow label="Название кампании (utm_campaign):">
+					<h:outputText value="#{ir.utmData.campaign}" />
+				</crm:outputRow>
+
+				<crm:outputRow label="Идентификатор объявления (utm_content):">
+					<h:outputText value="#{ir.utmData.content}" />
+				</crm:outputRow>
+
+				<crm:outputRow label="Ключевое слово (utm_term):">
+					<h:outputText value="#{ir.utmData.term}" />
+				</crm:outputRow>
+
 			</p:panelGrid>
 		</p:panel>
 

@@ -17,43 +17,30 @@
 
 		<p:panel>
 			<p:panelGrid>
-				<p:row>
-					<p:column styleClass="ui-widget-header">
-						<p:outputLabel value="ФИО" />
-					</p:column>
-					<p:column>
-						<h:outputText value="#{rqr.name}" />
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column styleClass="ui-widget-header">
-						<p:outputLabel value="Телефон" />
-					</p:column>
-					<p:column>
-						<h:outputText value="#{rqr.phone}" />
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column styleClass="ui-widget-header">
-						<h:outputText value="E-mail" />
-					</p:column>
-					<p:column>
-						<h:outputText value="#{rqr.email}" />
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column styleClass="ui-widget-header">
-						<p:outputLabel value="Предпочитаемый язык" />
-					</p:column>
-					<p:column>
-						<h:outputText
-							value="#{localizationLanguageService.displayName(rqr.preferLanguage)}" />
-					</p:column>
-				</p:row>
+
+				<crm:outputRow label="ФИО">
+					<h:outputText value="#{rqr.name}" />
+				</crm:outputRow>
+
+				<crm:outputRow label="Телефон">
+					<h:outputText value="#{rqr.phone}" />
+				</crm:outputRow>
+
+				<crm:outputRow label="E-mail">
+					<h:outputText value="#{rqr.email}" />
+				</crm:outputRow>
+
+				<crm:outputRow label="Предпочитаемый язык">
+					<h:outputText
+						value="#{localizationLanguageService.displayName(rqr.preferLanguage)}" />
+				</crm:outputRow>
+
 				<crm:outputRowYesNo value="#{rqr.allowSpam}"
 					label="Согласие на получение рассылок и уведомлений" />
+
 				<crm:outputRowYesNo value="#{rqr.allowProcessPersonalData}"
 					label="Cогласие на сбор, обработку и хранение персональных данных" />
+
 			</p:panelGrid>
 		</p:panel>
 

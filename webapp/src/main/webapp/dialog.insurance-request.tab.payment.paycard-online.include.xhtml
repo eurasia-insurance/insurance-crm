@@ -14,31 +14,20 @@
 
 		<p:panel>
 			<p:panelGrid>
-				<p:row>
-					<p:column styleClass="ui-widget-header">
-						<h:outputText value="Стоимость премии" />
-					</p:column>
-					<p:column>
-						<crm:outputMoneyAmount value="#{clc.premiumCost}" />
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column styleClass="ui-widget-header">
-						<p:outputLabel value="Статус оплаты" />
-					</p:column>
-					<p:column>
-						<h:outputText
-							value="#{paymentStatusService.displayNameShort(pym.status)}" />
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column styleClass="ui-widget-header">
-						<p:outputLabel value="Референс" />
-					</p:column>
-					<p:column>
-						<h:outputText value="#{pym.paymentReference}" />
-					</p:column>
-				</p:row>
+
+				<crm:outputRow label="Стоимость премии">
+					<crm:outputMoneyAmount value="#{clc.premiumCost}" />
+				</crm:outputRow>
+
+				<crm:outputRow label="Статус оплаты">
+					<h:outputText
+						value="#{paymentStatusService.displayNameShort(pym.status)}" />
+				</crm:outputRow>
+
+				<crm:outputRow label="Референс">
+					<h:outputText value="#{pym.paymentReference}" />
+				</crm:outputRow>
+
 			</p:panelGrid>
 		</p:panel>
 

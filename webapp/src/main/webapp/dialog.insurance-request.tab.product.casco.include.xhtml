@@ -18,154 +18,88 @@
 
 		<p:panel>
 			<p:panelGrid>
-				<p:row>
-					<p:column styleClass="ui-widget-header">
-						<p:outputLabel value="Страховое покрытие:" />
-					</p:column>
-					<p:column>
-						<p:panelGrid>
-							<crm:outputRowYesNo value="#{casco.coverRoadAccidents}"
-								label="ущерб от ДТП" />
-							<crm:outputRowYesNo value="#{casco.coverNonRoadAccidents}"
-								label="от других видов ущерба, включая угон" />
-							<crm:outputRowYesNo value="#{casco.thirdPartyLiabilityCoverage}"
-								label="ответственность перед третьими лицами на сумму до ₸ 20 000 000" />
-							<crm:outputRowYesNo value="#{casco.driverAndPassengerCoverage}"
-								label="жизнь и здоровье водителя и пассажиров" />
-							<p:row rendered="#{casco.driverAndPassengerCoverage}">
-								<p:column styleClass="ui-widget-header">
-									<p:outputLabel value="количество застрахованных:" />
-								</p:column>
-								<p:column>
-									<h:outputText value="#{casco.driverAndPassengerCount}">
-										<f:convertNumber type="number" maxFractionDigits="0"
-											groupingUsed="true" integerOnly="true" />
-									</h:outputText>
-								</p:column>
-							</p:row>
-						</p:panelGrid>
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column styleClass="ui-widget-header">
-						<p:outputLabel value="Сведения о транспортном средстве:" />
-					</p:column>
-					<p:column>
-						<p:panelGrid>
-							<p:row>
-								<p:column styleClass="ui-widget-header">
-									<p:outputLabel value="Стоимость ТС:" />
-								</p:column>
-								<p:column>
-									<crm:outputMoneyAmount value="#{casco.insuredVehicle.cost}" />
-								</p:column>
-							</p:row>
-							<p:row>
-								<p:column styleClass="ui-widget-header">
-									<p:outputLabel value="Год выпуска ТС:" />
-								</p:column>
-								<p:column>
-									<h:outputText value="#{casco.insuredVehicle.yearOfManufacture}" />
-								</p:column>
-							</p:row>
-							<p:row>
-								<p:column styleClass="ui-widget-header">
-									<p:outputLabel value="Категория" />
-								</p:column>
-								<p:column>
-									<h:outputText
-										value="#{cascoCarAgeClassService.displayName(casco.insuredVehicle.carAgeClass)}" />
-								</p:column>
-							</p:row>
-							<p:row>
-								<p:column styleClass="ui-widget-header">
-									<p:outputLabel value="Регион регистрации авто" />
-								</p:column>
-								<p:column>
-									<h:outputText
-										value="#{kzAreaService.displayName(casco.insuredVehicle.area)}" />
-								</p:column>
-							</p:row>
-							<p:row>
-								<p:column styleClass="ui-widget-header">
-									<p:outputLabel value="Город регистрации авто" />
-								</p:column>
-								<p:column>
-									<h:outputText
-										value="#{kzCityService.displayName(casco.insuredVehicle.city)}" />
-								</p:column>
-							</p:row>
-						</p:panelGrid>
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column styleClass="ui-widget-header">
-						<p:outputLabel value="Франшиза по частичному ущербу:" />
-					</p:column>
-					<p:column>
-						<h:outputText rendered="#{not casco.deductiblePartialRequired}"
-							value="Не применять" />
-						<p:panelGrid rendered="#{casco.deductiblePartialRequired}">
-							<h:panelGroup rendered="#{casco.deductiblePartialRequired}">
-								<p:row>
-									<p:column styleClass="ui-widget-header">
-										<p:outputLabel value="Размер франшизы по частичном ущербу:" />
-									</p:column>
-									<p:column>
-										<h:outputText
-											value="#{cascoDeductiblePartialRateService.displayName(casco.deductiblePartialRate)}" />
-									</p:column>
-								</p:row>
-								<crm:outputRowYesNo value="#{casco.noGuiltNoDeductibleRequired}"
-									label="НЕ применять франшизу в случае ДТП возникшего НЕ по вине застрахованного" />
-							</h:panelGroup>
-						</p:panelGrid>
-					</p:column>
-				</p:row>
 
+				<crm:outputRow label="Страховое покрытие">
+					<p:panelGrid>
+						<crm:outputRowYesNo value="#{casco.coverRoadAccidents}"
+							label="ущерб от ДТП" />
+						<crm:outputRowYesNo value="#{casco.coverNonRoadAccidents}"
+							label="от других видов ущерба, включая угон" />
+						<crm:outputRowYesNo value="#{casco.thirdPartyLiabilityCoverage}"
+							label="ответственность перед третьими лицами на сумму до ₸ 20 000 000" />
+						<crm:outputRowYesNo value="#{casco.driverAndPassengerCoverage}"
+							label="жизнь и здоровье водителя и пассажиров" />
+						<crm:outputRow rendered="#{casco.driverAndPassengerCoverage}"
+							label="количество застрахованных:">
+							<h:outputText value="#{casco.driverAndPassengerCount}">
+								<f:convertNumber type="number" maxFractionDigits="0"
+									groupingUsed="true" integerOnly="true" />
+							</h:outputText>
+						</crm:outputRow>
+					</p:panelGrid>
+				</crm:outputRow>
 
-				<p:row>
-					<p:column styleClass="ui-widget-header">
-						<p:outputLabel value="Франшиза по полному ущербу:" />
-					</p:column>
-					<p:column>
-						<p:panelGrid>
-							<p:row>
-								<p:column styleClass="ui-widget-header">
-									<p:outputLabel value="Размер франшизы по полному ущербу:" />
-								</p:column>
-								<p:column>
-									<h:outputText
-										value="#{cascoDeductibleFullRateService.displayName(casco.deductibleFullRate)}" />
-								</p:column>
-							</p:row>
-						</p:panelGrid>
-					</p:column>
-				</p:row>
+				<crm:outputRow label="Сведения о транспортном средстве">
+					<p:panelGrid>
+						<crm:outputRow label="Стоимость ТС:">
+							<crm:outputMoneyAmount value="#{casco.insuredVehicle.cost}" />
+						</crm:outputRow>
+						<crm:outputRow label="Год выпуска ТС:">
+							<h:outputText value="#{casco.insuredVehicle.yearOfManufacture}" />
+						</crm:outputRow>
+						<crm:outputRow label="Категория">
+							<h:outputText
+								value="#{cascoCarAgeClassService.displayName(casco.insuredVehicle.carAgeClass)}" />
+						</crm:outputRow>
+						<crm:outputRow label="Регион регистрации авто">
+							<h:outputText
+								value="#{kzAreaService.displayName(casco.insuredVehicle.area)}" />
+						</crm:outputRow>
+						<crm:outputRow label="Город регистрации авто">
+							<h:outputText
+								value="#{kzCityService.displayName(casco.insuredVehicle.city)}" />
+						</crm:outputRow>
+					</p:panelGrid>
+				</crm:outputRow>
 
+				<crm:outputRow label="Франшиза по частичному ущербу:">
+					<h:outputText rendered="#{not casco.deductiblePartialRequired}"
+						value="Не применять" />
+					<p:panelGrid rendered="#{casco.deductiblePartialRequired}">
+						<crm:outputRow label="Размер франшизы по частичном ущербу:">
+							<h:outputText
+								value="#{cascoDeductiblePartialRateService.displayName(casco.deductiblePartialRate)}" />
+						</crm:outputRow>
+						<crm:outputRowYesNo value="#{casco.noGuiltNoDeductibleRequired}"
+							label="НЕ применять франшизу в случае ДТП возникшего НЕ по вине застрахованного" />
+					</p:panelGrid>
+				</crm:outputRow>
 
-				<p:row>
-					<p:column styleClass="ui-widget-header">
-						<p:outputLabel value="Дополнительные опции:" />
-					</p:column>
-					<p:column>
-						<p:panelGrid>
-							<crm:outputRowYesNo
-								value="#{casco.specialServiceStationRequired}"
-								label="направить на ремонт в специализированное СТО" />
-							<crm:outputRowYesNo value="#{casco.noPoliceCallRequired}"
-								label="не требовать оформления документов в Дорожной полиции при ущербе не более ₸ 200 000" />
-							<crm:outputRowYesNo value="#{casco.helpWithPoliceRequired}"
-								label="оказать помощь в сборе документов для оформления страхового случая в Дорожной полиции" />
-							<crm:outputRowYesNo value="#{casco.evacuatorRequired}"
-								label="возместить расходы на услуги эвакуатора стоимостью не более ₸ 10 000" />
-							<crm:outputRowYesNo value="#{casco.replacementCarRequired}"
-								label="предоставить подменный авто на время ремонта на СТО сроком до 10 дней" />
-							<crm:outputRowYesNo value="#{casco.contractEndsAfterFirstCase}"
-								label="при возникновении страхового случая прекратить действие договора страхования" />
-						</p:panelGrid>
-					</p:column>
-				</p:row>
+				<crm:outputRow label="Франшиза по полному ущербу:">
+					<p:panelGrid>
+						<crm:outputRow label="Размер франшизы по полному ущербу:">
+							<h:outputText
+								value="#{cascoDeductibleFullRateService.displayName(casco.deductibleFullRate)}" />
+						</crm:outputRow>
+					</p:panelGrid>
+				</crm:outputRow>
+
+				<crm:outputRow label="Дополнительные опции:">
+					<p:panelGrid>
+						<crm:outputRowYesNo value="#{casco.specialServiceStationRequired}"
+							label="направить на ремонт в специализированное СТО" />
+						<crm:outputRowYesNo value="#{casco.noPoliceCallRequired}"
+							label="не требовать оформления документов в Дорожной полиции при ущербе не более ₸ 200 000" />
+						<crm:outputRowYesNo value="#{casco.helpWithPoliceRequired}"
+							label="оказать помощь в сборе документов для оформления страхового случая в Дорожной полиции" />
+						<crm:outputRowYesNo value="#{casco.evacuatorRequired}"
+							label="возместить расходы на услуги эвакуатора стоимостью не более ₸ 10 000" />
+						<crm:outputRowYesNo value="#{casco.replacementCarRequired}"
+							label="предоставить подменный авто на время ремонта на СТО сроком до 10 дней" />
+						<crm:outputRowYesNo value="#{casco.contractEndsAfterFirstCase}"
+							label="при возникновении страхового случая прекратить действие договора страхования" />
+					</p:panelGrid>
+				</crm:outputRow>
 
 			</p:panelGrid>
 		</p:panel>

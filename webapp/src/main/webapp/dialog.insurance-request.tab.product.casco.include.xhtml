@@ -24,27 +24,14 @@
 					</p:column>
 					<p:column>
 						<p:panelGrid>
-							<ui:include src="row-option.yesno.include.xhtml">
-								<ui:param name="value" value="#{casco.coverRoadAccidents}" />
-								<ui:param name="label" value="ущерб от ДТП" />
-							</ui:include>
-							<ui:include src="row-option.yesno.include.xhtml">
-								<ui:param name="value" value="#{casco.coverRoadAccidents}" />
-								<ui:param name="label"
-									value="от других видов ущерба, включая угон" />
-							</ui:include>
-							<ui:include src="row-option.yesno.include.xhtml">
-								<ui:param name="value"
-									value="#{casco.thirdPartyLiabilityCoverage}" />
-								<ui:param name="label"
-									value="ответственность перед третьими лицами на сумму до ₸ 20 000 000" />
-							</ui:include>
-							<ui:include src="row-option.yesno.include.xhtml">
-								<ui:param name="value"
-									value="#{casco.driverAndPassengerCoverage}" />
-								<ui:param name="label"
-									value="жизнь и здоровье водителя и пассажиров" />
-							</ui:include>
+							<crm:outputRowYesNo value="#{casco.coverRoadAccidents}"
+								label="ущерб от ДТП" />
+							<crm:outputRowYesNo value="#{casco.coverNonRoadAccidents}"
+								label="от других видов ущерба, включая угон" />
+							<crm:outputRowYesNo value="#{casco.thirdPartyLiabilityCoverage}"
+								label="ответственность перед третьими лицами на сумму до ₸ 20 000 000" />
+							<crm:outputRowYesNo value="#{casco.driverAndPassengerCoverage}"
+								label="жизнь и здоровье водителя и пассажиров" />
 							<p:row rendered="#{casco.driverAndPassengerCoverage}">
 								<p:column styleClass="ui-widget-header">
 									<p:outputLabel value="количество застрахованных:" />
@@ -129,12 +116,8 @@
 											value="#{cascoDeductiblePartialRateService.displayName(casco.deductiblePartialRate)}" />
 									</p:column>
 								</p:row>
-								<ui:include src="row-option.yesno.include.xhtml">
-									<ui:param name="value"
-										value="#{casco.noGuiltNoDeductibleRequired}" />
-									<ui:param name="label"
-										value="НЕ применять франшизу в случае ДТП возникшего НЕ по вине застрахованного" />
-								</ui:include>
+								<crm:outputRowYesNo value="#{casco.noGuiltNoDeductibleRequired}"
+									label="НЕ применять франшизу в случае ДТП возникшего НЕ по вине застрахованного" />
 							</h:panelGroup>
 						</p:panelGrid>
 					</p:column>
@@ -167,38 +150,19 @@
 					</p:column>
 					<p:column>
 						<p:panelGrid>
-							<ui:include src="row-option.yesno.include.xhtml">
-								<ui:param name="value"
-									value="#{casco.specialServiceStationRequired}" />
-								<ui:param name="label"
-									value="направить на ремонт в специализированное СТО" />
-							</ui:include>
-							<ui:include src="row-option.yesno.include.xhtml">
-								<ui:param name="value" value="#{casco.noPoliceCallRequired}" />
-								<ui:param name="label"
-									value="не требовать оформления документов в Дорожной полиции при ущербе не более ₸ 200 000" />
-							</ui:include>
-							<ui:include src="row-option.yesno.include.xhtml">
-								<ui:param name="value" value="#{casco.helpWithPoliceRequired}" />
-								<ui:param name="label"
-									value="оказать помощь в сборе документов для оформления страхового случая в Дорожной полиции" />
-							</ui:include>
-							<ui:include src="row-option.yesno.include.xhtml">
-								<ui:param name="value" value="#{casco.evacuatorRequired}" />
-								<ui:param name="label"
-									value="возместить расходы на услуги эвакуатора стоимостью не более ₸ 10 000" />
-							</ui:include>
-							<ui:include src="row-option.yesno.include.xhtml">
-								<ui:param name="value" value="#{casco.replacementCarRequired}" />
-								<ui:param name="label"
-									value="предоставить подменный авто на время ремонта на СТО сроком до 10 дней" />
-							</ui:include>
-							<ui:include src="row-option.yesno.include.xhtml">
-								<ui:param name="value"
-									value="#{casco.contractEndsAfterFirstCase}" />
-								<ui:param name="label"
-									value="при возникновении страхового случая прекратить действие договора страхования" />
-							</ui:include>
+							<crm:outputRowYesNo
+								value="#{casco.specialServiceStationRequired}"
+								label="направить на ремонт в специализированное СТО" />
+							<crm:outputRowYesNo value="#{casco.noPoliceCallRequired}"
+								label="не требовать оформления документов в Дорожной полиции при ущербе не более ₸ 200 000" />
+							<crm:outputRowYesNo value="#{casco.helpWithPoliceRequired}"
+								label="оказать помощь в сборе документов для оформления страхового случая в Дорожной полиции" />
+							<crm:outputRowYesNo value="#{casco.evacuatorRequired}"
+								label="возместить расходы на услуги эвакуатора стоимостью не более ₸ 10 000" />
+							<crm:outputRowYesNo value="#{casco.replacementCarRequired}"
+								label="предоставить подменный авто на время ремонта на СТО сроком до 10 дней" />
+							<crm:outputRowYesNo value="#{casco.contractEndsAfterFirstCase}"
+								label="при возникновении страхового случая прекратить действие договора страхования" />
 						</p:panelGrid>
 					</p:column>
 				</p:row>

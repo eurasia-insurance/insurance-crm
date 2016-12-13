@@ -8,7 +8,8 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:pe="http://primefaces.org/ui/extensions"
-	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
 
 	<c:set var="rqr" value="#{ir.requester}" />
 
@@ -49,16 +50,10 @@
 							value="#{localizationLanguageService.displayName(rqr.preferLanguage)}" />
 					</p:column>
 				</p:row>
-				<ui:include src="row-option.yesno.include.xhtml">
-					<ui:param name="value" value="#{rqr.allowSpam}" />
-					<ui:param name="label"
-						value="Согласие на получение рассылок и уведомлений" />
-				</ui:include>
-				<ui:include src="row-option.yesno.include.xhtml">
-					<ui:param name="value" value="#{rqr.allowProcessPersonalData}" />
-					<ui:param name="label"
-						value="Cогласие на сбор, обработку и хранение персональных данных" />
-				</ui:include>
+				<crm:outputRowYesNo value="#{rqr.allowSpam}"
+					label="Согласие на получение рассылок и уведомлений" />
+				<crm:outputRowYesNo value="#{rqr.allowProcessPersonalData}"
+					label="Cогласие на сбор, обработку и хранение персональных данных" />
 			</p:panelGrid>
 		</p:panel>
 

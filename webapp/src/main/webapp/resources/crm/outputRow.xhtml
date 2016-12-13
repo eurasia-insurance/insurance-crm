@@ -7,16 +7,20 @@
 	xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
 
 	<cc:interface>
-		<cc:attribute name="value" required="true" type="java.lang.Boolean" />
 		<cc:attribute name="label" required="true" type="java.lang.String" />
 		<cc:attribute name="labelClass" required="false"
 			type="java.lang.String" default="ui-widget-header" />
 	</cc:interface>
 
 	<cc:implementation>
-		<crm:outputRow label="#{cc.attrs.label}">
-			<crm:outputYesNo value="#{cc.attrs.value}" />
-		</crm:outputRow>
+		<p:row>
+			<p:column styleClass="#{cc.attrs.labelClass}">
+				<p:outputLabel value="#{cc.attrs.label}" />
+			</p:column>
+			<p:column>
+				<cc:insertChildren />
+			</p:column>
+		</p:row>
 	</cc:implementation>
 
 </ui:component>

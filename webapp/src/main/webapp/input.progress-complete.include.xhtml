@@ -8,7 +8,8 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
 
 	<p:panel style="height: 260px;" id="progressCompletePanel">
 		<p:panelGrid>
@@ -35,10 +36,7 @@
 						<p:outputLabel value="Расчитанная стоимость премии" />
 					</p:column>
 					<p:column>
-						<ui:include src="out-money.include.xhtml">
-							<ui:param name="value"
-								value="#{ir.product.calculation.calculatedPremiumCost}" />
-						</ui:include>
+						<crm:outputMoneyAmount value="#{ir.product.calculation.calculatedPremiumCost}" />
 					</p:column>
 				</p:row>
 				<p:row>

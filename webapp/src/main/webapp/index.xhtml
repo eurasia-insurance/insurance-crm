@@ -177,10 +177,8 @@
 				<p:column headerText="Стоимость премии" width="100"
 					style="text-align: right"
 					sortBy="#{req.product.calculation.premiumCost}">
-					<ui:decorate template="out-money.include.xhtml">
-						<ui:param name="value"
-							value="#{req.product.calculation.premiumCost}" />
-					</ui:decorate>
+					<crm:outputMoneyAmount
+						value="#{req.product.calculation.premiumCost}" />
 				</p:column>
 				<p:column headerText="Имя заявителя" width="300"
 					sortBy="#{req.requester.name}">

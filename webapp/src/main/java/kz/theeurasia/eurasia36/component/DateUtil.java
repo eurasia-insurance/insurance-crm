@@ -12,27 +12,15 @@ import javax.inject.Named;
 public class DateUtil {
 
     public boolean isToday(Date date) {
-	if (date == null)
-	    return false;
-	LocalDate localDate = toLocalDate(date);
-	LocalDate check = LocalDate.now();
-	return check.isEqual(localDate);
+	return checkIsToday(date);
     }
 
     public boolean isYesterday(Date date) {
-	if (date == null)
-	    return false;
-	LocalDate localDate = toLocalDate(date);
-	LocalDate check = LocalDate.now().minusDays(1);
-	return check.isEqual(localDate);
+	return checkIsYesterday(date);
     }
 
     public boolean isTommorow(Date date) {
-	if (date == null)
-	    return false;
-	LocalDate localDate = toLocalDate(date);
-	LocalDate check = LocalDate.now().plusDays(1);
-	return check.isEqual(localDate);
+	return checkIsTommorow(date);
     }
 
     // PUBLIC STATIC
@@ -41,6 +29,30 @@ public class DateUtil {
 	if (date == null)
 	    return null;
 	return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+    }
+
+    public static boolean checkIsToday(Date date) {
+	if (date == null)
+	    return false;
+	LocalDate localDate = toLocalDate(date);
+	LocalDate check = LocalDate.now();
+	return check.isEqual(localDate);
+    }
+
+    public static boolean checkIsYesterday(Date date) {
+	if (date == null)
+	    return false;
+	LocalDate localDate = toLocalDate(date);
+	LocalDate check = LocalDate.now().minusDays(1);
+	return check.isEqual(localDate);
+    }
+
+    public static boolean checkIsTommorow(Date date) {
+	if (date == null)
+	    return false;
+	LocalDate localDate = toLocalDate(date);
+	LocalDate check = LocalDate.now().plusDays(1);
+	return check.isEqual(localDate);
     }
 
 }

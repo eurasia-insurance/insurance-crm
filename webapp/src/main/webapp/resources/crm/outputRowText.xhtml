@@ -9,13 +9,10 @@
 	<cc:interface>
 		<cc:attribute name="value" required="true" type="java.lang.String" />
 		<cc:attribute name="label" required="true" type="java.lang.String" />
-		<cc:attribute name="labelClass" required="false"
-			type="java.lang.String" />
 	</cc:interface>
 
 	<cc:implementation>
-		<crm:outputRow labelClass="#{cc.attrs.labelClass}"
-			label="#{cc.attrs.label}">
+		<crm:outputRow label="#{cc.attrs.label}">
 			<h:outputText value="#{cc.attrs.value}" />
 		</crm:outputRow>
 	</cc:implementation>

@@ -8,13 +8,11 @@
 
 	<cc:interface>
 		<cc:attribute name="label" required="true" type="java.lang.String" />
-		<cc:attribute name="labelClass" required="false"
-			type="java.lang.String" default="ui-widget-header" />
 	</cc:interface>
 
 	<cc:implementation>
 		<p:row>
-			<p:column styleClass="#{cc.attrs.labelClass}">
+			<p:column styleClass="ui-widget-header">
 				<p:outputLabel value="#{cc.attrs.label}" />
 			</p:column>
 			<p:column>

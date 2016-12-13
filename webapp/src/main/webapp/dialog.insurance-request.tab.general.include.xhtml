@@ -10,94 +10,67 @@
 
 		<p:panel>
 			<p:panelGrid>
-				<p:row>
-					<p:column styleClass="ui-widget-header">
-						<p:outputLabel value="Статус заявки" />
-					</p:column>
-					<p:column>
-						<h:outputText
-							value="#{requestStatusService.displayNameShort(ir.status)}" />
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column styleClass="ui-widget-header">
-						<p:outputLabel value="Стадия обработки заявки" />
-					</p:column>
-					<p:column>
-						<h:outputText
-							value="#{progressStatusService.displayNameShort(ir.progressStatus)}" />
-					</p:column>
-				</p:row>
-				<p:row rendered="#{ir.progressStatus eq 'FINISHED'}">
-					<p:column styleClass="ui-widget-header">
-						<p:outputLabel value="Результат" />
-					</p:column>
-					<p:column>
-						<h:panelGroup styleClass="request-icon icon-fail "
-							rendered="#{ir.transactionStatus eq 'NOT_COMPLETED'}">
-							<i class="fa fa-ban " aria-hidden="true" />
-						</h:panelGroup>
-						<h:panelGroup styleClass="request-icon icon-success "
-							rendered="#{ir.transactionStatus eq 'COMPLETED'}">
-							<i class="fa fa-check " aria-hidden="true" />
-						</h:panelGroup>
-						<h:outputText
-							value="#{transactionStatusService.displayNameShort(ir.transactionStatus)}" />
-					</p:column>
-				</p:row>
-				<p:row
-					rendered="#{ir.progressStatus eq 'FINISHED' and ir.transactionStatus eq 'NOT_COMPLETED'}">
-					<p:column styleClass="ui-widget-header">
-						<p:outputLabel value="Причина" />
-					</p:column>
-					<p:column>
-						<h:outputText
-							value="#{transactionProblemService.displayNameShort(ir.transactionProblem)}" />
-					</p:column>
-				</p:row>
+
+				<crm:outputRowText label="Статус заявки"
+					value="#{requestStatusService.displayNameShort(ir.status)}" />
+
+				<crm:outputRowText label="Стадия обработки заявки"
+					value="#{progressStatusService.displayNameShort(ir.progressStatus)}" />
+
+				<crm:outputRow rendered="#{ir.progressStatus eq 'FINISHED'}"
+					label="Результат">
+					<c:choose>
+						<c:when test="#{ir.transactionStatus eq 'NOT_COMPLETED'}">
+							<h:panelGroup styleClass="request-icon icon-fail ">
+								<i class="fa fa-ban " aria-hidden="true" />
+							</h:panelGroup>
+						</c:when>
+						<c:when test="#{ir.transactionStatus eq 'COMPLETED'}">
+							<h:panelGroup styleClass="request-icon icon-success ">
+								<i class="fa fa-check " aria-hidden="true" />
+							</h:panelGroup>
+						</c:when>
+					</c:choose>
+					<h:outputText
+						value="#{transactionStatusService.displayNameShort(ir.transactionStatus)}" />
+				</crm:outputRow>
+
+				<crm:outputRowText
+					rendered="#{ir.progressStatus eq 'FINISHED' and ir.transactionStatus eq 'NOT_COMPLETED'}"
+					label="Причина"
+					value="#{transactionProblemService.displayNameShort(ir.transactionProblem)}" />
+
 			</p:panelGrid>
 		</p:panel>
 
 		<p:panel>
 			<p:panelGrid>
-				<p:row>
-					<p:column styleClass="ui-widget-header">
-						<p:outputLabel value="Заявка поступила" />
-					</p:column>
-					<p:column>
-						<crm:outputDatetime value="#{ir.created}" />
-					</p:column>
-				</p:row>
-				<p:row rendered="#{not empty ir.accepted}">
-					<p:column styleClass="ui-widget-header">
-						<p:outputLabel value="Принята в обработку" />
-					</p:column>
-					<p:column>
-						<crm:outputDatetime value="#{ir.accepted}" />
-						<h:outputText rendered="#{not empty ir.acceptedBy}"
-							value="&amp;nbsp;(#{ir.acceptedBy.name})" escape="false" />
-					</p:column>
-				</p:row>
-				<p:row rendered="#{not empty ir.completed}">
-					<p:column styleClass="ui-widget-header">
-						<p:outputLabel value="Обработка завершена" />
-					</p:column>
-					<p:column>
-						<crm:outputDatetime value="#{ir.completed}" />
-						<h:outputText rendered="#{not empty ir.completedBy}"
-							value="&amp;nbsp;(#{ir.completedBy.name})" escape="false" />
-					</p:column>
-				</p:row>
-				<p:row rendered="#{not empty ir.closed}">
-					<p:column styleClass="ui-widget-header">
-						<p:outputLabel value="Заявка закрыта" />
-					</p:column>
-					<p:column>
-						<crm:outputDatetime value="#{ir.closed}" />
-						<h:outputText rendered="#{not empty ir.closedBy}"
-							value="&amp;nbsp;(#{ir.closedBy.name})" escape="false" />
-					</p:column>
-				</p:row>
+
+				<crm:outputRow label="Заявка поступила">
+					<crm:outputDatetime value="#{ir.created}" />
+				</crm:outputRow>
+
+				<crm:outputRow rendered="#{not empty ir.accepted}"
+					label="Принята в обработку">
+					<crm:outputDatetime value="#{ir.accepted}" />
+					<h:outputText rendered="#{not empty ir.acceptedBy}"
+						value="&amp;nbsp;(#{ir.acceptedBy.name})" escape="false" />
+				</crm:outputRow>
+
+				<crm:outputRow rendered="#{not empty ir.completed}"
+					label="Обработка завершена">
+					<crm:outputDatetime value="#{ir.completed}" />
+					<h:outputText rendered="#{not empty ir.completedBy}"
+						value="&amp;nbsp;(#{ir.completedBy.name})" escape="false" />
+				</crm:outputRow>
+
+				<crm:outputRow rendered="#{not empty ir.closed}"
+					label="Заявка закрыта">
+					<crm:outputDatetime value="#{ir.closed}" />
+					<h:outputText rendered="#{not empty ir.closedBy}"
+						value="&amp;nbsp;(#{ir.closedBy.name})" escape="false" />
+				</crm:outputRow>
+
 			</p:panelGrid>
 		</p:panel>
 

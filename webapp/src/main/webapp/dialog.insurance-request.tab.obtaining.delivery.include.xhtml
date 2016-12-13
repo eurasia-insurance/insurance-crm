@@ -13,49 +13,23 @@
 
 		<p:panel>
 			<p:panelGrid>
-				<p:row>
-					<p:column styleClass="ui-widget-header">
-						<p:outputLabel value="Дата доставки" />
-					</p:column>
-					<p:column>
-						<crm:outputDate value="#{obt.deliveryDate}" useVerbal="false" />
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column styleClass="ui-widget-header">
-						<p:outputLabel value="Время доставки" />
-					</p:column>
-					<p:column>
-						<h:outputText
-							value="#{deliveryTimeSlotService.displayNameShort(obt.deliveryTime)}" />
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column styleClass="ui-widget-header">
-						<p:outputLabel value="Город доставки" />
-					</p:column>
-					<p:column>
-						<h:outputText
-							value="#{kzCityService.displayNameShort(obt.deliveryCity)}" />
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column styleClass="ui-widget-header">
-						<p:outputLabel value="Адрес доставки:" />
-					</p:column>
-					<p:column>
-						<h:outputText value="#{obt.deliveryAddress}" />
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column styleClass="ui-widget-header">
-						<p:outputLabel value="Статус получения" />
-					</p:column>
-					<p:column>
-						<h:outputText
-							value="#{obtainingStatusService.displayNameShort(obt.status)}" />
-					</p:column>
-				</p:row>
+
+				<crm:outputRow label="Дата доставки">
+					<crm:outputDate value="#{obt.deliveryDate}" useVerbal="false" />
+				</crm:outputRow>
+
+				<crm:outputRowText label="Время доставки"
+					value="#{deliveryTimeSlotService.displayNameShort(obt.deliveryTime)}" />
+
+				<crm:outputRowText label="Город доставки"
+					value="#{kzCityService.displayNameShort(obt.deliveryCity)}" />
+
+				<crm:outputRowText label="Адрес доставки"
+					value="#{obt.deliveryAddress}" />
+
+				<crm:outputRowText label="Статус получения"
+					value="#{obtainingStatusService.displayNameShort(obt.status)}" />
+
 			</p:panelGrid>
 		</p:panel>
 

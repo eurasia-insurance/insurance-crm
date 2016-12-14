@@ -9,6 +9,7 @@ import com.lapsa.insurance.crm.RequestStatus;
 import com.lapsa.insurance.crm.RequestType;
 import com.lapsa.insurance.crm.TransactionProblem;
 import com.lapsa.insurance.crm.TransactionStatus;
+import com.lapsa.insurance.domain.crm.User;
 import com.lapsa.insurance.elements.InsuranceProductType;
 import com.lapsa.insurance.elements.ObtainingMethod;
 import com.lapsa.insurance.elements.PaymentMethod;
@@ -84,5 +85,13 @@ public interface InsuranceRequestsFilterHolder extends WritableValueHolder<Defau
     Date getCompletedBefore();
 
     void setCompletedBefore(Date completedBefore);
+
+    User getAcceptedBy();
+
+    void setAcceptedBy(User acceptedBy);
+
+    User getCompletedBy();
+
+    void setCompletedBy(User completedBy);
 
 }

@@ -10,6 +10,7 @@ import com.lapsa.insurance.crm.RequestType;
 import com.lapsa.insurance.crm.TransactionProblem;
 import com.lapsa.insurance.crm.TransactionStatus;
 import com.lapsa.insurance.dao.filter.InsuranceRequestFitler;
+import com.lapsa.insurance.domain.crm.User;
 import com.lapsa.insurance.elements.InsuranceProductType;
 import com.lapsa.insurance.elements.ObtainingMethod;
 import com.lapsa.insurance.elements.PaymentMethod;
@@ -31,6 +32,9 @@ public class DefaultInsuranceRequestFitler implements InsuranceRequestFitler {
     private Date createdBefore;
     private Date completedAfter;
     private Date completedBefore;
+
+    private User acceptedBy;
+    private User completedBy;
 
     @Override
     public RequestStatus getRequestStatus() {
@@ -155,6 +159,24 @@ public class DefaultInsuranceRequestFitler implements InsuranceRequestFitler {
 
     public void setCompletedBefore(Date completedBefore) {
 	this.completedBefore = completedBefore;
+    }
+
+    @Override
+    public User getAcceptedBy() {
+	return acceptedBy;
+    }
+
+    public void setAcceptedBy(User acceptedBy) {
+	this.acceptedBy = acceptedBy;
+    }
+
+    @Override
+    public User getCompletedBy() {
+	return completedBy;
+    }
+
+    public void setCompletedBy(User completedBy) {
+	this.completedBy = completedBy;
     }
 
 }

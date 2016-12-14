@@ -14,6 +14,7 @@ import com.lapsa.insurance.crm.RequestStatus;
 import com.lapsa.insurance.crm.RequestType;
 import com.lapsa.insurance.crm.TransactionProblem;
 import com.lapsa.insurance.crm.TransactionStatus;
+import com.lapsa.insurance.domain.crm.User;
 import com.lapsa.insurance.elements.InsuranceProductType;
 import com.lapsa.insurance.elements.ObtainingMethod;
 import com.lapsa.insurance.elements.PaymentMethod;
@@ -209,4 +210,25 @@ public class DefaultInsuranceRequestsFilterHolder extends DefaultWritableValueHo
     public void setCompletedBefore(Date completedBefore) {
 	value.setCompletedBefore(completedBefore);
     }
+
+    @Override
+    public User getAcceptedBy() {
+	return value.getAcceptedBy();
+    }
+
+    @Override
+    public void setAcceptedBy(User acceptedBy) {
+	value.setAcceptedBy(acceptedBy);
+    }
+
+    @Override
+    public User getCompletedBy() {
+	return value.getCompletedBy();
+    }
+
+    @Override
+    public void setCompletedBy(User completedBy) {
+	value.setCompletedBy(completedBy);
+    }
+
 }

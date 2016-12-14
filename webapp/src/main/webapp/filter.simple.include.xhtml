@@ -10,62 +10,65 @@
 		<!-- >> rendered -->
 		<h:panelGroup rendered="#{not insuranceRequestsFilter.advanced}">
 
-			<p:panelGrid>
-				<p:row>
-					<p:column>
+			<p:panel>
 
-						<!-- >> status -->
-						<p:panelGrid>
-							<p:row>
-								<p:column>
-									<p:outputLabel value="Стадия:" for="progressStatus" />
-								</p:column>
-								<p:column>
-									<p:selectOneMenu id="progressStatus"
-										value="#{insuranceRequestsFilter.progressStatus}">
-										<p:ajax process="@this" update="@form"
-											listener="#{mainFacade.onFilterChanged}" />
-										<f:selectItem value="#{configurationFacade.anySI}" />
-										<f:selectItems
-											value="#{progressStatusService.allItemsShortSI}" />
-									</p:selectOneMenu>
-								</p:column>
-							</p:row>
-						</p:panelGrid>
+				<p:panelGrid>
+					<p:row>
+						<p:column>
 
-					</p:column>
-					<p:column>
+							<!-- >> status -->
+							<p:panelGrid>
+								<p:row>
+									<p:column>
+										<p:outputLabel value="Стадия:" for="progressStatus" />
+									</p:column>
+									<p:column>
+										<p:selectOneMenu id="progressStatus"
+											value="#{insuranceRequestsFilter.progressStatus}">
+											<p:ajax process="@this" update="@form"
+												listener="#{mainFacade.onFilterChanged}" />
+											<f:selectItem value="#{configurationFacade.anySI}" />
+											<f:selectItems
+												value="#{progressStatusService.allItemsShortSI}" />
+										</p:selectOneMenu>
+									</p:column>
+								</p:row>
+							</p:panelGrid>
 
-						<p:panelGrid>
-							<p:row>
-								<p:column>
-									<p:commandButton value="За сегодня"
-										action="#{mainFacade.doFilterCreatedToday}" process="@this"
-										update="@form" />
-								</p:column>
-								<p:column>
-									<p:commandButton value="За вчера"
-										action="#{mainFacade.doFilterCreatedYesterday}"
-										process="@this" update="@form" />
-								</p:column>
-								<p:column>
-									<p:commandButton value="С начала недели"
-										action="#{mainFacade.doFilterCreatedThisWeek}" process="@this"
-										update="@form" />
-								</p:column>
-								<p:column>
-									<p:commandButton value="С начала месяца"
-										action="#{mainFacade.doFilterCreatedThisMonth}"
-										process="@this" update="@form" />
-								</p:column>
-							</p:row>
-						</p:panelGrid>
-						<!-- << stauts -->
+						</p:column>
+						<p:column>
 
-					</p:column>
-				</p:row>
-			</p:panelGrid>
+							<p:panelGrid>
+								<p:row>
+									<p:column>
+										<p:commandButton value="За сегодня"
+											action="#{mainFacade.doFilterCreatedToday}" process="@this"
+											update="@form" />
+									</p:column>
+									<p:column>
+										<p:commandButton value="За вчера"
+											action="#{mainFacade.doFilterCreatedYesterday}"
+											process="@this" update="@form" />
+									</p:column>
+									<p:column>
+										<p:commandButton value="С начала недели"
+											action="#{mainFacade.doFilterCreatedThisWeek}"
+											process="@this" update="@form" />
+									</p:column>
+									<p:column>
+										<p:commandButton value="С начала месяца"
+											action="#{mainFacade.doFilterCreatedThisMonth}"
+											process="@this" update="@form" />
+									</p:column>
+								</p:row>
+							</p:panelGrid>
+							<!-- << stauts -->
 
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+
+			</p:panel>
 
 		</h:panelGroup>
 		<!-- << rendered -->

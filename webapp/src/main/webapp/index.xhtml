@@ -191,7 +191,15 @@
 				</p:column>
 				<p:column headerText="Телефон заявителя" width="130"
 					sortBy="#{req.requester.phone}">
-					<h:outputText value="#{req.requester.phone}" />
+					<p:commandButton rendered="#{req.progressStatus eq 'NEW'}"
+						value="Показать" icon="fa fa-hand-o-right"
+						action="#{mainFacade.doAcceptRequestOnce}" process="@this"
+						update="@form:requestsTable @form:mainToolbar @form:summaryPanel">
+						<f:setPropertyActionListener value="#{req}"
+							target="#{insuranceRequest.value}" />
+					</p:commandButton>
+					<h:outputText value="#{req.requester.phone}"
+						rendered="#{req.progressStatus ne 'NEW'}" />
 				</p:column>
 				<p:column headerText="Доп информация" sortable="false">
 					<h:panelGroup rendered="#{req.productType eq 'POLICY'}"

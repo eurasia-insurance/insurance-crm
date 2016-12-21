@@ -18,6 +18,10 @@
 	
 }
 
+.row-closed TD {
+	color: #DDDDDD;
+}
+
 .col-request-EXPRESS {
 	background: #f5fed8;
 }

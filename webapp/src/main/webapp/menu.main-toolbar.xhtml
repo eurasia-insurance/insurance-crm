@@ -31,10 +31,9 @@
 				</h:panelGroup>
 
 				<p:commandButton value="Открыть..."
-					disabled="#{empty ir.progressStatus}"
-					action="#{mainFacade.doAcceptRequestOnce}" process="@this"
-					update="@form:mainToolbar @form:requestDialog"
-					oncomplete="removeIconNew(); PF('requestDialogWV').show(); return false;">
+					disabled="#{empty ir.progressStatus}" process="@this"
+					update="@form:requestDialog"
+					oncomplete="PF('requestDialogWV').show(); return false;">
 					<p:resetInput target="@form:requestDialog" />
 				</p:commandButton>
 

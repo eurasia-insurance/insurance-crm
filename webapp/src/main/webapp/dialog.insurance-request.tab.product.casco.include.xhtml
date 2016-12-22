@@ -20,7 +20,7 @@
 			<p:panelGrid>
 
 				<crm:outputRow label="Страховое покрытие">
-					<p:panelGrid>
+					<h:panelGrid>
 						<crm:outputRowYesNo value="#{casco.coverRoadAccidents}"
 							label="ущерб от ДТП" />
 						<crm:outputRowYesNo value="#{casco.coverNonRoadAccidents}"
@@ -36,11 +36,11 @@
 									groupingUsed="true" integerOnly="true" />
 							</h:outputText>
 						</crm:outputRow>
-					</p:panelGrid>
+					</h:panelGrid>
 				</crm:outputRow>
 
 				<crm:outputRow label="Сведения о транспортном средстве">
-					<p:panelGrid>
+					<h:panelGrid>
 						<crm:outputRow label="Стоимость ТС:">
 							<crm:outputMoneyAmount value="#{casco.insuredVehicle.cost}" />
 						</crm:outputRow>
@@ -52,29 +52,29 @@
 							value="#{kzAreaService.displayName(casco.insuredVehicle.area)}" />
 						<crm:outputRowText label="Город регистрации авто"
 							value="#{kzCityService.displayName(casco.insuredVehicle.city)}" />
-					</p:panelGrid>
+					</h:panelGrid>
 				</crm:outputRow>
 
 				<crm:outputRow label="Франшиза по частичному ущербу:">
 					<h:outputText rendered="#{not casco.deductiblePartialRequired}"
 						value="Не применять" />
-					<p:panelGrid rendered="#{casco.deductiblePartialRequired}">
+					<h:panelGrid rendered="#{casco.deductiblePartialRequired}">
 						<crm:outputRowText label="Размер франшизы по частичном ущербу:"
 							value="#{cascoDeductiblePartialRateService.displayName(casco.deductiblePartialRate)}" />
 						<crm:outputRowYesNo value="#{casco.noGuiltNoDeductibleRequired}"
 							label="НЕ применять франшизу в случае ДТП возникшего НЕ по вине застрахованного" />
-					</p:panelGrid>
+					</h:panelGrid>
 				</crm:outputRow>
 
 				<crm:outputRow label="Франшиза по полному ущербу:">
-					<p:panelGrid>
+					<h:panelGrid>
 						<crm:outputRowText label="Размер франшизы по полному ущербу:"
 							value="#{cascoDeductibleFullRateService.displayName(casco.deductibleFullRate)}" />
-					</p:panelGrid>
+					</h:panelGrid>
 				</crm:outputRow>
 
 				<crm:outputRow label="Дополнительные опции:">
-					<p:panelGrid>
+					<h:panelGrid>
 						<crm:outputRowYesNo value="#{casco.specialServiceStationRequired}"
 							label="направить на ремонт в специализированное СТО" />
 						<crm:outputRowYesNo value="#{casco.noPoliceCallRequired}"
@@ -87,7 +87,7 @@
 							label="предоставить подменный авто на время ремонта на СТО сроком до 10 дней" />
 						<crm:outputRowYesNo value="#{casco.contractEndsAfterFirstCase}"
 							label="при возникновении страхового случая прекратить действие договора страхования" />
-					</p:panelGrid>
+					</h:panelGrid>
 				</crm:outputRow>
 
 			</p:panelGrid>

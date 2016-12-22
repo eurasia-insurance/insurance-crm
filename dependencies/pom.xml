@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>kz.theeurasia.eurasia36.crm</groupId>
 		<artifactId>parent</artifactId>
-		<version>1.7.1</version>
+		<version>1.7.2-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>eurasia36-crm-dependencies</artifactId>

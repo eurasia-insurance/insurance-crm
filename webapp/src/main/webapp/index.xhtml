@@ -79,18 +79,6 @@
 				</ui:include>
 			</h:panelGroup>
 
-			<script>
-				function removeIconNew() {
-					jQuery(
-							'tr[data-rk=' + PF('requestsTableWV').selection
-									+ '] span.icon-new')
-							.removeClass('icon-new')
-							.addClass('icon-on-process').find(
-									'i.fa-exclamation').removeClass(
-									'fa-exclamation').addClass('fa-spinner');
-				}
-			</script>
-
 			<h:panelGroup id="autoRefreshPoll">
 				<p:poll rendered="#{insuranceRequestsFilter.autoRefresh}"
 					interval="#{insuranceRequestsFilter.autoRefreshInterval}"
@@ -111,10 +99,11 @@
 
 				<p:ajax event="rowSelect" process="@this" update="@form:mainToolbar" />
 
-				<p:ajax event="rowDblselect"
-					listener="#{mainFacade.doAcceptRequestOnce}" process="@this"
-					update="@form:mainToolbar @form:requestDialog"
-					oncomplete="removeIconNew(); PF('requestDialogWV').show(); return false;" />
+				<p:ajax event="rowDblselect" process="@this"
+					update="@form:requestDialog"
+					oncomplete="PF('requestDialogWV').show(); return false;">
+					<p:resetInput target="@form:requestDialog" />
+				</p:ajax>
 
 				<f:facet name="header">
 					<div style="text-align: right;">на <crm:outputDatetime

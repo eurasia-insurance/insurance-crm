@@ -15,14 +15,14 @@
 				<p:panelGrid>
 					<p:row>
 						<p:column>
-							<p:outputLabel value="Номер заявки:" for="idMask" />
+							<p:outputLabel value="Номер заявки:" for="id" />
 						</p:column>
 						<p:column>
-							<p:inputText id="idMask"
-								value="#{insuranceRequestsFilter.idMask}">
-								<p:ajax process="@this" update="@form"
+							<p:inputNumber id="id" value="#{insuranceRequestsFilter.id}"
+								decimalPlaces="0" minValue="0" size="5">
+								<p:ajax event="keyup" delay="700" process="@this" update="@form"
 									listener="#{mainFacade.onFilterChanged}" />
-							</p:inputText>
+							</p:inputNumber>
 						</p:column>
 						<p:column>
 							<p:outputLabel value="Имя заявителя:" for="requesterNameMask" />
@@ -30,7 +30,7 @@
 						<p:column>
 							<p:inputText id="requesterNameMask"
 								value="#{insuranceRequestsFilter.requesterNameMask}">
-								<p:ajax process="@this" update="@form"
+								<p:ajax event="keyup" delay="700" process="@this" update="@form"
 									listener="#{mainFacade.onFilterChanged}" />
 							</p:inputText>
 						</p:column>

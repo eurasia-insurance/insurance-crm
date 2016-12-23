@@ -46,9 +46,8 @@
 					<p:column>
 						<p:inputNumber value="#{ir.product.calculation.actualPremiumCost}"
 							symbol=" &#8376;" symbolPosition="e" decimalSeparator=","
-							decimalPlaces="2" thousandSeparator=" " minValue="0"
-							maxValue="#{ir.product.calculation.calculatedPremiumCost}"
-							disabled="#{discountDisabled}">
+							decimalPlaces="2" thousandSeparator=" " minValue="1"
+							onfocus="select()">
 							<p:ajax listener="#{mainFacade.onActualPremiumCostChanged}"
 								process="@this" update="actualPolicyCostWrapper" />
 						</p:inputNumber>

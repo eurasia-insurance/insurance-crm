@@ -231,4 +231,24 @@ public class DefaultInsuranceRequestsFilterHolder extends DefaultWritableValueHo
 	value.setCompletedBy(completedBy);
     }
 
+    @Override
+    public String getIdMask() {
+	return value.getIdMask();
+    }
+
+    @Override
+    public void setIdMask(String idMask) {
+	value.setIdMask(idMask);
+    }
+
+    @Override
+    public String getRequesterNameMask() {
+	return value.getRequesterNameMask();
+    }
+
+    @Override
+    public void setRequesterNameMask(String requesterNameMask) {
+	value.setRequesterNameMask(requesterNameMask);
+    }
+
 }

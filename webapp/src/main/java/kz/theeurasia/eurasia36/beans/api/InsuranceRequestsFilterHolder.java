@@ -94,4 +94,12 @@ public interface InsuranceRequestsFilterHolder extends WritableValueHolder<Defau
 
     void setCompletedBy(User completedBy);
 
+    String getIdMask();
+
+    void setIdMask(String idMask);
+
+    String getRequesterNameMask();
+
+    void setRequesterNameMask(String requesterNameMask);
+
 }

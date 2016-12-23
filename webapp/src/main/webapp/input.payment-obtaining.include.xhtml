@@ -17,77 +17,96 @@
 					<p:outputLabel value="Способ доставки:" />
 				</p:column>
 				<p:column>
-					<p:selectOneMenu value="#{ir.obtaining.method}"
-						rendered="#{ir.transactionStatus eq 'COMPLETED'}">
-						<p:ajax listener="#{mainFacade.onObtainingMethodChanged}"
-							process="@this" update="paymentObtainingPanel" />
-						<f:selectItem value="#{configurationFacade.mustSelectSI}" />
-						<f:selectItems value="#{obtainingMethodService.valueItemsShortSI}" />
-					</p:selectOneMenu>
-					<p:selectOneMenu value="#{ir.obtaining.method}"
-						rendered="#{ir.transactionStatus ne 'COMPLETED'}">
-						<p:ajax listener="#{mainFacade.onObtainingMethodChanged}"
-							process="@this" update="paymentObtainingPanel" />
-						<f:selectItem value="#{configurationFacade.mustSelectSI}" />
-						<f:selectItems value="#{obtainingMethodService.allItemsShortSI}" />
-					</p:selectOneMenu>
+					<!-- >> agreeement ok -->
+					<h:panelGroup rendered="#{ir.transactionStatus eq 'COMPLETED'}">
+						<p:selectOneMenu value="#{ir.obtaining.method}">
+							<p:ajax listener="#{mainFacade.onObtainingMethodChanged}"
+								process="@this" update="paymentObtainingPanel" />
+							<f:selectItem value="#{configurationFacade.mustSelectSI}" />
+							<f:selectItems
+								value="#{obtainingMethodService.valueItemsShortSI}" />
+						</p:selectOneMenu>
+					</h:panelGroup>
+					<!-- << agreeement ok -->
+					<!-- >> agreeement failed or status is UNKNOWN -->
+					<h:panelGroup rendered="#{empty ir.transactionStatus or (ir.transactionStatus eq 'NOT_COMPLETED')}">
+						<p:selectOneMenu value="#{ir.obtaining.method}">
+							<p:ajax listener="#{mainFacade.onObtainingMethodChanged}"
+								process="@this" update="paymentObtainingPanel" />
+							<f:selectItem value="#{configurationFacade.mustSelectSI}" />
+							<f:selectItems value="#{obtainingMethodService.allItemsShortSI}" />
+						</p:selectOneMenu>
+					</h:panelGroup>
+					<!-- << agreeement failed or status is UNKNOWN -->
 				</p:column>
-				<p:column>
-					<p:outputLabel value="Статус доставки:" />
-				</p:column>
-				<p:column>
-					<p:selectOneMenu value="#{ir.obtaining.status}"
-						rendered="#{ir.obtaining.method eq 'UNDEFINED'}">
-						<p:ajax process="@this" update="@this" />
-						<f:selectItem value="#{configurationFacade.mustSelectSI}" />
-						<f:selectItems
-							value="#{obtainingStatusService.nonValueItemsShortSI}" />
-					</p:selectOneMenu>
-					<p:selectOneMenu value="#{ir.obtaining.status}"
-						rendered="#{ir.obtaining.method ne 'UNDEFINED'}">
-						<p:ajax process="@this" update="@this" />
-						<f:selectItem value="#{configurationFacade.mustSelectSI}" />
-						<f:selectItems value="#{obtainingStatusService.valueItemsShortSI}" />
-					</p:selectOneMenu>
-				</p:column>
-			</p:row>
-			<p:row>
 				<p:column>
 					<p:outputLabel value="Способ оплаты:" />
 				</p:column>
 				<p:column>
-					<p:selectOneMenu value="#{ir.payment.method}"
-						rendered="#{ir.transactionStatus eq 'COMPLETED'}">
-						<p:ajax listener="#{mainFacade.onPaymentMethodChanged}"
-							process="@this" update="paymentObtainingPanel" />
-						<f:selectItem value="#{configurationFacade.mustSelectSI}" />
-						<f:selectItems value="#{paymentMethodService.valueItemsShortSI}" />
-					</p:selectOneMenu>
-					<p:selectOneMenu value="#{ir.payment.method}"
-						rendered="#{ir.transactionStatus ne 'COMPLETED'}">
-						<p:ajax listener="#{mainFacade.onPaymentMethodChanged}"
-							process="@this" update="paymentObtainingPanel" />
-						<f:selectItem value="#{configurationFacade.mustSelectSI}" />
-						<f:selectItems value="#{paymentMethodService.allItemsShortSI}" />
-					</p:selectOneMenu>
+					<!-- >> agreeement ok -->
+					<h:panelGroup rendered="#{ir.transactionStatus eq 'COMPLETED'}">
+						<p:selectOneMenu value="#{ir.payment.method}">
+							<p:ajax listener="#{mainFacade.onPaymentMethodChanged}"
+								process="@this" update="paymentObtainingPanel" />
+							<f:selectItem value="#{configurationFacade.mustSelectSI}" />
+							<f:selectItems value="#{paymentMethodService.valueItemsShortSI}" />
+						</p:selectOneMenu>
+					</h:panelGroup>
+					<!-- << agreeement ok -->
+					<!-- >> agreeement failed or status is UNKNOWN -->
+					<h:panelGroup rendered="#{empty ir.transactionStatus or (ir.transactionStatus eq 'NOT_COMPLETED')}">
+						<p:selectOneMenu value="#{ir.payment.method}">
+							<p:ajax listener="#{mainFacade.onPaymentMethodChanged}"
+								process="@this" update="paymentObtainingPanel" />
+							<f:selectItem value="#{configurationFacade.mustSelectSI}" />
+							<f:selectItems value="#{paymentMethodService.allItemsShortSI}" />
+						</p:selectOneMenu>
+					</h:panelGroup>
+					<!-- << agreeement failed or status is UNKNOWN -->
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel value="Статус доставки:" />
+				</p:column>
+				<p:column>
+					<!-- >> agreeement status is KNOWN -->
+					<h:panelGroup rendered="#{not empty ir.transactionStatus}">
+						<h:outputText
+							value="#{obtainingStatusService.displayNameShort(ir.obtaining.status)}" />
+					</h:panelGroup>
+					<!-- << agreeement status is KNOWN -->
+					<!-- >> agreeement status is UNKNOWN -->
+					<h:panelGroup rendered="#{empty ir.transactionStatus}">
+						<p:selectOneMenu value="#{ir.obtaining.status}">
+							<p:ajax process="@this" update="@this" />
+							<f:selectItem value="#{configurationFacade.mustSelectSI}" />
+							<f:selectItems
+								value="#{obtainingStatusService.selectableItemsShortSI}" />
+						</p:selectOneMenu>
+					</h:panelGroup>
+					<!-- << agreeement status is UNKNOWN -->
 				</p:column>
 				<p:column>
 					<p:outputLabel value="Статус оплаты:" />
 				</p:column>
 				<p:column>
-					<p:selectOneMenu value="#{ir.payment.status}"
-						rendered="#{ir.payment.method eq 'UNDEFINED'}">
-						<p:ajax process="@this" update="@this" />
-						<f:selectItem value="#{configurationFacade.mustSelectSI}" />
-						<f:selectItems
-							value="#{paymentStatusService.nonValueItemsShortSI}" />
-					</p:selectOneMenu>
-					<p:selectOneMenu value="#{ir.payment.status}"
-						rendered="#{ir.payment.method ne 'UNDEFINED'}">
-						<p:ajax process="@this" update="@this" />
-						<f:selectItem value="#{configurationFacade.mustSelectSI}" />
-						<f:selectItems value="#{paymentStatusService.valueItemsShortSI}" />
-					</p:selectOneMenu>
+					<!-- >> agreeement status is KNOWN -->
+					<h:panelGroup rendered="#{not empty ir.transactionStatus}">
+						<h:outputText
+							value="#{paymentStatusService.displayNameShort(ir.payment.status)}" />
+					</h:panelGroup>
+					<!-- << agreeement status is KNOWN -->
+					<!-- >> agreeement status is UNKNOWN -->
+					<h:panelGroup rendered="#{empty ir.transactionStatus}">
+						<p:selectOneMenu value="#{ir.payment.status}">
+							<p:ajax process="@this" update="@this" />
+							<f:selectItem value="#{configurationFacade.mustSelectSI}" />
+							<f:selectItems
+								value="#{paymentStatusService.selectableItemsShortSI}" />
+						</p:selectOneMenu>
+					</h:panelGroup>
+					<!-- << agreeement status is UNKNOWN -->
 				</p:column>
 			</p:row>
 		</p:panelGrid>

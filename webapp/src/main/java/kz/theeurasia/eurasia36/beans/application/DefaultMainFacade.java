@@ -36,8 +36,6 @@ import com.lapsa.insurance.domain.PaymentData;
 import com.lapsa.insurance.domain.casco.CascoRequest;
 import com.lapsa.insurance.domain.policy.PolicyRequest;
 import com.lapsa.insurance.elements.InsuranceProductType;
-import com.lapsa.insurance.elements.ObtainingMethod;
-import com.lapsa.insurance.elements.PaymentMethod;
 
 import kz.theeurasia.eurasia36.application.MainFacade;
 import kz.theeurasia.eurasia36.application.UIMessages;
@@ -196,12 +194,12 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public void onObtainingMethodChanged(AjaxBehaviorEvent event) {
-	handleObtainingMethodChange();
+	// DO NOTHING
     }
 
     @Override
     public void onPaymentMethodChanged(AjaxBehaviorEvent event) {
-	handlePaymentMethodChange();
+	// DO NOTHING
     }
 
     @Override
@@ -392,40 +390,6 @@ public class DefaultMainFacade implements MainFacade {
 	CalculationData calc = insuranceRequest.getProduct().getCalculation();
 	calc.setDiscountAmount(calc.getCalculatedPremiumCost() * discountPercent);
 	handleDiscountAmountChange();
-    }
-
-    private void handleObtainingMethodChange() {
-	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
-	ObtainingData obt = insuranceRequest.getObtaining();
-	switch (obt.getMethod()) {
-	case DELIVERY:
-	case PICKUP:
-	    if (obt.getStatus() == ObtainingStatus.UNDEFINED)
-		obt.setStatus(null);
-	    break;
-	default:
-	    obt.setMethod(ObtainingMethod.UNDEFINED);
-	case UNDEFINED:
-	    obt.setStatus(ObtainingStatus.UNDEFINED);
-	    break;
-	}
-    }
-
-    private void handlePaymentMethodChange() {
-	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
-	PaymentData pym = insuranceRequest.getPayment();
-	switch (pym.getMethod()) {
-	case PAYCARD_ONLINE:
-	case PAYCASH:
-	    if (pym.getStatus() == PaymentStatus.UNDEFINED)
-		pym.setStatus(null);
-	    break;
-	default:
-	    pym.setMethod(PaymentMethod.UNDEFINED);
-	case UNDEFINED:
-	    pym.setStatus(PaymentStatus.UNDEFINED);
-	    break;
-	}
     }
 
     private void filterCreatedToday() {

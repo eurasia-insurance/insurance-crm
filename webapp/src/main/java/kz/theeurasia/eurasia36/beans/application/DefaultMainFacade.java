@@ -349,15 +349,25 @@ public class DefaultMainFacade implements MainFacade {
 
     private void handleTransactionStatusChange() {
 	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
-	CalculationData calc = insuranceRequest.getProduct().getCalculation();
 
+	ObtainingData obt = insuranceRequest.getObtaining();
+	PaymentData pym = insuranceRequest.getPayment();
+
+	CalculationData calc = insuranceRequest.getProduct().getCalculation();
 	switch (insuranceRequest.getTransactionStatus()) {
 	case COMPLETED:
 	    insuranceRequest.setTransactionProblem(null);
+
+	    obt.setStatus(ObtainingStatus.DONE);
+	    pym.setStatus(PaymentStatus.DONE);
+
 	    calc.setActualPremiumCost(calc.getCalculatedPremiumCost());
 	    calc.setDiscountAmount(0d);
 	    break;
 	case NOT_COMPLETED:
+	    obt.setStatus(ObtainingStatus.CANCELED);
+	    pym.setStatus(PaymentStatus.CANCELED);
+
 	    calc.setActualPremiumCost(0d);
 	    calc.setDiscountAmount(0d);
 	    break;

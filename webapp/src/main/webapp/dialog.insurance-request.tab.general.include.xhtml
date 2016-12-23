@@ -44,34 +44,54 @@
 		</p:panel>
 
 		<p:panel>
+
 			<p:panelGrid>
+				<p:row>
 
-				<crm:outputRow label="Заявка поступила">
-					<crm:outputDatetime value="#{ir.created}" />
-				</crm:outputRow>
+					<p:column>
+						<p:panelGrid>
 
-				<crm:outputRow rendered="#{not empty ir.accepted}"
-					label="Принята в обработку">
-					<crm:outputDatetime value="#{ir.accepted}" />
-					<h:outputText rendered="#{not empty ir.acceptedBy}"
-						value="&amp;nbsp;(#{ir.acceptedBy.name})" escape="false" />
-				</crm:outputRow>
+							<crm:outputRow label="Заявка поступила">
+								<crm:outputDatetime value="#{ir.created}" />
+							</crm:outputRow>
 
-				<crm:outputRow rendered="#{not empty ir.completed}"
-					label="Обработка завершена">
-					<crm:outputDatetime value="#{ir.completed}" />
-					<h:outputText rendered="#{not empty ir.completedBy}"
-						value="&amp;nbsp;(#{ir.completedBy.name})" escape="false" />
-				</crm:outputRow>
+							<crm:outputRow label="Обновлена">
+								<crm:outputDatetime value="#{ir.updated}" />
+							</crm:outputRow>
 
-				<crm:outputRow rendered="#{not empty ir.closed}"
-					label="Заявка закрыта">
-					<crm:outputDatetime value="#{ir.closed}" />
-					<h:outputText rendered="#{not empty ir.closedBy}"
-						value="&amp;nbsp;(#{ir.closedBy.name})" escape="false" />
-				</crm:outputRow>
+						</p:panelGrid>
+					</p:column>
 
+					<p:column>
+						<p:panelGrid>
+
+							<crm:outputRow rendered="#{not empty ir.accepted}"
+								label="Принята в обработку">
+								<crm:outputDatetime value="#{ir.accepted}" />
+								<h:outputText rendered="#{not empty ir.acceptedBy}"
+									value="&amp;nbsp;(#{ir.acceptedBy.name})" escape="false" />
+							</crm:outputRow>
+
+							<crm:outputRow rendered="#{not empty ir.completed}"
+								label="Обработка завершена">
+								<crm:outputDatetime value="#{ir.completed}" />
+								<h:outputText rendered="#{not empty ir.completedBy}"
+									value="&amp;nbsp;(#{ir.completedBy.name})" escape="false" />
+							</crm:outputRow>
+
+							<crm:outputRow rendered="#{not empty ir.closed}"
+								label="Заявка закрыта">
+								<crm:outputDatetime value="#{ir.closed}" />
+								<h:outputText rendered="#{not empty ir.closedBy}"
+									value="&amp;nbsp;(#{ir.closedBy.name})" escape="false" />
+							</crm:outputRow>
+
+						</p:panelGrid>
+					</p:column>
+
+				</p:row>
 			</p:panelGrid>
+
 		</p:panel>
 
 	</p:tab>

@@ -164,6 +164,10 @@
 					sortBy="#{req.created}">
 					<crm:outputDatetime value="#{req.created}" />
 				</p:column>
+				<p:column headerText="Дата обновления" width="150"
+					sortBy="#{req.updated}">
+					<crm:outputDatetime value="#{req.updated}" />
+				</p:column>
 				<p:column headerText="Стоимость премии" width="100"
 					style="text-align: right"
 					sortBy="#{req.product.calculation.premiumCost}">

@@ -33,26 +33,6 @@
 					</p:selectOneMenu>
 				</p:column>
 				<p:column>
-					<p:outputLabel value="Статус доставки:" />
-				</p:column>
-				<p:column>
-					<p:selectOneMenu value="#{ir.obtaining.status}"
-						rendered="#{ir.obtaining.method eq 'UNDEFINED'}">
-						<p:ajax process="@this" update="@this" />
-						<f:selectItem value="#{configurationFacade.mustSelectSI}" />
-						<f:selectItems
-							value="#{obtainingStatusService.nonValueItemsShortSI}" />
-					</p:selectOneMenu>
-					<p:selectOneMenu value="#{ir.obtaining.status}"
-						rendered="#{ir.obtaining.method ne 'UNDEFINED'}">
-						<p:ajax process="@this" update="@this" />
-						<f:selectItem value="#{configurationFacade.mustSelectSI}" />
-						<f:selectItems value="#{obtainingStatusService.valueItemsShortSI}" />
-					</p:selectOneMenu>
-				</p:column>
-			</p:row>
-			<p:row>
-				<p:column>
 					<p:outputLabel value="Способ оплаты:" />
 				</p:column>
 				<p:column>
@@ -69,6 +49,26 @@
 							process="@this" update="paymentObtainingPanel" />
 						<f:selectItem value="#{configurationFacade.mustSelectSI}" />
 						<f:selectItems value="#{paymentMethodService.allItemsShortSI}" />
+					</p:selectOneMenu>
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel value="Статус доставки:" />
+				</p:column>
+				<p:column>
+					<p:selectOneMenu value="#{ir.obtaining.status}"
+						rendered="#{ir.obtaining.method eq 'UNDEFINED'}">
+						<p:ajax process="@this" update="@this" />
+						<f:selectItem value="#{configurationFacade.mustSelectSI}" />
+						<f:selectItems
+							value="#{obtainingStatusService.nonValueItemsShortSI}" />
+					</p:selectOneMenu>
+					<p:selectOneMenu value="#{ir.obtaining.status}"
+						rendered="#{ir.obtaining.method ne 'UNDEFINED'}">
+						<p:ajax process="@this" update="@this" />
+						<f:selectItem value="#{configurationFacade.mustSelectSI}" />
+						<f:selectItems value="#{obtainingStatusService.valueItemsShortSI}" />
 					</p:selectOneMenu>
 				</p:column>
 				<p:column>

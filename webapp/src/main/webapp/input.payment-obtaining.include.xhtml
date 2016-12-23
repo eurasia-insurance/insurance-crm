@@ -17,6 +17,7 @@
 					<p:outputLabel value="Способ доставки:" />
 				</p:column>
 				<p:column>
+					<!-- >> agreeement ok -->
 					<p:selectOneMenu value="#{ir.obtaining.method}"
 						rendered="#{ir.transactionStatus eq 'COMPLETED'}">
 						<p:ajax listener="#{mainFacade.onObtainingMethodChanged}"
@@ -24,18 +25,22 @@
 						<f:selectItem value="#{configurationFacade.mustSelectSI}" />
 						<f:selectItems value="#{obtainingMethodService.valueItemsShortSI}" />
 					</p:selectOneMenu>
+					<!-- << agreeement ok -->
+					<!-- >> agreement fail -->
 					<p:selectOneMenu value="#{ir.obtaining.method}"
-						rendered="#{ir.transactionStatus ne 'COMPLETED'}">
+						rendered="#{ir.transactionStatus eq 'NOT_COMPLETED'}">
 						<p:ajax listener="#{mainFacade.onObtainingMethodChanged}"
 							process="@this" update="paymentObtainingPanel" />
 						<f:selectItem value="#{configurationFacade.mustSelectSI}" />
 						<f:selectItems value="#{obtainingMethodService.allItemsShortSI}" />
 					</p:selectOneMenu>
+					<!-- << agreement fail -->
 				</p:column>
 				<p:column>
 					<p:outputLabel value="Способ оплаты:" />
 				</p:column>
 				<p:column>
+					<!-- >> agreeement ok -->
 					<p:selectOneMenu value="#{ir.payment.method}"
 						rendered="#{ir.transactionStatus eq 'COMPLETED'}">
 						<p:ajax listener="#{mainFacade.onPaymentMethodChanged}"
@@ -43,13 +48,16 @@
 						<f:selectItem value="#{configurationFacade.mustSelectSI}" />
 						<f:selectItems value="#{paymentMethodService.valueItemsShortSI}" />
 					</p:selectOneMenu>
+					<!-- << agreeement ok -->
+					<!-- >> agreement fail -->
 					<p:selectOneMenu value="#{ir.payment.method}"
-						rendered="#{ir.transactionStatus ne 'COMPLETED'}">
+						rendered="#{ir.transactionStatus eq 'NOT_COMPLETED'}">
 						<p:ajax listener="#{mainFacade.onPaymentMethodChanged}"
 							process="@this" update="paymentObtainingPanel" />
 						<f:selectItem value="#{configurationFacade.mustSelectSI}" />
 						<f:selectItems value="#{paymentMethodService.allItemsShortSI}" />
 					</p:selectOneMenu>
+					<!-- << agreement fail -->
 				</p:column>
 			</p:row>
 			<p:row>

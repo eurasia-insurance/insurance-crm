@@ -38,6 +38,25 @@
 						</p:column>
 						<p:column>
 
+							<!-- >> requesterNameMask -->
+							<p:panelGrid>
+								<p:row>
+									<p:column>
+										<p:outputLabel value="Имя заявителя:" for="requesterNameMask" />
+									</p:column>
+									<p:column>
+										<p:inputText id="requesterNameMask"
+											value="#{insuranceRequestsFilter.requesterNameMask}">
+											<p:ajax process="@this" update="@form"
+												listener="#{mainFacade.onFilterChanged}" />
+										</p:inputText>
+									</p:column>
+								</p:row>
+							</p:panelGrid>
+
+						</p:column>
+						<p:column>
+
 							<p:panelGrid>
 								<p:row>
 									<p:column>

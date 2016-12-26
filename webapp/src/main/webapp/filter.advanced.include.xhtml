@@ -11,6 +11,35 @@
 		<h:panelGroup rendered="#{insuranceRequestsFilter.advanced}">
 
 			<p:panel>
+
+				<p:panelGrid>
+					<p:row>
+						<p:column>
+							<p:outputLabel value="Номер заявки:" for="id" />
+						</p:column>
+						<p:column>
+							<p:inputNumber id="id" value="#{insuranceRequestsFilter.id}"
+								decimalPlaces="0" minValue="0" size="5">
+								<p:ajax event="keyup" delay="700" process="@this" update="@form"
+									listener="#{mainFacade.onFilterChanged}" />
+							</p:inputNumber>
+						</p:column>
+						<p:column>
+							<p:outputLabel value="Имя заявителя:" for="requesterNameMask" />
+						</p:column>
+						<p:column>
+							<p:inputText id="requesterNameMask"
+								value="#{insuranceRequestsFilter.requesterNameMask}">
+								<p:ajax event="keyup" delay="700" process="@this" update="@form"
+									listener="#{mainFacade.onFilterChanged}" />
+							</p:inputText>
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+
+			</p:panel>
+
+			<p:panel>
 				<!-- >> status -->
 				<p:panelGrid>
 					<p:row>

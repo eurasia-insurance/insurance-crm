@@ -17,6 +17,9 @@ import com.lapsa.insurance.elements.PaymentMethod;
 
 public class DefaultInsuranceRequestFitler implements InsuranceRequestFitler {
 
+    private Integer id;
+    private String requesterNameMask;
+
     private RequestStatus requestStatus;
     private RequestType requestType;
     private InsuranceProductType insuranceProductType;
@@ -35,6 +38,24 @@ public class DefaultInsuranceRequestFitler implements InsuranceRequestFitler {
 
     private User acceptedBy;
     private User completedBy;
+
+    @Override
+    public Integer getId() {
+	return id;
+    }
+
+    public void setId(Integer id) {
+	this.id = id;
+    }
+
+    @Override
+    public String getRequesterNameMask() {
+	return requesterNameMask;
+    }
+
+    public void setRequesterNameMask(String requesterNameMask) {
+	this.requesterNameMask = requesterNameMask;
+    }
 
     @Override
     public RequestStatus getRequestStatus() {
@@ -178,5 +199,4 @@ public class DefaultInsuranceRequestFitler implements InsuranceRequestFitler {
     public void setCompletedBy(User completedBy) {
 	this.completedBy = completedBy;
     }
-
 }

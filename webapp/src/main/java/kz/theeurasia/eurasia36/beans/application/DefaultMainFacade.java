@@ -127,6 +127,54 @@ public class DefaultMainFacade implements MainFacade {
     }
 
     @Override
+    public String doFilterCompletedToday() {
+	filterCompletedToday();
+	refreshRequests();
+	unselectIfNotShown();
+	return null;
+    }
+
+    @Override
+    public String doFilterCompletedYesterday() {
+	filterCompletedYesterday();
+	refreshRequests();
+	unselectIfNotShown();
+	return null;
+    }
+
+    @Override
+    public String doFilterCompletedThisWeek() {
+	filterCompletedThisWeek();
+	refreshRequests();
+	unselectIfNotShown();
+	return null;
+    }
+
+    @Override
+    public String doFilterCompletedLastWeek() {
+	filterCompletedLastWeek();
+	refreshRequests();
+	unselectIfNotShown();
+	return null;
+    }
+
+    @Override
+    public String doFilterCompletedThisMonth() {
+	filterCompletedThisMonth();
+	refreshRequests();
+	unselectIfNotShown();
+	return null;
+    }
+
+    @Override
+    public String doFilterCompletedLastMonth() {
+	filterCompletedLastMonth();
+	refreshRequests();
+	unselectIfNotShown();
+	return null;
+    }
+
+    @Override
     public String doAcceptRequestOnce() {
 	acceptRequestOnce();
 	saveRequest();
@@ -448,6 +496,64 @@ public class DefaultMainFacade implements MainFacade {
 	DefaultInsuranceRequestFitler filter = insuranceRequestsFilterHolder.getValue();
 	filter.setCreatedAfter(fromLocalDateTime(after));
 	filter.setCreatedBefore(fromLocalDateTime(before));
+    }
+
+    private void filterCompletedToday() {
+	LocalDateTime after = LocalDate.now().atStartOfDay();
+
+	DefaultInsuranceRequestFitler filter = insuranceRequestsFilterHolder.getValue();
+	filter.setCompletedAfter(fromLocalDateTime(after));
+	filter.setCompletedBefore(null);
+    }
+
+    private void filterCompletedYesterday() {
+	LocalDateTime after = LocalDate.now().minusDays(1).atStartOfDay();
+	LocalDateTime before = LocalDate.now().atStartOfDay()
+		.minus(1, ChronoUnit.SECONDS);
+
+	DefaultInsuranceRequestFitler filter = insuranceRequestsFilterHolder.getValue();
+	filter.setCompletedAfter(fromLocalDateTime(after));
+	filter.setCompletedBefore(fromLocalDateTime(before));
+    }
+
+    private void filterCompletedThisWeek() {
+	LocalDateTime after = LocalDate.now()
+		.with(ChronoField.DAY_OF_WEEK, WeekFields.ISO.getFirstDayOfWeek().getValue()).atStartOfDay();
+
+	DefaultInsuranceRequestFitler filter = insuranceRequestsFilterHolder.getValue();
+	filter.setCompletedAfter(fromLocalDateTime(after));
+	filter.setCompletedBefore(null);
+    }
+
+    private void filterCompletedLastWeek() {
+	LocalDateTime after = LocalDate.now()
+		.with(ChronoField.DAY_OF_WEEK, WeekFields.ISO.getFirstDayOfWeek().getValue()).minusWeeks(1)
+		.atStartOfDay();
+	LocalDateTime before = LocalDate.now()
+		.with(ChronoField.DAY_OF_WEEK, WeekFields.ISO.getFirstDayOfWeek().getValue()).atStartOfDay().minus(1,
+			ChronoUnit.SECONDS);
+
+	DefaultInsuranceRequestFitler filter = insuranceRequestsFilterHolder.getValue();
+	filter.setCompletedAfter(fromLocalDateTime(after));
+	filter.setCompletedBefore(fromLocalDateTime(before));
+    }
+
+    private void filterCompletedThisMonth() {
+	LocalDateTime after = LocalDate.now().withDayOfMonth(1).atStartOfDay();
+
+	DefaultInsuranceRequestFitler filter = insuranceRequestsFilterHolder.getValue();
+	filter.setCompletedAfter(fromLocalDateTime(after));
+	filter.setCompletedBefore(null);
+    }
+
+    private void filterCompletedLastMonth() {
+	LocalDateTime after = LocalDate.now().withDayOfMonth(1).minusMonths(1).atStartOfDay();
+	LocalDateTime before = LocalDate.now().withDayOfMonth(1).atStartOfDay().minus(1,
+		ChronoUnit.SECONDS);
+
+	DefaultInsuranceRequestFitler filter = insuranceRequestsFilterHolder.getValue();
+	filter.setCompletedAfter(fromLocalDateTime(after));
+	filter.setCompletedBefore(fromLocalDateTime(before));
     }
 
     private static Date fromLocalDateTime(LocalDateTime value) {

@@ -24,6 +24,18 @@ public interface MainFacade {
 
     String doFilterCreatedLastMonth();
 
+    String doFilterCompletedToday();
+
+    String doFilterCompletedYesterday();
+
+    String doFilterCompletedThisWeek();
+
+    String doFilterCompletedLastWeek();
+
+    String doFilterCompletedThisMonth();
+
+    String doFilterCompletedLastMonth();
+
     String doCancelEditRequest();
 
     String doRefresh();

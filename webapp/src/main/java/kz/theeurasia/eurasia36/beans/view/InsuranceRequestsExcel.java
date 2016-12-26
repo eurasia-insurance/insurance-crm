@@ -58,6 +58,12 @@ public class InsuranceRequestsExcel {
 	    createHeaderCell(rowhead, 8, "Email заявителя");
 	    createHeaderCell(rowhead, 9, "Телефон заявителя");
 
+	    createHeaderCell(rowhead, 10, "Статус заявки");
+	    createHeaderCell(rowhead, 11, "Стадия обработки");
+	    createHeaderCell(rowhead, 12, "Дата завершения");
+	    createHeaderCell(rowhead, 13, "Результат");
+	    createHeaderCell(rowhead, 14, "Прична");
+
 	    for (int i = 0; i < list.size(); i++) {
 		InsuranceRequest ir = list.get(i);
 		HSSFRow row = sheet.createRow(i + 2);
@@ -69,11 +75,15 @@ public class InsuranceRequestsExcel {
 		createAmountCell(row, 6, ir.getProduct().getCalculation().getCalculatedPremiumCost());
 		createTextCell(row, 7, ir.getRequester().getName());
 		createTextCell(row, 8, ir.getRequester().getEmail());
-		createTextCell(row, 9,
-			(ir.getRequester().getPhone() != null ? ir.getRequester().getPhone().getFormatted() : null));
+		createTextCell(row, 9, ir.getRequester().getPhone());
+		createTextCell(row, 10, ir.getStatus());
+		createTextCell(row, 11, ir.getProgressStatus());
+		createDateTimeCell(row, 12, ir.getCompleted());
+		createTextCell(row, 13, ir.getTransactionStatus());
+		createTextCell(row, 14, ir.getTransactionProblem());
 	    }
 
-	    for (int i = 1; i <= 9; i++)
+	    for (int i = 1; i <= 14; i++)
 		sheet.autoSizeColumn(i);
 	}
 	return workbook;
@@ -119,12 +129,15 @@ public class InsuranceRequestsExcel {
 	}
 	HSSFCell cell = row.createCell(number, CellType.STRING);
 	cell.setCellStyle(textCellStyle);
-	cell.setCellValue(text);
+	if (text != null)
+	    cell.setCellValue(text);
+	else
+	    cell.setCellValue("");
 	return cell;
     }
 
     private HSSFCell createTextCell(HSSFRow row, int number, Object object) {
-	return createTextCell(row, number, object.toString());
+	return createTextCell(row, number, (object != null ? object.toString() : null));
     }
 
     private HSSFCell createHeaderCell(HSSFRow row, int number, String caption) {
@@ -143,11 +156,14 @@ public class InsuranceRequestsExcel {
 	}
 	HSSFCell cell = row.createCell(number, CellType.STRING);
 	cell.setCellStyle(headerCellStyle);
-	cell.setCellValue(caption);
+	if (caption != null)
+	    cell.setCellValue(caption);
+	else
+	    cell.setCellValue("");
 	return cell;
     }
 
-    private HSSFCell createAmountCell(HSSFRow row, int number, double amount) {
+    private HSSFCell createAmountCell(HSSFRow row, int number, Double amount) {
 	if (amountCellType == null) {
 	    HSSFDataFormat dataFormat = workbook.createDataFormat();
 	    amountCellType = workbook.createCellStyle();
@@ -160,7 +176,10 @@ public class InsuranceRequestsExcel {
 	}
 	HSSFCell cell = row.createCell(number, CellType.NUMERIC);
 	cell.setCellStyle(amountCellType);
-	cell.setCellValue(amount);
+	if (amount != null)
+	    cell.setCellValue(amount);
+	else
+	    cell.setCellValue("");
 	return cell;
     }
 
@@ -177,7 +196,10 @@ public class InsuranceRequestsExcel {
 	}
 	HSSFCell cell = row.createCell(number, CellType.NUMERIC);
 	cell.setCellStyle(dateTimeCellType);
-	cell.setCellValue(dateTime);
+	if (dateTime != null)
+	    cell.setCellValue(dateTime);
+	else
+	    cell.setCellValue("");
 	return cell;
     }
 }

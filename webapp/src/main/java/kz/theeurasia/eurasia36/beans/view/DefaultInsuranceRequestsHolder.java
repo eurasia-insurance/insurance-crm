@@ -6,6 +6,8 @@ import java.util.List;
 import javax.inject.Named;
 
 import org.omnifaces.cdi.ViewScoped;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 import com.lapsa.insurance.domain.InsuranceRequest;
 
@@ -18,11 +20,13 @@ public class DefaultInsuranceRequestsHolder extends DefaultWritableValueHolder<L
 
     private static final long serialVersionUID = 7249376610273191727L;
     private InsuranceRequestDataModel model;
+    private InsuranceRequestsExcel excel;
 
     @Override
     public void reset() {
 	this.value = null;
 	this.model = new InsuranceRequestDataModel(null);
+	this.excel = null;
     }
 
     @Override
@@ -34,6 +38,7 @@ public class DefaultInsuranceRequestsHolder extends DefaultWritableValueHolder<L
     public void setRequests(List<InsuranceRequest> requests) {
 	super.setValue(requests);
 	this.model = new InsuranceRequestDataModel(requests);
+	this.excel = new InsuranceRequestsExcel(requests);
     }
 
     @Override
@@ -52,5 +57,10 @@ public class DefaultInsuranceRequestsHolder extends DefaultWritableValueHolder<L
 	for (InsuranceRequest ir : value)
 	    tot += ir.getProduct().getCalculation().getPremiumCost();
 	return tot;
+    }
+
+    @Override
+    public StreamedContent getAsExcel() {
+	return new DefaultStreamedContent(excel.asExcelWorkbookInputStream(), "application/vnd.ms-excel", "report.xls");
     }
 }

@@ -113,6 +113,12 @@
 			<artifactId>primefaces-extensions</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<scope>compile</scope>
+			<optional>false</optional>
+		</dependency>
 		<!-- JavaEE -->
 		<dependency>
 			<groupId>org.glassfish</groupId>

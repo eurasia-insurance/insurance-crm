@@ -11,11 +11,28 @@
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 
 	<f:subview>
+
 		<!-- >> rendered -->
 		<h:panelGroup rendered="#{count gt 0}">
 
 			<p:panel>
-				<ui:include src="panel.summary.info.include.xhtml" />
+
+				<p:panelGrid>
+
+					<h:panelGroup>
+						<ui:include src="panel.summary.info.include.xhtml" />
+					</h:panelGroup>
+
+					<p:commandLink ajax="false" immediate="true"
+						style="text-decoration: none">
+						<i class="fa fa-download" aria-hidden="true" />
+						<i class="fa fa-file-excel-o" aria-hidden="true" />
+						<p:fileDownload value="#{insuranceRequests.asExcel}"
+							contentDisposition="attachment" />
+					</p:commandLink>
+
+				</p:panelGrid>
+
 			</p:panel>
 
 		</h:panelGroup>

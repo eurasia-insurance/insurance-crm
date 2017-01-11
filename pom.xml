@@ -38,7 +38,6 @@
 		<primefaces-themes.version>1.0.10</primefaces-themes.version>
 		<primefaces-extensions.version>4.0.0</primefaces-extensions.version>
 		<omnifaces.version>2.5.1</omnifaces.version>
-		<poi.version>3.15</poi.version>
 	</properties>
 
 	<dependencyManagement>
@@ -176,11 +175,6 @@
 				<groupId>org.omnifaces</groupId>
 				<artifactId>omnifaces</artifactId>
 				<version>${omnifaces.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.poi</groupId>
-				<artifactId>poi</artifactId>
-				<version>${poi.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

@@ -29,6 +29,7 @@
 		<insurance-lib.version>1.7.1</insurance-lib.version>
 		<lapsa-lib.version>1.1.1</lapsa-lib.version>
 		<donkeyfaces-lib.version>1.1</donkeyfaces-lib.version>
+		<reports-lib.version>1.0-SNAPSHOT</reports-lib.version>
 		<!-- EJBs & WARs -->
 		<insurance-services-impl-cdi.version>1.4</insurance-services-impl-cdi.version>
 		<insurance-dao-impl-jpa.version>1.6.1</insurance-dao-impl-jpa.version>
@@ -137,6 +138,17 @@
 				<groupId>com.lapsa.donkeyfaces-lib</groupId>
 				<artifactId>donkeyfaces-faces</artifactId>
 				<version>${donkeyfaces-lib.version}</version>
+			</dependency>
+			<!-- internal reports -->
+			<dependency>
+				<groupId>com.lapsa.reports-lib</groupId>
+				<artifactId>reports-api</artifactId>
+				<version>${reports-lib.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.lapsa.reports-lib</groupId>
+				<artifactId>reports-excel</artifactId>
+				<version>${reports-lib.version}</version>
 			</dependency>
 			<!-- internal font-awesome -->
 			<dependency>

@@ -83,6 +83,19 @@
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
+		<!-- internal reports -->
+		<dependency>
+			<groupId>com.lapsa.reports-lib</groupId>
+			<artifactId>reports-api</artifactId>
+			<scope>compile</scope>
+			<optional>false</optional>
+		</dependency>
+		<dependency>
+			<groupId>com.lapsa.reports-lib</groupId>
+			<artifactId>reports-excel</artifactId>
+			<scope>runtime</scope>
+			<optional>false</optional>
+		</dependency>
 		<!-- internal font-awesome -->
 		<dependency>
 			<groupId>com.lapsa.font-awesome-lib</groupId>

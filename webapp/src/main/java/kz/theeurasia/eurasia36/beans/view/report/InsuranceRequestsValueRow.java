@@ -19,38 +19,46 @@ public class InsuranceRequestsValueRow implements ValueRow {
 	    "Продукт", // 1
 	    "Тип", // 2
 	    "Номер", // 3
+
 	    "Дата создания", // 4
-	    "Дата обновления", // 5
-	    "Стоимость премии", // 6
-	    "Имя заявителя", // 7
-	    "Email заявителя", // 8
-	    "Телефон заявителя", // 9
-	    "Статус заявки", // 10
-	    "Стадия обработки", // 11
-	    "Дата завершения", // 12
-	    "Результат", // 13
-	    "Причина"// 14
+	    "Дата принятия в работу", // 5
+	    "Дата завершения", // 6
+	    "Дата закрытия", // 7
+
+	    "Стоимость премии", // 8
+	    "Имя заявителя", // 9
+	    "Email заявителя", // 10
+	    "Телефон заявителя", // 11
+	    "Статус заявки", // 12
+	    "Стадия обработки", // 13
+	    "Результат", // 14
+	    "Причина"// 15
     };
 
     private final List<ValueCell<?>> row;
 
     public InsuranceRequestsValueRow(final InsuranceRequest request) {
 	List<ValueCell<?>> row = new ArrayList<>();
-	row.add(new DefaultTextValueCell(request.getProductType()));// 1
-	row.add(new DefaultTextValueCell(request.getType()));// 2
-	row.add(new DefaultIntegerNumberValueCell(request.getId()));// 3
-	row.add(new DefaultDateTimeValueCell(request.getCreated()));// 4
-	row.add(new DefaultDateTimeValueCell(request.getUpdated()));// 5
+
+	row.add(new DefaultTextValueCell(request.getProductType())); // 1
+	row.add(new DefaultTextValueCell(request.getType())); // 2
+	row.add(new DefaultIntegerNumberValueCell(request.getId())); // 3
+
+	row.add(new DefaultDateTimeValueCell(request.getCreated())); // 4
+	row.add(new DefaultDateTimeValueCell(request.getAccepted())); // 5
+	row.add(new DefaultDateTimeValueCell(request.getCompleted())); // 6
+	row.add(new DefaultDateTimeValueCell(request.getClosed())); // 7
+
 	row.add(new DefaultAmountValueCell(request.getProduct().getCalculation().getPremiumCost(),
-		request.getProduct().getCalculation().getPremiumCurrency()));// 6
-	row.add(new DefaultTextValueCell(request.getRequester().getName()));// 7
-	row.add(new DefaultTextValueCell(request.getRequester().getEmail()));// 8
-	row.add(new DefaultTextValueCell(request.getRequester().getPhone()));// 9
-	row.add(new DefaultTextValueCell(request.getStatus()));// 10
-	row.add(new DefaultTextValueCell(request.getProgressStatus()));// 11
-	row.add(new DefaultDateTimeValueCell(request.getCompleted()));// 12
-	row.add(new DefaultTextValueCell(request.getTransactionStatus()));// 13
-	row.add(new DefaultTextValueCell(request.getTransactionProblem()));// 14
+		request.getProduct().getCalculation().getPremiumCurrency())); // 8
+	row.add(new DefaultTextValueCell(request.getRequester().getName())); // 9
+	row.add(new DefaultTextValueCell(request.getRequester().getEmail())); // 10
+	row.add(new DefaultTextValueCell(request.getRequester().getPhone())); // 11
+	row.add(new DefaultTextValueCell(request.getStatus())); // 12
+	row.add(new DefaultTextValueCell(request.getProgressStatus())); // 13
+	row.add(new DefaultTextValueCell(request.getTransactionStatus())); // 14
+	row.add(new DefaultTextValueCell(request.getTransactionProblem())); // 15
+
 	this.row = Collections.unmodifiableList(row);
     }
 

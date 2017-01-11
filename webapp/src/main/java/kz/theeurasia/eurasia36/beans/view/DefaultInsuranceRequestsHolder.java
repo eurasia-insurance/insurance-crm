@@ -10,8 +10,13 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
 import com.lapsa.insurance.domain.InsuranceRequest;
+import com.lapsa.reports.ReportData;
+import com.lapsa.reports.ReportGenerator;
+import com.lapsa.reports.ReportGeneratorFactory;
+import com.lapsa.reports.table.TableModel;
 
 import kz.theeurasia.eurasia36.beans.api.InsuranceRequestsHolder;
+import kz.theeurasia.eurasia36.beans.view.report.InsuranceRequestsTableModel;
 
 @Named("insuranceRequests")
 @ViewScoped
@@ -20,13 +25,11 @@ public class DefaultInsuranceRequestsHolder extends DefaultWritableValueHolder<L
 
     private static final long serialVersionUID = 7249376610273191727L;
     private InsuranceRequestDataModel model;
-    private InsuranceRequestsExcel excel;
 
     @Override
     public void reset() {
 	this.value = null;
 	this.model = new InsuranceRequestDataModel(null);
-	this.excel = null;
     }
 
     @Override
@@ -38,7 +41,6 @@ public class DefaultInsuranceRequestsHolder extends DefaultWritableValueHolder<L
     public void setRequests(List<InsuranceRequest> requests) {
 	super.setValue(requests);
 	this.model = new InsuranceRequestDataModel(requests);
-	this.excel = new InsuranceRequestsExcel(requests);
     }
 
     @Override
@@ -61,6 +63,9 @@ public class DefaultInsuranceRequestsHolder extends DefaultWritableValueHolder<L
 
     @Override
     public StreamedContent getAsExcel() {
-	return new DefaultStreamedContent(excel.asExcelWorkbookInputStream(), "application/vnd.ms-excel", "report.xls");
+	TableModel model = new InsuranceRequestsTableModel(value);
+	ReportGenerator excelGenerator = ReportGeneratorFactory.createReportGenerator("excel");
+	ReportData data = excelGenerator.generateTableReport(model);
+	return new DefaultStreamedContent(data.contentAsInputStream(), data.contentType(), "report.xls");
     }
 }

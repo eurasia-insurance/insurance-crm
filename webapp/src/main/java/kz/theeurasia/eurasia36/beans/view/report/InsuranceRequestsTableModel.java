@@ -4,10 +4,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.lapsa.insurance.domain.InsuranceRequest;
-import com.lapsa.reports.table.DefaultHeaderRow;
 import com.lapsa.reports.table.HeaderRow;
 import com.lapsa.reports.table.TableModel;
 import com.lapsa.reports.table.ValueRow;
+import com.lapsa.reports.table.impl.DefaultHeaderRow;
 
 public class InsuranceRequestsTableModel implements TableModel {
 

@@ -6,12 +6,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.lapsa.insurance.domain.InsuranceRequest;
-import com.lapsa.reports.table.DefaultAmountValueCell;
-import com.lapsa.reports.table.DefaultDateTimeValueCell;
-import com.lapsa.reports.table.DefaultIntegerNumberValueCell;
-import com.lapsa.reports.table.DefaultTextValueCell;
 import com.lapsa.reports.table.ValueCell;
 import com.lapsa.reports.table.ValueRow;
+import com.lapsa.reports.table.impl.DefaultAmountValueCell;
+import com.lapsa.reports.table.impl.DefaultDateTimeValueCell;
+import com.lapsa.reports.table.impl.DefaultIntegerNumberValueCell;
+import com.lapsa.reports.table.impl.DefaultTextValueCell;
 
 public class InsuranceRequestsValueRow implements ValueRow {
 

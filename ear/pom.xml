@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>kz.theeurasia.eurasia36.crm</groupId>
 		<artifactId>parent</artifactId>
-		<version>1.7.8-SNAPSHOT</version>
+		<version>1.7.8</version>
 	</parent>
 
 	<artifactId>eurasia36-crm-ear</artifactId>

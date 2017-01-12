@@ -9,7 +9,7 @@
 
 	<groupId>kz.theeurasia.eurasia36.crm</groupId>
 	<artifactId>parent</artifactId>
-	<version>1.7.8</version>
+	<version>1.7.9-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>Eurasia36 : CRM : Parent</name>
@@ -187,7 +187,7 @@
 	<scm>
 		<connection>scm:git:https://gitlab.lapsa.tech/eurasia36/eurasia36-crm.git</connection>
 		<developerConnection>scm:git:https://gitlab.lapsa.tech/eurasia36/eurasia36-crm.git</developerConnection>
-		<tag>v1.7.8</tag>
+		<tag>HEAD</tag>
 	</scm>
 
 	<issueManagement>

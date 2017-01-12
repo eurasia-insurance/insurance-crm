@@ -65,6 +65,20 @@
 							</p:column>
 							<!-- << requesterNameMask -->
 
+							<!-- >> requesterIdNumberMask -->
+							<p:column>
+								<p:outputLabel value="ИИН заявителя:"
+									for="requesterIdNumberMask" />
+							</p:column>
+							<p:column>
+								<p:inputText id="requesterIdNumberMask"
+									value="#{insuranceRequestsFilter.requesterIdNumberMask}">
+									<p:ajax event="keyup" delay="700" process="@this"
+										update="@form" listener="#{mainFacade.onFilterChanged}" />
+								</p:inputText>
+							</p:column>
+							<!-- << requesterIdNumberMask -->
+
 						</p:row>
 					</p:panelGrid>
 				</p:panel>

@@ -252,13 +252,13 @@ public class DefaultInsuranceRequestsFilterHolder extends DefaultWritableValueHo
     }
 
     @Override
-    public String getRequesterIDNumberMask() {
-	return value.getRequesterIDNumberMask();
+    public String getRequesterIdNumberMask() {
+	return value.getRequesterIdNumberMask();
     }
 
     @Override
-    public void setRequesterIDNumberMask(String requesterIDNumberMask) {
-	value.setRequesterIDNumberMask(requesterIDNumberMask);
+    public void setRequesterIdNumberMask(String requesterIdNumberMask) {
+	value.setRequesterIdNumberMask(requesterIdNumberMask);
     }
 
 }

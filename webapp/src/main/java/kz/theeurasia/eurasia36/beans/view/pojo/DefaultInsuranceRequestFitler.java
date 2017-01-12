@@ -19,7 +19,7 @@ public class DefaultInsuranceRequestFitler implements InsuranceRequestFitler {
 
     private Integer id;
     private String requesterNameMask;
-    private String requesterIDNumberMask;
+    private String requesterIdNumberMask;
 
     private RequestStatus requestStatus;
     private RequestType requestType;
@@ -59,12 +59,12 @@ public class DefaultInsuranceRequestFitler implements InsuranceRequestFitler {
     }
 
     @Override
-    public String getRequesterIDNumberMask() {
-	return requesterIDNumberMask;
+    public String getRequesterIdNumberMask() {
+	return requesterIdNumberMask;
     }
 
-    public void setRequesterIDNumberMask(String requesterIDNumberMask) {
-	this.requesterIDNumberMask = requesterIDNumberMask;
+    public void setRequesterIdNumberMask(String requesterIdNumberMask) {
+	this.requesterIdNumberMask = requesterIdNumberMask;
     }
 
     @Override

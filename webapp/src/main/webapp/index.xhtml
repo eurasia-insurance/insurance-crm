@@ -194,16 +194,30 @@
 					<h:outputText value="#{req.requester.phone}"
 						rendered="#{req.progressStatus ne 'NEW'}" />
 				</p:column>
+				<p:column headerText="ИИН заявителя" width="100"
+					sortBy="#{req.requester.idNumber}">
+					<h:outputText value="#{req.requester.idNumber}" />
+				</p:column>
+				<p:column width="10">
+					<h:panelGroup id="source">
+						<h:panelGroup styleClass="fa fa-google"
+							rendered="#{req.utmData.source eq 'google'}" />
+						<h:panelGroup styleClass="fa fa-y-combinator"
+							rendered="#{req.utmData.source eq 'yandex'}" />
+						<h:panelGroup styleClass="fa fa-facebook"
+							rendered="#{req.utmData.source eq 'facebook'}" />
+					</h:panelGroup>
+
+					<p:tooltip for="source" trackMouse="true"
+						rendered="#{req.utmData.source eq 'google' or req.utmData.source eq 'yandex' or req.utmData.source eq 'facebook'}">
+						<h:outputText value="#{req.utmData.term}" />
+					</p:tooltip>
+
+				</p:column>
 				<p:column headerText="Доп информация" sortable="false">
 					<h:panelGroup rendered="#{req.productType eq 'POLICY'}"
 						style="white-space: nowrap">
-						ИИН: #{req.policy.insuredDrivers[0].idNumber}<br />
 						Авто: #{kzAreaService.displayNameShort(req.policy.insuredVehicles[0].area)}, #{kzCityService.displayNameShort(req.policy.insuredVehicles[0].city)}<br />
-					</h:panelGroup>
-				</p:column>
-				<p:column headerText="Источник трафика">
-					<h:panelGroup rendered="#{not empty req.utmData.source}">
-						#{req.utmData.source} '#{req.utmData.term}'
 					</h:panelGroup>
 				</p:column>
 			</p:dataTable>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
+	xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
+
+	<cc:interface>
+		<cc:attribute name="value" required="true" type="java.util.Date" />
+		<cc:attribute name="process" required="false" type="java.lang.String" />
+		<cc:attribute name="update" required="false" type="java.lang.String" />
+		<cc:attribute name="changedListener"
+			method-signature="void listener()" />
+		<cc:editableValueHolder name="valueName" targets="value" />
+	</cc:interface>
+
+	<cc:implementation>
+		<p:calendar id="value" value="#{cc.attrs.value}" showOn="focus"
+			navigator="true" pattern="dd.MM.yyyy HH:mm:ss" onfocus="select()">
+			<p:ajax event="dateSelect" process="#{cc.attrs.process}"
+				update="#{cc.attrs.update}" listener="#{cc.attrs.changedListener}" />
+			<p:ajax event="keyup" delay="700" process="#{cc.attrs.process}"
+				update="#{cc.attrs.update}" listener="#{cc.attrs.changedListener}" />
+		</p:calendar>
+	</cc:implementation>
+
+</ui:component>

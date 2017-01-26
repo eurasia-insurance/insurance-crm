@@ -6,6 +6,8 @@ import org.primefaces.event.SelectEvent;
 
 public interface MainFacade {
 
+    void onFilterChanged();
+
     void onFilterChanged(AjaxBehaviorEvent event);
 
     String doInitialize();

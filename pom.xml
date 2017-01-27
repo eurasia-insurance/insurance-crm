@@ -32,7 +32,7 @@
 		<reports-lib.version>1.0</reports-lib.version>
 		<!-- EJBs & WARs -->
 		<insurance-services-impl-cdi.version>1.4.1</insurance-services-impl-cdi.version>
-		<insurance-dao-impl-jpa.version>1.7-SNAPSHOT</insurance-dao-impl-jpa.version>
+		<insurance-dao-impl-jpa.version>1.7</insurance-dao-impl-jpa.version>
 		<!-- external -->
 		<primefaces.version>5.3.16</primefaces.version>
 		<primefaces-themes.version>1.0.10</primefaces-themes.version>

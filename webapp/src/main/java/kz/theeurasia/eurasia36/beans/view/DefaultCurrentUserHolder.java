@@ -40,8 +40,27 @@ public class DefaultCurrentUserHolder extends DefaultWritableValueHolder<User>
     }
 
     @Override
-    public boolean inRole(SecurityRole role) {
-	return FacesContext.getCurrentInstance().getExternalContext().isUserInRole(role.getRoleName());
+    public boolean inRoles(SecurityRole... roles) {
+	ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+	for (SecurityRole role : roles)
+	    if (ec.isUserInRole(role.getRoleName()))
+		return true;
+	return false;
+    }
+
+    @Override
+    public boolean inRole(SecurityRole role1, SecurityRole role2, SecurityRole role3) {
+	return inRoles(role1, role2, role3);
+    }
+
+    @Override
+    public boolean inRole(SecurityRole role1, SecurityRole role2) {
+	return inRoles(role1, role2);
+    }
+
+    @Override
+    public boolean inRole(SecurityRole role1) {
+	return inRoles(role1);
     }
 
     @Override

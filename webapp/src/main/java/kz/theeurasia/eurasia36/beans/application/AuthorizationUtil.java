@@ -14,6 +14,17 @@ public class AuthorizationUtil {
     }
 
     public static void checkRoleAllowed(SecurityRole... rolesAllowed) {
-	checkRoleAllowed("Уровень доступа недостаточен", rolesAllowed);
+	StringBuffer sb = new StringBuffer(
+		"Недостаточно прав доступа.");
+	for (int i = 0; i < rolesAllowed.length; i++) {
+	    if (i == 0)
+		sb.append(" Требуется как минимум одна из следующих ролей доступа: ");
+	    sb.append(rolesAllowed[i].toString());
+	    if (i == rolesAllowed.length - 1)
+		sb.append(".");
+	    else
+		sb.append(", ");
+	}
+	checkRoleAllowed(sb.toString(), rolesAllowed);
     }
 }

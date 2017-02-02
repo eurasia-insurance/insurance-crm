@@ -215,7 +215,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doCloseRequest() {
-	checkRoleAllowed("Не хватает уровня доступа для закрытия заявки", SecurityRole.SUPER_USER);
+	checkRoleAllowed("Не хватает уровня доступа для закрытия заявки", SecurityRole.SUPERVISOR);
 	closeRequest();
 	saveRequest();
 	refreshRequests();

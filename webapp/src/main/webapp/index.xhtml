@@ -21,7 +21,13 @@
 				name="font-awesome.min.css" />
 		</f:facet>
 
-		<c:set var="isSuperUser" value="#{request.isUserInRole('super-user')}"
+		<c:set var="isReporter" value="#{request.isUserInRole('reporter')}"
+			scope="request" />
+
+		<c:set var="isSpecialist" value="#{request.isUserInRole('specialist')}"
+			scope="request" />
+
+		<c:set var="isSupervisor" value="#{request.isUserInRole('supervisor')}"
 			scope="request" />
 
 		<h:form id="form">

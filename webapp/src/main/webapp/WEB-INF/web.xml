@@ -127,7 +127,9 @@
 			<url-pattern>/*</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
-			<role-name>user</role-name>
+			<role-name>reporter</role-name>
+			<role-name>specialist</role-name>
+			<role-name>supervisor</role-name>
 		</auth-constraint>
 		<user-data-constraint>
 			<transport-guarantee>CONFIDENTIAL</transport-guarantee>

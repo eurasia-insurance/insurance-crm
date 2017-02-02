@@ -3,7 +3,7 @@
 <glassfish-web-app error-url="">
 	<security-role-mapping>
 		<role-name>reporter</role-name>
-		<group-name>eurasia36-crm-reporter</group-name>
+		<group-name>eurasia36-crm-readers</group-name>
 	</security-role-mapping>
 	<security-role-mapping>
 		<role-name>specialist</role-name>

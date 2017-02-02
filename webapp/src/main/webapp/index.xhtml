@@ -25,15 +25,14 @@
 		</f:facet>
 
 		<c:set var="isReporter"
-			value="#{request.isUserInRole(SecurityRole.REPORTER)}"
-			scope="request" />
+			value="#{currentUser.inRole(SecurityRole.REPORTER)}" scope="request" />
 
 		<c:set var="isSpecialist"
-			value="#{request.isUserInRole(SecurityRole.SPECIALIST)}"
+			value="#{currentUser.inRole(SecurityRole.SPECIALIST)}"
 			scope="request" />
 
 		<c:set var="isSupervisor"
-			value="#{request.isUserInRole(SecurityRole.SUPERVISOR)}"
+			value="#{currentUser.inRole(SecurityRole.SUPERVISOR)}"
 			scope="request" />
 
 		<h:form id="form">

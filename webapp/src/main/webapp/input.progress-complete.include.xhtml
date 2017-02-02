@@ -28,85 +28,118 @@
 				</p:column>
 			</p:row>
 		</p:panelGrid>
-		<c:set var="discountDisabled" value="#{ir.productType eq 'POLICY'}" />
-		<h:panelGroup id="actualPolicyCostWrapper">
-			<p:panelGrid rendered="#{ir.transactionStatus eq 'COMPLETED'}">
-				<p:row>
-					<p:column>
-						<p:outputLabel value="Расчитанная стоимость премии" />
-					</p:column>
-					<p:column>
-						<crm:outputMoneyAmount
-							value="#{ir.product.calculation.calculatedPremiumCost}" />
-					</p:column>
-				</p:row>
-				<p:row>
-					<p:column>
-						<p:outputLabel value="Стоимость премии" />
-					</p:column>
-					<p:column>
-						<p:inputNumber value="#{ir.product.calculation.actualPremiumCost}"
-							symbol=" &#8376;" symbolPosition="e" decimalSeparator=","
-							decimalPlaces="2" thousandSeparator=" " minValue="1"
-							onfocus="select()">
-							<p:ajax listener="#{mainFacade.onActualPremiumCostChanged}"
-								process="@this" update="actualPolicyCostWrapper" />
-						</p:inputNumber>
-					</p:column>
-				</p:row>
-				<p:row rendered="#{not discountDisabled}">
-					<p:column>
-						<p:outputLabel value="Cкидка" />
-					</p:column>
-					<p:column>
-						<p:inputNumber value="#{ir.product.calculation.discountAmount}"
-							symbol=" &#8376;" symbolPosition="e" decimalSeparator=","
-							decimalPlaces="2" thousandSeparator=" " minValue="0"
-							maxValue="#{ir.product.calculation.calculatedPremiumCost}">
-							<p:ajax listener="#{mainFacade.onDiscountAmountChanged}"
-								process="@this" update="actualPolicyCostWrapper" />
-						</p:inputNumber>
-					</p:column>
-				</p:row>
-				<p:row rendered="#{not discountDisabled}">
-					<p:column colspan="2">
-						<p:commandButton value="нет"
-							action="#{mainFacade.doSetDiscount(0)}" process="@this"
-							update="actualPolicyCostWrapper" />
-						<p:commandButton value="15%"
-							action="#{mainFacade.doSetDiscount(.15)}" process="@this"
-							update="actualPolicyCostWrapper" />
-						<p:commandButton value="20%"
-							action="#{mainFacade.doSetDiscount(.20)}" process="@this"
-							update="actualPolicyCostWrapper" />
-						<p:commandButton value="25%"
-							action="#{mainFacade.doSetDiscount(.25)}" process="@this"
-							update="actualPolicyCostWrapper" />
-						<p:commandButton value="30%"
-							action="#{mainFacade.doSetDiscount(.30)}" process="@this"
-							update="actualPolicyCostWrapper" />
-					</p:column>
-				</p:row>
-			</p:panelGrid>
-		</h:panelGroup>
-		<h:panelGroup id="transactionProblemWrapper">
-			<p:panelGrid rendered="#{ir.transactionStatus eq 'NOT_COMPLETED'}">
-				<p:row>
-					<p:column>
-						<p:outputLabel value="Укажите причину" />
-					</p:column>
-					<p:column>
-						<p:selectOneMenu id="transactionProblem"
-							value="#{ir.transactionProblem}">
-							<f:selectItem value="#{configurationFacade.mustSelectSI}" />
-							<f:selectItems
-								value="#{transactionProblemService.selectableItemsSI}" />
-							<p:ajax process="@this" update="@this" />
-						</p:selectOneMenu>
-					</p:column>
-				</p:row>
-			</p:panelGrid>
-		</h:panelGroup>
+
+
+		<p:panelGrid>
+			<p:row>
+
+				<p:column style="width:500px;">
+
+					<c:set var="discountDisabled" value="#{ir.productType eq 'POLICY'}" />
+					<h:panelGroup id="actualPolicyCostWrapper">
+						<p:panelGrid rendered="#{ir.transactionStatus eq 'COMPLETED'}">
+							<p:row>
+								<p:column>
+									<p:outputLabel value="Расчитанная стоимость премии" />
+								</p:column>
+								<p:column>
+									<crm:outputMoneyAmount
+										value="#{ir.product.calculation.calculatedPremiumCost}" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column>
+									<p:outputLabel value="Стоимость премии" />
+								</p:column>
+								<p:column>
+									<p:inputNumber
+										value="#{ir.product.calculation.actualPremiumCost}"
+										symbol=" &#8376;" symbolPosition="e" decimalSeparator=","
+										decimalPlaces="2" thousandSeparator=" " minValue="1"
+										onfocus="select()">
+										<p:ajax listener="#{mainFacade.onActualPremiumCostChanged}"
+											process="@this" update="actualPolicyCostWrapper" />
+									</p:inputNumber>
+								</p:column>
+							</p:row>
+							<p:row rendered="#{not discountDisabled}">
+								<p:column>
+									<p:outputLabel value="Cкидка" />
+								</p:column>
+								<p:column>
+									<p:inputNumber value="#{ir.product.calculation.discountAmount}"
+										symbol=" &#8376;" symbolPosition="e" decimalSeparator=","
+										decimalPlaces="2" thousandSeparator=" " minValue="0"
+										maxValue="#{ir.product.calculation.calculatedPremiumCost}">
+										<p:ajax listener="#{mainFacade.onDiscountAmountChanged}"
+											process="@this" update="actualPolicyCostWrapper" />
+									</p:inputNumber>
+								</p:column>
+							</p:row>
+							<p:row rendered="#{not discountDisabled}">
+								<p:column colspan="2">
+									<p:commandButton value="нет"
+										action="#{mainFacade.doSetDiscount(0)}" process="@this"
+										update="actualPolicyCostWrapper" />
+									<p:commandButton value="15%"
+										action="#{mainFacade.doSetDiscount(.15)}" process="@this"
+										update="actualPolicyCostWrapper" />
+									<p:commandButton value="20%"
+										action="#{mainFacade.doSetDiscount(.20)}" process="@this"
+										update="actualPolicyCostWrapper" />
+									<p:commandButton value="25%"
+										action="#{mainFacade.doSetDiscount(.25)}" process="@this"
+										update="actualPolicyCostWrapper" />
+									<p:commandButton value="30%"
+										action="#{mainFacade.doSetDiscount(.30)}" process="@this"
+										update="actualPolicyCostWrapper" />
+								</p:column>
+							</p:row>
+						</p:panelGrid>
+					</h:panelGroup>
+					<h:panelGroup id="transactionProblemWrapper">
+						<p:panelGrid rendered="#{ir.transactionStatus eq 'NOT_COMPLETED'}">
+							<p:row>
+								<p:column>
+									<p:outputLabel value="Укажите причину" />
+								</p:column>
+								<p:column>
+									<p:selectOneMenu id="transactionProblem"
+										value="#{ir.transactionProblem}">
+										<f:selectItem value="#{configurationFacade.mustSelectSI}" />
+										<f:selectItems
+											value="#{transactionProblemService.selectableItemsSI}" />
+										<p:ajax process="@this" update="@this" />
+									</p:selectOneMenu>
+								</p:column>
+							</p:row>
+						</p:panelGrid>
+					</h:panelGroup>
+
+				</p:column>
+
+				<p:column>
+
+					<p:panelGrid>
+						<p:row>
+							<p:column>
+								<p:outputLabel value="Примечание" for="note" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<p:inputTextarea id="note" rows="5" cols="40" value="#{ir.note}">
+									<p:ajax process="@this" update="@this" />
+								</p:inputTextarea>
+							</p:column>
+						</p:row>
+					</p:panelGrid>
+
+
+				</p:column>
+
+			</p:row>
+		</p:panelGrid>
 
 	</p:panel>
 

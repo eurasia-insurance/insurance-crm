@@ -24,14 +24,15 @@
 				name="font-awesome.min.css" />
 		</f:facet>
 
-		<c:set var="isReporter"
-			value="#{currentUser.inRole(SecurityRole.REPORTER)}" scope="request" />
-
-		<c:set var="isSpecialist"
-			value="#{currentUser.inRole(SecurityRole.SPECIALIST)}"
+		<c:set var="canView"
+			value="#{currentUser.inRole(SecurityRole.REPORTER, SecurityRole.SPECIALIST, SecurityRole.SUPERVISOR)}"
 			scope="request" />
 
-		<c:set var="isSupervisor"
+		<c:set var="canChange"
+			value="#{currentUser.inRole(SecurityRole.SPECIALIST, SecurityRole.SUPERVISOR)}"
+			scope="request" />
+
+		<c:set var="canClose"
 			value="#{currentUser.inRole(SecurityRole.SUPERVISOR)}"
 			scope="request" />
 
@@ -195,7 +196,7 @@
 				</p:column>
 				<p:column headerText="Телефон заявителя" width="130"
 					sortBy="#{req.requester.phone}">
-					<p:commandButton rendered="#{req.progressStatus eq 'NEW'}"
+					<p:commandButton rendered="#{req.progressStatus eq 'NEW' and canChange}"
 						value="Показать" icon="fa fa-hand-o-right"
 						action="#{mainFacade.doAcceptRequestOnce}" process="@this"
 						update="@form:requestsTable @form:mainToolbar @form:summaryPanel">

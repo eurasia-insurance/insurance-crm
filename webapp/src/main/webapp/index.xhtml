@@ -14,6 +14,9 @@
 	<ui:define name="page-title">#{ui['name.site']}</ui:define>
 	<ui:define name="page-content">
 
+		<o:importConstants
+			type="kz.theeurasia.eurasia36.beans.application.SecurityRole" />
+
 		<f:facet name="last">
 			<df:outputStylesheet library="css" name="style.css"
 				prodName="style.min.css" />
@@ -21,13 +24,16 @@
 				name="font-awesome.min.css" />
 		</f:facet>
 
-		<c:set var="isReporter" value="#{request.isUserInRole('reporter')}"
+		<c:set var="isReporter"
+			value="#{request.isUserInRole(SecurityRole.REPORTER)}"
 			scope="request" />
 
-		<c:set var="isSpecialist" value="#{request.isUserInRole('specialist')}"
+		<c:set var="isSpecialist"
+			value="#{request.isUserInRole(SecurityRole.SPECIALIST)}"
 			scope="request" />
 
-		<c:set var="isSupervisor" value="#{request.isUserInRole('supervisor')}"
+		<c:set var="isSupervisor"
+			value="#{request.isUserInRole(SecurityRole.SUPERVISOR)}"
 			scope="request" />
 
 		<h:form id="form">

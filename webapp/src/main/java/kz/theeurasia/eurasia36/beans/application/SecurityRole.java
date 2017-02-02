@@ -14,4 +14,9 @@ public enum SecurityRole {
     public String getRoleName() {
 	return roleName;
     }
+    
+    @Override
+    public String toString() {
+        return roleName;
+    }
 }

@@ -29,6 +29,10 @@
 			<artifactId>insurance-dao-impl-jpa</artifactId>
 			<type>ejb</type>
 		</dependency>
+		<dependency>
+			<groupId>com.lapsa.insurance-lib</groupId>
+			<artifactId>insurance-jpa-unit</artifactId>
+		</dependency>
 		<!-- internal lapsa -->
 		<dependency>
 			<groupId>com.lapsa.lapsa-lib</groupId>

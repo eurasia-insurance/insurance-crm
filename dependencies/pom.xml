@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>kz.theeurasia.eurasia36.crm</groupId>
 		<artifactId>parent</artifactId>
-		<version>1.8.1-SNAPSHOT</version>
+		<version>1.8.1</version>
 	</parent>
 
 	<artifactId>eurasia36-crm-dependencies</artifactId>
@@ -28,6 +28,10 @@
 			<groupId>com.lapsa.insurance-lib</groupId>
 			<artifactId>insurance-dao-impl-jpa</artifactId>
 			<type>ejb</type>
+		</dependency>
+		<dependency>
+			<groupId>com.lapsa.insurance-lib</groupId>
+			<artifactId>insurance-jpa-unit</artifactId>
 		</dependency>
 		<!-- internal lapsa -->
 		<dependency>

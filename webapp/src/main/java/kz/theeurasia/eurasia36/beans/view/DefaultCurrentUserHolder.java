@@ -18,6 +18,7 @@ import com.lapsa.insurance.domain.crm.User;
 import com.lapsa.insurance.domain.crm.UserLogin;
 
 import kz.theeurasia.eurasia36.beans.api.CurrentUserHolder;
+import kz.theeurasia.eurasia36.beans.application.SecurityRole;
 
 @Named("currentUser")
 @SessionScoped
@@ -36,6 +37,30 @@ public class DefaultCurrentUserHolder extends DefaultWritableValueHolder<User>
     @PostConstruct
     public void init() {
 	reset();
+    }
+
+    @Override
+    public boolean inRoles(SecurityRole... roles) {
+	ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+	for (SecurityRole role : roles)
+	    if (ec.isUserInRole(role.getRoleName()))
+		return true;
+	return false;
+    }
+
+    @Override
+    public boolean inRole(SecurityRole role1, SecurityRole role2, SecurityRole role3) {
+	return inRoles(role1, role2, role3);
+    }
+
+    @Override
+    public boolean inRole(SecurityRole role1, SecurityRole role2) {
+	return inRoles(role1, role2);
+    }
+
+    @Override
+    public boolean inRole(SecurityRole role1) {
+	return inRoles(role1);
     }
 
     @Override

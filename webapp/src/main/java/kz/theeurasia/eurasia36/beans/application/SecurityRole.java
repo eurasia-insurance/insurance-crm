@@ -1,8 +1,9 @@
 package kz.theeurasia.eurasia36.beans.application;
 
 public enum SecurityRole {
-    USER("user"),
-    SUPER_USER("super-user");
+    REPORTER("reporter"),
+    SPECIALIST("specialist"),
+    SUPERVISOR("supervisor");
 
     private final String roleName;
 

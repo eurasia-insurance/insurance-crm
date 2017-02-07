@@ -30,7 +30,7 @@ public class DefaultInsuranceRequestsFilterHolder extends DefaultWritableValueHo
     private static final long serialVersionUID = -6980458753963030228L;
 
     private boolean advanced = false;
-    private boolean autoRefresh = false;
+    private boolean autoRefresh = true;
     private int autoRefreshInterval = 30;
 
     @Override

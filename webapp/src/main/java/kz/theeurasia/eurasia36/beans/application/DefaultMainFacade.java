@@ -50,6 +50,15 @@ import kz.theeurasia.eurasia36.beans.view.pojo.DefaultInsuranceRequestFitler;
 @ApplicationScoped
 public class DefaultMainFacade implements MainFacade {
 
+    private final static SecurityRole[] VIEW = new SecurityRole[] { SecurityRole.REPORTER, SecurityRole.SPECIALIST,
+	    SecurityRole.SUPERVISOR };
+
+    private final static SecurityRole[] CHANGE = new SecurityRole[] { SecurityRole.SPECIALIST,
+	    SecurityRole.SUPERVISOR };
+
+    private final static SecurityRole[] CLOSE = new SecurityRole[] {
+	    SecurityRole.SUPERVISOR };
+
     @Override
     public void onFilterChanged(AjaxBehaviorEvent event) {
 	onFilterChanged();
@@ -63,6 +72,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doRefresh() {
+	checkRoleAllowed(VIEW);
 	refreshRequests();
 	unselectIfNotShown();
 	return null;
@@ -70,6 +80,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doInitialize() {
+	checkRoleAllowed(VIEW);
 	initFilter();
 	refreshRequests();
 	return null;
@@ -77,6 +88,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doResetFilter() {
+	checkRoleAllowed(VIEW);
 	resetFilter();
 	refreshRequests();
 	unselectIfNotShown();
@@ -85,6 +97,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doFilterCreatedToday() {
+	checkRoleAllowed(VIEW);
 	filterCreatedToday();
 	refreshRequests();
 	unselectIfNotShown();
@@ -93,6 +106,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doFilterCreatedYesterday() {
+	checkRoleAllowed(VIEW);
 	filterCreatedYesterday();
 	refreshRequests();
 	unselectIfNotShown();
@@ -101,6 +115,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doFilterCreatedThisWeek() {
+	checkRoleAllowed(VIEW);
 	filterCreatedThisWeek();
 	refreshRequests();
 	unselectIfNotShown();
@@ -109,6 +124,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doFilterCreatedLastWeek() {
+	checkRoleAllowed(VIEW);
 	filterCreatedLastWeek();
 	refreshRequests();
 	unselectIfNotShown();
@@ -117,6 +133,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doFilterCreatedThisMonth() {
+	checkRoleAllowed(VIEW);
 	filterCreatedThisMonth();
 	refreshRequests();
 	unselectIfNotShown();
@@ -125,6 +142,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doFilterCreatedLastMonth() {
+	checkRoleAllowed(VIEW);
 	filterCreatedLastMonth();
 	refreshRequests();
 	unselectIfNotShown();
@@ -133,6 +151,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doFilterCompletedToday() {
+	checkRoleAllowed(VIEW);
 	filterCompletedToday();
 	refreshRequests();
 	unselectIfNotShown();
@@ -141,6 +160,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doFilterCompletedYesterday() {
+	checkRoleAllowed(VIEW);
 	filterCompletedYesterday();
 	refreshRequests();
 	unselectIfNotShown();
@@ -149,6 +169,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doFilterCompletedThisWeek() {
+	checkRoleAllowed(VIEW);
 	filterCompletedThisWeek();
 	refreshRequests();
 	unselectIfNotShown();
@@ -157,6 +178,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doFilterCompletedLastWeek() {
+	checkRoleAllowed(VIEW);
 	filterCompletedLastWeek();
 	refreshRequests();
 	unselectIfNotShown();
@@ -165,6 +187,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doFilterCompletedThisMonth() {
+	checkRoleAllowed(VIEW);
 	filterCompletedThisMonth();
 	refreshRequests();
 	unselectIfNotShown();
@@ -173,6 +196,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doFilterCompletedLastMonth() {
+	checkRoleAllowed(VIEW);
 	filterCompletedLastMonth();
 	refreshRequests();
 	unselectIfNotShown();
@@ -181,6 +205,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doAcceptRequestOnce() {
+	checkRoleAllowed(CHANGE);
 	acceptRequestOnce();
 	saveRequest();
 	refreshRequests();
@@ -197,6 +222,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doPauseRequest() {
+	checkRoleAllowed(CHANGE);
 	pauseRequest();
 	saveRequest();
 	refreshRequests();
@@ -206,6 +232,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doResumeRequest() {
+	checkRoleAllowed(CHANGE);
 	resumeRequest();
 	saveRequest();
 	refreshRequests();
@@ -215,7 +242,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doCloseRequest() {
-	checkRoleAllowed("Не хватает уровня доступа для закрытия заявки", SecurityRole.SUPER_USER);
+	checkRoleAllowed(CLOSE);
 	closeRequest();
 	saveRequest();
 	refreshRequests();
@@ -225,6 +252,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doCancelEditRequest() {
+	checkRoleAllowed(CHANGE);
 	resetRequest();
 	refreshRequests();
 	unselectIfNotShown();
@@ -233,6 +261,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doCompleteRequest() {
+	checkRoleAllowed(CHANGE);
 	completeRequest();
 	saveRequest();
 	refreshRequests();

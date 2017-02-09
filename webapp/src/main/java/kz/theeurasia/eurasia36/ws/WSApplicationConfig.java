@@ -7,8 +7,7 @@ import java.util.Set;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
-import com.lapsa.pushapi.ws.PushGlobalWS;
-import com.lapsa.pushapi.ws.PushSubscriptionWS;
+import com.lapsa.pushapi.ws.PushWS;
 
 @ApplicationPath("/ws")
 public class WSApplicationConfig extends Application {
@@ -17,8 +16,7 @@ public class WSApplicationConfig extends Application {
 
     public WSApplicationConfig() {
 	HashSet<Class<?>> c = new HashSet<>();
-	c.add(PushGlobalWS.class);
-	c.add(PushSubscriptionWS.class);
+	c.add(PushWS.class);
 	classes = Collections.unmodifiableSet(c);
     }
 

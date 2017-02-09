@@ -69,6 +69,13 @@
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
+		<!-- internal pushapi -->
+		<dependency>
+			<groupId>com.lapsa.pushapi-lib</groupId>
+			<artifactId>pushapi-ws</artifactId>
+			<scope>compile</scope>
+			<optional>false</optional>
+		</dependency>
 		<!-- internal lapsa -->
 		<dependency>
 			<groupId>com.lapsa.lapsa-lib</groupId>

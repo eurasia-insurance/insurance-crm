@@ -33,6 +33,16 @@
 			<groupId>com.lapsa.insurance-lib</groupId>
 			<artifactId>insurance-jpa-unit</artifactId>
 		</dependency>
+		<!-- internal pushapi -->
+		<dependency>
+			<groupId>com.lapsa.pushapi-lib</groupId>
+			<artifactId>pushapi-jpa-unit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.lapsa.pushapi-lib</groupId>
+			<artifactId>pushapi-dao-impl-jpa</artifactId>
+			<type>ejb</type>
+		</dependency>
 		<!-- internal lapsa -->
 		<dependency>
 			<groupId>com.lapsa.lapsa-lib</groupId>

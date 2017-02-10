@@ -9,7 +9,7 @@ import javax.ws.rs.core.Application;
 
 import com.lapsa.pushapi.ws.PushWS;
 
-@ApplicationPath("/ws")
+@ApplicationPath("/" + PushWSPublishInfoBean.WSPATH)
 public class WSApplicationConfig extends Application {
 
     private final Set<Class<?>> classes;

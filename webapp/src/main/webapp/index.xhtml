@@ -10,8 +10,14 @@
 	xmlns:df="http://lapsa.com/donkeyfaces"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+	xmlns:push="http://lapsa.com/pushapi"
 	template="/WEB-INF/templates/clean.xhtml">
 	<ui:define name="page-title">#{ui['name.site']}</ui:define>
+
+	<ui:define name="header-content">
+		<push:loader channelKey="channel1" />
+	</ui:define>
+
 	<ui:define name="page-content">
 
 		<o:importConstants

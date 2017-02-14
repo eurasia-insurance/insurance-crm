@@ -7,7 +7,7 @@ import java.util.Set;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
-import com.lapsa.pushapi.ws.PushWS;
+import com.lapsa.pushapi.app.web.PushWS;
 
 @ApplicationPath("/" + PushWSPublishInfoBean.WSPATH)
 public class WSApplicationConfig extends Application {

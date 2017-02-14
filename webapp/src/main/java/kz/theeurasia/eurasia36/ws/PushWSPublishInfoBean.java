@@ -2,7 +2,7 @@ package kz.theeurasia.eurasia36.ws;
 
 import javax.inject.Singleton;
 
-import com.lapsa.pushapi.ws.PushWSPublishInfo;
+import com.lapsa.pushapi.app.api.PushWSPublishInfo;
 
 @Singleton
 public class PushWSPublishInfoBean implements PushWSPublishInfo {

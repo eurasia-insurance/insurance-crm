@@ -72,7 +72,7 @@
 		<!-- internal pushapi -->
 		<dependency>
 			<groupId>com.lapsa.pushapi-lib</groupId>
-			<artifactId>pushapi-ws</artifactId>
+			<artifactId>pushapi-app</artifactId>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>

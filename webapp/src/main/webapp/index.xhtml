@@ -167,7 +167,7 @@
 				<p:column headerText="Тип" width="100" sortBy="#{req.type}"
 					styleClass="#{not empty req.type ? ('col-request-' += req.type) : ''}">
 					<h:outputText
-						value="#{requestTypeService.displayNameShort(req.type)}" />
+						value="#{insuranceRequestTypeService.displayNameShort(req.type)}" />
 				</p:column>
 				<p:column headerText="Номер" sortBy="#{req.id}" width="50">
 					<h:outputText value="#{req.id}" />

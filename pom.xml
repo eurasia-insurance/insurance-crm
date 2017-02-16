@@ -35,8 +35,8 @@
 		<insurance-services-impl-cdi.version>1.5-SNAPSHOT</insurance-services-impl-cdi.version>
 		<insurance-dao-impl-jpa.version>1.8-SNAPSHOT</insurance-dao-impl-jpa.version>
 		<insurance-jpa-unit.version>1.8-SNAPSHOT</insurance-jpa-unit.version>
-		<pushapi-jpa-unit.version>1.0-SNAPSHOT</pushapi-jpa-unit.version>
 		<pushapi-dao-impl-jpa.version>1.0-SNAPSHOT</pushapi-dao-impl-jpa.version>
+		<pushapi-jpa-unit.version>1.0-SNAPSHOT</pushapi-jpa-unit.version>
 		<pushapi-app.version>1.0-SNAPSHOT</pushapi-app.version>
 		<!-- external -->
 		<primefaces.version>5.3.16</primefaces.version>

@@ -6,7 +6,7 @@ import com.lapsa.insurance.crm.ObtainingStatus;
 import com.lapsa.insurance.crm.PaymentStatus;
 import com.lapsa.insurance.crm.ProgressStatus;
 import com.lapsa.insurance.crm.RequestStatus;
-import com.lapsa.insurance.crm.RequestType;
+import com.lapsa.insurance.crm.InsuranceRequestType;
 import com.lapsa.insurance.crm.TransactionProblem;
 import com.lapsa.insurance.crm.TransactionStatus;
 import com.lapsa.insurance.dao.filter.InsuranceRequestFitler;
@@ -22,7 +22,7 @@ public class DefaultInsuranceRequestFitler implements InsuranceRequestFitler {
     private String requesterIdNumberMask;
 
     private RequestStatus requestStatus;
-    private RequestType requestType;
+    private InsuranceRequestType insuranceRequestType;
     private InsuranceProductType insuranceProductType;
     private PaymentMethod paymentMethod;
     private PaymentStatus paymentStatus;
@@ -77,12 +77,12 @@ public class DefaultInsuranceRequestFitler implements InsuranceRequestFitler {
     }
 
     @Override
-    public RequestType getRequestType() {
-	return requestType;
+    public InsuranceRequestType getRequestType() {
+	return insuranceRequestType;
     }
 
-    public void setRequestType(RequestType requestType) {
-	this.requestType = requestType;
+    public void setRequestType(InsuranceRequestType insuranceRequestType) {
+	this.insuranceRequestType = insuranceRequestType;
     }
 
     public InsuranceProductType getInsuranceProductType() {

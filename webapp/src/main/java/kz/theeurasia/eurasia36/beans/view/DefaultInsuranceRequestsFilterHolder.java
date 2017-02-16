@@ -11,7 +11,7 @@ import com.lapsa.insurance.crm.ObtainingStatus;
 import com.lapsa.insurance.crm.PaymentStatus;
 import com.lapsa.insurance.crm.ProgressStatus;
 import com.lapsa.insurance.crm.RequestStatus;
-import com.lapsa.insurance.crm.RequestType;
+import com.lapsa.insurance.crm.InsuranceRequestType;
 import com.lapsa.insurance.crm.TransactionProblem;
 import com.lapsa.insurance.crm.TransactionStatus;
 import com.lapsa.insurance.domain.crm.User;
@@ -92,13 +92,13 @@ public class DefaultInsuranceRequestsFilterHolder extends DefaultWritableValueHo
     }
 
     @Override
-    public RequestType getRequestType() {
+    public InsuranceRequestType getRequestType() {
 	return value.getRequestType();
     }
 
     @Override
-    public void setRequestType(RequestType requestType) {
-	value.setRequestType(requestType);
+    public void setRequestType(InsuranceRequestType insuranceRequestType) {
+	value.setRequestType(insuranceRequestType);
     }
 
     @Override

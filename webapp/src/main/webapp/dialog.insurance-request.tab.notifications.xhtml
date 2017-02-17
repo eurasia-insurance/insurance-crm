@@ -16,23 +16,26 @@
 			<f:facet name="header">
 				<h:outputText value="Сведения об уведомлениях" />
 			</f:facet>
-			<p:column headerText="Канал">
-				<h:outputText value="#{notificationChannelService.displayNameShort(ntf.channel)}" />
-			</p:column>
-			<p:column headerText="Получатель">
-				<h:outputText value="#{notificationRecipientTypeService.displayNameShort(ntf.recipientType)}" />
+			<p:column headerText="Дата" width="180">
+				<crm:outputDatetime value="#{ntf.created}" />
 			</p:column>
 			<p:column headerText="Стадия">
-				<h:outputText value="#{notificationRequestStageService.displayNameShort(ntf.requestrStage)}" />
+				<h:outputText
+					value="#{notificationRequestStageService.displayNameShort(ntf.requestStage)}" />
 			</p:column>
-			<p:column headerText="Дата создания">
-				<crm:outputDatetime value="#{ntf.created}" />
+			<p:column headerText="Получатель">
+				<h:outputText
+					value="#{notificationRecipientTypeService.displayNameShort(ntf.recipientType)}" />
+			</p:column>
+			<p:column headerText="Канал">
+				<h:outputText
+					value="#{notificationChannelService.displayNameShort(ntf.channel)}" />
 			</p:column>
 			<p:column headerText="Статус">
 				<h:outputText
 					value="#{notificationStatusService.displayName(ntf.status)}" />
 			</p:column>
-			<p:column headerText="Дата уведомления">
+			<p:column headerText="Дата уведомления" width="180">
 				<crm:outputDatetime value="#{ntf.sent}" />
 			</p:column>
 		</p:dataTable>

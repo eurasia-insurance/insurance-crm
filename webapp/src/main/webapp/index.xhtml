@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:comp="http://xmlns.jcp.org/jsf/composite"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:df="http://lapsa.com/donkeyfaces"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+	xmlns:push="http://lapsa.com/pushapi"
+	template="/WEB-INF/templates/clean.xhtml">
+	<ui:define name="page-title">#{ui['name.site']}</ui:define>
+
+	<ui:define name="header-content">
+		<push:loader channelKey="channel1" />
+	</ui:define>
+
+	<ui:define name="page-content">
+		<h:form>
+			<h:button outcome="secured" value="Войти в систему" />
+		</h:form>
+	</ui:define>
+
+</ui:composition>

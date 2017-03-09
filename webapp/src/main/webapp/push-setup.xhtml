@@ -14,18 +14,14 @@
 	template="/WEB-INF/templates/clean.xhtml">
 	<ui:define name="page-title">#{ui['name.site']}</ui:define>
 
+	<ui:define name="header-content">
+		<push:loader />
+	</ui:define>
+
 	<ui:define name="page-content">
-		<h:form>
-			<center>
-				<h:button outcome="secured" value="Войти в систему" />
-			</center>
-			<br />
-			<br />
-			<br />
-			<center>
-				<h:button outcome="push-setup" value="Настроить уведомления" />
-			</center>
-		</h:form>
+		<center>
+			<h:button outcome="secured" value="Войти в систему" />
+		</center>
 	</ui:define>
 
 </ui:composition>

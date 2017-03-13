@@ -30,10 +30,14 @@
 		<lapsa-lib.version>1.2.1</lapsa-lib.version>
 		<donkeyfaces-lib.version>1.2</donkeyfaces-lib.version>
 		<reports-lib.version>1.0</reports-lib.version>
+		<pushapi-lib.version>1.0-SNAPSHOT</pushapi-lib.version>
 		<!-- EJBs & WARs -->
 		<insurance-services-impl-cdi.version>1.5-SNAPSHOT</insurance-services-impl-cdi.version>
 		<insurance-dao-impl-jpa.version>1.8-SNAPSHOT</insurance-dao-impl-jpa.version>
 		<insurance-jpa-unit.version>1.8-SNAPSHOT</insurance-jpa-unit.version>
+		<pushapi-dao-impl-jpa.version>1.0-SNAPSHOT</pushapi-dao-impl-jpa.version>
+		<pushapi-jpa-unit.version>1.0-SNAPSHOT</pushapi-jpa-unit.version>
+		<pushapi-app.version>1.0-SNAPSHOT</pushapi-app.version>
 		<!-- external -->
 		<primefaces.version>5.3.16</primefaces.version>
 		<primefaces-themes.version>1.0.10</primefaces-themes.version>
@@ -143,6 +147,23 @@
 				<groupId>com.lapsa.donkeyfaces-lib</groupId>
 				<artifactId>donkeyfaces-faces</artifactId>
 				<version>${donkeyfaces-lib.version}</version>
+			</dependency>
+			<!-- internal pushapi -->
+			<dependency>
+				<groupId>com.lapsa.pushapi-lib</groupId>
+				<artifactId>pushapi-jpa-unit</artifactId>
+				<version>${pushapi-jpa-unit.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.lapsa.pushapi-lib</groupId>
+				<artifactId>pushapi-dao-impl-jpa</artifactId>
+				<version>${pushapi-dao-impl-jpa.version}</version>
+				<type>ejb</type>
+			</dependency>
+			<dependency>
+				<groupId>com.lapsa.pushapi-lib</groupId>
+				<artifactId>pushapi-app</artifactId>
+				<version>${pushapi-app.version}</version>
 			</dependency>
 			<!-- internal reports -->
 			<dependency>

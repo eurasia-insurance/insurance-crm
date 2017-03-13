@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:comp="http://xmlns.jcp.org/jsf/composite"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:df="http://lapsa.com/donkeyfaces"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+	xmlns:push="http://lapsa.com/pushapi"
+	template="/WEB-INF/templates/clean.xhtml">
+	<ui:define name="page-title">#{ui['name.site']}</ui:define>
+
+	<ui:define name="page-content">
+
+		<o:importConstants
+			type="kz.theeurasia.eurasia36.beans.application.SecurityRole" />
+
+		<c:set var="canView"
+			value="#{currentUser.inRole(SecurityRole.REPORTER, SecurityRole.SPECIALIST, SecurityRole.SUPERVISOR)}"
+			scope="request" />
+
+		<c:set var="canChange"
+			value="#{currentUser.inRole(SecurityRole.SPECIALIST, SecurityRole.SUPERVISOR)}"
+			scope="request" />
+
+		<c:set var="canClose"
+			value="#{currentUser.inRole(SecurityRole.SUPERVISOR)}"
+			scope="request" />
+
+		<h:form id="form">
+
+			<ui:decorate
+				template="/WEB-INF/templates/primefaces-growl.include.xhtml" />
+
+			<f:metadata>
+				<f:viewAction action="#{mainFacade.doInitialize}" />
+			</f:metadata>
+
+			<h:panelGroup id="requestDialog">
+				<ui:include src="dialog.insurance-request.include.xhtml">
+					<ui:param name="dialogWV" value="requestDialogWV" />
+					<ui:param name="ir" value="#{insuranceRequest.value}" />
+				</ui:include>
+			</h:panelGroup>
+
+			<h:panelGroup id="requestCloseDialog">
+				<ui:include src="dialog.insurance-request-close.include.xhtml">
+					<ui:param name="dialogWV" value="requestCloseDialogWV" />
+					<ui:param name="ir" value="#{insuranceRequest.value}" />
+					<ui:param name="update"
+						value="@form:requestsTable @form:summaryPanel @form:mainToolbar @form:requestDialog" />
+				</ui:include>
+			</h:panelGroup>
+
+			<h:panelGroup id="requestProgressCompleteDialog">
+				<ui:include src="dialog.progress-complete.include.xhtml">
+					<ui:param name="dialogWV" value="requestProgressCompleteDialogWV" />
+					<ui:param name="ir" value="#{insuranceRequest.value}" />
+					<ui:param name="update"
+						value="@form:requestsTable @form:summaryPanel @form:mainToolbar @form:requestDialog" />
+				</ui:include>
+			</h:panelGroup>
+
+			<h:panelGroup id="mainToolbar">
+				<ui:include src="menu.main-toolbar.xhtml">
+					<ui:param name="ir" value="#{insuranceRequest.value}" />
+					<ui:param name="update"
+						value="@form:requestsTable @form:mainToolbar @form:summaryPanel" />
+				</ui:include>
+			</h:panelGroup>
+
+			<h:panelGroup id="filterPanel">
+				<ui:include src="filter.include.xhtml" />
+			</h:panelGroup>
+
+			<h:panelGroup id="summaryPanel">
+				<ui:include src="panel.summary.include.xhtml">
+					<ui:param name="count"
+						value="#{insuranceRequests.requestCountTotal}" />
+					<ui:param name="amount"
+						value="#{insuranceRequests.requestPremiumCostTotal}" />
+				</ui:include>
+			</h:panelGroup>
+
+			<h:panelGroup id="autoRefreshPoll">
+				<p:poll rendered="#{insuranceRequestsFilter.autoRefresh}"
+					interval="#{insuranceRequestsFilter.autoRefreshInterval}"
+					autoStart="true" process="@this"
+					update="@form:requestsTable @form:mainToolbar @form:summaryPanel"
+					listener="#{mainFacade.doRefresh}" />
+			</h:panelGroup>
+
+			<p:dataTable id="requestsTable" widgetVar="requestsTableWV" var="req"
+				value="#{insuranceRequests.model}" selectionMode="single"
+				selection="#{insuranceRequest.value}" rows="20" paginator="true"
+				paginatorAlwaysVisible="false"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="10,20,50,100,200" sortMode="multipe"
+				sortOrder="DESCENDING" sortBy="#{req.created}"
+				emptyMessage="Нет заявок удовлетворяющих критериям поиска"
+				rowStyleClass="#{req.status eq 'CLOSED' ? 'row-closed': ''}">
+
+				<p:ajax event="rowSelect" process="@this" update="@form:mainToolbar" />
+
+				<p:ajax event="rowDblselect" process="@this"
+					update="@form:requestDialog"
+					oncomplete="PF('requestDialogWV').show(); return false;">
+					<p:resetInput target="@form:requestDialog" />
+				</p:ajax>
+
+				<f:facet name="header">
+					<div style="text-align: right;">на <crm:outputDatetime
+							value="#{now}" useVerbal="false" /></div>
+				</f:facet>
+
+				<p:column width="25" sortBy="#{req.progressStatus}"
+					style="text-align: center">
+					<h:panelGroup id="iconWrapper" styleClass="request-icon">
+						<h:panelGroup styleClass="icon-new"
+							rendered="#{req.progressStatus eq 'NEW'}">
+							<i class="fa fa-exclamation" aria-hidden="true" />
+						</h:panelGroup>
+						<h:panelGroup styleClass="icon-on-process "
+							rendered="#{req.progressStatus eq 'ON_PROCESS'}">
+							<i class="fa fa-spinner" aria-hidden="true" />
+						</h:panelGroup>
+						<h:panelGroup rendered="#{req.progressStatus eq 'ON_HOLD'}">
+							<i class="fa fa-pause" aria-hidden="true" />
+						</h:panelGroup>
+						<h:panelGroup styleClass="icon-fail "
+							rendered="#{req.progressStatus eq 'FINISHED' and req.transactionStatus eq 'NOT_COMPLETED'}">
+							<i class="fa fa-ban " aria-hidden="true" />
+						</h:panelGroup>
+						<h:panelGroup styleClass="icon-success "
+							rendered="#{req.progressStatus eq 'FINISHED' and req.transactionStatus eq 'COMPLETED'}">
+							<i class="fa fa-check " aria-hidden="true" />
+						</h:panelGroup>
+					</h:panelGroup>
+					<p:tooltip for="iconWrapper" trackMouse="true">
+						<h:panelGroup rendered="#{req.progressStatus ne 'FINISHED'}">
+							<h:outputText
+								value="#{progressStatusService.displayName(req.progressStatus)}" />
+						</h:panelGroup>
+						<h:panelGroup rendered="#{req.progressStatus eq 'FINISHED'}">
+							<h:outputText rendered="#{req.transactionStatus eq 'COMPLETED'}"
+								value="#{transactionStatusService.displayName(req.transactionStatus)}" />
+							<h:outputText
+								rendered="#{req.transactionStatus eq 'NOT_COMPLETED'}"
+								value="#{transactionProblemService.displayName(req.transactionProblem)}" />
+						</h:panelGroup>
+					</p:tooltip>
+				</p:column>
+				<p:column headerText="Продукт" width="60"
+					sortBy="#{req.productType}">
+					<h:outputText
+						value="#{insuranceProductTypeService.displayNameShort(req.productType)}" />
+				</p:column>
+				<p:column headerText="Тип" width="100" sortBy="#{req.type}"
+					styleClass="#{not empty req.type ? ('col-request-' += req.type) : ''}">
+					<h:outputText
+						value="#{insuranceRequestTypeService.displayNameShort(req.type)}" />
+				</p:column>
+				<p:column headerText="Номер" sortBy="#{req.id}" width="50">
+					<h:outputText value="#{req.id}" />
+				</p:column>
+				<p:column headerText="Дата создания" width="150"
+					sortBy="#{req.created}">
+					<crm:outputDatetime value="#{req.created}" />
+				</p:column>
+				<p:column headerText="Дата обновления" width="150"
+					sortBy="#{req.updated}">
+					<crm:outputDatetime value="#{req.updated}" />
+				</p:column>
+				<p:column headerText="Стоимость премии" width="100"
+					style="text-align: right"
+					sortBy="#{req.product.calculation.premiumCost}">
+					<crm:outputMoneyAmount
+						value="#{req.product.calculation.premiumCost}" />
+				</p:column>
+				<p:column headerText="Имя заявителя" width="300"
+					sortBy="#{req.requester.name}">
+					<h:outputText value="#{req.requester.name}" />
+				</p:column>
+				<p:column headerText="Email заявителя" width="220"
+					sortBy="#{req.requester.email}">
+					<h:outputText value="#{req.requester.email}" />
+				</p:column>
+				<p:column headerText="Телефон заявителя" width="130"
+					sortBy="#{req.requester.phone}">
+					<p:commandButton
+						rendered="#{req.progressStatus eq 'NEW' and canChange}"
+						value="Показать" icon="fa fa-hand-o-right"
+						action="#{mainFacade.doAcceptRequestOnce}" process="@this"
+						update="@form:requestsTable @form:mainToolbar @form:summaryPanel">
+						<f:setPropertyActionListener value="#{req}"
+							target="#{insuranceRequest.value}" />
+					</p:commandButton>
+					<h:outputText value="#{req.requester.phone}"
+						rendered="#{req.progressStatus ne 'NEW'}" />
+				</p:column>
+				<p:column headerText="ИИН заявителя" width="100"
+					sortBy="#{req.requester.idNumber}">
+					<h:outputText value="#{req.requester.idNumber}" />
+				</p:column>
+				<p:column width="10">
+					<h:panelGroup id="source">
+						<h:panelGroup styleClass="fa fa-google"
+							rendered="#{req.utmData.source eq 'google'}" />
+						<h:panelGroup styleClass="fa fa-y-combinator"
+							rendered="#{req.utmData.source eq 'yandex'}" />
+						<h:panelGroup styleClass="fa fa-facebook"
+							rendered="#{req.utmData.source eq 'facebook'}" />
+					</h:panelGroup>
+
+					<p:tooltip for="source" trackMouse="true"
+						rendered="#{req.utmData.source eq 'google' or req.utmData.source eq 'yandex' or req.utmData.source eq 'facebook'}">
+						<h:outputText value="#{req.utmData.term}" />
+					</p:tooltip>
+
+				</p:column>
+				<p:column headerText="Доп информация" sortable="false">
+					<h:panelGroup rendered="#{req.productType eq 'POLICY'}"
+						style="white-space: nowrap">
+						Авто: #{kzAreaService.displayNameShort(req.policy.insuredVehicles[0].area)}, #{kzCityService.displayNameShort(req.policy.insuredVehicles[0].city)}<br />
+					</h:panelGroup>
+				</p:column>
+			</p:dataTable>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>

@@ -45,6 +45,10 @@
 		<error-code>404</error-code>
 		<location>/404.html</location>
 	</error-page>
+	<error-page>
+		<error-code>401</error-code>
+		<location>/401.html</location>
+	</error-page>
 
 	<!-- CONTEXT-PARAMs -->
 	<!-- jsf -->
@@ -123,8 +127,8 @@
 	<!-- SECURITYs -->
 	<security-constraint>
 		<web-resource-collection>
-			<web-resource-name>entry-module</web-resource-name>
-			<url-pattern>/*</url-pattern>
+			<web-resource-name>facesServletRequests</web-resource-name>
+			<url-pattern>/secured/*</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>reporter</role-name>

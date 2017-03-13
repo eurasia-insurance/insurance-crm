@@ -22,7 +22,12 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>home</from-outcome>
-			<to-view-id>/index.html</to-view-id>
+			<to-view-id>/index</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>secured</from-outcome>
+			<to-view-id>/secured/index</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>

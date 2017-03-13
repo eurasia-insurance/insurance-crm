@@ -14,9 +14,16 @@
 	</ui:define>
 
 	<ui:define name="page-content">
-		<h:panelGroup>
+		<h:form>
+			<p:link outcome="home">
+				<p:graphicImage library="img" name="logo.png" width="268"
+					height="60" />
+			</p:link>
+			<br />
+			<br />
+			<br />
 			<ui:include src="/WEB-INF/templates/404.include.xhtml" />
-		</h:panelGroup>
+		</h:form>
 	</ui:define>
 
 </ui:composition>

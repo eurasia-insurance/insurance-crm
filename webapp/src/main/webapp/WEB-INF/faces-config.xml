@@ -30,11 +30,6 @@
 			<to-view-id>/secured/index</to-view-id>
 			<redirect />
 		</navigation-case>
-		<navigation-case>
-			<from-outcome>push-setup</from-outcome>
-			<to-view-id>/push-setup</to-view-id>
-			<redirect />
-		</navigation-case>
 	</navigation-rule>
 </faces-config>
 

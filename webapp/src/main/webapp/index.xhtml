@@ -14,17 +14,20 @@
 	template="/WEB-INF/templates/clean.xhtml">
 	<ui:define name="page-title">#{ui['name.site']}</ui:define>
 
+	<ui:define name="header-content">
+		<push:loader />
+	</ui:define>
+
 	<ui:define name="page-content">
 		<h:form>
-			<center>
-				<h:button outcome="secured" value="Войти в систему" />
-			</center>
-			<!-- 			<br /> -->
-			<!-- 			<br /> -->
-			<!-- 			<br /> -->
-			<!-- 			<center> -->
-			<!-- 				<h:button outcome="push-setup" value="Настроить уведомления" /> -->
-			<!-- 			</center> -->
+			<p:link outcome="home">
+				<p:graphicImage library="img" name="logo.png" width="268"
+					height="60" />
+			</p:link>
+			<br />
+			<br />
+			<br />
+			<p:button outcome="secured" value="Войти в систему" />
 		</h:form>
 	</ui:define>
 

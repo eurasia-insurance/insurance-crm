@@ -32,7 +32,7 @@
 		<reports-lib.version>1.0</reports-lib.version>
 		<pushapi-lib.version>1.0</pushapi-lib.version>
 		<!-- EJBs & WARs -->
-		<insurance-services-impl-cdi.version>1.5</insurance-services-impl-cdi.version>
+		<insurance-services-impl-cdi.version>1.5.1</insurance-services-impl-cdi.version>
 		<insurance-dao-impl-jpa.version>1.8</insurance-dao-impl-jpa.version>
 		<insurance-jpa-unit.version>1.8</insurance-jpa-unit.version>
 		<pushapi-dao-impl-jpa.version>1.0</pushapi-dao-impl-jpa.version>

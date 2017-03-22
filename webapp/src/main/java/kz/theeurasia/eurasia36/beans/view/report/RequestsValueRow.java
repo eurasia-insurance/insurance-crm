@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.lapsa.insurance.domain.InsuranceRequest;
+import com.lapsa.insurance.domain.Request;
 import com.lapsa.reports.table.ValueCell;
 import com.lapsa.reports.table.ValueRow;
 import com.lapsa.reports.table.impl.DefaultAmountValueCell;
@@ -13,7 +14,7 @@ import com.lapsa.reports.table.impl.DefaultDateTimeValueCell;
 import com.lapsa.reports.table.impl.DefaultIntegerNumberValueCell;
 import com.lapsa.reports.table.impl.DefaultTextValueCell;
 
-public class InsuranceRequestsValueRow implements ValueRow {
+public class RequestsValueRow implements ValueRow {
 
     public static final String[] HEADER_ROW_CAPTIONS = new String[] {
 	    "Продукт", // 1
@@ -37,27 +38,36 @@ public class InsuranceRequestsValueRow implements ValueRow {
 
     private final List<ValueCell<?>> row;
 
-    public InsuranceRequestsValueRow(final InsuranceRequest request) {
+    public RequestsValueRow(final Request request) {
 	List<ValueCell<?>> row = new ArrayList<>();
 
-	row.add(new DefaultTextValueCell(request.getProductType())); // 1
-	row.add(new DefaultTextValueCell(request.getType())); // 2
-	row.add(new DefaultIntegerNumberValueCell(request.getId())); // 3
+	InsuranceRequest insuranceRequest = null;
+	if (request instanceof InsuranceRequest)
+	    insuranceRequest = (InsuranceRequest) request;
 
+	row.add(insuranceRequest == null ? new DefaultTextValueCell("")
+		: new DefaultTextValueCell(insuranceRequest.getProductType())); // 1
+	row.add(insuranceRequest == null ? new DefaultTextValueCell("")
+		: new DefaultTextValueCell(insuranceRequest.getType())); // 2
+	row.add(new DefaultIntegerNumberValueCell(request.getId())); // 3
 	row.add(new DefaultDateTimeValueCell(request.getCreated())); // 4
 	row.add(new DefaultDateTimeValueCell(request.getAccepted())); // 5
 	row.add(new DefaultDateTimeValueCell(request.getCompleted())); // 6
 	row.add(new DefaultDateTimeValueCell(request.getClosed())); // 7
-
-	row.add(new DefaultAmountValueCell(request.getProduct().getCalculation().getPremiumCost(),
-		request.getProduct().getCalculation().getPremiumCurrency())); // 8
+	row.add(insuranceRequest == null ? new DefaultTextValueCell("")
+		: new DefaultAmountValueCell(insuranceRequest.getProduct().getCalculation().getPremiumCost(),
+			insuranceRequest.getProduct().getCalculation().getPremiumCurrency())); // 8
 	row.add(new DefaultTextValueCell(request.getRequester().getName())); // 9
 	row.add(new DefaultTextValueCell(request.getRequester().getEmail())); // 10
 	row.add(new DefaultTextValueCell(request.getRequester().getPhone())); // 11
 	row.add(new DefaultTextValueCell(request.getStatus())); // 12
 	row.add(new DefaultTextValueCell(request.getProgressStatus())); // 13
-	row.add(new DefaultTextValueCell(request.getTransactionStatus())); // 14
-	row.add(new DefaultTextValueCell(request.getTransactionProblem())); // 15
+
+	row.add(insuranceRequest == null ? new DefaultTextValueCell("")
+		: new DefaultTextValueCell(insuranceRequest.getTransactionStatus())); // 14
+
+	row.add(insuranceRequest == null ? new DefaultTextValueCell("")
+		: new DefaultTextValueCell(insuranceRequest.getTransactionProblem())); // 15
 
 	this.row = Collections.unmodifiableList(row);
     }

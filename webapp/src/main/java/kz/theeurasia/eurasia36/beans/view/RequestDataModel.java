@@ -6,26 +6,26 @@ import javax.faces.model.ListDataModel;
 
 import org.primefaces.model.SelectableDataModel;
 
-import com.lapsa.insurance.domain.InsuranceRequest;
+import com.lapsa.insurance.domain.Request;
 
-public class InsuranceRequestDataModel extends ListDataModel<InsuranceRequest>
-	implements SelectableDataModel<InsuranceRequest> {
+public class RequestDataModel extends ListDataModel<Request>
+	implements SelectableDataModel<Request> {
 
-    private List<InsuranceRequest> list;
+    private List<Request> list;
 
-    public InsuranceRequestDataModel(List<InsuranceRequest> list) {
+    public RequestDataModel(List<Request> list) {
 	super(list);
 	this.list = list;
     }
 
     @Override
-    public Object getRowKey(InsuranceRequest object) {
+    public Object getRowKey(Request object) {
 	return object.getId().toString();
     }
 
     @Override
-    public InsuranceRequest getRowData(String rowKey) {
-	for (InsuranceRequest ir : list) {
+    public Request getRowData(String rowKey) {
+	for (Request ir : list) {
 	    if (ir.getId().toString().equals(rowKey))
 		return ir;
 	}
@@ -36,6 +36,6 @@ public class InsuranceRequestDataModel extends ListDataModel<InsuranceRequest>
     @SuppressWarnings("unchecked")
     public void setWrappedData(Object data) {
 	super.setWrappedData(data);
-	list = (data == null) ? null : (List<InsuranceRequest>) data;
+	list = (data == null) ? null : (List<Request>) data;
     }
 }

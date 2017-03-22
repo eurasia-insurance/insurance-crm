@@ -4,17 +4,17 @@ import java.util.List;
 
 import org.primefaces.model.StreamedContent;
 
-import com.lapsa.insurance.domain.InsuranceRequest;
+import com.lapsa.insurance.domain.Request;
 
-import kz.theeurasia.eurasia36.beans.view.InsuranceRequestDataModel;
+import kz.theeurasia.eurasia36.beans.view.RequestDataModel;
 
-public interface InsuranceRequestsHolder extends WritableValueHolder<List<InsuranceRequest>> {
+public interface RequestsHolder extends WritableValueHolder<List<Request>> {
 
-    List<InsuranceRequest> getRequests();
+    List<Request> getRequests();
 
-    void setRequests(List<InsuranceRequest> requests);
+    void setRequests(List<Request> requests);
 
-    InsuranceRequestDataModel getModel();
+    RequestDataModel getModel();
 
     int getRequestCountTotal();
 

@@ -19,7 +19,7 @@ import com.lapsa.reports.table.TableModel;
 import kz.theeurasia.eurasia36.beans.api.RequestsHolder;
 import kz.theeurasia.eurasia36.beans.view.report.RequestsTableModel;
 
-@Named("insuranceRequests")
+@Named("rqsts")
 @ViewScoped
 public class DefaultRequestsHolder extends DefaultWritableValueHolder<List<Request>>
 	implements Serializable, RequestsHolder {

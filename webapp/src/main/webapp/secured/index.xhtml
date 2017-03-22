@@ -43,14 +43,14 @@
 			<h:panelGroup id="requestDialog">
 				<ui:include src="dialog.insurance-request.include.xhtml">
 					<ui:param name="dialogWV" value="requestDialogWV" />
-					<ui:param name="ir" value="#{insuranceRequest.value}" />
+					<ui:param name="ir" value="#{rqst.value}" />
 				</ui:include>
 			</h:panelGroup>
 
 			<h:panelGroup id="requestCloseDialog">
 				<ui:include src="dialog.insurance-request-close.include.xhtml">
 					<ui:param name="dialogWV" value="requestCloseDialogWV" />
-					<ui:param name="ir" value="#{insuranceRequest.value}" />
+					<ui:param name="ir" value="#{rqst.value}" />
 					<ui:param name="update"
 						value="@form:requestsTable @form:summaryPanel @form:mainToolbar @form:requestDialog" />
 				</ui:include>
@@ -59,7 +59,7 @@
 			<h:panelGroup id="requestProgressCompleteDialog">
 				<ui:include src="dialog.progress-complete.include.xhtml">
 					<ui:param name="dialogWV" value="requestProgressCompleteDialogWV" />
-					<ui:param name="ir" value="#{insuranceRequest.value}" />
+					<ui:param name="ir" value="#{rqst.value}" />
 					<ui:param name="update"
 						value="@form:requestsTable @form:summaryPanel @form:mainToolbar @form:requestDialog" />
 				</ui:include>
@@ -67,7 +67,7 @@
 
 			<h:panelGroup id="mainToolbar">
 				<ui:include src="menu.main-toolbar.xhtml">
-					<ui:param name="ir" value="#{insuranceRequest.value}" />
+					<ui:param name="ir" value="#{rqst.value}" />
 					<ui:param name="update"
 						value="@form:requestsTable @form:mainToolbar @form:summaryPanel" />
 				</ui:include>
@@ -80,9 +80,9 @@
 			<h:panelGroup id="summaryPanel">
 				<ui:include src="panel.summary.include.xhtml">
 					<ui:param name="count"
-						value="#{insuranceRequests.requestCountTotal}" />
+						value="#{rqsts.requestCountTotal}" />
 					<ui:param name="amount"
-						value="#{insuranceRequests.requestPremiumCostTotal}" />
+						value="#{rqsts.requestPremiumCostTotal}" />
 				</ui:include>
 			</h:panelGroup>
 
@@ -95,8 +95,8 @@
 			</h:panelGroup>
 
 			<p:dataTable id="requestsTable" widgetVar="requestsTableWV" var="req"
-				value="#{insuranceRequests.model}" selectionMode="single"
-				selection="#{insuranceRequest.value}" rows="20" paginator="true"
+				value="#{rqsts.model}" selectionMode="single"
+				selection="#{rqst.value}" rows="20" paginator="true"
 				paginatorAlwaysVisible="false"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="10,20,50,100,200" sortMode="multipe"
@@ -197,7 +197,7 @@
 						action="#{mainFacade.doAcceptRequestOnce}" process="@this"
 						update="@form:requestsTable @form:mainToolbar @form:summaryPanel">
 						<f:setPropertyActionListener value="#{req}"
-							target="#{insuranceRequest.value}" />
+							target="#{rqst.value}" />
 					</p:commandButton>
 					<h:outputText value="#{req.requester.phone}"
 						rendered="#{req.progressStatus ne 'NEW'}" />

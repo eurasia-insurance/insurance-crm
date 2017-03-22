@@ -16,7 +16,7 @@ import com.lapsa.insurance.domain.casco.CascoVehicle;
 
 import kz.theeurasia.eurasia36.beans.api.RequestHolder;
 
-@Named("insuranceRequest")
+@Named("rqst")
 @ViewScoped
 public class DefaultRequestHolder extends DefaultWritableValueHolder<Request>
 	implements Serializable, RequestHolder {

@@ -23,27 +23,28 @@ import com.lapsa.insurance.crm.ObtainingStatus;
 import com.lapsa.insurance.crm.PaymentStatus;
 import com.lapsa.insurance.crm.ProgressStatus;
 import com.lapsa.insurance.crm.RequestStatus;
+import com.lapsa.insurance.dao.CallbackRequestDAO;
 import com.lapsa.insurance.dao.CascoRequestDAO;
 import com.lapsa.insurance.dao.InsuranceRequestDAO;
 import com.lapsa.insurance.dao.NotPersistedException;
 import com.lapsa.insurance.dao.PeristenceOperationFailed;
 import com.lapsa.insurance.dao.PolicyRequestDAO;
+import com.lapsa.insurance.dao.RequestDAO;
 import com.lapsa.insurance.dao.filter.InsuranceRequestFilter;
 import com.lapsa.insurance.dao.filter.RequestFilter;
 import com.lapsa.insurance.domain.CalculationData;
 import com.lapsa.insurance.domain.InsuranceRequest;
 import com.lapsa.insurance.domain.ObtainingData;
 import com.lapsa.insurance.domain.PaymentData;
-import com.lapsa.insurance.domain.casco.CascoRequest;
-import com.lapsa.insurance.domain.policy.PolicyRequest;
-import com.lapsa.insurance.elements.InsuranceProductType;
+import com.lapsa.insurance.domain.Request;
 
 import kz.theeurasia.eurasia36.application.MainFacade;
 import kz.theeurasia.eurasia36.application.UIMessages;
 import kz.theeurasia.eurasia36.beans.api.CurrentUserHolder;
 import kz.theeurasia.eurasia36.beans.api.FacesMessagesFacade;
-import kz.theeurasia.eurasia36.beans.api.InsuranceRequestHolder;
-import kz.theeurasia.eurasia36.beans.api.InsuranceRequestsHolder;
+import kz.theeurasia.eurasia36.beans.api.RequestHolder;
+import kz.theeurasia.eurasia36.beans.api.RequestType;
+import kz.theeurasia.eurasia36.beans.api.RequestsHolder;
 import kz.theeurasia.eurasia36.beans.api.SettingsHolder;
 import kz.theeurasia.eurasia36.beans.view.pojo.RequestFilterBean;
 
@@ -304,7 +305,7 @@ public class DefaultMainFacade implements MainFacade {
     // PRIVATE
 
     @Inject
-    private InsuranceRequestsHolder insuranceRequestsHolder;
+    private RequestsHolder requestsHolder;
 
     @Inject
     private SettingsHolder settingsHolder;
@@ -316,13 +317,19 @@ public class DefaultMainFacade implements MainFacade {
     private InsuranceRequestDAO insuranceRequestDAO;
 
     @Inject
+    private RequestDAO requestDAO;
+
+    @Inject
+    private CallbackRequestDAO callbackRequestDAO;
+
+    @Inject
     private PolicyRequestDAO policyRequestDAO;
 
     @Inject
     private CascoRequestDAO cascoRequestDAO;
 
     @Inject
-    private InsuranceRequestHolder insuranceRequestHolder;
+    private RequestHolder requestHolder;
 
     @Inject
     private CurrentUserHolder currentUser;
@@ -339,44 +346,51 @@ public class DefaultMainFacade implements MainFacade {
     }
 
     private void refreshRequests() {
+	RequestType requestType = settingsHolder.getRequestType();
+
 	RequestFilter requestFilter = settingsHolder.getRequestFilter();
 	InsuranceRequestFilter insuranceRequestFilter = settingsHolder.getInsuranceRequestFilter();
-	InsuranceProductType productType = insuranceRequestFilter.getInsuranceProductType();
-	List<InsuranceRequest> requests = null;
-	if (productType == null)
-	    requests = insuranceRequestDAO.findByFilter(requestFilter, insuranceRequestFilter);
-	else
-	    switch (productType) {
-	    case CASCO:
-		requests = new ArrayList<>();
-		List<CascoRequest> cascos = cascoRequestDAO.findByFilter(requestFilter, insuranceRequestFilter);
-		requests.addAll(cascos);
-		break;
-	    case POLICY:
-		requests = new ArrayList<>();
-		List<PolicyRequest> policies = policyRequestDAO.findByFilter(requestFilter, insuranceRequestFilter);
-		requests.addAll(policies);
-		break;
-	    }
-	insuranceRequestsHolder.setRequests(requests);
+
+	List<Request> requests = new ArrayList<>();
+
+	switch (requestType) {
+	case INSURANCE_REQUESTS:
+	    requests.addAll(insuranceRequestDAO.findByFilter(requestFilter, insuranceRequestFilter));
+	    break;
+	case CALLBACK_REQUESTS:
+	    requests.addAll(callbackRequestDAO.findByFilter(requestFilter));
+	    break;
+	case CASCO_REQUESTS:
+	    requests.addAll(cascoRequestDAO.findByFilter(requestFilter, insuranceRequestFilter));
+	    break;
+	case POLICY_REQUESTS:
+	    requests.addAll(policyRequestDAO.findByFilter(requestFilter, insuranceRequestFilter));
+	    break;
+	case REQUESTS:
+	default:
+	    requests.addAll(requestDAO.findByFilter(requestFilter));
+	    break;
+	}
+
+	requestsHolder.setRequests(requests);
     }
 
     private void saveRequest() {
-	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
+	Request request = requestHolder.getValue();
 	try {
-	    insuranceRequest.setUpdated(new Date());
-	    InsuranceRequest insuranceRequestSaved = insuranceRequestDAO.save(insuranceRequest);
-	    insuranceRequestHolder.setValue(insuranceRequestSaved);
+	    request.setUpdated(new Date());
+	    Request insuranceRequestSaved = requestDAO.save(request);
+	    requestHolder.setValue(insuranceRequestSaved);
 	} catch (PeristenceOperationFailed e) {
 	    facesMessagesFacade.addExceptionMessage(UIMessages.ERROR_INTERNAL_SERVER_ERROR, e);
 	}
     }
 
     private void resetRequest() {
-	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
+	Request request = requestHolder.getValue();
 	try {
-	    InsuranceRequest insuranceRequestSaved = insuranceRequestDAO.restore(insuranceRequest);
-	    insuranceRequestHolder.setValue(insuranceRequestSaved);
+	    Request insuranceRequestSaved = requestDAO.restore(request);
+	    requestHolder.setValue(insuranceRequestSaved);
 	} catch (PeristenceOperationFailed e) {
 	    facesMessagesFacade.addExceptionMessage(UIMessages.ERROR_INTERNAL_SERVER_ERROR, e);
 	} catch (NotPersistedException e) {
@@ -385,52 +399,56 @@ public class DefaultMainFacade implements MainFacade {
     }
 
     private void unselectIfNotShown() {
-	InsuranceRequest request = insuranceRequestHolder.getValue();
-	List<InsuranceRequest> requests = insuranceRequestsHolder.getValue();
+	Request request = requestHolder.getValue();
+	List<Request> requests = requestsHolder.getValue();
 	if (request != null && requests != null && !requests.contains(request))
-	    insuranceRequestHolder.reset();
+	    requestHolder.reset();
 
     }
 
     private void closeRequest() {
-	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
+	Request insuranceRequest = requestHolder.getValue();
 	insuranceRequest.setClosed(new Date());
 	insuranceRequest.setStatus(RequestStatus.CLOSED);
 	insuranceRequest.setClosedBy(currentUser.getValue());
     }
 
     private void acceptRequestOnce() {
-	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
+	Request insuranceRequest = requestHolder.getValue();
 	if (insuranceRequest.getAccepted() == null)
 	    acceptRequest();
     }
 
     private void acceptRequest() {
-	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
+	Request insuranceRequest = requestHolder.getValue();
 	insuranceRequest.setProgressStatus(ProgressStatus.ON_PROCESS);
 	insuranceRequest.setAccepted(new Date());
 	insuranceRequest.setAcceptedBy(currentUser.getValue());
     }
 
     private void resumeRequest() {
-	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
+	Request insuranceRequest = requestHolder.getValue();
 	insuranceRequest.setProgressStatus(ProgressStatus.ON_PROCESS);
     }
 
     private void pauseRequest() {
-	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
+	Request insuranceRequest = requestHolder.getValue();
 	insuranceRequest.setProgressStatus(ProgressStatus.ON_HOLD);
     }
 
     private void completeRequest() {
-	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
+	Request insuranceRequest = requestHolder.getValue();
 	insuranceRequest.setProgressStatus(ProgressStatus.FINISHED);
 	insuranceRequest.setCompleted(new Date());
 	insuranceRequest.setCompletedBy(currentUser.getValue());
     }
 
     private void handleTransactionStatusChange() {
-	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
+	Request request = requestHolder.getValue();
+	if (!(request instanceof InsuranceRequest))
+	    return;
+
+	InsuranceRequest insuranceRequest = (InsuranceRequest) request;
 
 	ObtainingData obt = insuranceRequest.getObtaining();
 	PaymentData pym = insuranceRequest.getPayment();
@@ -458,19 +476,28 @@ public class DefaultMainFacade implements MainFacade {
     }
 
     private void handleActualPremiumCostChange() {
-	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
+	Request request = requestHolder.getValue();
+	if (!(request instanceof InsuranceRequest))
+	    return;
+	InsuranceRequest insuranceRequest = (InsuranceRequest) request;
 	CalculationData calc = insuranceRequest.getProduct().getCalculation();
 	calc.setDiscountAmount(calc.getCalculatedPremiumCost() - calc.getActualPremiumCost());
     }
 
     private void handleDiscountAmountChange() {
-	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
+	Request request = requestHolder.getValue();
+	if (!(request instanceof InsuranceRequest))
+	    return;
+	InsuranceRequest insuranceRequest = (InsuranceRequest) request;
 	CalculationData calc = insuranceRequest.getProduct().getCalculation();
 	calc.setActualPremiumCost(calc.getCalculatedPremiumCost() - calc.getDiscountAmount());
     }
 
     private void setDiscountPercent(double discountPercent) {
-	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
+	Request request = requestHolder.getValue();
+	if (!(request instanceof InsuranceRequest))
+	    return;
+	InsuranceRequest insuranceRequest = (InsuranceRequest) request;
 	CalculationData calc = insuranceRequest.getProduct().getCalculation();
 	calc.setDiscountAmount(calc.getCalculatedPremiumCost() * discountPercent);
 	handleDiscountAmountChange();

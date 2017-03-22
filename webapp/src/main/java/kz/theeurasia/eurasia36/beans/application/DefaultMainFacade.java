@@ -28,7 +28,8 @@ import com.lapsa.insurance.dao.InsuranceRequestDAO;
 import com.lapsa.insurance.dao.NotPersistedException;
 import com.lapsa.insurance.dao.PeristenceOperationFailed;
 import com.lapsa.insurance.dao.PolicyRequestDAO;
-import com.lapsa.insurance.dao.filter.InsuranceRequestFitler;
+import com.lapsa.insurance.dao.filter.InsuranceRequestFilter;
+import com.lapsa.insurance.dao.filter.RequestFilter;
 import com.lapsa.insurance.domain.CalculationData;
 import com.lapsa.insurance.domain.InsuranceRequest;
 import com.lapsa.insurance.domain.ObtainingData;
@@ -42,9 +43,9 @@ import kz.theeurasia.eurasia36.application.UIMessages;
 import kz.theeurasia.eurasia36.beans.api.CurrentUserHolder;
 import kz.theeurasia.eurasia36.beans.api.FacesMessagesFacade;
 import kz.theeurasia.eurasia36.beans.api.InsuranceRequestHolder;
-import kz.theeurasia.eurasia36.beans.api.InsuranceRequestsFilterHolder;
 import kz.theeurasia.eurasia36.beans.api.InsuranceRequestsHolder;
-import kz.theeurasia.eurasia36.beans.view.pojo.DefaultInsuranceRequestFitler;
+import kz.theeurasia.eurasia36.beans.api.SettingsHolder;
+import kz.theeurasia.eurasia36.beans.view.pojo.RequestFilterBean;
 
 @Named("mainFacade")
 @ApplicationScoped
@@ -306,7 +307,7 @@ public class DefaultMainFacade implements MainFacade {
     private InsuranceRequestsHolder insuranceRequestsHolder;
 
     @Inject
-    private InsuranceRequestsFilterHolder insuranceRequestsFilterHolder;
+    private SettingsHolder settingsHolder;
 
     @Inject
     private FacesMessagesFacade facesMessagesFacade;
@@ -328,31 +329,32 @@ public class DefaultMainFacade implements MainFacade {
 
     private void initFilter() {
 	resetFilter();
-	insuranceRequestsFilterHolder.setRequestStatus(RequestStatus.OPEN);
+	settingsHolder.getRequestFilter().setRequestStatus(RequestStatus.OPEN);
     }
 
     private void resetFilter() {
-	RequestStatus last = insuranceRequestsFilterHolder.getRequestStatus();
-	insuranceRequestsFilterHolder.setValue(new DefaultInsuranceRequestFitler());
-	insuranceRequestsFilterHolder.setRequestStatus(last);
+	RequestStatus last = settingsHolder.getRequestFilter().getRequestStatus();
+	settingsHolder.resetFilters();
+	settingsHolder.getRequestFilter().setRequestStatus(last);
     }
 
     private void refreshRequests() {
-	InsuranceRequestFitler filter = insuranceRequestsFilterHolder.getValue();
-	InsuranceProductType productType = insuranceRequestsFilterHolder.getValue().getInsuranceProductType();
+	RequestFilter requestFilter = settingsHolder.getRequestFilter();
+	InsuranceRequestFilter insuranceRequestFilter = settingsHolder.getInsuranceRequestFilter();
+	InsuranceProductType productType = insuranceRequestFilter.getInsuranceProductType();
 	List<InsuranceRequest> requests = null;
 	if (productType == null)
-	    requests = insuranceRequestDAO.findByFilter(filter);
+	    requests = insuranceRequestDAO.findByFilter(requestFilter, insuranceRequestFilter);
 	else
 	    switch (productType) {
 	    case CASCO:
 		requests = new ArrayList<>();
-		List<CascoRequest> cascos = cascoRequestDAO.findByFilter(filter);
+		List<CascoRequest> cascos = cascoRequestDAO.findByFilter(requestFilter, insuranceRequestFilter);
 		requests.addAll(cascos);
 		break;
 	    case POLICY:
 		requests = new ArrayList<>();
-		List<PolicyRequest> policies = policyRequestDAO.findByFilter(filter);
+		List<PolicyRequest> policies = policyRequestDAO.findByFilter(requestFilter, insuranceRequestFilter);
 		requests.addAll(policies);
 		break;
 	    }
@@ -477,7 +479,7 @@ public class DefaultMainFacade implements MainFacade {
     private void filterCreatedToday() {
 	LocalDateTime after = LocalDate.now().atStartOfDay();
 
-	DefaultInsuranceRequestFitler filter = insuranceRequestsFilterHolder.getValue();
+	RequestFilterBean filter = settingsHolder.getRequestFilter();
 	filter.setCreatedAfter(fromLocalDateTime(after));
 	filter.setCreatedBefore(null);
     }
@@ -487,7 +489,7 @@ public class DefaultMainFacade implements MainFacade {
 	LocalDateTime before = LocalDate.now().atStartOfDay()
 		.minus(1, ChronoUnit.SECONDS);
 
-	DefaultInsuranceRequestFitler filter = insuranceRequestsFilterHolder.getValue();
+	RequestFilterBean filter = settingsHolder.getRequestFilter();
 	filter.setCreatedAfter(fromLocalDateTime(after));
 	filter.setCreatedBefore(fromLocalDateTime(before));
     }
@@ -496,7 +498,7 @@ public class DefaultMainFacade implements MainFacade {
 	LocalDateTime after = LocalDate.now()
 		.with(ChronoField.DAY_OF_WEEK, WeekFields.ISO.getFirstDayOfWeek().getValue()).atStartOfDay();
 
-	DefaultInsuranceRequestFitler filter = insuranceRequestsFilterHolder.getValue();
+	RequestFilterBean filter = settingsHolder.getRequestFilter();
 	filter.setCreatedAfter(fromLocalDateTime(after));
 	filter.setCreatedBefore(null);
     }
@@ -509,7 +511,7 @@ public class DefaultMainFacade implements MainFacade {
 		.with(ChronoField.DAY_OF_WEEK, WeekFields.ISO.getFirstDayOfWeek().getValue()).atStartOfDay().minus(1,
 			ChronoUnit.SECONDS);
 
-	DefaultInsuranceRequestFitler filter = insuranceRequestsFilterHolder.getValue();
+	RequestFilterBean filter = settingsHolder.getRequestFilter();
 	filter.setCreatedAfter(fromLocalDateTime(after));
 	filter.setCreatedBefore(fromLocalDateTime(before));
     }
@@ -517,7 +519,7 @@ public class DefaultMainFacade implements MainFacade {
     private void filterCreatedThisMonth() {
 	LocalDateTime after = LocalDate.now().withDayOfMonth(1).atStartOfDay();
 
-	DefaultInsuranceRequestFitler filter = insuranceRequestsFilterHolder.getValue();
+	RequestFilterBean filter = settingsHolder.getRequestFilter();
 	filter.setCreatedAfter(fromLocalDateTime(after));
 	filter.setCreatedBefore(null);
     }
@@ -527,7 +529,7 @@ public class DefaultMainFacade implements MainFacade {
 	LocalDateTime before = LocalDate.now().withDayOfMonth(1).atStartOfDay().minus(1,
 		ChronoUnit.SECONDS);
 
-	DefaultInsuranceRequestFitler filter = insuranceRequestsFilterHolder.getValue();
+	RequestFilterBean filter = settingsHolder.getRequestFilter();
 	filter.setCreatedAfter(fromLocalDateTime(after));
 	filter.setCreatedBefore(fromLocalDateTime(before));
     }
@@ -535,7 +537,7 @@ public class DefaultMainFacade implements MainFacade {
     private void filterCompletedToday() {
 	LocalDateTime after = LocalDate.now().atStartOfDay();
 
-	DefaultInsuranceRequestFitler filter = insuranceRequestsFilterHolder.getValue();
+	RequestFilterBean filter = settingsHolder.getRequestFilter();
 	filter.setCompletedAfter(fromLocalDateTime(after));
 	filter.setCompletedBefore(null);
     }
@@ -545,7 +547,7 @@ public class DefaultMainFacade implements MainFacade {
 	LocalDateTime before = LocalDate.now().atStartOfDay()
 		.minus(1, ChronoUnit.SECONDS);
 
-	DefaultInsuranceRequestFitler filter = insuranceRequestsFilterHolder.getValue();
+	RequestFilterBean filter = settingsHolder.getRequestFilter();
 	filter.setCompletedAfter(fromLocalDateTime(after));
 	filter.setCompletedBefore(fromLocalDateTime(before));
     }
@@ -554,7 +556,7 @@ public class DefaultMainFacade implements MainFacade {
 	LocalDateTime after = LocalDate.now()
 		.with(ChronoField.DAY_OF_WEEK, WeekFields.ISO.getFirstDayOfWeek().getValue()).atStartOfDay();
 
-	DefaultInsuranceRequestFitler filter = insuranceRequestsFilterHolder.getValue();
+	RequestFilterBean filter = settingsHolder.getRequestFilter();
 	filter.setCompletedAfter(fromLocalDateTime(after));
 	filter.setCompletedBefore(null);
     }
@@ -567,7 +569,7 @@ public class DefaultMainFacade implements MainFacade {
 		.with(ChronoField.DAY_OF_WEEK, WeekFields.ISO.getFirstDayOfWeek().getValue()).atStartOfDay().minus(1,
 			ChronoUnit.SECONDS);
 
-	DefaultInsuranceRequestFitler filter = insuranceRequestsFilterHolder.getValue();
+	RequestFilterBean filter = settingsHolder.getRequestFilter();
 	filter.setCompletedAfter(fromLocalDateTime(after));
 	filter.setCompletedBefore(fromLocalDateTime(before));
     }
@@ -575,7 +577,7 @@ public class DefaultMainFacade implements MainFacade {
     private void filterCompletedThisMonth() {
 	LocalDateTime after = LocalDate.now().withDayOfMonth(1).atStartOfDay();
 
-	DefaultInsuranceRequestFitler filter = insuranceRequestsFilterHolder.getValue();
+	RequestFilterBean filter = settingsHolder.getRequestFilter();
 	filter.setCompletedAfter(fromLocalDateTime(after));
 	filter.setCompletedBefore(null);
     }
@@ -585,7 +587,7 @@ public class DefaultMainFacade implements MainFacade {
 	LocalDateTime before = LocalDate.now().withDayOfMonth(1).atStartOfDay().minus(1,
 		ChronoUnit.SECONDS);
 
-	DefaultInsuranceRequestFitler filter = insuranceRequestsFilterHolder.getValue();
+	RequestFilterBean filter = settingsHolder.getRequestFilter();
 	filter.setCompletedAfter(fromLocalDateTime(after));
 	filter.setCompletedBefore(fromLocalDateTime(before));
     }

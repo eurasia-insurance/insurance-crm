@@ -22,7 +22,7 @@
 						update="requestToolbar #{update}" action="#{mainFacade.doRefresh}" />
 
 					<p:selectBooleanButton
-						value="#{insuranceRequestsFilter.autoRefresh}"
+						value="#{settings.autoRefresh}"
 						onLabel="Автообновление" offLabel="Автообновление"
 						onIcon="fa fa-check" offIcon="fa">
 						<p:ajax process="@this" update="@form:autoRefreshPoll" />

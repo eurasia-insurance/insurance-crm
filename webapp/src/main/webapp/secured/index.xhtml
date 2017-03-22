@@ -87,8 +87,8 @@
 			</h:panelGroup>
 
 			<h:panelGroup id="autoRefreshPoll">
-				<p:poll rendered="#{insuranceRequestsFilter.autoRefresh}"
-					interval="#{insuranceRequestsFilter.autoRefreshInterval}"
+				<p:poll rendered="#{settings.autoRefresh}"
+					interval="#{settings.autoRefreshInterval}"
 					autoStart="true" process="@this"
 					update="@form:requestsTable @form:mainToolbar @form:summaryPanel"
 					listener="#{mainFacade.doRefresh}" />

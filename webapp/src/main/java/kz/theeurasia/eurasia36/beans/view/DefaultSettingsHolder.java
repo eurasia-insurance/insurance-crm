@@ -7,6 +7,7 @@ import javax.inject.Named;
 
 import org.omnifaces.cdi.ViewScoped;
 
+import kz.theeurasia.eurasia36.beans.api.RequestType;
 import kz.theeurasia.eurasia36.beans.api.SettingsHolder;
 import kz.theeurasia.eurasia36.beans.view.pojo.InsuranceRequestFilterBean;
 import kz.theeurasia.eurasia36.beans.view.pojo.RequestFilterBean;
@@ -24,11 +25,14 @@ public class DefaultSettingsHolder implements Serializable, SettingsHolder {
 
     private InsuranceRequestFilterBean insuranceRequestFilter;
 
+    private RequestType requestType;
+
     @Override
     @PostConstruct
     public void resetFilters() {
 	this.requestFilter = new RequestFilterBean();
 	this.insuranceRequestFilter = new InsuranceRequestFilterBean();
+	this.requestType = RequestType.REQUESTS;
     }
 
     // GENERATED
@@ -77,4 +81,14 @@ public class DefaultSettingsHolder implements Serializable, SettingsHolder {
     public void setInsuranceRequestFilter(InsuranceRequestFilterBean insuranceRequestFilter) {
 	this.insuranceRequestFilter = insuranceRequestFilter;
     }
+
+    @Override
+    public RequestType getRequestType() {
+	return requestType;
+    }
+
+    public void setRequestType(RequestType requestType) {
+	this.requestType = requestType;
+    }
+
 }

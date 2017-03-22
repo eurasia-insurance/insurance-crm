@@ -16,4 +16,6 @@ public interface SettingsHolder {
     RequestFilterBean getRequestFilter();
 
     InsuranceRequestFilterBean getInsuranceRequestFilter();
+
+    RequestType getRequestType();
 }

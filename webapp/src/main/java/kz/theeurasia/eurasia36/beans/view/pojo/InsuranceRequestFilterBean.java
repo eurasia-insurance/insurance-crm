@@ -8,7 +8,6 @@ import com.lapsa.insurance.crm.PaymentStatus;
 import com.lapsa.insurance.crm.TransactionProblem;
 import com.lapsa.insurance.crm.TransactionStatus;
 import com.lapsa.insurance.dao.filter.InsuranceRequestFilter;
-import com.lapsa.insurance.elements.InsuranceProductType;
 import com.lapsa.insurance.elements.ObtainingMethod;
 import com.lapsa.insurance.elements.PaymentMethod;
 
@@ -16,7 +15,6 @@ public class InsuranceRequestFilterBean implements InsuranceRequestFilter, Seria
     private static final long serialVersionUID = -8470601310057087780L;
 
     private InsuranceRequestType insuranceRequestType;
-    private InsuranceProductType insuranceProductType;
     private PaymentMethod paymentMethod;
     private PaymentStatus paymentStatus;
     private ObtainingMethod obtainingMethod;
@@ -31,15 +29,6 @@ public class InsuranceRequestFilterBean implements InsuranceRequestFilter, Seria
 
     public void setRequestType(InsuranceRequestType insuranceRequestType) {
 	this.insuranceRequestType = insuranceRequestType;
-    }
-
-    @Override
-    public InsuranceProductType getInsuranceProductType() {
-	return insuranceProductType;
-    }
-
-    public void setInsuranceProductType(InsuranceProductType insuranceProductType) {
-	this.insuranceProductType = insuranceProductType;
     }
 
     @Override

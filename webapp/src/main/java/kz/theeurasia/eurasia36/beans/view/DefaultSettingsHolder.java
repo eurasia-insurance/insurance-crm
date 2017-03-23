@@ -32,7 +32,7 @@ public class DefaultSettingsHolder implements Serializable, SettingsHolder {
     public void resetFilters() {
 	this.requestFilter = new RequestFilterBean();
 	this.insuranceRequestFilter = new InsuranceRequestFilterBean();
-	this.requestType = RequestType.REQUESTS;
+	this.requestType = RequestType.REQUEST;
     }
 
     // GENERATED

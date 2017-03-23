@@ -8,7 +8,7 @@ import java.time.ZoneId;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.WeekFields;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -351,24 +351,27 @@ public class DefaultMainFacade implements MainFacade {
 	RequestFilter requestFilter = settingsHolder.getRequestFilter();
 	InsuranceRequestFilter insuranceRequestFilter = settingsHolder.getInsuranceRequestFilter();
 
-	List<Request> requests = new ArrayList<>();
+	List<Request> requests = null;
 
 	switch (requestType) {
-	case INSURANCE_REQUESTS:
-	    requests.addAll(insuranceRequestDAO.findByFilter(requestFilter, insuranceRequestFilter));
+	case INSURANCE_REQUEST:
+	    requests = Collections
+		    .unmodifiableList(insuranceRequestDAO.findByFilter(requestFilter, insuranceRequestFilter));
 	    break;
-	case CALLBACK_REQUESTS:
-	    requests.addAll(callbackRequestDAO.findByFilter(requestFilter));
+	case CALLBACK_REQUEST:
+	    requests = Collections.unmodifiableList(callbackRequestDAO.findByFilter(requestFilter));
 	    break;
-	case CASCO_REQUESTS:
-	    requests.addAll(cascoRequestDAO.findByFilter(requestFilter, insuranceRequestFilter));
+	case CASCO_REQUEST:
+	    requests = Collections
+		    .unmodifiableList(cascoRequestDAO.findByFilter(requestFilter, insuranceRequestFilter));
 	    break;
-	case POLICY_REQUESTS:
-	    requests.addAll(policyRequestDAO.findByFilter(requestFilter, insuranceRequestFilter));
+	case POLICY_REQUEST:
+	    requests = Collections
+		    .unmodifiableList(policyRequestDAO.findByFilter(requestFilter, insuranceRequestFilter));
 	    break;
-	case REQUESTS:
+	case REQUEST:
 	default:
-	    requests.addAll(requestDAO.findByFilter(requestFilter));
+	    requests = Collections.unmodifiableList(requestDAO.findByFilter(requestFilter));
 	    break;
 	}
 

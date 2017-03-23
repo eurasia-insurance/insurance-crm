@@ -9,12 +9,16 @@ import javax.inject.Named;
 
 import org.omnifaces.cdi.ViewScoped;
 
+import com.lapsa.insurance.domain.CallbackRequest;
+import com.lapsa.insurance.domain.InsuranceRequest;
 import com.lapsa.insurance.domain.Request;
 import com.lapsa.insurance.domain.casco.Casco;
 import com.lapsa.insurance.domain.casco.CascoRequest;
 import com.lapsa.insurance.domain.casco.CascoVehicle;
+import com.lapsa.insurance.domain.policy.PolicyRequest;
 
 import kz.theeurasia.eurasia36.beans.api.RequestHolder;
+import kz.theeurasia.eurasia36.beans.api.RequestType;
 
 @Named("rqst")
 @ViewScoped
@@ -32,6 +36,21 @@ public class DefaultRequestHolder extends DefaultWritableValueHolder<Request>
 	Casco casco = cascoRequest.getCasco();
 	CascoVehicle vehicle = casco.getInsuredVehicle();
 	return Collections.unmodifiableList(Arrays.asList(vehicle));
+    }
+
+    @Override
+    public RequestType getRequestType() {
+	if (value == null)
+	    return null;
+	if (value instanceof PolicyRequest)
+	    return RequestType.POLICY_REQUEST;
+	if (value instanceof CascoRequest)
+	    return RequestType.CASCO_REQUEST;
+	if (value instanceof CallbackRequest)
+	    return RequestType.CALLBACK_REQUEST;
+	if (value instanceof InsuranceRequest)
+	    return RequestType.INSURANCE_REQUEST;
+	return RequestType.REQUEST;
     }
 
     @Override

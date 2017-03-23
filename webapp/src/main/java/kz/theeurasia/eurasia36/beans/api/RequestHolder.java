@@ -9,4 +9,6 @@ public interface RequestHolder extends WritableValueHolder<Request> {
 
     List<CascoVehicle> getCascoVehiclesAsList();
 
+    RequestType getRequestType();
+
 }

@@ -79,17 +79,15 @@
 
 			<h:panelGroup id="summaryPanel">
 				<ui:include src="panel.summary.include.xhtml">
-					<ui:param name="count"
-						value="#{rqsts.requestCountTotal}" />
-					<ui:param name="amount"
-						value="#{rqsts.requestPremiumCostTotal}" />
+					<ui:param name="count" value="#{rqsts.requestCountTotal}" />
+					<ui:param name="amount" value="#{rqsts.requestPremiumCostTotal}" />
 				</ui:include>
 			</h:panelGroup>
 
 			<h:panelGroup id="autoRefreshPoll">
 				<p:poll rendered="#{settings.autoRefresh}"
-					interval="#{settings.autoRefreshInterval}"
-					autoStart="true" process="@this"
+					interval="#{settings.autoRefreshInterval}" autoStart="true"
+					process="@this"
 					update="@form:requestsTable @form:mainToolbar @form:summaryPanel"
 					listener="#{mainFacade.doRefresh}" />
 			</h:panelGroup>
@@ -196,8 +194,7 @@
 						value="Показать" icon="fa fa-hand-o-right"
 						action="#{mainFacade.doAcceptRequestOnce}" process="@this"
 						update="@form:requestsTable @form:mainToolbar @form:summaryPanel">
-						<f:setPropertyActionListener value="#{req}"
-							target="#{rqst.value}" />
+						<f:setPropertyActionListener value="#{req}" target="#{rqst.value}" />
 					</p:commandButton>
 					<h:outputText value="#{req.requester.phone}"
 						rendered="#{req.progressStatus ne 'NEW'}" />

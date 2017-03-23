@@ -21,8 +21,7 @@
 										action="#{mainFacade.doRefresh}"
 										style="#{settings.requestFilter.requestStatus == 'OPEN' ? 'font-weight: bold' : ''}">
 										<f:setPropertyActionListener
-											target="#{settings.requestFilter.requestStatus}"
-											value="OPEN" />
+											target="#{settings.requestFilter.requestStatus}" value="OPEN" />
 									</p:commandLink>
 								</p:column>
 								<p:column>
@@ -70,8 +69,7 @@
 										action="#{mainFacade.doRefresh}"
 										style="#{settings.requestFilter.acceptedBy == null ? 'font-weight: bold' : ''}">
 										<f:setPropertyActionListener
-											target="#{settings.requestFilter.acceptedBy}"
-											value="#{null}" />
+											target="#{settings.requestFilter.acceptedBy}" value="#{null}" />
 									</p:commandLink>
 								</p:column>
 							</p:row>
@@ -118,16 +116,14 @@
 				<p:row>
 					<p:column>
 						<p:commandLink process="@this" update="content"
-							value="еще &gt;&gt;"
-							rendered="#{not settings.advanced}">
-							<f:setPropertyActionListener
-								target="#{settings.advanced}" value="#{true}" />
+							value="еще &gt;&gt;" rendered="#{not settings.advanced}">
+							<f:setPropertyActionListener target="#{settings.advanced}"
+								value="#{true}" />
 						</p:commandLink>
 						<p:commandLink process="@this" update="content"
-							value="&lt;&lt; проще"
-							rendered="#{settings.advanced}">
-							<f:setPropertyActionListener
-								target="#{settings.advanced}" value="#{false}" />
+							value="&lt;&lt; проще" rendered="#{settings.advanced}">
+							<f:setPropertyActionListener target="#{settings.advanced}"
+								value="#{false}" />
 						</p:commandLink>
 					</p:column>
 					<p:column>

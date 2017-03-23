@@ -29,7 +29,8 @@
 					</h:panelGroup>
 					<!-- << agreeement ok -->
 					<!-- >> agreeement failed or status is UNKNOWN -->
-					<h:panelGroup rendered="#{empty ir.transactionStatus or (ir.transactionStatus eq 'NOT_COMPLETED')}">
+					<h:panelGroup
+						rendered="#{empty ir.transactionStatus or (ir.transactionStatus eq 'NOT_COMPLETED')}">
 						<p:selectOneMenu value="#{ir.obtaining.method}">
 							<p:ajax listener="#{mainFacade.onObtainingMethodChanged}"
 								process="@this" update="paymentObtainingPanel" />
@@ -54,7 +55,8 @@
 					</h:panelGroup>
 					<!-- << agreeement ok -->
 					<!-- >> agreeement failed or status is UNKNOWN -->
-					<h:panelGroup rendered="#{empty ir.transactionStatus or (ir.transactionStatus eq 'NOT_COMPLETED')}">
+					<h:panelGroup
+						rendered="#{empty ir.transactionStatus or (ir.transactionStatus eq 'NOT_COMPLETED')}">
 						<p:selectOneMenu value="#{ir.payment.method}">
 							<p:ajax listener="#{mainFacade.onPaymentMethodChanged}"
 								process="@this" update="paymentObtainingPanel" />

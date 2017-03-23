@@ -21,8 +21,7 @@
 					<p:commandButton icon="fa fa-refresh" process="@this"
 						update="requestToolbar #{update}" action="#{mainFacade.doRefresh}" />
 
-					<p:selectBooleanButton
-						value="#{settings.autoRefresh}"
+					<p:selectBooleanButton value="#{settings.autoRefresh}"
 						onLabel="Автообновление" offLabel="Автообновление"
 						onIcon="fa fa-check" offIcon="fa">
 						<p:ajax process="@this" update="@form:autoRefreshPoll" />

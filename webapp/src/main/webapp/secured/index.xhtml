@@ -41,14 +41,14 @@
 			</f:metadata>
 
 			<h:panelGroup id="requestDialog">
-				<ui:include src="dialog.insurance-request.include.xhtml">
+				<ui:include src="dialog.request.info.include.xhtml">
 					<ui:param name="dialogWV" value="requestDialogWV" />
 					<ui:param name="ir" value="#{rqst.value}" />
 				</ui:include>
 			</h:panelGroup>
 
 			<h:panelGroup id="requestCloseDialog">
-				<ui:include src="dialog.insurance-request-close.include.xhtml">
+				<ui:include src="dialog.request.close.include.xhtml">
 					<ui:param name="dialogWV" value="requestCloseDialogWV" />
 					<ui:param name="ir" value="#{rqst.value}" />
 					<ui:param name="update"
@@ -57,7 +57,7 @@
 			</h:panelGroup>
 
 			<h:panelGroup id="requestProgressCompleteDialog">
-				<ui:include src="dialog.progress-complete.include.xhtml">
+				<ui:include src="dialog.request.progress-complete.include.xhtml">
 					<ui:param name="dialogWV" value="requestProgressCompleteDialogWV" />
 					<ui:param name="ir" value="#{rqst.value}" />
 					<ui:param name="update"

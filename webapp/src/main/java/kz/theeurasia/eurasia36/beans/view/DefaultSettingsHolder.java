@@ -9,7 +9,6 @@ import org.omnifaces.cdi.ViewScoped;
 
 import kz.theeurasia.eurasia36.beans.api.RequestType;
 import kz.theeurasia.eurasia36.beans.api.SettingsHolder;
-import kz.theeurasia.eurasia36.beans.view.pojo.InsuranceRequestFilterBean;
 import kz.theeurasia.eurasia36.beans.view.pojo.RequestFilterBean;
 
 @Named("settings")
@@ -23,15 +22,12 @@ public class DefaultSettingsHolder implements Serializable, SettingsHolder {
 
     private RequestFilterBean requestFilter;
 
-    private InsuranceRequestFilterBean insuranceRequestFilter;
-
     private RequestType requestType;
 
     @Override
     @PostConstruct
     public void resetFilters() {
 	this.requestFilter = new RequestFilterBean();
-	this.insuranceRequestFilter = new InsuranceRequestFilterBean();
 	this.requestType = RequestType.REQUEST;
     }
 
@@ -71,15 +67,6 @@ public class DefaultSettingsHolder implements Serializable, SettingsHolder {
 
     public void setRequestFilter(RequestFilterBean requestFilter) {
 	this.requestFilter = requestFilter;
-    }
-
-    @Override
-    public InsuranceRequestFilterBean getInsuranceRequestFilter() {
-	return insuranceRequestFilter;
-    }
-
-    public void setInsuranceRequestFilter(InsuranceRequestFilterBean insuranceRequestFilter) {
-	this.insuranceRequestFilter = insuranceRequestFilter;
     }
 
     @Override

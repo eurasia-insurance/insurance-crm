@@ -29,7 +29,6 @@ import com.lapsa.insurance.dao.NotPersistedException;
 import com.lapsa.insurance.dao.PeristenceOperationFailed;
 import com.lapsa.insurance.dao.PolicyRequestDAO;
 import com.lapsa.insurance.dao.RequestDAO;
-import com.lapsa.insurance.dao.filter.InsuranceRequestFilter;
 import com.lapsa.insurance.dao.filter.RequestFilter;
 import com.lapsa.insurance.domain.CalculationData;
 import com.lapsa.insurance.domain.InsuranceRequest;
@@ -348,22 +347,21 @@ public class DefaultMainFacade implements MainFacade {
 	RequestType requestType = settingsHolder.getRequestType();
 
 	RequestFilter requestFilter = settingsHolder.getRequestFilter();
-	InsuranceRequestFilter insuranceRequestFilter = settingsHolder.getInsuranceRequestFilter();
 
 	List<Request> requests = null;
 
 	switch (requestType) {
 	case INSURANCE_REQUEST:
-	    requests = checkedList(insuranceRequestDAO.findByFilter(requestFilter, insuranceRequestFilter));
+	    requests = checkedList(insuranceRequestDAO.findByFilter(requestFilter));
 	    break;
 	case CALLBACK_REQUEST:
 	    requests = checkedList(callbackRequestDAO.findByFilter(requestFilter));
 	    break;
 	case CASCO_REQUEST:
-	    requests = checkedList(cascoRequestDAO.findByFilter(requestFilter, insuranceRequestFilter));
+	    requests = checkedList(cascoRequestDAO.findByFilter(requestFilter));
 	    break;
 	case POLICY_REQUEST:
-	    requests = checkedList(policyRequestDAO.findByFilter(requestFilter, insuranceRequestFilter));
+	    requests = checkedList(policyRequestDAO.findByFilter(requestFilter));
 	    break;
 	case REQUEST:
 	default:

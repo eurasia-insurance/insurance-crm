@@ -32,6 +32,26 @@ public class DefaultRequestTypeService implements RequestTypeService {
     }
 
     @Override
+    public boolean isA(Request request, RequestType type) {
+	if (request == null)
+	    return false;
+	switch (type) {
+	case CALLBACK_REQUEST:
+	    return request instanceof CallbackRequest;
+	case CASCO_REQUEST:
+	    return request instanceof CascoRequest;
+	case POLICY_REQUEST:
+	    return request instanceof PolicyRequest;
+	case INSURANCE_REQUEST:
+	    return request instanceof InsuranceRequest;
+	case REQUEST:
+	    return request instanceof Request;
+	default:
+	    return false;
+	}
+    }
+
+    @Override
     public String displayName(Request request) {
 	RequestType type = type(request);
 	if (type == null)

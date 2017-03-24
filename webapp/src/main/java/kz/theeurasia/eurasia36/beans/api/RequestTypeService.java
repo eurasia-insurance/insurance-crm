@@ -6,4 +6,6 @@ public interface RequestTypeService {
     RequestType type(Request request);
 
     String displayName(Request request);
+
+    boolean isA(Request request, RequestType type);
 }

@@ -8,7 +8,6 @@ import java.time.ZoneId;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.WeekFields;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -355,27 +354,29 @@ public class DefaultMainFacade implements MainFacade {
 
 	switch (requestType) {
 	case INSURANCE_REQUEST:
-	    requests = Collections
-		    .unmodifiableList(insuranceRequestDAO.findByFilter(requestFilter, insuranceRequestFilter));
+	    requests = checkedList(insuranceRequestDAO.findByFilter(requestFilter, insuranceRequestFilter));
 	    break;
 	case CALLBACK_REQUEST:
-	    requests = Collections.unmodifiableList(callbackRequestDAO.findByFilter(requestFilter));
+	    requests = checkedList(callbackRequestDAO.findByFilter(requestFilter));
 	    break;
 	case CASCO_REQUEST:
-	    requests = Collections
-		    .unmodifiableList(cascoRequestDAO.findByFilter(requestFilter, insuranceRequestFilter));
+	    requests = checkedList(cascoRequestDAO.findByFilter(requestFilter, insuranceRequestFilter));
 	    break;
 	case POLICY_REQUEST:
-	    requests = Collections
-		    .unmodifiableList(policyRequestDAO.findByFilter(requestFilter, insuranceRequestFilter));
+	    requests = checkedList(policyRequestDAO.findByFilter(requestFilter, insuranceRequestFilter));
 	    break;
 	case REQUEST:
 	default:
-	    requests = Collections.unmodifiableList(requestDAO.findByFilter(requestFilter));
+	    requests = checkedList(requestDAO.findByFilter(requestFilter));
 	    break;
 	}
 
 	requestsHolder.setRequests(requests);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T> List<T> checkedList(List<? extends T> list) {
+	return (List<T>) list;
     }
 
     private void saveRequest() {

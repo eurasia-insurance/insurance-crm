@@ -17,10 +17,20 @@ import com.lapsa.insurance.domain.policy.PolicyRequest;
 
 import kz.theeurasia.eurasia36.beans.api.RequestType;
 import kz.theeurasia.eurasia36.beans.api.RequestTypeService;
+import kz.theeurasia.eurasia36.beans.model.RequestRow;
 
 @Named("rts")
 @ApplicationScoped
 public class DefaultRequestTypeService implements RequestTypeService {
+
+    private static final String ICON_STATUS_NEW = "icon-new";
+    private static final String ICON_STATUS_ON_PROCESS = "icon-on-process";
+    private static final String ICON_STATUS_ON_HOLD = "";
+    private static final String ICON_STATUS_SUCCESS = "icon-success";
+    private static final String ICON_STATUS_FAIL = "icon-fail";
+
+    private static final String ICON_INSURANCE_REQUEST = "fa fa-calculator";
+    private static final String ICON_CALLBACK_REQUEST = "fa fa-volume-control-phone";
 
     @Override
     public RequestType type(Request request) {
@@ -71,6 +81,38 @@ public class DefaultRequestTypeService implements RequestTypeService {
 	} catch (NullPointerException e) {
 	    return null;
 	}
+    }
+
+    @Override
+    public String iconClass(RequestRow<?> row) {
+	if (isA(row.getEntity(), RequestType.CALLBACK_REQUEST))
+	    return ICON_CALLBACK_REQUEST;
+	if (isA(row.getEntity(), RequestType.INSURANCE_REQUEST))
+	    return ICON_INSURANCE_REQUEST;
+	return null;
+    }
+
+    @Override
+    public String iconColor(RequestRow<?> row) {
+	switch (row.getProgressStatus()) {
+	case NEW:
+	    return ICON_STATUS_NEW;
+	case ON_PROCESS:
+	    return ICON_STATUS_ON_PROCESS;
+	case ON_HOLD:
+	    return ICON_STATUS_ON_HOLD;
+	case FINISHED:
+	    if (row.getTransactionStatus() == null)
+		return ICON_STATUS_SUCCESS;
+	    switch (row.getTransactionStatus()) {
+	    case NOT_COMPLETED:
+		return ICON_STATUS_FAIL;
+	    case COMPLETED:
+	    default:
+		return ICON_STATUS_SUCCESS;
+	    }
+	}
+	return null;
     }
 
 }

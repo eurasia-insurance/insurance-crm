@@ -6,6 +6,8 @@ import com.lapsa.insurance.domain.Request;
 import com.lapsa.insurance.domain.casco.Casco;
 import com.lapsa.insurance.domain.casco.CascoVehicle;
 
+import kz.theeurasia.eurasia36.beans.model.RequestRow;
+
 public interface RequestTypeService {
     RequestType type(Request request);
 
@@ -14,4 +16,9 @@ public interface RequestTypeService {
     boolean isA(Request request, RequestType type);
 
     List<CascoVehicle> cascoVehiclesAsList(Casco casco);
+
+    String iconClass(RequestRow<?> row);
+
+    String iconColor(RequestRow<?> row);
+
 }

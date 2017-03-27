@@ -10,13 +10,16 @@
 
 	<cc:interface>
 		<cc:attribute name="value" required="true" type="java.lang.Number" />
+		<cc:attribute name="outputZeroes" required="false"
+			type="java.lang.Boolean" default="#{true}" />
 		<cc:attribute name="symbol" required="false" type="java.lang.String"
 			default="&#8376;" />
 	</cc:interface>
 
 	<cc:implementation>
 		<f:subview rendered="#{not empty cc.attrs.value}">
-			<h:outputText value="#{cc.attrs.value}">
+			<h:outputText value="#{cc.attrs.value}"
+				rendered="#{outputZeroes or (not outputZeroes and cc.attrs.value ne 0)}">
 				<f:convertNumber type="currency" maxFractionDigits="2"
 					minFractionDigits="2" groupingUsed="true"
 					currencySymbol="#{cc.attrs.symbol}" />

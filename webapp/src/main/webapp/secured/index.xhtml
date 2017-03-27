@@ -176,7 +176,8 @@
 				</p:column>
 				<p:column headerText="Сумма" width="100" style="text-align: right"
 					sortBy="#{req.amount}">
-					<crm:outputMoneyAmount value="#{req.amount}" />
+					<crm:outputMoneyAmount value="#{req.amount}"
+						outputZeroes="#{false}" />
 				</p:column>
 				<p:column headerText="Имя заявителя" width="300"
 					sortBy="#{req.requesterName}">

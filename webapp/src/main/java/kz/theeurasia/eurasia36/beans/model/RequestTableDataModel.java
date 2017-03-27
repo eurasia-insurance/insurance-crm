@@ -6,7 +6,6 @@ import java.util.List;
 import javax.faces.model.ListDataModel;
 
 import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.SelectableDataModel;
 import org.primefaces.model.StreamedContent;
 
 import com.lapsa.insurance.domain.Request;
@@ -18,7 +17,7 @@ import com.lapsa.reports.table.TableModel;
 import kz.theeurasia.eurasia36.beans.view.report.RequestsTableModel;
 
 public class RequestTableDataModel extends ListDataModel<RequestRow<?>>
-	implements SelectableDataModel<RequestRow<?>>, RequestList {
+	implements RequestList {
 
     public RequestTableDataModel(List<RequestRow<?>> rows) {
 	setWrappedData(rows);
@@ -40,14 +39,23 @@ public class RequestTableDataModel extends ListDataModel<RequestRow<?>>
 
     @Override
     public Object getRowKey(RequestRow<?> object) {
-	return object.getId();
+	if (object == null || object.getId() == null)
+	    return null;
+	// check the value is in the list
+	RequestRow<?> rr = getRowData(object.getId().toString());
+	if (rr == null)
+	    return null;
+	return rr.getId().toString();
     }
 
     @Override
     public RequestRow<?> getRowData(String rowKey) {
+	if (rowKey == null)
+	    return null;
+	Integer rowId = Integer.parseInt(rowKey);
 	List<RequestRow<?>> list = getRows();
 	for (RequestRow<?> entity : list) {
-	    if (entity.getId().equals(rowKey))
+	    if (rowId.equals(entity.getId()))
 		return entity;
 	}
 	return null;

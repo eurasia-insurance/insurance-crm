@@ -10,11 +10,14 @@ import com.lapsa.insurance.crm.TransactionProblem;
 import com.lapsa.insurance.crm.TransactionStatus;
 import com.lapsa.insurance.domain.Request;
 import com.lapsa.insurance.domain.casco.CascoVehicle;
+import com.lapsa.insurance.domain.crm.User;
 import com.lapsa.insurance.elements.InsuranceProductType;
 
 public interface RequestRow<T extends Request> {
 
     T getEntity();
+
+    // request properties
 
     Integer getId();
 
@@ -34,6 +37,18 @@ public interface RequestRow<T extends Request> {
 
     Date getUpdated();
 
+    Date getAccepted();
+
+    User getAcceptedBy();
+
+    Date getCompleted();
+
+    User getCompletedBy();
+
+    Date getClosed();
+
+    User getClosedBy();
+
     Double getAmount();
 
     String getRequesterName();
@@ -46,7 +61,15 @@ public interface RequestRow<T extends Request> {
 
     String getUTMSource();
 
+    String getUTMMedium();
+
+    String getUTMCampaign();
+
+    String getUTMContent();
+
     String getUTMTerm();
+
+    String getNote();
 
     List<CascoVehicle> getCascoVehiclesAsList();
 

@@ -5,6 +5,7 @@ import java.util.Date;
 import com.lapsa.insurance.crm.ProgressStatus;
 import com.lapsa.insurance.crm.RequestStatus;
 import com.lapsa.insurance.domain.Request;
+import com.lapsa.insurance.domain.crm.User;
 
 public abstract class RequestRowDataModel<T extends Request> implements RequestRow<T> {
 
@@ -65,6 +66,60 @@ public abstract class RequestRowDataModel<T extends Request> implements RequestR
     }
 
     @Override
+    public Date getAccepted() {
+	try {
+	    return entity.getAccepted();
+	} catch (NullPointerException e) {
+	    return null;
+	}
+    }
+
+    @Override
+    public User getAcceptedBy() {
+	try {
+	    return entity.getAcceptedBy();
+	} catch (NullPointerException e) {
+	    return null;
+	}
+    }
+
+    @Override
+    public Date getCompleted() {
+	try {
+	    return entity.getCompleted();
+	} catch (NullPointerException e) {
+	    return null;
+	}
+    }
+
+    @Override
+    public User getCompletedBy() {
+	try {
+	    return entity.getCompletedBy();
+	} catch (NullPointerException e) {
+	    return null;
+	}
+    }
+
+    @Override
+    public Date getClosed() {
+	try {
+	    return entity.getClosed();
+	} catch (NullPointerException e) {
+	    return null;
+	}
+    }
+
+    @Override
+    public User getClosedBy() {
+	try {
+	    return entity.getClosedBy();
+	} catch (NullPointerException e) {
+	    return null;
+	}
+    }
+
+    @Override
     public String getRequesterName() {
 	try {
 	    return entity.getRequester().getName();
@@ -110,6 +165,33 @@ public abstract class RequestRowDataModel<T extends Request> implements RequestR
     }
 
     @Override
+    public String getUTMMedium() {
+	try {
+	    return entity.getUtmData().getMedium();
+	} catch (NullPointerException e) {
+	    return null;
+	}
+    }
+
+    @Override
+    public String getUTMCampaign() {
+	try {
+	    return entity.getUtmData().getCampaign();
+	} catch (NullPointerException e) {
+	    return null;
+	}
+    }
+
+    @Override
+    public String getUTMContent() {
+	try {
+	    return entity.getUtmData().getContent();
+	} catch (NullPointerException e) {
+	    return null;
+	}
+    }
+
+    @Override
     public String getUTMTerm() {
 	try {
 	    return entity.getUtmData().getTerm();
@@ -118,4 +200,12 @@ public abstract class RequestRowDataModel<T extends Request> implements RequestR
 	}
     }
 
+    @Override
+    public String getNote() {
+	try {
+	    return entity.getNote();
+	} catch (NullPointerException e) {
+	    return null;
+	}
+    }
 }

@@ -12,7 +12,7 @@ import com.lapsa.insurance.domain.policy.PolicyRequest;
 import kz.theeurasia.eurasia36.beans.api.RequestType;
 import kz.theeurasia.eurasia36.beans.api.RequestTypeService;
 
-@Named("requestTypeService")
+@Named("rts")
 @ApplicationScoped
 public class DefaultRequestTypeService implements RequestTypeService {
 
@@ -26,8 +26,6 @@ public class DefaultRequestTypeService implements RequestTypeService {
 	    return RequestType.CASCO_REQUEST;
 	if (request instanceof CallbackRequest)
 	    return RequestType.CALLBACK_REQUEST;
-	if (request instanceof InsuranceRequest)
-	    return RequestType.INSURANCE_REQUEST;
 	return RequestType.REQUEST;
     }
 

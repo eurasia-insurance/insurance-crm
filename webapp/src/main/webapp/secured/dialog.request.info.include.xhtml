@@ -10,14 +10,16 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 
+	<o:importConstants type="kz.theeurasia.eurasia36.beans.api.RequestType" />
+
 	<f:subview>
 
 		<!-- >> rendered -->
-		<h:panelGroup rendered="#{not empty ir}">
+		<h:panelGroup rendered="#{not empty rr}">
 
 			<!-- >> dialog -->
 			<p:dialog widgetVar="#{dialogWV}"
-				header="#{insuranceProductTypeService.displayNameShort(ir.productType)} # #{ir.id} : #{ir.requester.name}"
+				header="#{rts.displayName(rr.entity)} # #{rr.id} : #{rr.requesterName}"
 				closeOnEscape="true" modal="true" width="1024" height="600"
 				closable="true" resizable="false" maximizable="true"
 				position="center top">

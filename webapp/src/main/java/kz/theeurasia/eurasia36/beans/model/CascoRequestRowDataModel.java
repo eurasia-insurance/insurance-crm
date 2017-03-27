@@ -22,7 +22,7 @@ public class CascoRequestRowDataModel extends InsuranceRequestRowDataModel<Casco
 	    CascoVehicle vehicle = casco.getInsuredVehicle();
 	    return Collections.unmodifiableList(Arrays.asList(vehicle));
 	} catch (NullPointerException e) {
-	    return Collections.emptyList();
+	    return null;
 	}
     }
 

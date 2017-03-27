@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.lapsa.insurance.crm.InsuranceRequestType;
 import com.lapsa.insurance.crm.ProgressStatus;
+import com.lapsa.insurance.crm.RequestStatus;
+import com.lapsa.insurance.crm.TransactionProblem;
 import com.lapsa.insurance.crm.TransactionStatus;
 import com.lapsa.insurance.domain.Request;
 import com.lapsa.insurance.domain.casco.CascoVehicle;
@@ -16,13 +18,17 @@ public interface RequestRow<T extends Request> {
 
     Integer getId();
 
+    RequestStatus getRequestStatus();
+
     ProgressStatus getProgressStatus();
 
     TransactionStatus getTransactionStatus();
 
-    InsuranceProductType insuranceProductType();
+    TransactionProblem getTransactionProblem();
 
-    InsuranceRequestType insuranceRequestType();
+    InsuranceProductType getInsuranceProductType();
+
+    InsuranceRequestType getInsuranceRequestType();
 
     Date getCreated();
 

@@ -41,36 +41,36 @@
 			</f:metadata>
 
 			<h:panelGroup id="requestDialog">
-				<ui:include src="dialog.request.info.include.xhtml">
-					<ui:param name="dialogWV" value="requestDialogWV" />
-					<ui:param name="ir" value="#{rqst.value}" />
-				</ui:include>
+<!-- 				<ui:include src="dialog.request.info.include.xhtml"> -->
+<!-- 					<ui:param name="dialogWV" value="requestDialogWV" /> -->
+<!-- 					<ui:param name="ir" value="#{rqst.value.entity}" /> -->
+<!-- 				</ui:include> -->
 			</h:panelGroup>
 
 			<h:panelGroup id="requestCloseDialog">
-				<ui:include src="dialog.request.close.include.xhtml">
-					<ui:param name="dialogWV" value="requestCloseDialogWV" />
-					<ui:param name="ir" value="#{rqst.value}" />
-					<ui:param name="update"
-						value="@form:requestsTable @form:summaryPanel @form:mainToolbar @form:requestDialog" />
-				</ui:include>
+<!-- 				<ui:include src="dialog.request.close.include.xhtml"> -->
+<!-- 					<ui:param name="dialogWV" value="requestCloseDialogWV" /> -->
+<!-- 					<ui:param name="ir" value="#{rqst.value.entity}" /> -->
+<!-- 					<ui:param name="update" -->
+<!-- 						value="@form:requestsTable @form:summaryPanel @form:mainToolbar @form:requestDialog" /> -->
+<!-- 				</ui:include> -->
 			</h:panelGroup>
 
 			<h:panelGroup id="requestProgressCompleteDialog">
-				<ui:include src="dialog.request.progress-complete.include.xhtml">
-					<ui:param name="dialogWV" value="requestProgressCompleteDialogWV" />
-					<ui:param name="ir" value="#{rqst.value}" />
-					<ui:param name="update"
-						value="@form:requestsTable @form:summaryPanel @form:mainToolbar @form:requestDialog" />
-				</ui:include>
+<!-- 				<ui:include src="dialog.request.progress-complete.include.xhtml"> -->
+<!-- 					<ui:param name="dialogWV" value="requestProgressCompleteDialogWV" /> -->
+<!-- 					<ui:param name="ir" value="#{rqst.value.entity}" /> -->
+<!-- 					<ui:param name="update" -->
+<!-- 						value="@form:requestsTable @form:summaryPanel @form:mainToolbar @form:requestDialog" /> -->
+<!-- 				</ui:include> -->
 			</h:panelGroup>
 
 			<h:panelGroup id="mainToolbar">
-				<ui:include src="menu.main-toolbar.xhtml">
-					<ui:param name="ir" value="#{rqst.value}" />
-					<ui:param name="update"
-						value="@form:requestsTable @form:mainToolbar @form:summaryPanel" />
-				</ui:include>
+<!-- 				<ui:include src="menu.main-toolbar.xhtml"> -->
+<!-- 					<ui:param name="ir" value="#{rqst.value.entity}" /> -->
+<!-- 					<ui:param name="update" -->
+<!-- 						value="@form:requestsTable @form:mainToolbar @form:summaryPanel" /> -->
+<!-- 				</ui:include> -->
 			</h:panelGroup>
 
 			<h:panelGroup id="filterPanel">
@@ -100,7 +100,7 @@
 				rowsPerPageTemplate="10,20,50,100,200" sortMode="multipe"
 				sortOrder="DESCENDING" sortBy="#{req.created}"
 				emptyMessage="Нет заявок удовлетворяющих критериям поиска"
-				rowStyleClass="#{req.status eq 'CLOSED' ? 'row-closed': ''}">
+				rowStyleClass="#{req.requestStatus eq 'CLOSED' ? 'row-closed': ''}">
 
 				<p:ajax event="rowSelect" process="@this" update="@form:mainToolbar" />
 
@@ -153,14 +153,15 @@
 					</p:tooltip>
 				</p:column>
 				<p:column headerText="Продукт" width="60"
-					sortBy="#{req.productType}">
+					sortBy="#{req.insuranceProductType}">
 					<h:outputText
-						value="#{insuranceProductTypeService.displayNameShort(req.productType)}" />
+						value="#{insuranceProductTypeService.displayNameShort(req.insuranceProductType)}" />
 				</p:column>
-				<p:column headerText="Тип" width="100" sortBy="#{req.type}"
-					styleClass="#{not empty req.type ? ('col-request-' += req.type) : ''}">
+				<p:column headerText="Тип" width="100"
+					sortBy="#{req.insuranceRequestType}"
+					styleClass="#{not empty req.insuranceRequestType ? ('col-request-' += req.insuranceRequestType) : ''}">
 					<h:outputText
-						value="#{insuranceRequestTypeService.displayNameShort(req.type)}" />
+						value="#{insuranceRequestTypeService.displayNameShort(req.insuranceRequestType)}" />
 				</p:column>
 				<p:column headerText="Номер" sortBy="#{req.id}" width="50">
 					<h:outputText value="#{req.id}" />
@@ -173,22 +174,20 @@
 					sortBy="#{req.updated}">
 					<crm:outputDatetime value="#{req.updated}" />
 				</p:column>
-				<p:column headerText="Стоимость премии" width="100"
-					style="text-align: right"
-					sortBy="#{req.product.calculation.premiumCost}">
-					<crm:outputMoneyAmount
-						value="#{req.product.calculation.premiumCost}" />
+				<p:column headerText="Сумма" width="100" style="text-align: right"
+					sortBy="#{req.amount}">
+					<crm:outputMoneyAmount value="#{req.amount}" />
 				</p:column>
 				<p:column headerText="Имя заявителя" width="300"
-					sortBy="#{req.requester.name}">
-					<h:outputText value="#{req.requester.name}" />
+					sortBy="#{req.requesterName}">
+					<h:outputText value="#{req.requesterName}" />
 				</p:column>
 				<p:column headerText="Email заявителя" width="220"
-					sortBy="#{req.requester.email}">
-					<h:outputText value="#{req.requester.email}" />
+					sortBy="#{req.requesterEmail}">
+					<h:outputText value="#{req.requesterEmail}" />
 				</p:column>
 				<p:column headerText="Телефон заявителя" width="130"
-					sortBy="#{req.requester.phone}">
+					sortBy="#{req.requesterPhone}">
 					<p:commandButton
 						rendered="#{req.progressStatus eq 'NEW' and canChange}"
 						value="Показать" icon="fa fa-hand-o-right"
@@ -196,33 +195,33 @@
 						update="@form:requestsTable @form:mainToolbar @form:summaryPanel">
 						<f:setPropertyActionListener value="#{req}" target="#{rqst.value}" />
 					</p:commandButton>
-					<h:outputText value="#{req.requester.phone}"
+					<h:outputText value="#{req.requesterPhone}"
 						rendered="#{req.progressStatus ne 'NEW'}" />
 				</p:column>
 				<p:column headerText="ИИН заявителя" width="100"
-					sortBy="#{req.requester.idNumber}">
-					<h:outputText value="#{req.requester.idNumber}" />
+					sortBy="#{req.requesterIdNumber}">
+					<h:outputText value="#{req.requesterIdNumber}" />
 				</p:column>
 				<p:column width="10">
 					<h:panelGroup id="source">
 						<h:panelGroup styleClass="fa fa-google"
-							rendered="#{req.utmData.source eq 'google'}" />
+							rendered="#{req.UTMSource eq 'google'}" />
 						<h:panelGroup styleClass="fa fa-y-combinator"
-							rendered="#{req.utmData.source eq 'yandex'}" />
+							rendered="#{req.UTMSource eq 'yandex'}" />
 						<h:panelGroup styleClass="fa fa-facebook"
-							rendered="#{req.utmData.source eq 'facebook'}" />
+							rendered="#{req.UTMSource eq 'facebook'}" />
 					</h:panelGroup>
 
 					<p:tooltip for="source" trackMouse="true"
-						rendered="#{req.utmData.source eq 'google' or req.utmData.source eq 'yandex' or req.utmData.source eq 'facebook'}">
-						<h:outputText value="#{req.utmData.term}" />
+						rendered="#{req.UTMSource eq 'google' or req.UTMSource eq 'yandex' or req.UTMSource eq 'facebook'}">
+						<h:outputText value="#{req.UTMTerm}" />
 					</p:tooltip>
 
 				</p:column>
 				<p:column headerText="Доп информация" sortable="false">
-					<h:panelGroup rendered="#{req.productType eq 'POLICY'}"
+					<h:panelGroup rendered="#{req.insuranceProductType eq 'POLICY'}"
 						style="white-space: nowrap">
-						Авто: #{kzAreaService.displayNameShort(req.policy.insuredVehicles[0].area)}, #{kzCityService.displayNameShort(req.policy.insuredVehicles[0].city)}<br />
+						Авто: #{kzAreaService.displayNameShort(req.entity.policy.insuredVehicles[0].area)}, #{kzCityService.displayNameShort(req.entity.policy.insuredVehicles[0].city)}<br />
 					</h:panelGroup>
 				</p:column>
 			</p:dataTable>

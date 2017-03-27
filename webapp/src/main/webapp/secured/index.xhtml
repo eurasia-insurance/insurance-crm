@@ -79,8 +79,8 @@
 
 			<h:panelGroup id="summaryPanel">
 				<ui:include src="panel.summary.include.xhtml">
-					<ui:param name="count" value="#{rqsts.requestCountTotal}" />
-					<ui:param name="amount" value="#{rqsts.requestPremiumCostTotal}" />
+					<ui:param name="count" value="#{rqsts.value.totalCount}" />
+					<ui:param name="amount" value="#{rqsts.value.totalAmount}" />
 				</ui:include>
 			</h:panelGroup>
 
@@ -93,7 +93,7 @@
 			</h:panelGroup>
 
 			<p:dataTable id="requestsTable" widgetVar="requestsTableWV" var="req"
-				value="#{rqsts.model}" selectionMode="single"
+				value="#{rqsts.value}" selectionMode="single"
 				selection="#{rqst.value}" rows="20" paginator="true"
 				paginatorAlwaysVisible="false"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"

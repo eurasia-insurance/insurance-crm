@@ -44,6 +44,7 @@ import kz.theeurasia.eurasia36.beans.api.RequestHolder;
 import kz.theeurasia.eurasia36.beans.api.RequestType;
 import kz.theeurasia.eurasia36.beans.api.RequestsHolder;
 import kz.theeurasia.eurasia36.beans.api.SettingsHolder;
+import kz.theeurasia.eurasia36.beans.model.RequestsDataModelFactory;
 import kz.theeurasia.eurasia36.beans.view.pojo.RequestFilterBean;
 
 @Named("mainFacade")
@@ -369,7 +370,7 @@ public class DefaultMainFacade implements MainFacade {
 	    break;
 	}
 
-	requestsHolder.setRequests(requests);
+	requestsHolder.setValue(RequestsDataModelFactory.createList(requests));
     }
 
     @SuppressWarnings("unchecked")
@@ -378,21 +379,21 @@ public class DefaultMainFacade implements MainFacade {
     }
 
     private void saveRequest() {
-	Request request = requestHolder.getValue();
+	Request request = requestHolder.getValue().getEntity();
 	try {
 	    request.setUpdated(new Date());
 	    Request insuranceRequestSaved = requestDAO.save(request);
-	    requestHolder.setValue(insuranceRequestSaved);
+	    requestHolder.setValue(RequestsDataModelFactory.createRow(insuranceRequestSaved));
 	} catch (PeristenceOperationFailed e) {
 	    facesMessagesFacade.addExceptionMessage(UIMessages.ERROR_INTERNAL_SERVER_ERROR, e);
 	}
     }
 
     private void resetRequest() {
-	Request request = requestHolder.getValue();
+	Request request = requestHolder.getValue().getEntity();
 	try {
 	    Request insuranceRequestSaved = requestDAO.restore(request);
-	    requestHolder.setValue(insuranceRequestSaved);
+	    requestHolder.setValue(RequestsDataModelFactory.createRow(insuranceRequestSaved));
 	} catch (PeristenceOperationFailed e) {
 	    facesMessagesFacade.addExceptionMessage(UIMessages.ERROR_INTERNAL_SERVER_ERROR, e);
 	} catch (NotPersistedException e) {
@@ -401,52 +402,52 @@ public class DefaultMainFacade implements MainFacade {
     }
 
     private void unselectIfNotShown() {
-	Request request = requestHolder.getValue();
-	List<Request> requests = requestsHolder.getValue();
+	Request request = requestHolder.getValue().getEntity();
+	List<Request> requests = requestsHolder.getValue().getEntitiesList();
 	if (request != null && requests != null && !requests.contains(request))
 	    requestHolder.reset();
 
     }
 
     private void closeRequest() {
-	Request insuranceRequest = requestHolder.getValue();
-	insuranceRequest.setClosed(new Date());
-	insuranceRequest.setStatus(RequestStatus.CLOSED);
-	insuranceRequest.setClosedBy(currentUser.getValue());
+	Request request = requestHolder.getValue().getEntity();
+	request.setClosed(new Date());
+	request.setStatus(RequestStatus.CLOSED);
+	request.setClosedBy(currentUser.getValue());
     }
 
     private void acceptRequestOnce() {
-	Request insuranceRequest = requestHolder.getValue();
-	if (insuranceRequest.getAccepted() == null)
+	Request request = requestHolder.getValue().getEntity();
+	if (request.getAccepted() == null)
 	    acceptRequest();
     }
 
     private void acceptRequest() {
-	Request insuranceRequest = requestHolder.getValue();
-	insuranceRequest.setProgressStatus(ProgressStatus.ON_PROCESS);
-	insuranceRequest.setAccepted(new Date());
-	insuranceRequest.setAcceptedBy(currentUser.getValue());
+	Request request = requestHolder.getValue().getEntity();
+	request.setProgressStatus(ProgressStatus.ON_PROCESS);
+	request.setAccepted(new Date());
+	request.setAcceptedBy(currentUser.getValue());
     }
 
     private void resumeRequest() {
-	Request insuranceRequest = requestHolder.getValue();
-	insuranceRequest.setProgressStatus(ProgressStatus.ON_PROCESS);
+	Request request = requestHolder.getValue().getEntity();
+	request.setProgressStatus(ProgressStatus.ON_PROCESS);
     }
 
     private void pauseRequest() {
-	Request insuranceRequest = requestHolder.getValue();
-	insuranceRequest.setProgressStatus(ProgressStatus.ON_HOLD);
+	Request request = requestHolder.getValue().getEntity();
+	request.setProgressStatus(ProgressStatus.ON_HOLD);
     }
 
     private void completeRequest() {
-	Request insuranceRequest = requestHolder.getValue();
-	insuranceRequest.setProgressStatus(ProgressStatus.FINISHED);
-	insuranceRequest.setCompleted(new Date());
-	insuranceRequest.setCompletedBy(currentUser.getValue());
+	Request request = requestHolder.getValue().getEntity();
+	request.setProgressStatus(ProgressStatus.FINISHED);
+	request.setCompleted(new Date());
+	request.setCompletedBy(currentUser.getValue());
     }
 
     private void handleTransactionStatusChange() {
-	Request request = requestHolder.getValue();
+	Request request = requestHolder.getValue().getEntity();
 	if (!(request instanceof InsuranceRequest))
 	    return;
 
@@ -478,7 +479,7 @@ public class DefaultMainFacade implements MainFacade {
     }
 
     private void handleActualPremiumCostChange() {
-	Request request = requestHolder.getValue();
+	Request request = requestHolder.getValue().getEntity();
 	if (!(request instanceof InsuranceRequest))
 	    return;
 	InsuranceRequest insuranceRequest = (InsuranceRequest) request;
@@ -487,7 +488,7 @@ public class DefaultMainFacade implements MainFacade {
     }
 
     private void handleDiscountAmountChange() {
-	Request request = requestHolder.getValue();
+	Request request = requestHolder.getValue().getEntity();
 	if (!(request instanceof InsuranceRequest))
 	    return;
 	InsuranceRequest insuranceRequest = (InsuranceRequest) request;
@@ -496,7 +497,7 @@ public class DefaultMainFacade implements MainFacade {
     }
 
     private void setDiscountPercent(double discountPercent) {
-	Request request = requestHolder.getValue();
+	Request request = requestHolder.getValue().getEntity();
 	if (!(request instanceof InsuranceRequest))
 	    return;
 	InsuranceRequest insuranceRequest = (InsuranceRequest) request;

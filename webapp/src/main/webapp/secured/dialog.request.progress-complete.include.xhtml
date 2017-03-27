@@ -10,14 +10,16 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 
+	<o:importConstants type="kz.theeurasia.eurasia36.beans.api.RequestType" />
+
 	<f:subview>
 
 		<!-- >> rendered -->
-		<h:panelGroup rendered="#{not empty ir}">
+		<h:panelGroup rendered="#{not empty rr}">
 
 			<!-- >> dialog -->
 			<p:dialog widgetVar="#{dialogWV}"
-				header="Результаты '#{ir.requester.name}'?" closeOnEscape="false"
+				header="Результаты '#{rr.requesterName}'?" closeOnEscape="false"
 				modal="true" width="1024" height="480" closable="false"
 				resizable="false" position="center top">
 
@@ -25,10 +27,16 @@
 				<h:panelGroup id="content">
 
 					<ui:include src="input.progress-complete.include.xhtml">
+						<ui:param name="rendered"
+							value="#{rts.isA(rr.entity, RequestType.INSURANCE_REQUEST)}" />
+						<ui:param name="ir" value="#{rr.entity}" />
 						<ui:param name="extupdate" value="content" />
 					</ui:include>
 
 					<ui:include src="input.payment-obtaining.include.xhtml">
+						<ui:param name="rendered"
+							value="#{rts.isA(rr.entity, RequestType.INSURANCE_REQUEST)}" />
+						<ui:param name="ir" value="#{rr.entity}" />
 						<ui:param name="extupdate" value="content" />
 					</ui:include>
 

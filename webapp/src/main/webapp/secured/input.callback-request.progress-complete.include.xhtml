@@ -11,18 +11,18 @@
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
 
-	<p:panel style="height: 260px;" id="callbackProgressCompletePanel"
-		rendered="#{rendered}">
+	<p:panel rendered="#{rendered}">
 
 		<p:panelGrid>
 			<p:row>
 				<p:column>
-					<p:outputLabel value="Примечание" for="note" />
+					<p:outputLabel value="Примечание" for="insuranceRequestNote" />
 				</p:column>
 			</p:row>
 			<p:row>
 				<p:column>
-					<p:inputTextarea id="note" rows="5" cols="40" value="#{cr.note}">
+					<p:inputTextarea id="callbackRequestNote" rows="5" cols="40"
+						value="#{cr.note}">
 						<p:ajax process="@this" update="@this" />
 					</p:inputTextarea>
 				</p:column>

@@ -11,7 +11,7 @@
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
 
-	<p:panel style="height: 260px;" id="progressCompletePanel" rendered="#{rendered}">
+	<p:panel style="height: 260px;" rendered="#{rendered}">
 		<p:panelGrid>
 			<p:row>
 				<p:column>
@@ -123,12 +123,13 @@
 					<p:panelGrid>
 						<p:row>
 							<p:column>
-								<p:outputLabel value="Примечание" for="note" />
+								<p:outputLabel value="Примечание" for="insuranceRequestNote" />
 							</p:column>
 						</p:row>
 						<p:row>
 							<p:column>
-								<p:inputTextarea id="note" rows="5" cols="40" value="#{ir.note}">
+								<p:inputTextarea id="insuranceRequestNote" rows="5" cols="40"
+									value="#{ir.note}">
 									<p:ajax process="@this" update="@this" />
 								</p:inputTextarea>
 							</p:column>

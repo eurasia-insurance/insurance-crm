@@ -402,11 +402,8 @@ public class DefaultMainFacade implements MainFacade {
     }
 
     private void unselectIfNotShown() {
-	Request request = requestHolder.getValue().getEntity();
-	List<Request> requests = requestsHolder.getValue().getEntitiesList();
-	if (request != null && requests != null && !requests.contains(request))
+	if (requestsHolder.getValue() == null || requestsHolder.getValue().getRowKey(requestHolder.getValue()) == null)
 	    requestHolder.reset();
-
     }
 
     private void closeRequest() {

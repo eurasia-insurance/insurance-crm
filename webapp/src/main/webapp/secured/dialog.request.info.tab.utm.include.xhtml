@@ -11,25 +11,25 @@
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
 
-	<p:tab title="UTM-метки">
+	<p:tab title="UTM-метки" rendered="#{rendered}">
 
 		<p:panel>
 			<p:panelGrid>
 
 				<crm:outputRowText label="Источник кампании (utm_source):"
-					value="#{rr.UTMSource}" />
+					value="#{utm.source}" />
 
 				<crm:outputRowText label="Тип трафика (utm_medium):"
-					value="#{rr.UTMMedium}" />
+					value="#{utm.medium}" />
 
 				<crm:outputRowText label="Название кампании (utm_campaign):"
-					value="#{rr.UTMCampaign}" />
+					value="#{utm.campaign}" />
 
 				<crm:outputRowText label="Идентификатор объявления (utm_content):"
-					value="#{rr.UTMContent}" />
+					value="#{utm.content}" />
 
 				<crm:outputRowText label="Ключевое слово (utm_term):"
-					value="#{rr.UTMTerm}" />
+					value="#{utm.term}" />
 
 			</p:panelGrid>
 		</p:panel>

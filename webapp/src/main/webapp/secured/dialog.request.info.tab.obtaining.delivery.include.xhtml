@@ -6,10 +6,9 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
 
-	<c:set var="obt" value="#{ir.obtaining}" />
 
 	<p:tab title="#{obtainingMethodService.displayName(obt.method)}"
-		rendered="#{obt.method eq 'DELIVERY'}">
+		rendered="#{rendered}">
 
 		<p:panel>
 			<p:panelGrid>

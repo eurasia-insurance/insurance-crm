@@ -1,12 +1,18 @@
 package kz.theeurasia.eurasia36.beans.application;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 
 import com.lapsa.insurance.domain.CallbackRequest;
 import com.lapsa.insurance.domain.InsuranceRequest;
 import com.lapsa.insurance.domain.Request;
+import com.lapsa.insurance.domain.casco.Casco;
 import com.lapsa.insurance.domain.casco.CascoRequest;
+import com.lapsa.insurance.domain.casco.CascoVehicle;
 import com.lapsa.insurance.domain.policy.PolicyRequest;
 
 import kz.theeurasia.eurasia36.beans.api.RequestType;
@@ -55,6 +61,16 @@ public class DefaultRequestTypeService implements RequestTypeService {
 	if (type == null)
 	    return null;
 	return type.name();
+    }
+
+    @Override
+    public List<CascoVehicle> cascoVehiclesAsList(Casco casco) {
+	try {
+	    CascoVehicle vehicle = casco.getInsuredVehicle();
+	    return Collections.unmodifiableList(Arrays.asList(vehicle));
+	} catch (NullPointerException e) {
+	    return null;
+	}
     }
 
 }

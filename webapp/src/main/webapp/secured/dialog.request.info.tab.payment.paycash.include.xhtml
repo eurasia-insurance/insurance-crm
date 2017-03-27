@@ -6,11 +6,8 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
 
-	<c:set var="pym" value="#{ir.payment}" />
-	<c:set var="clc" value="#{ir.product.calculation}" />
-
 	<p:tab title="#{paymentMethodService.displayName(pym.method)}"
-		rendered="#{pym.method eq 'PAYCASH'}">
+		rendered="#{rendered}">
 
 		<p:panel>
 			<p:panelGrid>

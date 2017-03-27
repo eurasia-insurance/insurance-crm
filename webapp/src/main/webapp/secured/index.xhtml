@@ -19,6 +19,9 @@
 		<o:importConstants
 			type="kz.theeurasia.eurasia36.beans.application.SecurityRole" />
 
+		<o:importConstants
+			type="kz.theeurasia.eurasia36.beans.api.RequestType" />
+
 		<c:set var="canView"
 			value="#{currentUser.inRole(SecurityRole.REPORTER, SecurityRole.SPECIALIST, SecurityRole.SUPERVISOR)}"
 			scope="request" />
@@ -117,40 +120,9 @@
 
 				<p:column width="25" sortBy="#{req.progressStatus}"
 					style="text-align: center">
-					<h:panelGroup id="iconWrapper" styleClass="request-icon">
-						<h:panelGroup styleClass="icon-new"
-							rendered="#{req.progressStatus eq 'NEW'}">
-							<i class="fa fa-exclamation" aria-hidden="true" />
-						</h:panelGroup>
-						<h:panelGroup styleClass="icon-on-process "
-							rendered="#{req.progressStatus eq 'ON_PROCESS'}">
-							<i class="fa fa-spinner" aria-hidden="true" />
-						</h:panelGroup>
-						<h:panelGroup rendered="#{req.progressStatus eq 'ON_HOLD'}">
-							<i class="fa fa-pause" aria-hidden="true" />
-						</h:panelGroup>
-						<h:panelGroup styleClass="icon-fail "
-							rendered="#{req.progressStatus eq 'FINISHED' and req.transactionStatus eq 'NOT_COMPLETED'}">
-							<i class="fa fa-ban " aria-hidden="true" />
-						</h:panelGroup>
-						<h:panelGroup styleClass="icon-success "
-							rendered="#{req.progressStatus eq 'FINISHED' and req.transactionStatus eq 'COMPLETED'}">
-							<i class="fa fa-check " aria-hidden="true" />
-						</h:panelGroup>
-					</h:panelGroup>
-					<p:tooltip for="iconWrapper" trackMouse="true">
-						<h:panelGroup rendered="#{req.progressStatus ne 'FINISHED'}">
-							<h:outputText
-								value="#{progressStatusService.displayName(req.progressStatus)}" />
-						</h:panelGroup>
-						<h:panelGroup rendered="#{req.progressStatus eq 'FINISHED'}">
-							<h:outputText rendered="#{req.transactionStatus eq 'COMPLETED'}"
-								value="#{transactionStatusService.displayName(req.transactionStatus)}" />
-							<h:outputText
-								rendered="#{req.transactionStatus eq 'NOT_COMPLETED'}"
-								value="#{transactionProblemService.displayName(req.transactionProblem)}" />
-						</h:panelGroup>
-					</p:tooltip>
+					<ui:include src="output.request-icon.include.xhtml">
+						<ui:param name="rr" value="#{req}" />
+					</ui:include>
 				</p:column>
 				<p:column headerText="Продукт" width="60"
 					sortBy="#{req.insuranceProductType}">

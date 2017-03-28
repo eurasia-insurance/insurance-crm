@@ -46,6 +46,60 @@ public class DefaultRequestTypeService implements RequestTypeService {
     }
 
     @Override
+    public boolean typeIs(RequestType value, RequestType expecting) {
+	if (value == null)
+	    return false;
+	if (expecting == null)
+	    return false;
+
+	switch (expecting) {
+	case CALLBACK_REQUEST:
+	    switch (value) {
+	    case CALLBACK_REQUEST:
+		return true;
+	    default:
+		return false;
+	    }
+	case CASCO_REQUEST:
+	    switch (value) {
+	    case CASCO_REQUEST:
+		return true;
+	    default:
+		return false;
+	    }
+	case INSURANCE_REQUEST:
+	    switch (value) {
+	    case POLICY_REQUEST:
+	    case CASCO_REQUEST:
+	    case INSURANCE_REQUEST:
+		return true;
+	    default:
+		return false;
+	    }
+	case POLICY_REQUEST:
+	    switch (value) {
+	    case POLICY_REQUEST:
+		return true;
+	    default:
+		return false;
+	    }
+	case REQUEST:
+	    switch (value) {
+	    case POLICY_REQUEST:
+	    case CASCO_REQUEST:
+	    case INSURANCE_REQUEST:
+	    case CALLBACK_REQUEST:
+	    case REQUEST:
+		return true;
+	    default:
+		return false;
+	    }
+	default:
+	    return false;
+	}
+    }
+
+    @Override
     public boolean isA(Request request, RequestType type) {
 	if (request == null)
 	    return false;

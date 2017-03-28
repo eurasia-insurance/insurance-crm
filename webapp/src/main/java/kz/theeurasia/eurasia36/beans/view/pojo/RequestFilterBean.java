@@ -12,7 +12,6 @@ import com.lapsa.insurance.crm.TransactionProblem;
 import com.lapsa.insurance.crm.TransactionStatus;
 import com.lapsa.insurance.dao.filter.RequestFilter;
 import com.lapsa.insurance.domain.crm.User;
-import com.lapsa.insurance.elements.InsuranceProductType;
 import com.lapsa.insurance.elements.ObtainingMethod;
 import com.lapsa.insurance.elements.PaymentMethod;
 
@@ -26,7 +25,6 @@ public class RequestFilterBean implements RequestFilter, Serializable {
     private String requesterIdNumberMask;
 
     private RequestStatus requestStatus;
-    private InsuranceProductType insuranceProductType;
     private ProgressStatus progressStatus;
 
     private Date createdAfter;
@@ -81,14 +79,6 @@ public class RequestFilterBean implements RequestFilter, Serializable {
 
     public void setRequestStatus(RequestStatus requestStatus) {
 	this.requestStatus = requestStatus;
-    }
-
-    public InsuranceProductType getInsuranceProductType() {
-	return insuranceProductType;
-    }
-
-    public void setInsuranceProductType(InsuranceProductType insuranceProductType) {
-	this.insuranceProductType = insuranceProductType;
     }
 
     @Override

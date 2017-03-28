@@ -10,11 +10,9 @@
 	<o:importConstants
 		type="com.lapsa.insurance.elements.InsuranceProductType" />
 
-	<c:set var="casco" value="#{ir.casco}" />
-
 	<p:tab
 		title="#{insuranceProductTypeService.displayName(InsuranceProductType.CASCO)}"
-		rendered="#{ir.productType eq InsuranceProductType.CASCO}">
+		rendered="#{rendered}">
 
 		<p:panel>
 			<p:panelGrid>
@@ -116,8 +114,8 @@
 		<!-- << insuredDrivers dataTable -->
 
 		<!-- >> cascoVehicles dataTable -->
-		<p:dataTable value="#{insuranceRequest.cascoVehiclesAsList}"
-			var="vehicle" rowIndexVar="rowIndex">
+		<p:dataTable value="#{rts.cascoVehiclesAsList(casco)}" var="vehicle"
+			rowIndexVar="rowIndex">
 			<f:facet name="header">
 			Сведения об авто
 			</f:facet>

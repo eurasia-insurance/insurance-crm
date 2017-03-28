@@ -10,7 +10,8 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 
-	<p:panel style="height: 110px;" id="paymentObtainingPanel">
+	<p:panel style="height: 110px;"
+		id="insuranceRequestPaymentObtainingPanel" rendered="#{rendered}">
 		<p:panelGrid>
 			<p:row>
 				<p:column>
@@ -21,7 +22,7 @@
 					<h:panelGroup rendered="#{ir.transactionStatus eq 'COMPLETED'}">
 						<p:selectOneMenu value="#{ir.obtaining.method}">
 							<p:ajax listener="#{mainFacade.onObtainingMethodChanged}"
-								process="@this" update="paymentObtainingPanel" />
+								process="@this" update="insuranceRequestPaymentObtainingPanel" />
 							<f:selectItem value="#{configurationFacade.mustSelectSI}" />
 							<f:selectItems
 								value="#{obtainingMethodService.valueItemsShortSI}" />
@@ -29,10 +30,11 @@
 					</h:panelGroup>
 					<!-- << agreeement ok -->
 					<!-- >> agreeement failed or status is UNKNOWN -->
-					<h:panelGroup rendered="#{empty ir.transactionStatus or (ir.transactionStatus eq 'NOT_COMPLETED')}">
+					<h:panelGroup
+						rendered="#{empty ir.transactionStatus or (ir.transactionStatus eq 'NOT_COMPLETED')}">
 						<p:selectOneMenu value="#{ir.obtaining.method}">
 							<p:ajax listener="#{mainFacade.onObtainingMethodChanged}"
-								process="@this" update="paymentObtainingPanel" />
+								process="@this" update="insuranceRequestPaymentObtainingPanel" />
 							<f:selectItem value="#{configurationFacade.mustSelectSI}" />
 							<f:selectItems value="#{obtainingMethodService.allItemsShortSI}" />
 						</p:selectOneMenu>
@@ -47,17 +49,18 @@
 					<h:panelGroup rendered="#{ir.transactionStatus eq 'COMPLETED'}">
 						<p:selectOneMenu value="#{ir.payment.method}">
 							<p:ajax listener="#{mainFacade.onPaymentMethodChanged}"
-								process="@this" update="paymentObtainingPanel" />
+								process="@this" update="insuranceRequestPaymentObtainingPanel" />
 							<f:selectItem value="#{configurationFacade.mustSelectSI}" />
 							<f:selectItems value="#{paymentMethodService.valueItemsShortSI}" />
 						</p:selectOneMenu>
 					</h:panelGroup>
 					<!-- << agreeement ok -->
 					<!-- >> agreeement failed or status is UNKNOWN -->
-					<h:panelGroup rendered="#{empty ir.transactionStatus or (ir.transactionStatus eq 'NOT_COMPLETED')}">
+					<h:panelGroup
+						rendered="#{empty ir.transactionStatus or (ir.transactionStatus eq 'NOT_COMPLETED')}">
 						<p:selectOneMenu value="#{ir.payment.method}">
 							<p:ajax listener="#{mainFacade.onPaymentMethodChanged}"
-								process="@this" update="paymentObtainingPanel" />
+								process="@this" update="insuranceRequestPaymentObtainingPanel" />
 							<f:selectItem value="#{configurationFacade.mustSelectSI}" />
 							<f:selectItems value="#{paymentMethodService.allItemsShortSI}" />
 						</p:selectOneMenu>

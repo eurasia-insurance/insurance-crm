@@ -10,11 +10,9 @@
 	<o:importConstants
 		type="com.lapsa.insurance.elements.InsuranceProductType" />
 
-	<c:set var="policy" value="#{ir.policy}" />
-
 	<p:tab
 		title="#{insuranceProductTypeService.displayName(InsuranceProductType.POLICY)}"
-		rendered="#{ir.productType eq InsuranceProductType.POLICY}">
+		rendered="#{rendered}">
 
 		<p:dataTable value="#{policy.insuredDrivers}" var="driver">
 			<f:facet name="header">

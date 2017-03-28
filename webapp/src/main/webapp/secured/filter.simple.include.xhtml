@@ -8,7 +8,7 @@
 	<f:subview>
 
 		<!-- >> rendered -->
-		<h:panelGroup rendered="#{not insuranceRequestsFilter.advanced}">
+		<h:panelGroup rendered="#{not settings.advanced}">
 
 			<p:panelGrid columns="2">
 
@@ -21,7 +21,7 @@
 							</p:column>
 							<p:column>
 								<p:selectOneMenu id="progressStatus"
-									value="#{insuranceRequestsFilter.progressStatus}">
+									value="#{settings.requestFilter.progressStatus}">
 									<p:ajax process="@this" update="@form"
 										listener="#{mainFacade.onFilterChanged}" />
 									<f:selectItem value="#{configurationFacade.anySI}" />
@@ -44,7 +44,7 @@
 								<p:outputLabel value="Номер заявки:" for="id" />
 							</p:column>
 							<p:column>
-								<p:inputNumber id="id" value="#{insuranceRequestsFilter.id}"
+								<p:inputNumber id="id" value="#{settings.requestFilter.id}"
 									decimalPlaces="0" minValue="0" size="5">
 									<p:ajax event="keyup" delay="700" process="@this"
 										update="@form" listener="#{mainFacade.onFilterChanged}" />
@@ -58,7 +58,7 @@
 							</p:column>
 							<p:column>
 								<p:inputText id="requesterNameMask"
-									value="#{insuranceRequestsFilter.requesterNameMask}">
+									value="#{settings.requestFilter.requesterNameMask}">
 									<p:ajax event="keyup" delay="700" process="@this"
 										update="@form" listener="#{mainFacade.onFilterChanged}" />
 								</p:inputText>
@@ -72,7 +72,7 @@
 							</p:column>
 							<p:column>
 								<p:inputText id="requesterIdNumberMask"
-									value="#{insuranceRequestsFilter.requesterIdNumberMask}">
+									value="#{settings.requestFilter.requesterIdNumberMask}">
 									<p:ajax event="keyup" delay="700" process="@this"
 										update="@form" listener="#{mainFacade.onFilterChanged}" />
 								</p:inputText>

@@ -21,8 +21,7 @@
 					<p:commandButton icon="fa fa-refresh" process="@this"
 						update="requestToolbar #{update}" action="#{mainFacade.doRefresh}" />
 
-					<p:selectBooleanButton
-						value="#{insuranceRequestsFilter.autoRefresh}"
+					<p:selectBooleanButton value="#{settings.autoRefresh}"
 						onLabel="Автообновление" offLabel="Автообновление"
 						onIcon="fa fa-check" offIcon="fa">
 						<p:ajax process="@this" update="@form:autoRefreshPoll" />
@@ -33,7 +32,7 @@
 					</h:panelGroup>
 
 					<p:commandButton value="Открыть..."
-						disabled="#{empty ir.progressStatus}" process="@this"
+						disabled="#{empty rr.progressStatus}" process="@this"
 						update="@form:requestDialog"
 						oncomplete="PF('requestDialogWV').show(); return false;">
 						<p:resetInput target="@form:requestDialog" />
@@ -48,24 +47,24 @@
 					</h:panelGroup>
 
 					<p:commandButton value="Начать обработку" icon="fa fa-hand-o-right"
-						disabled="#{ir.progressStatus ne 'NEW'}"
+						disabled="#{rr.progressStatus ne 'NEW'}"
 						action="#{mainFacade.doAcceptRequestOnce}" process="@this"
 						update="requestToolbar #{update}" />
 
 					<p:commandButton value="Приостановить" icon="fa fa-pause-circle-o"
-						disabled="#{ir.progressStatus ne 'ON_PROCESS'}"
-						rendered="#{ir.progressStatus ne 'ON_HOLD'}"
+						disabled="#{rr.progressStatus ne 'ON_PROCESS'}"
+						rendered="#{rr.progressStatus ne 'ON_HOLD'}"
 						action="#{mainFacade.doPauseRequest}" process="@this"
 						update="requestToolbar #{update}" />
 
 					<p:commandButton value="Возобновить" icon="fa fa-play-circle-o"
-						disabled="#{ir.progressStatus ne 'ON_HOLD'}"
-						rendered="#{ir.progressStatus eq 'ON_HOLD'}"
+						disabled="#{rr.progressStatus ne 'ON_HOLD'}"
+						rendered="#{rr.progressStatus eq 'ON_HOLD'}"
 						action="#{mainFacade.doResumeRequest}" process="@this"
 						update="requestToolbar #{update}" />
 
 					<p:commandButton value="Завершено..." icon="fa fa-check-circle-o"
-						disabled="#{ir.progressStatus ne 'ON_PROCESS'}" process="@this"
+						disabled="#{rr.progressStatus ne 'ON_PROCESS'}" process="@this"
 						update="@form:requestProgressCompleteDialog"
 						oncomplete="PF('requestProgressCompleteDialogWV').show(); return false;">
 						<p:resetInput target="@form:requestProgressCompleteDialog" />
@@ -80,7 +79,7 @@
 					</h:panelGroup>
 
 					<p:commandButton value="Закрыть..." icon="fa fa-window-close"
-						disabled="#{ir.progressStatus ne 'FINISHED' or ir.status eq 'CLOSED'}"
+						disabled="#{rr.progressStatus ne 'FINISHED' or rr.requestStatus eq 'CLOSED'}"
 						process="@this" update="@form:requestCloseDialog"
 						oncomplete="PF('requestCloseDialogWV').show(); return false;">
 						<p:resetInput target="@form:requestCloseDialog" />

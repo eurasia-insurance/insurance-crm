@@ -8,7 +8,6 @@ import java.time.ZoneId;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.WeekFields;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,28 +22,30 @@ import com.lapsa.insurance.crm.ObtainingStatus;
 import com.lapsa.insurance.crm.PaymentStatus;
 import com.lapsa.insurance.crm.ProgressStatus;
 import com.lapsa.insurance.crm.RequestStatus;
+import com.lapsa.insurance.dao.CallbackRequestDAO;
 import com.lapsa.insurance.dao.CascoRequestDAO;
 import com.lapsa.insurance.dao.InsuranceRequestDAO;
 import com.lapsa.insurance.dao.NotPersistedException;
 import com.lapsa.insurance.dao.PeristenceOperationFailed;
 import com.lapsa.insurance.dao.PolicyRequestDAO;
-import com.lapsa.insurance.dao.filter.InsuranceRequestFitler;
+import com.lapsa.insurance.dao.RequestDAO;
+import com.lapsa.insurance.dao.filter.RequestFilter;
 import com.lapsa.insurance.domain.CalculationData;
 import com.lapsa.insurance.domain.InsuranceRequest;
 import com.lapsa.insurance.domain.ObtainingData;
 import com.lapsa.insurance.domain.PaymentData;
-import com.lapsa.insurance.domain.casco.CascoRequest;
-import com.lapsa.insurance.domain.policy.PolicyRequest;
-import com.lapsa.insurance.elements.InsuranceProductType;
+import com.lapsa.insurance.domain.Request;
 
 import kz.theeurasia.eurasia36.application.MainFacade;
 import kz.theeurasia.eurasia36.application.UIMessages;
 import kz.theeurasia.eurasia36.beans.api.CurrentUserHolder;
 import kz.theeurasia.eurasia36.beans.api.FacesMessagesFacade;
-import kz.theeurasia.eurasia36.beans.api.InsuranceRequestHolder;
-import kz.theeurasia.eurasia36.beans.api.InsuranceRequestsFilterHolder;
-import kz.theeurasia.eurasia36.beans.api.InsuranceRequestsHolder;
-import kz.theeurasia.eurasia36.beans.view.pojo.DefaultInsuranceRequestFitler;
+import kz.theeurasia.eurasia36.beans.api.RequestHolder;
+import kz.theeurasia.eurasia36.beans.api.RequestType;
+import kz.theeurasia.eurasia36.beans.api.RequestsHolder;
+import kz.theeurasia.eurasia36.beans.api.SettingsHolder;
+import kz.theeurasia.eurasia36.beans.model.RequestsDataModelFactory;
+import kz.theeurasia.eurasia36.beans.view.pojo.RequestFilterBean;
 
 @Named("mainFacade")
 @ApplicationScoped
@@ -303,10 +304,10 @@ public class DefaultMainFacade implements MainFacade {
     // PRIVATE
 
     @Inject
-    private InsuranceRequestsHolder insuranceRequestsHolder;
+    private RequestsHolder requestsHolder;
 
     @Inject
-    private InsuranceRequestsFilterHolder insuranceRequestsFilterHolder;
+    private SettingsHolder settingsHolder;
 
     @Inject
     private FacesMessagesFacade facesMessagesFacade;
@@ -315,66 +316,84 @@ public class DefaultMainFacade implements MainFacade {
     private InsuranceRequestDAO insuranceRequestDAO;
 
     @Inject
+    private RequestDAO requestDAO;
+
+    @Inject
+    private CallbackRequestDAO callbackRequestDAO;
+
+    @Inject
     private PolicyRequestDAO policyRequestDAO;
 
     @Inject
     private CascoRequestDAO cascoRequestDAO;
 
     @Inject
-    private InsuranceRequestHolder insuranceRequestHolder;
+    private RequestHolder requestHolder;
 
     @Inject
     private CurrentUserHolder currentUser;
 
     private void initFilter() {
 	resetFilter();
-	insuranceRequestsFilterHolder.setRequestStatus(RequestStatus.OPEN);
+	settingsHolder.getRequestFilter().setRequestStatus(RequestStatus.OPEN);
     }
 
     private void resetFilter() {
-	RequestStatus last = insuranceRequestsFilterHolder.getRequestStatus();
-	insuranceRequestsFilterHolder.setValue(new DefaultInsuranceRequestFitler());
-	insuranceRequestsFilterHolder.setRequestStatus(last);
+	RequestStatus last = settingsHolder.getRequestFilter().getRequestStatus();
+	settingsHolder.resetFilters();
+	settingsHolder.getRequestFilter().setRequestStatus(last);
     }
 
     private void refreshRequests() {
-	InsuranceRequestFitler filter = insuranceRequestsFilterHolder.getValue();
-	InsuranceProductType productType = insuranceRequestsFilterHolder.getValue().getInsuranceProductType();
-	List<InsuranceRequest> requests = null;
-	if (productType == null)
-	    requests = insuranceRequestDAO.findByFilter(filter);
-	else
-	    switch (productType) {
-	    case CASCO:
-		requests = new ArrayList<>();
-		List<CascoRequest> cascos = cascoRequestDAO.findByFilter(filter);
-		requests.addAll(cascos);
-		break;
-	    case POLICY:
-		requests = new ArrayList<>();
-		List<PolicyRequest> policies = policyRequestDAO.findByFilter(filter);
-		requests.addAll(policies);
-		break;
-	    }
-	insuranceRequestsHolder.setRequests(requests);
+	RequestType requestType = settingsHolder.getRequestType();
+
+	RequestFilter requestFilter = settingsHolder.getRequestFilter();
+
+	List<Request> requests = null;
+
+	switch (requestType) {
+	case INSURANCE_REQUEST:
+	    requests = checkedList(insuranceRequestDAO.findByFilter(requestFilter));
+	    break;
+	case CALLBACK_REQUEST:
+	    requests = checkedList(callbackRequestDAO.findByFilter(requestFilter));
+	    break;
+	case CASCO_REQUEST:
+	    requests = checkedList(cascoRequestDAO.findByFilter(requestFilter));
+	    break;
+	case POLICY_REQUEST:
+	    requests = checkedList(policyRequestDAO.findByFilter(requestFilter));
+	    break;
+	case REQUEST:
+	default:
+	    requests = checkedList(requestDAO.findByFilter(requestFilter));
+	    break;
+	}
+
+	requestsHolder.setValue(RequestsDataModelFactory.createList(requests));
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T> List<T> checkedList(List<? extends T> list) {
+	return (List<T>) list;
     }
 
     private void saveRequest() {
-	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
+	Request request = requestHolder.getValue().getEntity();
 	try {
-	    insuranceRequest.setUpdated(new Date());
-	    InsuranceRequest insuranceRequestSaved = insuranceRequestDAO.save(insuranceRequest);
-	    insuranceRequestHolder.setValue(insuranceRequestSaved);
+	    request.setUpdated(new Date());
+	    Request insuranceRequestSaved = requestDAO.save(request);
+	    requestHolder.setValue(RequestsDataModelFactory.createRow(insuranceRequestSaved));
 	} catch (PeristenceOperationFailed e) {
 	    facesMessagesFacade.addExceptionMessage(UIMessages.ERROR_INTERNAL_SERVER_ERROR, e);
 	}
     }
 
     private void resetRequest() {
-	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
+	Request request = requestHolder.getValue().getEntity();
 	try {
-	    InsuranceRequest insuranceRequestSaved = insuranceRequestDAO.restore(insuranceRequest);
-	    insuranceRequestHolder.setValue(insuranceRequestSaved);
+	    Request insuranceRequestSaved = requestDAO.restore(request);
+	    requestHolder.setValue(RequestsDataModelFactory.createRow(insuranceRequestSaved));
 	} catch (PeristenceOperationFailed e) {
 	    facesMessagesFacade.addExceptionMessage(UIMessages.ERROR_INTERNAL_SERVER_ERROR, e);
 	} catch (NotPersistedException e) {
@@ -383,52 +402,53 @@ public class DefaultMainFacade implements MainFacade {
     }
 
     private void unselectIfNotShown() {
-	InsuranceRequest request = insuranceRequestHolder.getValue();
-	List<InsuranceRequest> requests = insuranceRequestsHolder.getValue();
-	if (request != null && requests != null && !requests.contains(request))
-	    insuranceRequestHolder.reset();
-
+	if (requestsHolder.getValue() == null || requestsHolder.getValue().getRowKey(requestHolder.getValue()) == null)
+	    requestHolder.reset();
     }
 
     private void closeRequest() {
-	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
-	insuranceRequest.setClosed(new Date());
-	insuranceRequest.setStatus(RequestStatus.CLOSED);
-	insuranceRequest.setClosedBy(currentUser.getValue());
+	Request request = requestHolder.getValue().getEntity();
+	request.setClosed(new Date());
+	request.setStatus(RequestStatus.CLOSED);
+	request.setClosedBy(currentUser.getValue());
     }
 
     private void acceptRequestOnce() {
-	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
-	if (insuranceRequest.getAccepted() == null)
+	Request request = requestHolder.getValue().getEntity();
+	if (request.getAccepted() == null)
 	    acceptRequest();
     }
 
     private void acceptRequest() {
-	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
-	insuranceRequest.setProgressStatus(ProgressStatus.ON_PROCESS);
-	insuranceRequest.setAccepted(new Date());
-	insuranceRequest.setAcceptedBy(currentUser.getValue());
+	Request request = requestHolder.getValue().getEntity();
+	request.setProgressStatus(ProgressStatus.ON_PROCESS);
+	request.setAccepted(new Date());
+	request.setAcceptedBy(currentUser.getValue());
     }
 
     private void resumeRequest() {
-	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
-	insuranceRequest.setProgressStatus(ProgressStatus.ON_PROCESS);
+	Request request = requestHolder.getValue().getEntity();
+	request.setProgressStatus(ProgressStatus.ON_PROCESS);
     }
 
     private void pauseRequest() {
-	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
-	insuranceRequest.setProgressStatus(ProgressStatus.ON_HOLD);
+	Request request = requestHolder.getValue().getEntity();
+	request.setProgressStatus(ProgressStatus.ON_HOLD);
     }
 
     private void completeRequest() {
-	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
-	insuranceRequest.setProgressStatus(ProgressStatus.FINISHED);
-	insuranceRequest.setCompleted(new Date());
-	insuranceRequest.setCompletedBy(currentUser.getValue());
+	Request request = requestHolder.getValue().getEntity();
+	request.setProgressStatus(ProgressStatus.FINISHED);
+	request.setCompleted(new Date());
+	request.setCompletedBy(currentUser.getValue());
     }
 
     private void handleTransactionStatusChange() {
-	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
+	Request request = requestHolder.getValue().getEntity();
+	if (!(request instanceof InsuranceRequest))
+	    return;
+
+	InsuranceRequest insuranceRequest = (InsuranceRequest) request;
 
 	ObtainingData obt = insuranceRequest.getObtaining();
 	PaymentData pym = insuranceRequest.getPayment();
@@ -456,19 +476,28 @@ public class DefaultMainFacade implements MainFacade {
     }
 
     private void handleActualPremiumCostChange() {
-	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
+	Request request = requestHolder.getValue().getEntity();
+	if (!(request instanceof InsuranceRequest))
+	    return;
+	InsuranceRequest insuranceRequest = (InsuranceRequest) request;
 	CalculationData calc = insuranceRequest.getProduct().getCalculation();
 	calc.setDiscountAmount(calc.getCalculatedPremiumCost() - calc.getActualPremiumCost());
     }
 
     private void handleDiscountAmountChange() {
-	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
+	Request request = requestHolder.getValue().getEntity();
+	if (!(request instanceof InsuranceRequest))
+	    return;
+	InsuranceRequest insuranceRequest = (InsuranceRequest) request;
 	CalculationData calc = insuranceRequest.getProduct().getCalculation();
 	calc.setActualPremiumCost(calc.getCalculatedPremiumCost() - calc.getDiscountAmount());
     }
 
     private void setDiscountPercent(double discountPercent) {
-	InsuranceRequest insuranceRequest = insuranceRequestHolder.getValue();
+	Request request = requestHolder.getValue().getEntity();
+	if (!(request instanceof InsuranceRequest))
+	    return;
+	InsuranceRequest insuranceRequest = (InsuranceRequest) request;
 	CalculationData calc = insuranceRequest.getProduct().getCalculation();
 	calc.setDiscountAmount(calc.getCalculatedPremiumCost() * discountPercent);
 	handleDiscountAmountChange();
@@ -477,7 +506,7 @@ public class DefaultMainFacade implements MainFacade {
     private void filterCreatedToday() {
 	LocalDateTime after = LocalDate.now().atStartOfDay();
 
-	DefaultInsuranceRequestFitler filter = insuranceRequestsFilterHolder.getValue();
+	RequestFilterBean filter = settingsHolder.getRequestFilter();
 	filter.setCreatedAfter(fromLocalDateTime(after));
 	filter.setCreatedBefore(null);
     }
@@ -487,7 +516,7 @@ public class DefaultMainFacade implements MainFacade {
 	LocalDateTime before = LocalDate.now().atStartOfDay()
 		.minus(1, ChronoUnit.SECONDS);
 
-	DefaultInsuranceRequestFitler filter = insuranceRequestsFilterHolder.getValue();
+	RequestFilterBean filter = settingsHolder.getRequestFilter();
 	filter.setCreatedAfter(fromLocalDateTime(after));
 	filter.setCreatedBefore(fromLocalDateTime(before));
     }
@@ -496,7 +525,7 @@ public class DefaultMainFacade implements MainFacade {
 	LocalDateTime after = LocalDate.now()
 		.with(ChronoField.DAY_OF_WEEK, WeekFields.ISO.getFirstDayOfWeek().getValue()).atStartOfDay();
 
-	DefaultInsuranceRequestFitler filter = insuranceRequestsFilterHolder.getValue();
+	RequestFilterBean filter = settingsHolder.getRequestFilter();
 	filter.setCreatedAfter(fromLocalDateTime(after));
 	filter.setCreatedBefore(null);
     }
@@ -509,7 +538,7 @@ public class DefaultMainFacade implements MainFacade {
 		.with(ChronoField.DAY_OF_WEEK, WeekFields.ISO.getFirstDayOfWeek().getValue()).atStartOfDay().minus(1,
 			ChronoUnit.SECONDS);
 
-	DefaultInsuranceRequestFitler filter = insuranceRequestsFilterHolder.getValue();
+	RequestFilterBean filter = settingsHolder.getRequestFilter();
 	filter.setCreatedAfter(fromLocalDateTime(after));
 	filter.setCreatedBefore(fromLocalDateTime(before));
     }
@@ -517,7 +546,7 @@ public class DefaultMainFacade implements MainFacade {
     private void filterCreatedThisMonth() {
 	LocalDateTime after = LocalDate.now().withDayOfMonth(1).atStartOfDay();
 
-	DefaultInsuranceRequestFitler filter = insuranceRequestsFilterHolder.getValue();
+	RequestFilterBean filter = settingsHolder.getRequestFilter();
 	filter.setCreatedAfter(fromLocalDateTime(after));
 	filter.setCreatedBefore(null);
     }
@@ -527,7 +556,7 @@ public class DefaultMainFacade implements MainFacade {
 	LocalDateTime before = LocalDate.now().withDayOfMonth(1).atStartOfDay().minus(1,
 		ChronoUnit.SECONDS);
 
-	DefaultInsuranceRequestFitler filter = insuranceRequestsFilterHolder.getValue();
+	RequestFilterBean filter = settingsHolder.getRequestFilter();
 	filter.setCreatedAfter(fromLocalDateTime(after));
 	filter.setCreatedBefore(fromLocalDateTime(before));
     }
@@ -535,7 +564,7 @@ public class DefaultMainFacade implements MainFacade {
     private void filterCompletedToday() {
 	LocalDateTime after = LocalDate.now().atStartOfDay();
 
-	DefaultInsuranceRequestFitler filter = insuranceRequestsFilterHolder.getValue();
+	RequestFilterBean filter = settingsHolder.getRequestFilter();
 	filter.setCompletedAfter(fromLocalDateTime(after));
 	filter.setCompletedBefore(null);
     }
@@ -545,7 +574,7 @@ public class DefaultMainFacade implements MainFacade {
 	LocalDateTime before = LocalDate.now().atStartOfDay()
 		.minus(1, ChronoUnit.SECONDS);
 
-	DefaultInsuranceRequestFitler filter = insuranceRequestsFilterHolder.getValue();
+	RequestFilterBean filter = settingsHolder.getRequestFilter();
 	filter.setCompletedAfter(fromLocalDateTime(after));
 	filter.setCompletedBefore(fromLocalDateTime(before));
     }
@@ -554,7 +583,7 @@ public class DefaultMainFacade implements MainFacade {
 	LocalDateTime after = LocalDate.now()
 		.with(ChronoField.DAY_OF_WEEK, WeekFields.ISO.getFirstDayOfWeek().getValue()).atStartOfDay();
 
-	DefaultInsuranceRequestFitler filter = insuranceRequestsFilterHolder.getValue();
+	RequestFilterBean filter = settingsHolder.getRequestFilter();
 	filter.setCompletedAfter(fromLocalDateTime(after));
 	filter.setCompletedBefore(null);
     }
@@ -567,7 +596,7 @@ public class DefaultMainFacade implements MainFacade {
 		.with(ChronoField.DAY_OF_WEEK, WeekFields.ISO.getFirstDayOfWeek().getValue()).atStartOfDay().minus(1,
 			ChronoUnit.SECONDS);
 
-	DefaultInsuranceRequestFitler filter = insuranceRequestsFilterHolder.getValue();
+	RequestFilterBean filter = settingsHolder.getRequestFilter();
 	filter.setCompletedAfter(fromLocalDateTime(after));
 	filter.setCompletedBefore(fromLocalDateTime(before));
     }
@@ -575,7 +604,7 @@ public class DefaultMainFacade implements MainFacade {
     private void filterCompletedThisMonth() {
 	LocalDateTime after = LocalDate.now().withDayOfMonth(1).atStartOfDay();
 
-	DefaultInsuranceRequestFitler filter = insuranceRequestsFilterHolder.getValue();
+	RequestFilterBean filter = settingsHolder.getRequestFilter();
 	filter.setCompletedAfter(fromLocalDateTime(after));
 	filter.setCompletedBefore(null);
     }
@@ -585,7 +614,7 @@ public class DefaultMainFacade implements MainFacade {
 	LocalDateTime before = LocalDate.now().withDayOfMonth(1).atStartOfDay().minus(1,
 		ChronoUnit.SECONDS);
 
-	DefaultInsuranceRequestFitler filter = insuranceRequestsFilterHolder.getValue();
+	RequestFilterBean filter = settingsHolder.getRequestFilter();
 	filter.setCompletedAfter(fromLocalDateTime(after));
 	filter.setCompletedBefore(fromLocalDateTime(before));
     }

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<h:panelGroup id="iconWrapper" styleClass="request-icon">
+		<h:panelGroup styleClass="#{rts.iconColor(rr)}">
+			<i class="#{rts.iconClass(rr)}" aria-hidden="true" />
+		</h:panelGroup>
+	</h:panelGroup>
+	<p:tooltip for="iconWrapper" trackMouse="true">
+		<h:panelGroup rendered="#{rr.progressStatus ne 'FINISHED'}">
+			<h:outputText
+				value="#{progressStatusService.displayName(rr.progressStatus)}" />
+		</h:panelGroup>
+		<h:panelGroup rendered="#{rr.progressStatus eq 'FINISHED'}">
+			<h:outputText rendered="#{rr.transactionStatus eq 'COMPLETED'}"
+				value="#{transactionStatusService.displayName(rr.transactionStatus)}" />
+			<h:outputText rendered="#{rr.transactionStatus eq 'NOT_COMPLETED'}"
+				value="#{transactionProblemService.displayName(rr.transactionProblem)}" />
+		</h:panelGroup>
+	</p:tooltip>
+
+</ui:composition>

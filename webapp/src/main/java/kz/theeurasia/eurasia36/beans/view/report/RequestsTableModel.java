@@ -3,25 +3,25 @@ package kz.theeurasia.eurasia36.beans.view.report;
 import java.util.Iterator;
 import java.util.List;
 
-import com.lapsa.insurance.domain.InsuranceRequest;
+import com.lapsa.insurance.domain.Request;
 import com.lapsa.reports.table.HeaderRow;
 import com.lapsa.reports.table.TableModel;
 import com.lapsa.reports.table.ValueRow;
 import com.lapsa.reports.table.impl.DefaultHeaderRow;
 
-public class InsuranceRequestsTableModel implements TableModel {
+public class RequestsTableModel implements TableModel {
 
-    private final List<InsuranceRequest> list;
+    private final List<Request> list;
     private final HeaderRow headerRow;
 
-    public InsuranceRequestsTableModel(List<InsuranceRequest> list) {
+    public RequestsTableModel(List<Request> list) {
 	this.list = list;
-	this.headerRow = new DefaultHeaderRow(InsuranceRequestsValueRow.HEADER_ROW_CAPTIONS);
+	this.headerRow = new DefaultHeaderRow(RequestsValueRow.HEADER_ROW_CAPTIONS);
     }
 
     @Override
     public Iterator<ValueRow> iterator() {
-	final Iterator<InsuranceRequest> i = list.iterator();
+	final Iterator<Request> i = list.iterator();
 	return new Iterator<ValueRow>() {
 
 	    @Override
@@ -31,7 +31,7 @@ public class InsuranceRequestsTableModel implements TableModel {
 
 	    @Override
 	    public ValueRow next() {
-		return new InsuranceRequestsValueRow(i.next());
+		return new RequestsValueRow(i.next());
 	    }
 	};
     }
@@ -48,7 +48,7 @@ public class InsuranceRequestsTableModel implements TableModel {
 
     @Override
     public ValueRow getRow(int number) {
-	return new InsuranceRequestsValueRow(list.get(number));
+	return new RequestsValueRow(list.get(number));
     }
 
 }

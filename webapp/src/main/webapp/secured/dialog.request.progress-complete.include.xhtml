@@ -10,32 +10,46 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 
+	<o:importConstants type="kz.theeurasia.eurasia36.beans.api.RequestType" />
+
 	<f:subview>
 
 		<!-- >> rendered -->
-		<h:panelGroup rendered="#{not empty ir}">
+		<h:panelGroup rendered="#{not empty rr}">
 
 			<!-- >> dialog -->
 			<p:dialog widgetVar="#{dialogWV}"
-				header="Закрыть заявку #{ir.id} '#{ir.requester.name}'?"
-				closeOnEscape="false" modal="true" width="1024" height="480"
-				closable="false" resizable="false" position="center top">
+				header="Результаты '#{rr.requesterName}'?" closeOnEscape="false"
+				modal="true" width="1024" height="480" closable="false"
+				resizable="false" position="center top">
 
 				<!-- >> wrapper -->
 				<h:panelGroup id="content">
 
-					<ui:include src="input.progress-complete.include.xhtml">
+					<ui:include src="input.insurance-request.progress-complete.include.xhtml">
+						<ui:param name="rendered"
+							value="#{rts.isA(rr.entity, RequestType.INSURANCE_REQUEST)}" />
+						<ui:param name="ir" value="#{rr.entity}" />
 						<ui:param name="extupdate" value="content" />
 					</ui:include>
 
-					<ui:include src="input.payment-obtaining.include.xhtml">
-						<ui:param name="extupdate" value="content" />
+					<ui:include src="input.insurance-request.payment-obtaining.include.xhtml">
+						<ui:param name="rendered"
+							value="#{rts.isA(rr.entity, RequestType.INSURANCE_REQUEST)}" />
+						<ui:param name="ir" value="#{rr.entity}" />
+					</ui:include>
+
+					<ui:include
+						src="input.callback-request.progress-complete.include.xhtml">
+						<ui:param name="rendered"
+							value="#{rts.isA(rr.entity, RequestType.CALLBACK_REQUEST)}" />
+						<ui:param name="cr" value="#{rr.entity}" />
 					</ui:include>
 
 					<p:toolbar>
 						<f:facet name="right">
-							<p:commandButton value="Закрыть заявку"
-								action="#{mainFacade.doCloseRequest}" process="content"
+							<p:commandButton value="OK"
+								action="#{mainFacade.doCompleteRequest}" process="content"
 								update="content #{update}"
 								oncomplete="hideIfValidated(PF('#{dialogWV}'), args)" />
 							<p:commandButton value="Отмена"
@@ -43,7 +57,6 @@
 								update="content #{update}" oncomplete="PF('#{dialogWV}').hide()" />
 						</f:facet>
 					</p:toolbar>
-
 				</h:panelGroup>
 				<!-- << wrapper -->
 

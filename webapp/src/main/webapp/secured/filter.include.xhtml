@@ -19,27 +19,26 @@
 								<p:column>
 									<p:commandLink process="@this" update="@form" value="Открытые"
 										action="#{mainFacade.doRefresh}"
-										style="#{insuranceRequestsFilter.requestStatus == 'OPEN' ? 'font-weight: bold' : ''}">
+										style="#{settings.requestFilter.requestStatus == 'OPEN' ? 'font-weight: bold' : ''}">
 										<f:setPropertyActionListener
-											target="#{insuranceRequestsFilter.requestStatus}"
-											value="OPEN" />
+											target="#{settings.requestFilter.requestStatus}" value="OPEN" />
 									</p:commandLink>
 								</p:column>
 								<p:column>
 									<p:commandLink process="@this" update="@form" value="Закрытые"
 										action="#{mainFacade.doRefresh}"
-										style="#{insuranceRequestsFilter.requestStatus == 'CLOSED' ? 'font-weight: bold' : ''}">
+										style="#{settings.requestFilter.requestStatus == 'CLOSED' ? 'font-weight: bold' : ''}">
 										<f:setPropertyActionListener
-											target="#{insuranceRequestsFilter.requestStatus}"
+											target="#{settings.requestFilter.requestStatus}"
 											value="CLOSED" />
 									</p:commandLink>
 								</p:column>
 								<p:column>
 									<p:commandLink process="@this" update="@form" value="Все"
 										action="#{mainFacade.doRefresh}"
-										style="#{insuranceRequestsFilter.requestStatus == null ? 'font-weight: bold' : ''}">
+										style="#{settings.requestFilter.requestStatus == null ? 'font-weight: bold' : ''}">
 										<f:setPropertyActionListener
-											target="#{insuranceRequestsFilter.requestStatus}"
+											target="#{settings.requestFilter.requestStatus}"
 											value="#{null}" />
 									</p:commandLink>
 								</p:column>
@@ -59,19 +58,18 @@
 								<p:column>
 									<p:commandLink process="@this" update="@form"
 										value="Приняты мной" action="#{mainFacade.doRefresh}"
-										style="#{insuranceRequestsFilter.acceptedBy == currentUser.value ? 'font-weight: bold' : ''}">
+										style="#{settings.requestFilter.acceptedBy == currentUser.value ? 'font-weight: bold' : ''}">
 										<f:setPropertyActionListener
-											target="#{insuranceRequestsFilter.acceptedBy}"
+											target="#{settings.requestFilter.acceptedBy}"
 											value="#{currentUser.value}" />
 									</p:commandLink>
 								</p:column>
 								<p:column>
 									<p:commandLink process="@this" update="@form" value="Любые"
 										action="#{mainFacade.doRefresh}"
-										style="#{insuranceRequestsFilter.acceptedBy == null ? 'font-weight: bold' : ''}">
+										style="#{settings.requestFilter.acceptedBy == null ? 'font-weight: bold' : ''}">
 										<f:setPropertyActionListener
-											target="#{insuranceRequestsFilter.acceptedBy}"
-											value="#{null}" />
+											target="#{settings.requestFilter.acceptedBy}" value="#{null}" />
 									</p:commandLink>
 								</p:column>
 							</p:row>
@@ -89,18 +87,18 @@
 								<p:column>
 									<p:commandLink process="@this" update="@form"
 										value="Завершены мной" action="#{mainFacade.doRefresh}"
-										style="#{insuranceRequestsFilter.completedBy == currentUser.value ? 'font-weight: bold' : ''}">
+										style="#{settings.requestFilter.completedBy == currentUser.value ? 'font-weight: bold' : ''}">
 										<f:setPropertyActionListener
-											target="#{insuranceRequestsFilter.completedBy}"
+											target="#{settings.requestFilter.completedBy}"
 											value="#{currentUser.value}" />
 									</p:commandLink>
 								</p:column>
 								<p:column>
 									<p:commandLink process="@this" update="@form" value="Любые"
 										action="#{mainFacade.doRefresh}"
-										style="#{insuranceRequestsFilter.completedBy == null ? 'font-weight: bold' : ''}">
+										style="#{settings.requestFilter.completedBy == null ? 'font-weight: bold' : ''}">
 										<f:setPropertyActionListener
-											target="#{insuranceRequestsFilter.completedBy}"
+											target="#{settings.requestFilter.completedBy}"
 											value="#{null}" />
 									</p:commandLink>
 								</p:column>
@@ -118,16 +116,14 @@
 				<p:row>
 					<p:column>
 						<p:commandLink process="@this" update="content"
-							value="еще &gt;&gt;"
-							rendered="#{not insuranceRequestsFilter.advanced}">
-							<f:setPropertyActionListener
-								target="#{insuranceRequestsFilter.advanced}" value="#{true}" />
+							value="еще &gt;&gt;" rendered="#{not settings.advanced}">
+							<f:setPropertyActionListener target="#{settings.advanced}"
+								value="#{true}" />
 						</p:commandLink>
 						<p:commandLink process="@this" update="content"
-							value="&lt;&lt; проще"
-							rendered="#{insuranceRequestsFilter.advanced}">
-							<f:setPropertyActionListener
-								target="#{insuranceRequestsFilter.advanced}" value="#{false}" />
+							value="&lt;&lt; проще" rendered="#{settings.advanced}">
+							<f:setPropertyActionListener target="#{settings.advanced}"
+								value="#{false}" />
 						</p:commandLink>
 					</p:column>
 					<p:column>

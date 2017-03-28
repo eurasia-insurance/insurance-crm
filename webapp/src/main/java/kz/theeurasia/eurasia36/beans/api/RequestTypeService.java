@@ -21,4 +21,6 @@ public interface RequestTypeService {
 
     String iconColor(RequestRow<?> row);
 
+    boolean typeIs(RequestType value, RequestType expecting);
+
 }

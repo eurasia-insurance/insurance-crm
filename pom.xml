@@ -25,7 +25,7 @@
 		<font-awesome-lib.version>4.7.0</font-awesome-lib.version>
 		<!-- APIs -->
 		<kz-lib.version>2.3</kz-lib.version>
-		<international-lib.version>2.1</international-lib.version>
+		<international-lib.version>2.1.1-SNAPSHOT</international-lib.version>
 		<insurance-lib.version>1.8.2-SNAPSHOT</insurance-lib.version>
 		<lapsa-lib.version>1.2.1</lapsa-lib.version>
 		<donkeyfaces-lib.version>1.2.2</donkeyfaces-lib.version>

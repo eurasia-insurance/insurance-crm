@@ -148,7 +148,7 @@
 				</p:column>
 				<p:column headerText="Создано" width="150"
 					sortBy="#{req.createdBy}">
-					<h:outputText rendered="#{not empty req.createdBy}" value="#{userFacade(req.createdBy)}" />
+					<h:outputText rendered="#{not empty req.createdBy}" value="#{userFacade.displayName(req.createdBy)}" />
 				</p:column>
 				<p:column headerText="Дата обновления" width="150"
 					sortBy="#{req.updated}">

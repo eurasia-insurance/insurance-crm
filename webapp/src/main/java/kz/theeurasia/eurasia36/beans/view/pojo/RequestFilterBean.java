@@ -32,8 +32,10 @@ public class RequestFilterBean implements RequestFilter, Serializable {
     private Date completedAfter;
     private Date completedBefore;
 
+    private User createdBy;
     private User acceptedBy;
     private User completedBy;
+    private User closedBy;
 
     // InsuranceRequest properties
 
@@ -206,4 +208,23 @@ public class RequestFilterBean implements RequestFilter, Serializable {
     public void setTransactionProblem(TransactionProblem transactionProblem) {
 	this.transactionProblem = transactionProblem;
     }
+
+    @Override
+    public User getCreatedBy() {
+	return createdBy;
+    }
+
+    @Override
+    public User getClosedBy() {
+	return closedBy;
+    }
+
+    public void setCreatedBy(User createdBy) {
+	this.createdBy = createdBy;
+    }
+
+    public void setClosedBy(User closedBy) {
+	this.closedBy = closedBy;
+    }
+
 }

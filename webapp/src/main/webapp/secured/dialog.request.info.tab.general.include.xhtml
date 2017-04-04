@@ -53,6 +53,8 @@
 
 							<crm:outputRow label="Заявка поступила">
 								<crm:outputDatetime value="#{rr.created}" />
+								<h:outputText rendered="#{not empty rr.createdBy}"
+									value="&amp;nbsp;(#{userFacade.displayName(rr.createdBy)})" escape="false" />
 							</crm:outputRow>
 
 							<crm:outputRow label="Обновлена">

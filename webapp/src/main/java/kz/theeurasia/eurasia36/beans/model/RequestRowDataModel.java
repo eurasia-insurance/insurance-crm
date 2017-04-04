@@ -57,6 +57,15 @@ public abstract class RequestRowDataModel<T extends Request> implements RequestR
     }
 
     @Override
+    public User getCreatedBy() {
+	try {
+	    return entity.getCreatedBy();
+	} catch (NullPointerException e) {
+	    return null;
+	}
+    }
+
+    @Override
     public Date getUpdated() {
 	try {
 	    return entity.getUpdated();

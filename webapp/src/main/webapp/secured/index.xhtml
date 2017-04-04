@@ -146,6 +146,10 @@
 					sortBy="#{req.created}">
 					<crm:outputDatetime value="#{req.created}" />
 				</p:column>
+				<p:column headerText="Создано" width="150"
+					sortBy="#{req.createdBy}">
+					<h:outputText rendered="#{not empty req.creqtedBy}" value="#{userFacade(req.createdBy)}" />
+				</p:column>
 				<p:column headerText="Дата обновления" width="150"
 					sortBy="#{req.updated}">
 					<crm:outputDatetime value="#{req.updated}" />

@@ -33,6 +33,8 @@ public interface RequestRow<T extends Request> {
 
     Date getCreated();
 
+    User getCreatedBy();
+
     Date getUpdated();
 
     Date getAccepted();

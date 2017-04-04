@@ -69,21 +69,24 @@
 								label="Принята в обработку">
 								<crm:outputDatetime value="#{rr.accepted}" />
 								<h:outputText rendered="#{not empty rr.acceptedBy}"
-									value="&amp;nbsp;(#{rr.acceptedBy.name})" escape="false" />
+									value="&amp;nbsp;(#{userFacade.displayName(rr.acceptedBy)})"
+									escape="false" />
 							</crm:outputRow>
 
 							<crm:outputRow rendered="#{not empty rr.completed}"
 								label="Обработка завершена">
 								<crm:outputDatetime value="#{rr.completed}" />
 								<h:outputText rendered="#{not empty rr.completedBy}"
-									value="&amp;nbsp;(#{rr.completedBy.name})" escape="false" />
+									value="&amp;nbsp;(#{userFacade.displayName(rr.completedBy)})"
+									escape="false" />
 							</crm:outputRow>
 
 							<crm:outputRow rendered="#{not empty rr.closed}"
 								label="Заявка закрыта">
 								<crm:outputDatetime value="#{rr.closed}" />
 								<h:outputText rendered="#{not empty rr.closedBy}"
-									value="&amp;nbsp;(#{rr.closedBy.name})" escape="false" />
+									value="&amp;nbsp;(#{userFacade.displayName(rr.closedBy)})"
+									escape="false" />
 							</crm:outputRow>
 
 						</p:panelGrid>

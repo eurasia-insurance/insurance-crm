@@ -90,7 +90,7 @@
 			</f:facet>
 
 			<f:facet name="right">
-				<h:outputText value="#{currentUser.value.name}" />
+				<h:outputText value="#{userFacade.displayName(currentUser.value)}" />
 				<h:outputText rendered="#{not empty currentUser.value.email}"
 					value="&amp;nbsp;(#{currentUser.value.email})" escape="false" />
 			</f:facet>

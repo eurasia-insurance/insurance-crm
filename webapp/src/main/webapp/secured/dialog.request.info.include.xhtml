@@ -24,46 +24,20 @@
 				closable="true" resizable="false" maximizable="true"
 				position="center top">
 
-
 				<!-- >> wrapper -->
 				<h:panelGroup id="content">
-
-					<p:tabView dynamic="true" cache="true">
-						<ui:include src="dialog.request.info.tab.general.include.xhtml">
-							<ui:param name="rendered" value="#{true}" />
-							<ui:param name="rr" value="#{rr}" />
-						</ui:include>
-						<ui:include src="dialog.request.info.tab.requester.include.xhtml">
-							<ui:param name="rendered"
-								value="#{not empty rr.entity.requester}" />
-							<ui:param name="rqr" value="#{rr.entity.requester}" />
-						</ui:include>
-						<ui:include
-							src="dialog.request.info.tab.product.casco.include.xhtml">
-							<ui:param name="rendered"
-								value="#{rts.isA(rr.entity, RequestType.CASCO_REQUEST)}" />
-							<ui:param name="casco" value="#{rr.entity.casco}" />
-						</ui:include>
-						<ui:include
-							src="dialog.request.info.tab.product.policy.include.xhtml">
-							<ui:param name="rendered"
-								value="#{rts.isA(rr.entity, RequestType.POLICY_REQUEST)}" />
-							<ui:param name="policy" value="#{rr.entity.policy}" />
-						</ui:include>
-						<ui:include
-							src="dialog.request.info.tab.payment-and-delivery.include.xhtml">
-							<ui:param name="rendered"
-								value="#{rts.isA(rr.entity, RequestType.INSURANCE_REQUEST)}" />
-							<ui:param name="pym" value="#{rr.entity.payment}" />
-							<ui:param name="obt" value="#{rr.entity.obtaining}" />
-							<ui:param name="clc" value="#{rr.entity.product.calculation}" />
-						</ui:include>
-						<ui:include src="dialog.request.info.tab.utm.include.xhtml">
-							<ui:param name="rendered" value="#{not empty rr.entity.utmData}" />
-							<ui:param name="utm" value="#{rr.entity.utmData}" />
-						</ui:include>
-					</p:tabView>
-
+					<h:panelGroup
+						rendered="#{rts.isA(rr.entity, RequestType.POLICY_REQUEST)}">
+						<ui:decorate template="dialog.request.info.policy.include.xhtml" />
+					</h:panelGroup>
+					<h:panelGroup
+						rendered="#{rts.isA(rr.entity, RequestType.CASCO_REQUEST)}">
+						<ui:decorate template="dialog.request.info.casco.include.xhtml" />
+					</h:panelGroup>
+					<h:panelGroup
+						rendered="#{rts.isA(rr.entity, RequestType.CALLBACK_REQUEST)}">
+						<ui:decorate template="dialog.request.info.callback.include.xhtml" />
+					</h:panelGroup>
 				</h:panelGroup>
 				<!-- << wrapper -->
 

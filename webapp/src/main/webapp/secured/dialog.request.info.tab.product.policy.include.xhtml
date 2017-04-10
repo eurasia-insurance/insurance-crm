@@ -14,6 +14,18 @@
 		title="#{insuranceProductTypeService.displayName(InsuranceProductType.POLICY)}"
 		rendered="#{rendered}">
 
+		<h:panelGroup rendered="#{not empty policy.period}">
+			<ui:include src="output.period.include.xhtml">
+				<ui:param name="per" value="#{policy.period}" />
+			</ui:include>
+		</h:panelGroup>
+
+		<h:panelGroup rendered="#{not empty policy.calculation}">
+			<ui:include src="output.calculation.include.xhtml">
+				<ui:param name="clc" value="#{policy.calculation}" />
+			</ui:include>
+		</h:panelGroup>
+
 		<p:dataTable value="#{policy.insuredDrivers}" var="driver">
 			<f:facet name="header">
 				<h:outputText value="Сведения о застрахованных водителях" />
@@ -77,7 +89,6 @@
 				<crm:outputScanImage value="#{vehicle.certificateData.backside}" />
 			</p:rowExpansion>
 		</p:dataTable>
-
 	</p:tab>
 
 </ui:composition>

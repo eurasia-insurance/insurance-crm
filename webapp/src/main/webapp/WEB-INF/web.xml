@@ -131,6 +131,7 @@
 			<url-pattern>/secured/*</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
+			<role-name>partner</role-name>
 			<role-name>reporter</role-name>
 			<role-name>specialist</role-name>
 			<role-name>supervisor</role-name>
@@ -141,14 +142,22 @@
 	</security-constraint>
 
 	<security-role>
+		<description>This role is for partners who send us requests and needs to view your request at CRM level</description>
+		<role-name>partner</role-name>
+	</security-role>
+
+	<security-role>
+		<description>Read-only role</description>
 		<role-name>reporter</role-name>
 	</security-role>
 
 	<security-role>
+		<description>Sales personnel</description>
 		<role-name>specialist</role-name>
 	</security-role>
 
 	<security-role>
+		<description>Administrative role</description>
 		<role-name>supervisor</role-name>
 	</security-role>
 

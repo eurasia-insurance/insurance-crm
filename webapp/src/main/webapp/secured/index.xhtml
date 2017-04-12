@@ -21,21 +21,21 @@
 	<ui:define name="page-content">
 
 		<o:importConstants
-			type="kz.theeurasia.eurasia36.beans.application.SecurityRole" />
+			type="kz.theeurasia.eurasia36.application.security.SecurityRoleGroup" />
 
 		<o:importConstants
 			type="kz.theeurasia.eurasia36.beans.api.RequestType" />
 
 		<c:set var="canView"
-			value="#{currentUser.inRole(SecurityRole.REPORTER, SecurityRole.SPECIALIST, SecurityRole.SUPERVISOR)}"
+			value="#{currentUser.inRole(SecurityRoleGroup.VIEWERS)}"
 			scope="request" />
 
 		<c:set var="canChange"
-			value="#{currentUser.inRole(SecurityRole.SPECIALIST, SecurityRole.SUPERVISOR)}"
+			value="#{currentUser.inRole(SecurityRoleGroup.CHANGERS)}"
 			scope="request" />
 
 		<c:set var="canClose"
-			value="#{currentUser.inRole(SecurityRole.SUPERVISOR)}"
+			value="#{currentUser.inRole(SecurityRoleGroup.CLOSERS)}"
 			scope="request" />
 
 		<h:form id="form">
@@ -133,7 +133,8 @@
 						<ui:param name="rr" value="#{req}" />
 					</ui:include>
 				</p:column>
-				<p:column width="25" sortBy="#{req.paymentMethod}" style="text-align: center">
+				<p:column width="25" sortBy="#{req.paymentMethod}"
+					style="text-align: center">
 					<ui:include src="output.request-payment-icon.include.xhtml">
 						<ui:param name="rr" value="#{req}" />
 					</ui:include>

@@ -14,8 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import com.lapsa.insurance.domain.crm.User;
 import com.lapsa.insurance.services.domain.UserFacade;
 
+import kz.theeurasia.eurasia36.application.security.AuthorizationUtil;
+import kz.theeurasia.eurasia36.application.security.RoleGroup;
 import kz.theeurasia.eurasia36.beans.api.CurrentUserHolder;
-import kz.theeurasia.eurasia36.beans.application.SecurityRole;
 
 @Named("currentUser")
 @SessionScoped
@@ -34,27 +35,23 @@ public class DefaultCurrentUserHolder extends DefaultWritableValueHolder<User>
     }
 
     @Override
-    public boolean inRoles(SecurityRole... roles) {
-	ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-	for (SecurityRole role : roles)
-	    if (ec.isUserInRole(role.getRoleName()))
-		return true;
-	return false;
+    public boolean inRoles(RoleGroup... roles) {
+	return AuthorizationUtil.isInRole(roles);
     }
 
     @Override
-    public boolean inRole(SecurityRole role1, SecurityRole role2, SecurityRole role3) {
-	return inRoles(role1, role2, role3);
+    public boolean inRole(RoleGroup role1, RoleGroup role2, RoleGroup role3) {
+	return AuthorizationUtil.isInRole(role1, role2, role3);
     }
 
     @Override
-    public boolean inRole(SecurityRole role1, SecurityRole role2) {
-	return inRoles(role1, role2);
+    public boolean inRole(RoleGroup role1, RoleGroup role2) {
+	return AuthorizationUtil.isInRole(role1, role2);
     }
 
     @Override
-    public boolean inRole(SecurityRole role1) {
-	return inRoles(role1);
+    public boolean inRole(RoleGroup role1) {
+	return AuthorizationUtil.isInRole(role1);
     }
 
     @Override

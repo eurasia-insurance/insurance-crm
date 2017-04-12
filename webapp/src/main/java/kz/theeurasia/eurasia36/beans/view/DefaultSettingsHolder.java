@@ -74,10 +74,6 @@ public class DefaultSettingsHolder implements Serializable, SettingsHolder {
 	return requestFilter;
     }
 
-    public void setRequestFilter(RequestFilterBean requestFilter) {
-	this.requestFilter = requestFilter;
-    }
-
     @Override
     public RequestType getRequestType() {
 	return requestType;

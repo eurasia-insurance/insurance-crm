@@ -6,11 +6,18 @@ import com.lapsa.insurance.crm.TransactionStatus;
 import com.lapsa.insurance.domain.CallbackRequest;
 import com.lapsa.insurance.elements.InsuranceProductType;
 
+import kz.theeurasia.eurasia36.beans.api.RequestType;
+
 public class CallbackRequestRowDataModel extends RequestRowDataModel<CallbackRequest>
 	implements RequestRow<CallbackRequest> {
 
     public CallbackRequestRowDataModel(CallbackRequest entity) {
 	super(entity);
+    }
+
+    @Override
+    public RequestType getType() {
+	return RequestType.CALLBACK_REQUEST;
     }
 
     @Override

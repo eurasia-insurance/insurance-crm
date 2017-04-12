@@ -124,10 +124,16 @@
 
 				<p:column width="25" sortBy="#{req.progressStatus}"
 					style="text-align: center">
-					<ui:include src="output.request-icon.include.xhtml">
+					<ui:include src="output.request-progress-icon.include.xhtml">
 						<ui:param name="rr" value="#{req}" />
 					</ui:include>
 				</p:column>
+				<p:column width="25" sortBy="#{req.type}" style="text-align: center">
+					<ui:include src="output.request-type-icon.include.xhtml">
+						<ui:param name="rr" value="#{req}" />
+					</ui:include>
+				</p:column>
+
 				<p:column headerText="Продукт" width="60"
 					sortBy="#{req.insuranceProductType}">
 					<h:outputText
@@ -146,9 +152,9 @@
 					sortBy="#{req.created}">
 					<crm:outputDatetime value="#{req.created}" />
 				</p:column>
-				<p:column headerText="Создано" width="50"
-					sortBy="#{req.createdBy}">
-					<h:outputText rendered="#{not empty req.createdBy}" value="#{userFacade.displayName(req.createdBy)}" />
+				<p:column headerText="Создано" width="50" sortBy="#{req.createdBy}">
+					<h:outputText rendered="#{not empty req.createdBy}"
+						value="#{userFacade.displayName(req.createdBy)}" />
 				</p:column>
 				<p:column headerText="Дата обновления" width="150"
 					sortBy="#{req.updated}">

@@ -35,6 +35,10 @@
 	text-shadow: none;
 }
 
+.icon-request-type {
+	color: #CCCCCC;
+}
+
 .icon-success {
 	color: #00FF00;
 }

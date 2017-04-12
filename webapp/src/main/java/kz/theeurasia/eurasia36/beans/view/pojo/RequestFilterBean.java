@@ -15,6 +15,9 @@ import com.lapsa.insurance.domain.crm.User;
 import com.lapsa.insurance.elements.ObtainingMethod;
 import com.lapsa.insurance.elements.PaymentMethod;
 
+import kz.theeurasia.eurasia36.application.security.AuthorizationUtil;
+import kz.theeurasia.eurasia36.application.security.SecurityRoleGroup;
+
 public class RequestFilterBean implements RequestFilter, Serializable {
     private static final long serialVersionUID = -5052366661196023039L;
 
@@ -46,6 +49,13 @@ public class RequestFilterBean implements RequestFilter, Serializable {
     private ObtainingStatus obtainingStatus;
     private TransactionStatus transactionStatus;
     private TransactionProblem transactionProblem;
+
+    public RequestFilterBean() {
+    }
+
+    public RequestFilterBean(User createdBy) {
+	this.createdBy = createdBy;
+    }
 
     @Override
     public Integer getId() {
@@ -220,6 +230,9 @@ public class RequestFilterBean implements RequestFilter, Serializable {
     }
 
     public void setCreatedBy(User createdBy) {
+	// тем кто в группе VIEW_OWN_OWNED не разрешено менять настройку фильтра
+	if (AuthorizationUtil.isInRole(SecurityRoleGroup.VIEW_OWN_OWNED))
+	    return;
 	this.createdBy = createdBy;
     }
 

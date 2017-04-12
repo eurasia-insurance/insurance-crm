@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<c:set var="statusClass"
+		value="#{rr.paymentStatus eq 'DONE' ? 'icon-success' : (rr.paymentStatus eq 'CANCELED' ? 'icon-fail' : (rr.paymentStatus eq 'CANCELED' ? 'icon-fail' : 'icon-on-process'))}" />
+
+	<c:set var="iconClass"
+		value="#{rr.paymentMethod eq 'PAYCASH' ? 'fa-money' : (rr.paymentMethod eq 'PAYCARD_ONLINE' ? 'fa-credit-card' : (rr.paymentMethod eq 'UNDEFINED' ? 'fa-question' : ''))}" />
+
+	<h:panelGroup styleClass="request-icon #{statusClass}">
+		<h:panelGroup styleClass="fa #{iconClass}" />
+	</h:panelGroup>
+
+</ui:composition>

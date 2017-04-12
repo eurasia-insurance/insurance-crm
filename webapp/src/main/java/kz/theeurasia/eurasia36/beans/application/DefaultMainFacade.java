@@ -65,7 +65,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doRefresh() {
-	checkRoleAllowed(SecurityRoleGroup.VIEWERS);
+	checkRoleGranted(SecurityRoleGroup.VIEWERS);
 	refreshRequests();
 	unselectIfNotShown();
 	return null;
@@ -73,7 +73,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doInitialize() {
-	checkRoleAllowed(SecurityRoleGroup.VIEWERS);
+	checkRoleGranted(SecurityRoleGroup.VIEWERS);
 	initFilter();
 	refreshRequests();
 	return null;
@@ -81,7 +81,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doResetFilter() {
-	checkRoleAllowed(SecurityRoleGroup.VIEWERS);
+	checkRoleGranted(SecurityRoleGroup.VIEWERS);
 	resetFilter();
 	refreshRequests();
 	unselectIfNotShown();
@@ -90,7 +90,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doFilterCreatedToday() {
-	checkRoleAllowed(SecurityRoleGroup.VIEWERS);
+	checkRoleGranted(SecurityRoleGroup.VIEWERS);
 	filterCreatedToday();
 	refreshRequests();
 	unselectIfNotShown();
@@ -99,7 +99,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doFilterCreatedYesterday() {
-	checkRoleAllowed(SecurityRoleGroup.VIEWERS);
+	checkRoleGranted(SecurityRoleGroup.VIEWERS);
 	filterCreatedYesterday();
 	refreshRequests();
 	unselectIfNotShown();
@@ -108,7 +108,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doFilterCreatedThisWeek() {
-	checkRoleAllowed(SecurityRoleGroup.VIEWERS);
+	checkRoleGranted(SecurityRoleGroup.VIEWERS);
 	filterCreatedThisWeek();
 	refreshRequests();
 	unselectIfNotShown();
@@ -117,7 +117,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doFilterCreatedLastWeek() {
-	checkRoleAllowed(SecurityRoleGroup.VIEWERS);
+	checkRoleGranted(SecurityRoleGroup.VIEWERS);
 	filterCreatedLastWeek();
 	refreshRequests();
 	unselectIfNotShown();
@@ -126,7 +126,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doFilterCreatedThisMonth() {
-	checkRoleAllowed(SecurityRoleGroup.VIEWERS);
+	checkRoleGranted(SecurityRoleGroup.VIEWERS);
 	filterCreatedThisMonth();
 	refreshRequests();
 	unselectIfNotShown();
@@ -135,7 +135,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doFilterCreatedLastMonth() {
-	checkRoleAllowed(SecurityRoleGroup.VIEWERS);
+	checkRoleGranted(SecurityRoleGroup.VIEWERS);
 	filterCreatedLastMonth();
 	refreshRequests();
 	unselectIfNotShown();
@@ -144,7 +144,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doFilterCompletedToday() {
-	checkRoleAllowed(SecurityRoleGroup.VIEWERS);
+	checkRoleGranted(SecurityRoleGroup.VIEWERS);
 	filterCompletedToday();
 	refreshRequests();
 	unselectIfNotShown();
@@ -153,7 +153,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doFilterCompletedYesterday() {
-	checkRoleAllowed(SecurityRoleGroup.VIEWERS);
+	checkRoleGranted(SecurityRoleGroup.VIEWERS);
 	filterCompletedYesterday();
 	refreshRequests();
 	unselectIfNotShown();
@@ -162,7 +162,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doFilterCompletedThisWeek() {
-	checkRoleAllowed(SecurityRoleGroup.VIEWERS);
+	checkRoleGranted(SecurityRoleGroup.VIEWERS);
 	filterCompletedThisWeek();
 	refreshRequests();
 	unselectIfNotShown();
@@ -171,7 +171,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doFilterCompletedLastWeek() {
-	checkRoleAllowed(SecurityRoleGroup.VIEWERS);
+	checkRoleGranted(SecurityRoleGroup.VIEWERS);
 	filterCompletedLastWeek();
 	refreshRequests();
 	unselectIfNotShown();
@@ -180,7 +180,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doFilterCompletedThisMonth() {
-	checkRoleAllowed(SecurityRoleGroup.VIEWERS);
+	checkRoleGranted(SecurityRoleGroup.VIEWERS);
 	filterCompletedThisMonth();
 	refreshRequests();
 	unselectIfNotShown();
@@ -189,7 +189,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doFilterCompletedLastMonth() {
-	checkRoleAllowed(SecurityRoleGroup.VIEWERS);
+	checkRoleGranted(SecurityRoleGroup.VIEWERS);
 	filterCompletedLastMonth();
 	refreshRequests();
 	unselectIfNotShown();
@@ -198,7 +198,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doAcceptRequestOnce() {
-	checkRoleAllowed(SecurityRoleGroup.CHANGERS);
+	checkRoleGranted(SecurityRoleGroup.CHANGERS);
 	acceptRequestOnce();
 	saveRequest();
 	refreshRequests();
@@ -215,7 +215,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doPauseRequest() {
-	checkRoleAllowed(SecurityRoleGroup.CHANGERS);
+	checkRoleGranted(SecurityRoleGroup.CHANGERS);
 	pauseRequest();
 	saveRequest();
 	refreshRequests();
@@ -225,7 +225,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doResumeRequest() {
-	checkRoleAllowed(SecurityRoleGroup.CHANGERS);
+	checkRoleGranted(SecurityRoleGroup.CHANGERS);
 	resumeRequest();
 	saveRequest();
 	refreshRequests();
@@ -235,7 +235,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doCloseRequest() {
-	checkRoleAllowed(SecurityRoleGroup.CLOSERS);
+	checkRoleGranted(SecurityRoleGroup.CLOSERS);
 	closeRequest();
 	saveRequest();
 	refreshRequests();
@@ -245,7 +245,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doCancelEditRequest() {
-	checkRoleAllowed(SecurityRoleGroup.CHANGERS);
+	checkRoleGranted(SecurityRoleGroup.CHANGERS);
 	resetRequest();
 	refreshRequests();
 	unselectIfNotShown();
@@ -254,7 +254,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doCompleteRequest() {
-	checkRoleAllowed(SecurityRoleGroup.CHANGERS);
+	checkRoleGranted(SecurityRoleGroup.CHANGERS);
 	completeRequest();
 	saveRequest();
 	refreshRequests();

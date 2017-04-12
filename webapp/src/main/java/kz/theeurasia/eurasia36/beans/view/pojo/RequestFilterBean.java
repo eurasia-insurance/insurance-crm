@@ -231,8 +231,7 @@ public class RequestFilterBean implements RequestFilter, Serializable {
 
     public void setCreatedBy(User createdBy) {
 	// тем кто в группе VIEW_OWN_OWNED не разрешено менять настройку фильтра
-	if (AuthorizationUtil.isInRole(SecurityRoleGroup.VIEW_OWN_OWNED))
-	    return;
+	AuthorizationUtil.checkRoleDenied(SecurityRoleGroup.VIEW_OWN_OWNED);
 	this.createdBy = createdBy;
     }
 

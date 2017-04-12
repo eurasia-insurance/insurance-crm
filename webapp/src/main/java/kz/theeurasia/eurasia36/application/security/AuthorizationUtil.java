@@ -1,5 +1,8 @@
 package kz.theeurasia.eurasia36.application.security;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
@@ -23,18 +26,46 @@ public class AuthorizationUtil {
     }
 
     public static void checkRoleAllowed(RoleGroup... rolesAllowed) {
-	StringBuffer sb = new StringBuffer(
-		"Недостаточно прав доступа.");
-	for (int i = 0; i < rolesAllowed.length; i++) {
+	SecurityRole[] allRolesList = allRolesList(rolesAllowed);
+	StringBuffer sb = new StringBuffer("Недостаточно прав доступа.");
+	for (int i = 0; i < allRolesList.length; i++) {
 	    if (i == 0)
 		sb.append(" Требуется как минимум одна из следующих ролей доступа: ");
-	    sb.append(rolesAllowed[i].toString());
-	    if (i == rolesAllowed.length - 1)
+	    sb.append(allRolesList[i].toString());
+	    if (i == allRolesList.length - 1)
 		sb.append(".");
 	    else
 		sb.append(", ");
 	}
-	checkRoleAllowed(sb.toString(), rolesAllowed);
+	checkRoleAllowed(sb.toString(), allRolesList);
     }
 
+    public static void checkRoleDenied(String message, RoleGroup... rolesDenied) {
+	if (!isInRole(rolesDenied))
+	    return;
+	throw new UnauthorizedException(message);
+    }
+
+    public static void checkRoleDenied(RoleGroup... rolesDenied) {
+	SecurityRole[] allRolesList = allRolesList(rolesDenied);
+	StringBuffer sb = new StringBuffer("Недостаточно прав доступа.");
+	for (int i = 0; i < allRolesList.length; i++) {
+	    if (i == 0)
+		sb.append(" Доступ для ролей : ");
+	    sb.append(allRolesList[i].toString());
+	    if (i == allRolesList.length - 1)
+		sb.append(" запрещен.");
+	    else
+		sb.append(", ");
+	}
+	checkRoleDenied(sb.toString(), allRolesList);
+    }
+
+    private static SecurityRole[] allRolesList(RoleGroup... roles) {
+	Set<SecurityRole> rrr = new HashSet<>();
+	for (RoleGroup rg : roles)
+	    for (SecurityRole r : rg.getRoles())
+		rrr.add(r);
+	return rrr.toArray(new SecurityRole[] {});
+    }
 }

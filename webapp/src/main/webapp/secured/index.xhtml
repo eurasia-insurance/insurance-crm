@@ -133,7 +133,11 @@
 						<ui:param name="rr" value="#{req}" />
 					</ui:include>
 				</p:column>
-
+				<p:column width="25" sortBy="#{req.paymentMethod}" style="text-align: center">
+					<ui:include src="output.request-payment-icon.include.xhtml">
+						<ui:param name="rr" value="#{req}" />
+					</ui:include>
+				</p:column>
 				<p:column headerText="Продукт" width="60"
 					sortBy="#{req.insuranceProductType}">
 					<h:outputText

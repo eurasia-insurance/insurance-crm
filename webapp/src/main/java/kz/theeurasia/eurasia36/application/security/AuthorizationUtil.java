@@ -10,55 +10,55 @@ import kz.theeurasia.eurasia36.beans.application.UnauthorizedException;
 
 public class AuthorizationUtil {
 
-    public static boolean isInRole(RoleGroup... rolesAllowed) {
+    public static boolean isInRole(RoleGroup... roles) {
 	ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
-	for (RoleGroup roleGroup : rolesAllowed)
+	for (RoleGroup roleGroup : roles)
 	    for (SecurityRole r : roleGroup.getRoles())
 		if (ctx.isUserInRole(r.getRoleName()))
 		    return true;
 	return false;
     }
 
-    public static void checkRoleAllowed(String message, RoleGroup... rolesAllowed) {
-	if (isInRole(rolesAllowed))
+    public static void checkRoleGranted(String message, RoleGroup... roles) {
+	if (isInRole(roles))
 	    return;
 	throw new UnauthorizedException(message);
     }
 
-    public static void checkRoleAllowed(RoleGroup... rolesAllowed) {
-	SecurityRole[] allRolesList = allRolesList(rolesAllowed);
+    public static void checkRoleGranted(RoleGroup... roles) {
+	SecurityRole[] list = allRolesList(roles);
 	StringBuffer sb = new StringBuffer("Недостаточно прав доступа.");
-	for (int i = 0; i < allRolesList.length; i++) {
+	for (int i = 0; i < list.length; i++) {
 	    if (i == 0)
 		sb.append(" Требуется как минимум одна из следующих ролей доступа: ");
-	    sb.append(allRolesList[i].toString());
-	    if (i == allRolesList.length - 1)
+	    sb.append(list[i].toString());
+	    if (i == list.length - 1)
 		sb.append(".");
 	    else
 		sb.append(", ");
 	}
-	checkRoleAllowed(sb.toString(), allRolesList);
+	checkRoleGranted(sb.toString(), list);
     }
 
-    public static void checkRoleDenied(String message, RoleGroup... rolesDenied) {
-	if (!isInRole(rolesDenied))
+    public static void checkRoleDenied(String message, RoleGroup... roles) {
+	if (!isInRole(roles))
 	    return;
 	throw new UnauthorizedException(message);
     }
 
-    public static void checkRoleDenied(RoleGroup... rolesDenied) {
-	SecurityRole[] allRolesList = allRolesList(rolesDenied);
+    public static void checkRoleDenied(RoleGroup... roles) {
+	SecurityRole[] list = allRolesList(roles);
 	StringBuffer sb = new StringBuffer("Недостаточно прав доступа.");
-	for (int i = 0; i < allRolesList.length; i++) {
+	for (int i = 0; i < list.length; i++) {
 	    if (i == 0)
 		sb.append(" Доступ для ролей : ");
-	    sb.append(allRolesList[i].toString());
-	    if (i == allRolesList.length - 1)
+	    sb.append(list[i].toString());
+	    if (i == list.length - 1)
 		sb.append(" запрещен.");
 	    else
 		sb.append(", ");
 	}
-	checkRoleDenied(sb.toString(), allRolesList);
+	checkRoleDenied(sb.toString(), list);
     }
 
     private static SecurityRole[] allRolesList(RoleGroup... roles) {

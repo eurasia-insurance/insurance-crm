@@ -27,7 +27,7 @@
 		<kz-lib.version>2.3.1</kz-lib.version>
 		<international-lib.version>2.1.2</international-lib.version>
 		<insurance-lib.version>1.10</insurance-lib.version>
-		<lapsa-lib.version>1.2.2</lapsa-lib.version>
+		<lapsa-lib.version>1.3</lapsa-lib.version>
 		<donkeyfaces-lib.version>1.2.2</donkeyfaces-lib.version>
 		<reports-lib.version>1.0</reports-lib.version>
 		<pushapi-lib.version>1.0</pushapi-lib.version>
@@ -140,6 +140,11 @@
 			<dependency>
 				<groupId>com.lapsa.lapsa-lib</groupId>
 				<artifactId>lapsa-validation</artifactId>
+				<version>${lapsa-lib.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.lapsa.lapsa-lib</groupId>
+				<artifactId>lapsa-utils</artifactId>
 				<version>${lapsa-lib.version}</version>
 			</dependency>
 			<!-- internal donkeyfaces -->

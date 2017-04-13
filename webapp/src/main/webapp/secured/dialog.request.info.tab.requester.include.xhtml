@@ -19,7 +19,7 @@
 				<crm:outputRowText label="ФИО" value="#{rqr.name}" />
 
 				<crm:outputRowText label="Телефон" value="#{rqr.phone}"
-					rendered="#{ir.progressStatus ne 'NEW'}" />
+					rendered="#{showPhoneNumber}" />
 
 				<crm:outputRowText label="E-mail" value="#{rqr.email}" />
 

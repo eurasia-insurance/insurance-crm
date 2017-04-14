@@ -40,6 +40,12 @@
 		</dependency>
 		<dependency>
 			<groupId>com.lapsa.insurance-lib</groupId>
+			<artifactId>insurance-security</artifactId>
+			<scope>compile</scope>
+			<optional>false</optional>
+		</dependency>
+		<dependency>
+			<groupId>com.lapsa.insurance-lib</groupId>
 			<artifactId>insurance-services-impl-cdi</artifactId>
 			<scope>provided</scope>
 		</dependency>

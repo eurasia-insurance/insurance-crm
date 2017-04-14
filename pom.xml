@@ -92,6 +92,11 @@
 				<artifactId>insurance-validation</artifactId>
 				<version>${insurance-lib.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>com.lapsa.insurance-lib</groupId>
+				<artifactId>insurance-security</artifactId>
+				<version>${insurance-lib.version}</version>
+			</dependency>
 			<!-- internal insurance -->
 			<dependency>
 				<groupId>com.lapsa.insurance-lib</groupId>

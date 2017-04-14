@@ -1,8 +1,9 @@
 package kz.theeurasia.eurasia36.component;
 
+import static com.lapsa.utils.TemporalUtils.*;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Date;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -11,6 +12,14 @@ import javax.inject.Named;
 @Named("crmDateUtil")
 @ApplicationScoped
 public class DateUtil {
+
+    public Date toDateLocalDate(LocalDate localDate) {
+	return toDate(localDate);
+    }
+
+    public Date toDateLocalDateTime(LocalDateTime localDateTime) {
+	return toDate(localDateTime);
+    }
 
     public boolean isToday(Date date) {
 	return checkIsToday(date);
@@ -50,28 +59,10 @@ public class DateUtil {
 
     // PUBLIC STATIC
 
-    public static LocalDate toLocalDate(Date date) {
-	if (date == null)
-	    return null;
-	return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-    }
-
-    public static Date toDateLocalDate(LocalDate localDate) {
-	if (localDate == null)
-	    return null;
-	return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-    }
-
-    public static Date toDateLocalDateTime(LocalDateTime localDateTime) {
-	if (localDateTime == null)
-	    return null;
-	return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
-    }
-
     private static boolean checkIsToday(LocalDateTime localDateTime) {
 	if (localDateTime == null)
 	    return false;
-	return checkIsToday(localDateTime.toLocalDate());
+	return checkIsToday(toLocalDate(localDateTime));
     }
 
     private static boolean checkIsToday(LocalDate localDate) {
@@ -108,7 +99,7 @@ public class DateUtil {
     public static boolean checkIsYesterday(LocalDateTime localDateTime) {
 	if (localDateTime == null)
 	    return false;
-	return checkIsYesterday(localDateTime.toLocalDate());
+	return checkIsYesterday(toLocalDate(localDateTime));
     }
 
     @Deprecated
@@ -130,7 +121,7 @@ public class DateUtil {
     public static boolean checkIsTommorow(LocalDateTime localDateTime) {
 	if (localDateTime == null)
 	    return false;
-	return checkIsTommorow(localDateTime.toLocalDate());
+	return checkIsTommorow(toLocalDate(localDateTime));
     }
 
 }

@@ -13,6 +13,14 @@ import javax.inject.Named;
 @ApplicationScoped
 public class DateUtil {
 
+    public Date toDateLocalDate(LocalDate localDate) {
+	return toDate(localDate);
+    }
+
+    public Date toDateLocalDateTime(LocalDateTime localDateTime) {
+	return toDate(localDateTime);
+    }
+
     public boolean isToday(Date date) {
 	return checkIsToday(date);
     }

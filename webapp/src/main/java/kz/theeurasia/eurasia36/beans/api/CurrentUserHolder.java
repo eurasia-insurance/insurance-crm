@@ -1,8 +1,7 @@
 package kz.theeurasia.eurasia36.beans.api;
 
 import com.lapsa.insurance.domain.crm.User;
-
-import kz.theeurasia.eurasia36.application.security.RoleGroup;
+import com.lapsa.insurance.security.RoleGroup;
 
 public interface CurrentUserHolder extends WritableValueHolder<User> {
 

@@ -12,10 +12,10 @@ import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 
 import com.lapsa.insurance.domain.crm.User;
+import com.lapsa.insurance.security.AuthorizationUtil;
+import com.lapsa.insurance.security.RoleGroup;
 import com.lapsa.insurance.services.domain.UserFacade;
 
-import kz.theeurasia.eurasia36.application.security.AuthorizationUtil;
-import kz.theeurasia.eurasia36.application.security.RoleGroup;
 import kz.theeurasia.eurasia36.beans.api.CurrentUserHolder;
 
 @Named("currentUser")

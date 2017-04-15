@@ -8,7 +8,8 @@ import javax.inject.Named;
 
 import org.omnifaces.cdi.ViewScoped;
 
-import kz.theeurasia.eurasia36.application.security.SecurityRoleGroup;
+import com.lapsa.insurance.security.SecurityRoleGroup;
+
 import kz.theeurasia.eurasia36.beans.api.CurrentUserHolder;
 import kz.theeurasia.eurasia36.beans.api.RequestType;
 import kz.theeurasia.eurasia36.beans.api.SettingsHolder;

@@ -1,6 +1,6 @@
 package kz.theeurasia.eurasia36.beans.application;
 
-import static kz.theeurasia.eurasia36.application.security.AuthorizationUtil.*;
+import static com.lapsa.insurance.security.AuthorizationUtil.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -35,10 +35,10 @@ import com.lapsa.insurance.domain.InsuranceRequest;
 import com.lapsa.insurance.domain.ObtainingData;
 import com.lapsa.insurance.domain.PaymentData;
 import com.lapsa.insurance.domain.Request;
+import com.lapsa.insurance.security.SecurityRoleGroup;
 
 import kz.theeurasia.eurasia36.application.MainFacade;
 import kz.theeurasia.eurasia36.application.UIMessages;
-import kz.theeurasia.eurasia36.application.security.SecurityRoleGroup;
 import kz.theeurasia.eurasia36.beans.api.CurrentUserHolder;
 import kz.theeurasia.eurasia36.beans.api.FacesMessagesFacade;
 import kz.theeurasia.eurasia36.beans.api.RequestHolder;

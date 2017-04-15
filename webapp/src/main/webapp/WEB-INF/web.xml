@@ -34,7 +34,7 @@
 		<location>/expired.html</location>
 	</error-page>
 	<error-page>
-		<exception-type>kz.theeurasia.eurasia36.beans.application.UnauthorizedException</exception-type>
+		<exception-type>com.lapsa.insurance.security.UnauthorizedException</exception-type>
 		<location>/unauthorized.html</location>
 	</error-page>
 	<error-page>

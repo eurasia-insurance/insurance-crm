@@ -1,5 +1,7 @@
 package kz.theeurasia.eurasia36.beans.view.pojo;
 
+import static com.lapsa.utils.security.SecurityUtils.*;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -14,8 +16,7 @@ import com.lapsa.insurance.dao.filter.RequestFilter;
 import com.lapsa.insurance.domain.crm.User;
 import com.lapsa.insurance.elements.ObtainingMethod;
 import com.lapsa.insurance.elements.PaymentMethod;
-import com.lapsa.insurance.security.AuthorizationUtil;
-import com.lapsa.insurance.security.SecurityRoleGroup;
+import com.lapsa.insurance.security.InsuranceRoleGroup;
 
 public class RequestFilterBean implements RequestFilter, Serializable {
     private static final long serialVersionUID = -5052366661196023039L;
@@ -230,7 +231,7 @@ public class RequestFilterBean implements RequestFilter, Serializable {
 
     public void setCreatedBy(User createdBy) {
 	// тем кто в группе VIEW_OWN_OWNED не разрешено менять настройку фильтра
-	AuthorizationUtil.checkRoleDenied(SecurityRoleGroup.VIEW_OWN_OWNED);
+	checkRoleDenied(InsuranceRoleGroup.VIEW_OWN_OWNED);
 	this.createdBy = createdBy;
     }
 

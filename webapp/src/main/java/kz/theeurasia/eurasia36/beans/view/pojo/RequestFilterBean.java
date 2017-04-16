@@ -16,7 +16,8 @@ import com.lapsa.insurance.dao.filter.RequestFilter;
 import com.lapsa.insurance.domain.crm.User;
 import com.lapsa.insurance.elements.ObtainingMethod;
 import com.lapsa.insurance.elements.PaymentMethod;
-import com.lapsa.insurance.security.InsuranceRoleGroup;
+
+import kz.theeurasia.eurasia36.beans.api.InsuranceRoleGroup;
 
 public class RequestFilterBean implements RequestFilter, Serializable {
     private static final long serialVersionUID = -5052366661196023039L;
@@ -230,8 +231,8 @@ public class RequestFilterBean implements RequestFilter, Serializable {
     }
 
     public void setCreatedBy(User createdBy) {
-	// тем кто в группе VIEW_OWNED_ONLY не разрешено менять настройку фильтра
-	checkRoleDenied(InsuranceRoleGroup.VIEW_OWNED_ONLY);
+	// тем кто в группе VIEWERS_OWNED_ONLY не разрешено менять настройку фильтра
+	checkRoleDenied(InsuranceRoleGroup.VIEWERS_OWNED_ONLY);
 	this.createdBy = createdBy;
     }
 

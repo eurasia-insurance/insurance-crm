@@ -9,7 +9,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.lapsa.insurance.domain.crm.User;
-import com.lapsa.insurance.security.InsuranceRole;
+import com.lapsa.insurance.security.InsuranceRoleGroup;
 import com.lapsa.insurance.services.domain.UserFacade;
 import com.lapsa.utils.security.SecurityUtils;
 
@@ -51,18 +51,17 @@ public class DefaultCurrentUserHolder extends DefaultWritableValueHolder<User>
 
     @Override
     public boolean isCanView() {
-	return SecurityUtils.isInRole(InsuranceRole.ADMIN_ROLE, InsuranceRole.SPECIALIST_ROLE,
-		InsuranceRole.AGENT_ROLE);
+	return SecurityUtils.isInRole(InsuranceRoleGroup.VIEWERS);
     }
 
     @Override
     public boolean isCanChange() {
-	return SecurityUtils.isInRole(InsuranceRole.ADMIN_ROLE, InsuranceRole.SPECIALIST_ROLE);
+	return SecurityUtils.isInRole(InsuranceRoleGroup.CHANGERS);
     }
 
     @Override
     public boolean isCanClose() {
-	return SecurityUtils.isInRole(InsuranceRole.ADMIN_ROLE);
+	return SecurityUtils.isInRole(InsuranceRoleGroup.CLOSERS);
     }
 
 }

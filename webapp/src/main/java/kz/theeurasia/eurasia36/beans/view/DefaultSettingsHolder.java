@@ -8,7 +8,8 @@ import javax.inject.Named;
 
 import org.omnifaces.cdi.ViewScoped;
 
-import com.lapsa.insurance.security.SecurityRoleGroup;
+import com.lapsa.insurance.security.InsuranceRoleGroup;
+import com.lapsa.utils.security.SecurityUtils;
 
 import kz.theeurasia.eurasia36.beans.api.CurrentUserHolder;
 import kz.theeurasia.eurasia36.beans.api.RequestType;
@@ -34,7 +35,7 @@ public class DefaultSettingsHolder implements Serializable, SettingsHolder {
     @Override
     @PostConstruct
     public void resetFilters() {
-	if (currentUser.inRole(SecurityRoleGroup.VIEW_OWN_OWNED))
+	if (SecurityUtils.isInRole(InsuranceRoleGroup.VIEW_OWN_OWNED))
 	    requestFilter = new RequestFilterBean(currentUser.getValue());
 	else
 	    requestFilter = new RequestFilterBean();

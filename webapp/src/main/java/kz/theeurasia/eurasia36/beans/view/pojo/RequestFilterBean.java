@@ -5,6 +5,8 @@ import static com.lapsa.utils.security.SecurityUtils.*;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.faces.context.FacesContext;
+
 import com.lapsa.insurance.crm.InsuranceRequestType;
 import com.lapsa.insurance.crm.ObtainingStatus;
 import com.lapsa.insurance.crm.PaymentStatus;
@@ -231,8 +233,9 @@ public class RequestFilterBean implements RequestFilter, Serializable {
     }
 
     public void setCreatedBy(User createdBy) {
-	// тем кто в группе VIEWERS_OWNED_ONLY не разрешено менять настройку фильтра
-	checkRoleDenied(InsuranceRoleGroup.VIEWERS_OWNED_ONLY);
+	// тем кто в группе VIEWERS_OWNED_ONLY не разрешено менять настройку
+	// фильтра
+	checkRoleDenied(FacesContext.getCurrentInstance(), InsuranceRoleGroup.VIEWERS_OWNED_ONLY);
 	this.createdBy = createdBy;
     }
 

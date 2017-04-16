@@ -1,4 +1,4 @@
-package kz.theeurasia.eurasia36.beans.api;
+package kz.theeurasia.eurasia36.application;
 
 import java.util.StringJoiner;
 

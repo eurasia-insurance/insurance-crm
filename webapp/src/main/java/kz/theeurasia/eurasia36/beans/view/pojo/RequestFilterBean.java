@@ -17,7 +17,7 @@ import com.lapsa.insurance.domain.crm.User;
 import com.lapsa.insurance.elements.ObtainingMethod;
 import com.lapsa.insurance.elements.PaymentMethod;
 
-import kz.theeurasia.eurasia36.beans.api.InsuranceRoleGroup;
+import kz.theeurasia.eurasia36.application.InsuranceRoleGroup;
 
 public class RequestFilterBean implements RequestFilter, Serializable {
     private static final long serialVersionUID = -5052366661196023039L;

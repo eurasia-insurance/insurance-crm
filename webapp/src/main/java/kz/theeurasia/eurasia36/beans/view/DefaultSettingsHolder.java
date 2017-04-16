@@ -10,8 +10,8 @@ import org.omnifaces.cdi.ViewScoped;
 
 import com.lapsa.utils.security.SecurityUtils;
 
+import kz.theeurasia.eurasia36.application.InsuranceRoleGroup;
 import kz.theeurasia.eurasia36.beans.api.CurrentUserHolder;
-import kz.theeurasia.eurasia36.beans.api.InsuranceRoleGroup;
 import kz.theeurasia.eurasia36.beans.api.RequestType;
 import kz.theeurasia.eurasia36.beans.api.SettingsHolder;
 import kz.theeurasia.eurasia36.beans.view.pojo.RequestFilterBean;

@@ -34,7 +34,7 @@
 		<location>/expired.html</location>
 	</error-page>
 	<error-page>
-		<exception-type>kz.theeurasia.eurasia36.beans.application.UnauthorizedException</exception-type>
+		<exception-type>com.lapsa.utils.security.UnauthorizedException</exception-type>
 		<location>/unauthorized.html</location>
 	</error-page>
 	<error-page>
@@ -131,35 +131,12 @@
 			<url-pattern>/secured/*</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
-			<role-name>partner</role-name>
-			<role-name>reporter</role-name>
-			<role-name>specialist</role-name>
-			<role-name>supervisor</role-name>
+			<role-name>*</role-name>
 		</auth-constraint>
 		<user-data-constraint>
 			<transport-guarantee>CONFIDENTIAL</transport-guarantee>
 		</user-data-constraint>
 	</security-constraint>
-
-	<security-role>
-		<description>This role is for partners who send us requests and needs to view your request at CRM level</description>
-		<role-name>partner</role-name>
-	</security-role>
-
-	<security-role>
-		<description>Read-only role</description>
-		<role-name>reporter</role-name>
-	</security-role>
-
-	<security-role>
-		<description>Sales personnel</description>
-		<role-name>specialist</role-name>
-	</security-role>
-
-	<security-role>
-		<description>Administrative role</description>
-		<role-name>supervisor</role-name>
-	</security-role>
 
 	<login-config>
 		<auth-method>BASIC</auth-method>

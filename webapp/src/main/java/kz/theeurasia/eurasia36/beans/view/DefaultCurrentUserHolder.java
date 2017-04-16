@@ -5,17 +5,14 @@ import java.security.Principal;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.HttpServletRequest;
 
 import com.lapsa.insurance.domain.crm.User;
 import com.lapsa.insurance.services.domain.UserFacade;
+import com.lapsa.utils.security.SecurityUtils;
 
-import kz.theeurasia.eurasia36.application.security.AuthorizationUtil;
-import kz.theeurasia.eurasia36.application.security.RoleGroup;
+import kz.theeurasia.eurasia36.application.InsuranceRoleGroup;
 import kz.theeurasia.eurasia36.beans.api.CurrentUserHolder;
 
 @Named("currentUser")
@@ -35,38 +32,8 @@ public class DefaultCurrentUserHolder extends DefaultWritableValueHolder<User>
     }
 
     @Override
-    public boolean inRoles(RoleGroup... roles) {
-	return AuthorizationUtil.isInRole(roles);
-    }
-
-    @Override
-    public boolean inRole(RoleGroup role1, RoleGroup role2, RoleGroup role3) {
-	return AuthorizationUtil.isInRole(role1, role2, role3);
-    }
-
-    @Override
-    public boolean inRole(RoleGroup role1, RoleGroup role2) {
-	return AuthorizationUtil.isInRole(role1, role2);
-    }
-
-    @Override
-    public boolean inRole(RoleGroup role1) {
-	return AuthorizationUtil.isInRole(role1);
-    }
-
-    @Override
     public void reset() {
-	ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();
-	HttpServletRequest req = (HttpServletRequest) extContext.getRequest();
-
-	Principal userPrincipal = null;
-
-	if (userPrincipal == null)
-	    userPrincipal = extContext.getUserPrincipal();
-
-	if (userPrincipal == null) {
-	    userPrincipal = req.getUserPrincipal();
-	}
+	Principal userPrincipal = SecurityUtils.getUserPrincipal();
 
 	String principalName = null;
 
@@ -74,15 +41,32 @@ public class DefaultCurrentUserHolder extends DefaultWritableValueHolder<User>
 	    principalName = userPrincipal.getName();
 
 	if (principalName == null)
-	    principalName = extContext.getRemoteUser();
-
-	if (principalName == null)
-	    principalName = req.getRemoteUser();
+	    principalName = SecurityUtils.getRemoteUser();
 
 	if (principalName == null)
 	    principalName = DEFAULT_REMOTE_USER;
 
 	value = userFacade.findOrCreate(principalName);
+    }
+
+    @Override
+    public boolean isCanView() {
+	return SecurityUtils.isInRole(InsuranceRoleGroup.VIEWERS);
+    }
+
+    @Override
+    public boolean isCanChange() {
+	return SecurityUtils.isInRole(InsuranceRoleGroup.CHANGERS);
+    }
+
+    @Override
+    public boolean isCanClose() {
+	return SecurityUtils.isInRole(InsuranceRoleGroup.CLOSERS);
+    }
+
+    @Override
+    public boolean isCanViewOwnedOnly() {
+	return SecurityUtils.isInRole(InsuranceRoleGroup.VIEWERS_OWNED_ONLY);
     }
 
 }

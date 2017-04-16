@@ -1,6 +1,6 @@
 package kz.theeurasia.eurasia36.beans.application;
 
-import static kz.theeurasia.eurasia36.application.security.AuthorizationUtil.*;
+import static com.lapsa.utils.security.SecurityUtils.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -36,9 +36,9 @@ import com.lapsa.insurance.domain.ObtainingData;
 import com.lapsa.insurance.domain.PaymentData;
 import com.lapsa.insurance.domain.Request;
 
+import kz.theeurasia.eurasia36.application.InsuranceRoleGroup;
 import kz.theeurasia.eurasia36.application.MainFacade;
 import kz.theeurasia.eurasia36.application.UIMessages;
-import kz.theeurasia.eurasia36.application.security.SecurityRoleGroup;
 import kz.theeurasia.eurasia36.beans.api.CurrentUserHolder;
 import kz.theeurasia.eurasia36.beans.api.FacesMessagesFacade;
 import kz.theeurasia.eurasia36.beans.api.RequestHolder;
@@ -65,7 +65,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doRefresh() {
-	checkRoleGranted(SecurityRoleGroup.VIEWERS);
+	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
 	refreshRequests();
 	unselectIfNotShown();
 	return null;
@@ -73,7 +73,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doInitialize() {
-	checkRoleGranted(SecurityRoleGroup.VIEWERS);
+	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
 	initFilter();
 	refreshRequests();
 	return null;
@@ -81,7 +81,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doResetFilter() {
-	checkRoleGranted(SecurityRoleGroup.VIEWERS);
+	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
 	resetFilter();
 	refreshRequests();
 	unselectIfNotShown();
@@ -90,7 +90,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doFilterCreatedToday() {
-	checkRoleGranted(SecurityRoleGroup.VIEWERS);
+	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
 	filterCreatedToday();
 	refreshRequests();
 	unselectIfNotShown();
@@ -99,7 +99,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doFilterCreatedYesterday() {
-	checkRoleGranted(SecurityRoleGroup.VIEWERS);
+	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
 	filterCreatedYesterday();
 	refreshRequests();
 	unselectIfNotShown();
@@ -108,7 +108,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doFilterCreatedThisWeek() {
-	checkRoleGranted(SecurityRoleGroup.VIEWERS);
+	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
 	filterCreatedThisWeek();
 	refreshRequests();
 	unselectIfNotShown();
@@ -117,7 +117,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doFilterCreatedLastWeek() {
-	checkRoleGranted(SecurityRoleGroup.VIEWERS);
+	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
 	filterCreatedLastWeek();
 	refreshRequests();
 	unselectIfNotShown();
@@ -126,7 +126,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doFilterCreatedThisMonth() {
-	checkRoleGranted(SecurityRoleGroup.VIEWERS);
+	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
 	filterCreatedThisMonth();
 	refreshRequests();
 	unselectIfNotShown();
@@ -135,7 +135,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doFilterCreatedLastMonth() {
-	checkRoleGranted(SecurityRoleGroup.VIEWERS);
+	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
 	filterCreatedLastMonth();
 	refreshRequests();
 	unselectIfNotShown();
@@ -144,7 +144,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doFilterCompletedToday() {
-	checkRoleGranted(SecurityRoleGroup.VIEWERS);
+	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
 	filterCompletedToday();
 	refreshRequests();
 	unselectIfNotShown();
@@ -153,7 +153,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doFilterCompletedYesterday() {
-	checkRoleGranted(SecurityRoleGroup.VIEWERS);
+	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
 	filterCompletedYesterday();
 	refreshRequests();
 	unselectIfNotShown();
@@ -162,7 +162,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doFilterCompletedThisWeek() {
-	checkRoleGranted(SecurityRoleGroup.VIEWERS);
+	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
 	filterCompletedThisWeek();
 	refreshRequests();
 	unselectIfNotShown();
@@ -171,7 +171,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doFilterCompletedLastWeek() {
-	checkRoleGranted(SecurityRoleGroup.VIEWERS);
+	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
 	filterCompletedLastWeek();
 	refreshRequests();
 	unselectIfNotShown();
@@ -180,7 +180,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doFilterCompletedThisMonth() {
-	checkRoleGranted(SecurityRoleGroup.VIEWERS);
+	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
 	filterCompletedThisMonth();
 	refreshRequests();
 	unselectIfNotShown();
@@ -189,7 +189,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doFilterCompletedLastMonth() {
-	checkRoleGranted(SecurityRoleGroup.VIEWERS);
+	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
 	filterCompletedLastMonth();
 	refreshRequests();
 	unselectIfNotShown();
@@ -198,7 +198,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doAcceptRequestOnce() {
-	checkRoleGranted(SecurityRoleGroup.CHANGERS);
+	checkRoleGranted(InsuranceRoleGroup.CHANGERS);
 	acceptRequestOnce();
 	saveRequest();
 	refreshRequests();
@@ -215,7 +215,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doPauseRequest() {
-	checkRoleGranted(SecurityRoleGroup.CHANGERS);
+	checkRoleGranted(InsuranceRoleGroup.CHANGERS);
 	pauseRequest();
 	saveRequest();
 	refreshRequests();
@@ -225,7 +225,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doResumeRequest() {
-	checkRoleGranted(SecurityRoleGroup.CHANGERS);
+	checkRoleGranted(InsuranceRoleGroup.CHANGERS);
 	resumeRequest();
 	saveRequest();
 	refreshRequests();
@@ -235,7 +235,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doCloseRequest() {
-	checkRoleGranted(SecurityRoleGroup.CLOSERS);
+	checkRoleGranted(InsuranceRoleGroup.CLOSERS);
 	closeRequest();
 	saveRequest();
 	refreshRequests();
@@ -245,7 +245,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doCancelEditRequest() {
-	checkRoleGranted(SecurityRoleGroup.CHANGERS);
+	checkRoleGranted(InsuranceRoleGroup.CHANGERS);
 	resetRequest();
 	refreshRequests();
 	unselectIfNotShown();
@@ -254,7 +254,7 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public String doCompleteRequest() {
-	checkRoleGranted(SecurityRoleGroup.CHANGERS);
+	checkRoleGranted(InsuranceRoleGroup.CHANGERS);
 	completeRequest();
 	saveRequest();
 	refreshRequests();

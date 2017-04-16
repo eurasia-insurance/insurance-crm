@@ -1,7 +1,11 @@
 package kz.theeurasia.eurasia36.beans.view.pojo;
 
+import static com.lapsa.utils.security.SecurityUtils.*;
+
 import java.io.Serializable;
 import java.util.Date;
+
+import javax.faces.context.FacesContext;
 
 import com.lapsa.insurance.crm.InsuranceRequestType;
 import com.lapsa.insurance.crm.ObtainingStatus;
@@ -15,8 +19,7 @@ import com.lapsa.insurance.domain.crm.User;
 import com.lapsa.insurance.elements.ObtainingMethod;
 import com.lapsa.insurance.elements.PaymentMethod;
 
-import kz.theeurasia.eurasia36.application.security.AuthorizationUtil;
-import kz.theeurasia.eurasia36.application.security.SecurityRoleGroup;
+import kz.theeurasia.eurasia36.application.InsuranceRoleGroup;
 
 public class RequestFilterBean implements RequestFilter, Serializable {
     private static final long serialVersionUID = -5052366661196023039L;
@@ -230,8 +233,9 @@ public class RequestFilterBean implements RequestFilter, Serializable {
     }
 
     public void setCreatedBy(User createdBy) {
-	// тем кто в группе VIEW_OWN_OWNED не разрешено менять настройку фильтра
-	AuthorizationUtil.checkRoleDenied(SecurityRoleGroup.VIEW_OWN_OWNED);
+	// тем кто в группе VIEWERS_OWNED_ONLY не разрешено менять настройку
+	// фильтра
+	checkRoleDenied(FacesContext.getCurrentInstance(), InsuranceRoleGroup.VIEWERS_OWNED_ONLY);
 	this.createdBy = createdBy;
     }
 

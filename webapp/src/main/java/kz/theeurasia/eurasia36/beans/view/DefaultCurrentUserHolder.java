@@ -64,4 +64,9 @@ public class DefaultCurrentUserHolder extends DefaultWritableValueHolder<User>
 	return SecurityUtils.isInRole(InsuranceRoleGroup.CLOSERS);
     }
 
+    @Override
+    public boolean isCanViewOwnedOnly() {
+	return SecurityUtils.isInRole(InsuranceRoleGroup.VIEWERS_OWNED_ONLY);
+    }
+
 }

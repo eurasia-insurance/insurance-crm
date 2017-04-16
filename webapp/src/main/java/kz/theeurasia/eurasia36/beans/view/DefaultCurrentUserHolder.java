@@ -9,7 +9,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.lapsa.insurance.domain.crm.User;
-import com.lapsa.insurance.security.InsuranceRoleGroup;
+import com.lapsa.insurance.security.InsuranceRole;
 import com.lapsa.insurance.services.domain.UserFacade;
 import com.lapsa.utils.security.SecurityUtils;
 
@@ -32,26 +32,6 @@ public class DefaultCurrentUserHolder extends DefaultWritableValueHolder<User>
     }
 
     @Override
-    public boolean inRoles(InsuranceRoleGroup... roles) {
-	return SecurityUtils.isInRole(roles);
-    }
-
-    @Override
-    public boolean inRole(InsuranceRoleGroup role1, InsuranceRoleGroup role2, InsuranceRoleGroup role3) {
-	return SecurityUtils.isInRole(role1, role2, role3);
-    }
-
-    @Override
-    public boolean inRole(InsuranceRoleGroup role1, InsuranceRoleGroup role2) {
-	return SecurityUtils.isInRole(role1, role2);
-    }
-
-    @Override
-    public boolean inRole(InsuranceRoleGroup role1) {
-	return SecurityUtils.isInRole(role1);
-    }
-
-    @Override
     public void reset() {
 	Principal userPrincipal = SecurityUtils.getUserPrincipal();
 
@@ -67,6 +47,22 @@ public class DefaultCurrentUserHolder extends DefaultWritableValueHolder<User>
 	    principalName = DEFAULT_REMOTE_USER;
 
 	value = userFacade.findOrCreate(principalName);
+    }
+
+    @Override
+    public boolean isCanView() {
+	return SecurityUtils.isInRole(InsuranceRole.ADMIN_ROLE, InsuranceRole.SPECIALIST_ROLE,
+		InsuranceRole.AGENT_ROLE);
+    }
+
+    @Override
+    public boolean isCanChange() {
+	return SecurityUtils.isInRole(InsuranceRole.ADMIN_ROLE, InsuranceRole.SPECIALIST_ROLE);
+    }
+
+    @Override
+    public boolean isCanClose() {
+	return SecurityUtils.isInRole(InsuranceRole.ADMIN_ROLE);
     }
 
 }

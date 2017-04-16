@@ -20,23 +20,17 @@
 
 	<ui:define name="page-content">
 
-		<o:importConstants
-			type="com.lapsa.insurance.security.SecurityRoleGroup" />
+		<o:importConstants type="com.lapsa.insurance.security.InsuranceRole" />
+
+		<c:set var="canView" value="#{currentUser.canView}" scope="request" />
+
+		<c:set var="canChange" value="#{currentUser.canChange}"
+			scope="request" />
+
+		<c:set var="canClose" value="#{currentUser.canClose}" scope="request" />
 
 		<o:importConstants
 			type="kz.theeurasia.eurasia36.beans.api.RequestType" />
-
-		<c:set var="canView"
-			value="#{currentUser.inRole(SecurityRoleGroup.VIEWERS)}"
-			scope="request" />
-
-		<c:set var="canChange"
-			value="#{currentUser.inRole(SecurityRoleGroup.CHANGERS)}"
-			scope="request" />
-
-		<c:set var="canClose"
-			value="#{currentUser.inRole(SecurityRoleGroup.CLOSERS)}"
-			scope="request" />
 
 		<h:form id="form">
 

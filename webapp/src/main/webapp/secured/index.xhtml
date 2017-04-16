@@ -32,7 +32,10 @@
 		<o:importConstants
 			type="kz.theeurasia.eurasia36.beans.api.RequestType" />
 
-		<h:form id="form">
+		<h:outputText rendered="#{not canView}"
+			value="Недостаточно доступа для просмотра заявок. Обратитесь к админстратору." />
+
+		<h:form id="form" rendered="#{canView}">
 
 			<ui:decorate
 				template="/WEB-INF/templates/primefaces-growl.include.xhtml" />

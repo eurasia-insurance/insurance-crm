@@ -230,8 +230,8 @@ public class RequestFilterBean implements RequestFilter, Serializable {
     }
 
     public void setCreatedBy(User createdBy) {
-	// тем кто в группе VIEW_OWN_OWNED не разрешено менять настройку фильтра
-	checkRoleDenied(InsuranceRoleGroup.VIEW_OWN_OWNED);
+	// тем кто в группе VIEW_OWNED_ONLY не разрешено менять настройку фильтра
+	checkRoleDenied(InsuranceRoleGroup.VIEW_OWNED_ONLY);
 	this.createdBy = createdBy;
     }
 

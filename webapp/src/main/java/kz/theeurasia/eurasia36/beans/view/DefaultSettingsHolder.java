@@ -35,7 +35,7 @@ public class DefaultSettingsHolder implements Serializable, SettingsHolder {
     @Override
     @PostConstruct
     public void resetFilters() {
-	if (SecurityUtils.isInRole(InsuranceRoleGroup.VIEW_OWN_OWNED))
+	if (SecurityUtils.isInRole(InsuranceRoleGroup.VIEW_OWNED_ONLY))
 	    requestFilter = new RequestFilterBean(currentUser.getValue());
 	else
 	    requestFilter = new RequestFilterBean();

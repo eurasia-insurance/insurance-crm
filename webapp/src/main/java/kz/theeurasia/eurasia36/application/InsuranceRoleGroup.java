@@ -3,6 +3,7 @@ package kz.theeurasia.eurasia36.application;
 import java.util.StringJoiner;
 
 import com.lapsa.insurance.security.InsuranceRole;
+import com.lapsa.utils.security.SecurityRole;
 import com.lapsa.utils.security.SecurityRoleGroup;
 
 public enum InsuranceRoleGroup implements SecurityRoleGroup {
@@ -20,21 +21,21 @@ public enum InsuranceRoleGroup implements SecurityRoleGroup {
 
     CLOSERS(InsuranceRole.ADMIN_ROLE);
 
-    private final InsuranceRole[] roles;
+    private final SecurityRole[] roles;
 
-    private InsuranceRoleGroup(InsuranceRole... roles) {
+    private InsuranceRoleGroup(SecurityRole... roles) {
 	this.roles = roles;
     }
 
     @Override
-    public InsuranceRole[] getRoles() {
+    public SecurityRole[] getRoles() {
 	return roles;
     }
 
     @Override
     public String toString() {
 	StringJoiner sj = new StringJoiner(", ", "[", "]");
-	for (InsuranceRole r : roles)
+	for (SecurityRole r : roles)
 	    sj.add(r.toString());
 	return sj.toString();
     }

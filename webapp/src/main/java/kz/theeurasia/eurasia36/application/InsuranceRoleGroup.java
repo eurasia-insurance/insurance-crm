@@ -12,6 +12,7 @@ public enum InsuranceRoleGroup implements SecurityRoleGroup {
 
     VIEWERS(
 	    InsuranceRole.AGENT_ROLE,
+	    InsuranceRole.REPORTER_ROLE,
 	    InsuranceRole.SPECIALIST_ROLE,
 	    InsuranceRole.ADMIN_ROLE),
 

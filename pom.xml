@@ -26,7 +26,7 @@
 		<!-- APIs -->
 		<kz-lib.version>2.4</kz-lib.version>
 		<international-lib.version>2.1.2</international-lib.version>
-		<insurance-lib.version>1.11</insurance-lib.version>
+		<insurance-lib.version>1.11.1</insurance-lib.version>
 		<lapsa-lib.version>1.4</lapsa-lib.version>
 		<donkeyfaces-lib.version>1.2.2</donkeyfaces-lib.version>
 		<reports-lib.version>1.0</reports-lib.version>

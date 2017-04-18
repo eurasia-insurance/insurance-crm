@@ -33,8 +33,8 @@
 		<pushapi-lib.version>1.0</pushapi-lib.version>
 		<!-- EJBs & WARs -->
 		<insurance-services-impl-cdi.version>1.10-SNAPSHOT</insurance-services-impl-cdi.version>
-		<insurance-dao-impl-jpa.version>1.9</insurance-dao-impl-jpa.version>
-		<insurance-jpa-unit.version>1.10</insurance-jpa-unit.version>
+		<insurance-dao-impl-jpa.version>1.10-SNAPSHOT</insurance-dao-impl-jpa.version>
+		<insurance-jpa-unit.version>1.10a-SNAPSHOT</insurance-jpa-unit.version>
 		<pushapi-dao-impl-jpa.version>1.0</pushapi-dao-impl-jpa.version>
 		<pushapi-jpa-unit.version>1.0</pushapi-jpa-unit.version>
 		<pushapi-app.version>1.0</pushapi-app.version>

@@ -1,6 +1,6 @@
 package kz.theeurasia.eurasia36.beans.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import com.lapsa.insurance.crm.ProgressStatus;
 import com.lapsa.insurance.crm.RequestStatus;
@@ -48,7 +48,7 @@ public abstract class RequestRowDataModel<T extends Request> implements RequestR
     }
 
     @Override
-    public Date getCreated() {
+    public LocalDateTime getCreated() {
 	try {
 	    return entity.getCreated();
 	} catch (NullPointerException e) {
@@ -66,7 +66,7 @@ public abstract class RequestRowDataModel<T extends Request> implements RequestR
     }
 
     @Override
-    public Date getUpdated() {
+    public LocalDateTime getUpdated() {
 	try {
 	    return entity.getUpdated();
 	} catch (NullPointerException e) {
@@ -75,7 +75,7 @@ public abstract class RequestRowDataModel<T extends Request> implements RequestR
     }
 
     @Override
-    public Date getAccepted() {
+    public LocalDateTime getAccepted() {
 	try {
 	    return entity.getAccepted();
 	} catch (NullPointerException e) {
@@ -93,7 +93,7 @@ public abstract class RequestRowDataModel<T extends Request> implements RequestR
     }
 
     @Override
-    public Date getCompleted() {
+    public LocalDateTime getCompleted() {
 	try {
 	    return entity.getCompleted();
 	} catch (NullPointerException e) {
@@ -111,7 +111,7 @@ public abstract class RequestRowDataModel<T extends Request> implements RequestR
     }
 
     @Override
-    public Date getClosed() {
+    public LocalDateTime getClosed() {
 	try {
 	    return entity.getClosed();
 	} catch (NullPointerException e) {

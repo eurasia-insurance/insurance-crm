@@ -3,7 +3,7 @@ package kz.theeurasia.eurasia36.beans.view.pojo;
 import static com.lapsa.utils.security.SecurityUtils.*;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.faces.context.FacesContext;
 
@@ -33,10 +33,10 @@ public class RequestFilterBean implements RequestFilter, Serializable {
     private RequestStatus requestStatus;
     private ProgressStatus progressStatus;
 
-    private Date createdAfter;
-    private Date createdBefore;
-    private Date completedAfter;
-    private Date completedBefore;
+    private LocalDateTime createdAfter;
+    private LocalDateTime createdBefore;
+    private LocalDateTime completedAfter;
+    private LocalDateTime completedBefore;
 
     private User createdBy;
     private User acceptedBy;
@@ -106,38 +106,38 @@ public class RequestFilterBean implements RequestFilter, Serializable {
     }
 
     @Override
-    public Date getCreatedAfter() {
+    public LocalDateTime getCreatedAfter() {
 	return createdAfter;
     }
 
-    public void setCreatedAfter(Date createdAfter) {
+    public void setCreatedAfter(LocalDateTime createdAfter) {
 	this.createdAfter = createdAfter;
     }
 
     @Override
-    public Date getCreatedBefore() {
+    public LocalDateTime getCreatedBefore() {
 	return createdBefore;
     }
 
-    public void setCreatedBefore(Date createdBefore) {
+    public void setCreatedBefore(LocalDateTime createdBefore) {
 	this.createdBefore = createdBefore;
     }
 
     @Override
-    public Date getCompletedAfter() {
+    public LocalDateTime getCompletedAfter() {
 	return completedAfter;
     }
 
-    public void setCompletedAfter(Date completedAfter) {
+    public void setCompletedAfter(LocalDateTime completedAfter) {
 	this.completedAfter = completedAfter;
     }
 
     @Override
-    public Date getCompletedBefore() {
+    public LocalDateTime getCompletedBefore() {
 	return completedBefore;
     }
 
-    public void setCompletedBefore(Date completedBefore) {
+    public void setCompletedBefore(LocalDateTime completedBefore) {
 	this.completedBefore = completedBefore;
     }
 

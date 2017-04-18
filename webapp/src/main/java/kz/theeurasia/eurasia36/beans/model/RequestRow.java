@@ -1,6 +1,6 @@
 package kz.theeurasia.eurasia36.beans.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import com.lapsa.insurance.crm.InsuranceRequestType;
 import com.lapsa.insurance.crm.PaymentStatus;
@@ -37,21 +37,21 @@ public interface RequestRow<T extends Request> {
 
     InsuranceRequestType getInsuranceRequestType();
 
-    Date getCreated();
+    LocalDateTime getCreated();
 
     User getCreatedBy();
 
-    Date getUpdated();
+    LocalDateTime getUpdated();
 
-    Date getAccepted();
+    LocalDateTime getAccepted();
 
     User getAcceptedBy();
 
-    Date getCompleted();
+    LocalDateTime getCompleted();
 
     User getCompletedBy();
 
-    Date getClosed();
+    LocalDateTime getClosed();
 
     User getClosedBy();
 

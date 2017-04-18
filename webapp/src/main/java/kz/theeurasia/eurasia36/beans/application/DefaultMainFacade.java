@@ -4,11 +4,9 @@ import static com.lapsa.utils.security.SecurityUtils.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.WeekFields;
-import java.util.Date;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -373,7 +371,7 @@ public class DefaultMainFacade implements MainFacade {
     private void saveRequest() {
 	Request request = requestHolder.getValue().getEntity();
 	try {
-	    request.setUpdated(new Date());
+	    request.setUpdated(LocalDateTime.now());
 	    Request insuranceRequestSaved = requestDAO.save(request);
 	    requestHolder.setValue(RequestsDataModelFactory.createRow(insuranceRequestSaved));
 	} catch (PeristenceOperationFailed e) {
@@ -400,7 +398,7 @@ public class DefaultMainFacade implements MainFacade {
 
     private void closeRequest() {
 	Request request = requestHolder.getValue().getEntity();
-	request.setClosed(new Date());
+	request.setClosed(LocalDateTime.now());
 	request.setStatus(RequestStatus.CLOSED);
 	request.setClosedBy(currentUser.getValue());
     }
@@ -414,7 +412,7 @@ public class DefaultMainFacade implements MainFacade {
     private void acceptRequest() {
 	Request request = requestHolder.getValue().getEntity();
 	request.setProgressStatus(ProgressStatus.ON_PROCESS);
-	request.setAccepted(new Date());
+	request.setAccepted(LocalDateTime.now());
 	request.setAcceptedBy(currentUser.getValue());
     }
 
@@ -431,7 +429,7 @@ public class DefaultMainFacade implements MainFacade {
     private void completeRequest() {
 	Request request = requestHolder.getValue().getEntity();
 	request.setProgressStatus(ProgressStatus.FINISHED);
-	request.setCompleted(new Date());
+	request.setCompleted(LocalDateTime.now());
 	request.setCompletedBy(currentUser.getValue());
     }
 
@@ -499,7 +497,7 @@ public class DefaultMainFacade implements MainFacade {
 	LocalDateTime after = LocalDate.now().atStartOfDay();
 
 	RequestFilterBean filter = settingsHolder.getRequestFilter();
-	filter.setCreatedAfter(fromLocalDateTime(after));
+	filter.setCreatedAfter(after);
 	filter.setCreatedBefore(null);
     }
 
@@ -509,8 +507,8 @@ public class DefaultMainFacade implements MainFacade {
 		.minus(1, ChronoUnit.SECONDS);
 
 	RequestFilterBean filter = settingsHolder.getRequestFilter();
-	filter.setCreatedAfter(fromLocalDateTime(after));
-	filter.setCreatedBefore(fromLocalDateTime(before));
+	filter.setCreatedAfter(after);
+	filter.setCreatedBefore(before);
     }
 
     private void filterCreatedThisWeek() {
@@ -518,7 +516,7 @@ public class DefaultMainFacade implements MainFacade {
 		.with(ChronoField.DAY_OF_WEEK, WeekFields.ISO.getFirstDayOfWeek().getValue()).atStartOfDay();
 
 	RequestFilterBean filter = settingsHolder.getRequestFilter();
-	filter.setCreatedAfter(fromLocalDateTime(after));
+	filter.setCreatedAfter(after);
 	filter.setCreatedBefore(null);
     }
 
@@ -531,15 +529,15 @@ public class DefaultMainFacade implements MainFacade {
 			ChronoUnit.SECONDS);
 
 	RequestFilterBean filter = settingsHolder.getRequestFilter();
-	filter.setCreatedAfter(fromLocalDateTime(after));
-	filter.setCreatedBefore(fromLocalDateTime(before));
+	filter.setCreatedAfter(after);
+	filter.setCreatedBefore(before);
     }
 
     private void filterCreatedThisMonth() {
 	LocalDateTime after = LocalDate.now().withDayOfMonth(1).atStartOfDay();
 
 	RequestFilterBean filter = settingsHolder.getRequestFilter();
-	filter.setCreatedAfter(fromLocalDateTime(after));
+	filter.setCreatedAfter(after);
 	filter.setCreatedBefore(null);
     }
 
@@ -549,15 +547,15 @@ public class DefaultMainFacade implements MainFacade {
 		ChronoUnit.SECONDS);
 
 	RequestFilterBean filter = settingsHolder.getRequestFilter();
-	filter.setCreatedAfter(fromLocalDateTime(after));
-	filter.setCreatedBefore(fromLocalDateTime(before));
+	filter.setCreatedAfter(after);
+	filter.setCreatedBefore(before);
     }
 
     private void filterCompletedToday() {
 	LocalDateTime after = LocalDate.now().atStartOfDay();
 
 	RequestFilterBean filter = settingsHolder.getRequestFilter();
-	filter.setCompletedAfter(fromLocalDateTime(after));
+	filter.setCompletedAfter(after);
 	filter.setCompletedBefore(null);
     }
 
@@ -567,8 +565,8 @@ public class DefaultMainFacade implements MainFacade {
 		.minus(1, ChronoUnit.SECONDS);
 
 	RequestFilterBean filter = settingsHolder.getRequestFilter();
-	filter.setCompletedAfter(fromLocalDateTime(after));
-	filter.setCompletedBefore(fromLocalDateTime(before));
+	filter.setCompletedAfter(after);
+	filter.setCompletedBefore(before);
     }
 
     private void filterCompletedThisWeek() {
@@ -576,7 +574,7 @@ public class DefaultMainFacade implements MainFacade {
 		.with(ChronoField.DAY_OF_WEEK, WeekFields.ISO.getFirstDayOfWeek().getValue()).atStartOfDay();
 
 	RequestFilterBean filter = settingsHolder.getRequestFilter();
-	filter.setCompletedAfter(fromLocalDateTime(after));
+	filter.setCompletedAfter(after);
 	filter.setCompletedBefore(null);
     }
 
@@ -589,15 +587,15 @@ public class DefaultMainFacade implements MainFacade {
 			ChronoUnit.SECONDS);
 
 	RequestFilterBean filter = settingsHolder.getRequestFilter();
-	filter.setCompletedAfter(fromLocalDateTime(after));
-	filter.setCompletedBefore(fromLocalDateTime(before));
+	filter.setCompletedAfter(after);
+	filter.setCompletedBefore(before);
     }
 
     private void filterCompletedThisMonth() {
 	LocalDateTime after = LocalDate.now().withDayOfMonth(1).atStartOfDay();
 
 	RequestFilterBean filter = settingsHolder.getRequestFilter();
-	filter.setCompletedAfter(fromLocalDateTime(after));
+	filter.setCompletedAfter(after);
 	filter.setCompletedBefore(null);
     }
 
@@ -607,12 +605,8 @@ public class DefaultMainFacade implements MainFacade {
 		ChronoUnit.SECONDS);
 
 	RequestFilterBean filter = settingsHolder.getRequestFilter();
-	filter.setCompletedAfter(fromLocalDateTime(after));
-	filter.setCompletedBefore(fromLocalDateTime(before));
-    }
-
-    private static Date fromLocalDateTime(LocalDateTime value) {
-	return Date.from(value.atZone(ZoneId.systemDefault()).toInstant());
+	filter.setCompletedAfter(after);
+	filter.setCompletedBefore(before);
     }
 
 }

@@ -118,8 +118,8 @@
 				</p:ajax>
 
 				<f:facet name="header">
-					<div style="text-align: right;">на <crm:outputDatetime
-							value="#{now}" useVerbal="false" /></div>
+					<div style="text-align: right;">на <crm:outputLocalDateTime
+							value="#{crmDateUtil.nowDateTime}" useVerbal="false" /></div>
 				</f:facet>
 
 				<p:column width="25" sortBy="#{req.progressStatus}"
@@ -155,7 +155,7 @@
 				</p:column>
 				<p:column headerText="Дата создания" width="150"
 					sortBy="#{req.created}">
-					<crm:outputDatetime value="#{req.created}" />
+					<crm:outputLocalDateTime value="#{req.created}" />
 				</p:column>
 				<p:column headerText="Создано" width="50" sortBy="#{req.createdBy}">
 					<h:outputText rendered="#{not empty req.createdBy}"
@@ -163,7 +163,7 @@
 				</p:column>
 				<p:column headerText="Дата обновления" width="150"
 					sortBy="#{req.updated}">
-					<crm:outputDatetime value="#{req.updated}" />
+					<crm:outputLocalDateTime value="#{req.updated}" />
 				</p:column>
 				<p:column headerText="Сумма" width="100" style="text-align: right"
 					sortBy="#{req.amount}">

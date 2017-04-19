@@ -4,7 +4,8 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:o="http://omnifaces.org/ui" xmlns:p="http://primefaces.org/ui"
-	xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
+	xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+	xmlns:lf="http://lapsa.com/lapsafaces">
 
 	<o:importConstants type="kz.theeurasia.eurasia36.beans.api.RequestType" />
 
@@ -73,7 +74,7 @@
 							<p:outputLabel value="Поступило с:" for="createdAfter" />
 						</p:column>
 						<p:column>
-							<crm:inputDatetime id="createdAfter"
+							<lf:inputLocalDateTime id="createdAfter"
 								value="#{settings.requestFilter.createdAfter}" process="@this"
 								update="@form" changedListener="#{mainFacade.onFilterChanged}" />
 						</p:column>
@@ -81,7 +82,7 @@
 							<p:outputLabel value="Поступило по:" for="createdBefore" />
 						</p:column>
 						<p:column>
-							<crm:inputDatetime id="createdBefore"
+							<lf:inputLocalDateTime id="createdBefore"
 								value="#{settings.requestFilter.createdBefore}" process="@this"
 								update="@form" changedListener="#{mainFacade.onFilterChanged}" />
 						</p:column>
@@ -135,7 +136,7 @@
 							<p:outputLabel value="Завершено с:" for="completedAfter" />
 						</p:column>
 						<p:column>
-							<crm:inputDatetime id="completedAfter"
+							<lf:inputLocalDateTime id="completedAfter"
 								value="#{settings.requestFilter.completedAfter}" process="@this"
 								update="@form" changedListener="#{mainFacade.onFilterChanged}" />
 						</p:column>
@@ -143,7 +144,7 @@
 							<p:outputLabel value="Завершено по:" for="completedBefore" />
 						</p:column>
 						<p:column>
-							<crm:inputDatetime id="completedBefore"
+							<lf:inputLocalDateTime id="completedBefore"
 								value="#{settings.requestFilter.completedBefore}"
 								process="@this" update="@form"
 								changedListener="#{mainFacade.onFilterChanged}" />

@@ -124,4 +124,11 @@ public class DateUtil {
 	return checkIsTommorow(toLocalDate(localDateTime));
     }
 
+    public LocalDateTime getNowDateTime() {
+	return LocalDateTime.now();
+    }
+
+    public LocalDate getNowDate() {
+	return LocalDate.now();
+    }
 }

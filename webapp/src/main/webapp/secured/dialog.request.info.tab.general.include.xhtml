@@ -52,13 +52,13 @@
 						<p:panelGrid>
 
 							<crm:outputRow label="Заявка поступила">
-								<crm:outputDatetime value="#{rr.created}" />
+								<crm:outputLocalDateTime value="#{rr.created}" />
 								<h:outputText rendered="#{not empty rr.createdBy}"
 									value="&amp;nbsp;(#{userFacade.displayName(rr.createdBy)})" escape="false" />
 							</crm:outputRow>
 
 							<crm:outputRow label="Обновлена">
-								<crm:outputDatetime value="#{rr.updated}" />
+								<crm:outputLocalDateTime value="#{rr.updated}" />
 							</crm:outputRow>
 
 						</p:panelGrid>
@@ -69,7 +69,7 @@
 
 							<crm:outputRow rendered="#{not empty rr.accepted}"
 								label="Принята в обработку">
-								<crm:outputDatetime value="#{rr.accepted}" />
+								<crm:outputLocalDateTime value="#{rr.accepted}" />
 								<h:outputText rendered="#{not empty rr.acceptedBy}"
 									value="&amp;nbsp;(#{userFacade.displayName(rr.acceptedBy)})"
 									escape="false" />
@@ -77,7 +77,7 @@
 
 							<crm:outputRow rendered="#{not empty rr.completed}"
 								label="Обработка завершена">
-								<crm:outputDatetime value="#{rr.completed}" />
+								<crm:outputLocalDateTime value="#{rr.completed}" />
 								<h:outputText rendered="#{not empty rr.completedBy}"
 									value="&amp;nbsp;(#{userFacade.displayName(rr.completedBy)})"
 									escape="false" />
@@ -85,7 +85,7 @@
 
 							<crm:outputRow rendered="#{not empty rr.closed}"
 								label="Заявка закрыта">
-								<crm:outputDatetime value="#{rr.closed}" />
+								<crm:outputLocalDateTime value="#{rr.closed}" />
 								<h:outputText rendered="#{not empty rr.closedBy}"
 									value="&amp;nbsp;(#{userFacade.displayName(rr.closedBy)})"
 									escape="false" />

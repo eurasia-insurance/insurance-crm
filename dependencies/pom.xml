@@ -48,6 +48,10 @@
 			<groupId>com.lapsa.lapsa-lib</groupId>
 			<artifactId>lapsa-cdiutils</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.lapsa.lapsa-lib</groupId>
+			<artifactId>lapsa-hibernate-validation</artifactId>
+		</dependency>
 	</dependencies>
 
 </project>

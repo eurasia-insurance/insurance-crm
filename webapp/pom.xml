@@ -101,6 +101,13 @@
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
+		<!-- internal lapsa runtime -->
+		<dependency>
+			<groupId>com.lapsa.lapsa-lib</groupId>
+			<artifactId>lapsa-hibernate-validation</artifactId>
+			<scope>runtime</scope>
+			<optional>false</optional>
+		</dependency>
 		<!-- internal donkeyfaces -->
 		<dependency>
 			<groupId>com.lapsa.donkeyfaces-lib</groupId>

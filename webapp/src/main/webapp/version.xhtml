@@ -10,11 +10,8 @@
 	xmlns:o="http://omnifaces.org/ui"
 	template="/WEB-INF/templates/clean.xhtml">
 
-	<ui:define name="page-title">
-		<h:outputText value="#{ui['name.site']}" />
-	</ui:define>
-
 	<ui:define name="page-content">
 		Version is <strong>#{configurationFacade.version}</strong>
 	</ui:define>
+
 </ui:composition>

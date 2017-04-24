@@ -13,12 +13,12 @@
 	<name>Eurasia36 : CRM : Enterprise ARchive</name>
 
 	<dependencies>
-		<!-- own -->
+		<!-- own runtime -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>eurasia36-crm-dependencies</artifactId>
 			<type>pom</type>
-			<scope>compile</scope>
+			<scope>runtime</scope>
 			<optional>false</optional>
 		</dependency>
 	</dependencies>

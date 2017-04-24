@@ -36,7 +36,6 @@ import com.lapsa.insurance.domain.Request;
 
 import kz.theeurasia.eurasia36.application.InsuranceRoleGroup;
 import kz.theeurasia.eurasia36.application.MainFacade;
-import kz.theeurasia.eurasia36.application.UIMessages;
 import kz.theeurasia.eurasia36.beans.api.CurrentUserHolder;
 import kz.theeurasia.eurasia36.beans.api.FacesMessagesFacade;
 import kz.theeurasia.eurasia36.beans.api.RequestHolder;
@@ -375,7 +374,7 @@ public class DefaultMainFacade implements MainFacade {
 	    Request insuranceRequestSaved = requestDAO.save(request);
 	    requestHolder.setValue(RequestsDataModelFactory.createRow(insuranceRequestSaved));
 	} catch (PeristenceOperationFailed e) {
-	    facesMessagesFacade.addExceptionMessage(UIMessages.ERROR_INTERNAL_SERVER_ERROR, e);
+	    facesMessagesFacade.addExceptionMessage(e);
 	}
     }
 
@@ -385,9 +384,9 @@ public class DefaultMainFacade implements MainFacade {
 	    Request insuranceRequestSaved = requestDAO.restore(request);
 	    requestHolder.setValue(RequestsDataModelFactory.createRow(insuranceRequestSaved));
 	} catch (PeristenceOperationFailed e) {
-	    facesMessagesFacade.addExceptionMessage(UIMessages.ERROR_INTERNAL_SERVER_ERROR, e);
+	    facesMessagesFacade.addExceptionMessage(e);
 	} catch (NotPersistedException e) {
-	    facesMessagesFacade.addExceptionMessage(UIMessages.ERROR_INTERNAL_SERVER_ERROR, e);
+	    facesMessagesFacade.addExceptionMessage(e);
 	}
     }
 

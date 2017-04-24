@@ -18,39 +18,55 @@
 			<groupId>${project.groupId}</groupId>
 			<artifactId>eurasia36-crm-webapp</artifactId>
 			<type>war</type>
+			<scope>runtime</scope>
+			<optional>false</optional>
 		</dependency>
 		<!-- internal insurance -->
 		<dependency>
 			<groupId>com.lapsa.insurance-lib</groupId>
 			<artifactId>insurance-services-impl-cdi</artifactId>
+			<scope>runtime</scope>
+			<optional>false</optional>
 		</dependency>
 		<dependency>
 			<groupId>com.lapsa.insurance-lib</groupId>
 			<artifactId>insurance-dao-impl-jpa</artifactId>
 			<type>ejb</type>
+			<scope>runtime</scope>
+			<optional>false</optional>
 		</dependency>
 		<dependency>
 			<groupId>com.lapsa.insurance-lib</groupId>
 			<artifactId>insurance-jpa-unit</artifactId>
+			<scope>runtime</scope>
+			<optional>false</optional>
 		</dependency>
 		<!-- internal pushapi -->
 		<dependency>
 			<groupId>com.lapsa.pushapi-lib</groupId>
 			<artifactId>pushapi-jpa-unit</artifactId>
+			<scope>runtime</scope>
+			<optional>false</optional>
 		</dependency>
 		<dependency>
 			<groupId>com.lapsa.pushapi-lib</groupId>
 			<artifactId>pushapi-dao-impl-jpa</artifactId>
 			<type>ejb</type>
+			<scope>runtime</scope>
+			<optional>false</optional>
 		</dependency>
 		<!-- internal lapsa -->
 		<dependency>
 			<groupId>com.lapsa.lapsa-lib</groupId>
 			<artifactId>lapsa-cdiutils</artifactId>
+			<scope>runtime</scope>
+			<optional>false</optional>
 		</dependency>
 		<dependency>
 			<groupId>com.lapsa.lapsa-lib</groupId>
 			<artifactId>lapsa-hibernate-validation</artifactId>
+			<scope>runtime</scope>
+			<optional>false</optional>
 		</dependency>
 	</dependencies>
 

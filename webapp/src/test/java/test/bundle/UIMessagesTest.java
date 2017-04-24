@@ -1,4 +1,4 @@
-package kz.theeurasia.policy.calc.facade.messages.test;
+package test.bundle;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;

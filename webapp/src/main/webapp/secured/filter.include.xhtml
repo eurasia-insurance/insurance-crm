@@ -106,6 +106,29 @@
 						</p:panelGrid>
 					</p:column>
 
+					<p:column>
+						<h:panelGroup class="ui-icon ui-icon-grip-dotted-vertical" />
+					</p:column>
+
+					<p:column rendered="#{not canViewOwnedOnly}">
+						<p:panelGrid>
+							<p:row>
+								<p:column>
+									<p:outputLabel value="Автор:" for="createdBy" />
+								</p:column>
+								<p:column>
+									<p:selectOneMenu id="createdBy"
+										value="#{settings.requestFilter.createdBy}">
+										<p:ajax process="@this" update="@form"
+											listener="#{mainFacade.onFilterChanged}" />
+										<f:selectItem value="#{configurationFacade.anySI}" />
+										<f:selectItems value="#{userFacade.selectableItemsShortSI}" />
+									</p:selectOneMenu>
+								</p:column>
+							</p:row>
+						</p:panelGrid>
+					</p:column>
+
 				</p:row>
 			</p:panelGrid>
 

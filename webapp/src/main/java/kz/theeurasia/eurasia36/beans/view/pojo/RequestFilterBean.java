@@ -11,6 +11,7 @@ import com.lapsa.insurance.crm.InsuranceRequestType;
 import com.lapsa.insurance.crm.ObtainingStatus;
 import com.lapsa.insurance.crm.PaymentStatus;
 import com.lapsa.insurance.crm.ProgressStatus;
+import com.lapsa.insurance.crm.RequestSource;
 import com.lapsa.insurance.crm.RequestStatus;
 import com.lapsa.insurance.crm.TransactionProblem;
 import com.lapsa.insurance.crm.TransactionStatus;
@@ -31,6 +32,7 @@ public class RequestFilterBean implements RequestFilter, Serializable {
     private String requesterIdNumberMask;
 
     private RequestStatus requestStatus;
+    private RequestSource requestSource;
     private ProgressStatus progressStatus;
 
     private LocalDateTime createdAfter;
@@ -52,6 +54,7 @@ public class RequestFilterBean implements RequestFilter, Serializable {
     private ObtainingStatus obtainingStatus;
     private TransactionStatus transactionStatus;
     private TransactionProblem transactionProblem;
+
 
     public RequestFilterBean() {
     }
@@ -243,4 +246,12 @@ public class RequestFilterBean implements RequestFilter, Serializable {
 	this.closedBy = closedBy;
     }
 
+    @Override
+    public RequestSource getRequestSource() {
+	return requestSource;
+    }
+
+    public void setRequestSource(RequestSource requestSource) {
+        this.requestSource = requestSource;
+    }
 }

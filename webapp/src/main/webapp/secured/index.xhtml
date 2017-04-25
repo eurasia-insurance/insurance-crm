@@ -139,16 +139,21 @@
 						<ui:param name="rr" value="#{req}" />
 					</ui:include>
 				</p:column>
-				<p:column headerText="Продукт" width="60"
-					sortBy="#{req.insuranceProductType}">
+				<p:column headerText="Источник" width="50"
+					sortBy="#{req.requestSource}">
 					<h:outputText
-						value="#{insuranceProductTypeService.displayNameShort(req.insuranceProductType)}" />
+						value="#{requestSourceService.displayNameShort(req.requestSource)}" />
 				</p:column>
 				<p:column headerText="Тип" width="100"
 					sortBy="#{req.insuranceRequestType}"
 					styleClass="#{not empty req.insuranceRequestType ? ('col-request-' += req.insuranceRequestType) : ''}">
 					<h:outputText
 						value="#{insuranceRequestTypeService.displayNameShort(req.insuranceRequestType)}" />
+				</p:column>
+				<p:column headerText="Продукт" width="60"
+					sortBy="#{req.insuranceProductType}">
+					<h:outputText
+						value="#{insuranceProductTypeService.displayNameShort(req.insuranceProductType)}" />
 				</p:column>
 				<p:column headerText="Номер" sortBy="#{req.id}" width="50">
 					<h:outputText value="#{req.id}" />

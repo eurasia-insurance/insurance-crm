@@ -3,6 +3,7 @@ package kz.theeurasia.eurasia36.beans.model;
 import java.time.LocalDateTime;
 
 import com.lapsa.insurance.crm.ProgressStatus;
+import com.lapsa.insurance.crm.RequestSource;
 import com.lapsa.insurance.crm.RequestStatus;
 import com.lapsa.insurance.domain.Request;
 import com.lapsa.insurance.domain.crm.User;
@@ -37,6 +38,16 @@ public abstract class RequestRowDataModel<T extends Request> implements RequestR
 	    return null;
 	}
     }
+
+    @Override
+    public RequestSource getRequestSource() {
+	try {
+	    return entity.getSource();
+	} catch (NullPointerException e) {
+	    return null;
+	}
+    }
+
 
     @Override
     public ProgressStatus getProgressStatus() {

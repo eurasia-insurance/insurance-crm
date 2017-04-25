@@ -207,12 +207,13 @@
 								rendered="#{req.UTMSource eq 'youtube'}" />
 						</h:panelGroup>
 						<p:tooltip for="source" trackMouse="true">
-							<h:outputText value="Кампания: #{req.UTMCampaign}"
-								rendered="#{not empty req.UTMCampaign}" />
-							<h:outputText value="Источник: #{req.UTMMedium}"
-								rendered="#{not empty req.UTMMedium}" />
-							<h:outputText value="Ключевые слова: #{req.UTMTerm}"
-								rendered="#{not empty req.UTMTerm}" />
+							<h:outputText value="Источник: #{req.UTMSource}" />
+							<br />
+							<h:outputText value="Тип: #{req.UTMMedium}" />
+							<br />
+							<h:outputText value="Кампания: #{req.UTMCampaign}" />
+							<br />
+							<h:outputText value="Ключевые слова: #{req.UTMTerm}" />
 						</p:tooltip>
 					</h:panelGroup>
 				</p:column>

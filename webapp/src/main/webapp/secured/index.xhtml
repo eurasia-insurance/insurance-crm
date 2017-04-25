@@ -191,20 +191,31 @@
 					<h:outputText value="#{req.requesterIdNumber}" />
 				</p:column>
 				<p:column width="10">
-					<h:panelGroup id="source">
-						<h:panelGroup styleClass="fa fa-google"
-							rendered="#{req.UTMSource eq 'google'}" />
-						<h:panelGroup styleClass="fa fa-y-combinator"
-							rendered="#{req.UTMSource eq 'yandex'}" />
-						<h:panelGroup styleClass="fa fa-facebook"
-							rendered="#{req.UTMSource eq 'facebook'}" />
+					<h:panelGroup rendered="#{not empty req.UTMSource}">
+						<h:panelGroup id="source">
+							<h:panelGroup styleClass="fa fa-google"
+								rendered="#{req.UTMSource eq 'google'}" />
+							<h:panelGroup styleClass="fa fa-home"
+								rendered="#{req.UTMSource eq 'theeurasia'}" />
+							<h:panelGroup styleClass="fa fa-y-combinator"
+								rendered="#{req.UTMSource eq 'yandex'}" />
+							<h:panelGroup styleClass="fa fa-facebook"
+								rendered="#{req.UTMSource eq 'facebook'}" />
+							<h:panelGroup styleClass="fa fa-instagram"
+								rendered="#{req.UTMSource eq 'instagram'}" />
+							<h:panelGroup styleClass="fa fa-youtube"
+								rendered="#{req.UTMSource eq 'youtube'}" />
+						</h:panelGroup>
+						<p:tooltip for="source" trackMouse="true">
+							<h:outputText value="Источник: #{req.UTMSource}" />
+							<br />
+							<h:outputText value="Тип: #{req.UTMMedium}" />
+							<br />
+							<h:outputText value="Кампания: #{req.UTMCampaign}" />
+							<br />
+							<h:outputText value="Ключевые слова: #{req.UTMTerm}" />
+						</p:tooltip>
 					</h:panelGroup>
-
-					<p:tooltip for="source" trackMouse="true"
-						rendered="#{req.UTMSource eq 'google' or req.UTMSource eq 'yandex' or req.UTMSource eq 'facebook'}">
-						<h:outputText value="#{req.UTMTerm}" />
-					</p:tooltip>
-
 				</p:column>
 				<p:column headerText="Доп информация" sortable="false">
 					<h:panelGroup rendered="#{req.insuranceProductType eq 'POLICY'}"

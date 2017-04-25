@@ -94,6 +94,11 @@
 			</dependency>
 			<dependency>
 				<groupId>com.lapsa.insurance-lib</groupId>
+				<artifactId>insurance-faces</artifactId>
+				<version>${insurance-lib.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.lapsa.insurance-lib</groupId>
 				<artifactId>insurance-security</artifactId>
 				<version>${insurance-lib.version}</version>
 			</dependency>

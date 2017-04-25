@@ -17,6 +17,9 @@
 				<crm:outputRowText label="Источник заявки"
 					value="#{requestSourceService.displayNameShort(rr.requestSource)}" />
 
+				<crm:outputRowText label="Тип заявки"
+					value="#{insuranceRequestTypeService.displayNameShort(rr.insuranceRequestType)}" />
+
 				<crm:outputRowText label="Стадия обработки заявки"
 					value="#{progressStatusService.displayNameShort(rr.progressStatus)}" />
 

@@ -34,7 +34,7 @@
 		<!-- EJBs & WARs -->
 		<insurance-services-impl-cdi.version>2.0-SNAPSHOT</insurance-services-impl-cdi.version>
 		<insurance-dao-impl-jpa.version>2.0-SNAPSHOT</insurance-dao-impl-jpa.version>
-		<insurance-jpa-unit.version>1.11</insurance-jpa-unit.version>
+		<insurance-jpa-unit.version>1.11a-SNAPSHOT</insurance-jpa-unit.version>
 		<pushapi-dao-impl-jpa.version>1.0</pushapi-dao-impl-jpa.version>
 		<pushapi-jpa-unit.version>1.0</pushapi-jpa-unit.version>
 		<pushapi-app.version>1.0</pushapi-app.version>

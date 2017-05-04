@@ -13,6 +13,7 @@ import com.lapsa.insurance.domain.Request;
 import com.lapsa.insurance.domain.crm.User;
 import com.lapsa.insurance.elements.InsuranceProductType;
 import com.lapsa.insurance.elements.PaymentMethod;
+import com.lapsa.localization.LocalizationLanguage;
 
 import kz.theeurasia.eurasia36.beans.api.RequestType;
 
@@ -68,6 +69,8 @@ public interface RequestRow<T extends Request> {
     String getRequesterEmail();
 
     String getRequesterPhone();
+
+    LocalizationLanguage getRequesterLanguage();
 
     String getRequesterIdNumber();
 

@@ -7,6 +7,7 @@ import com.lapsa.insurance.crm.RequestSource;
 import com.lapsa.insurance.crm.RequestStatus;
 import com.lapsa.insurance.domain.Request;
 import com.lapsa.insurance.domain.crm.User;
+import com.lapsa.localization.LocalizationLanguage;
 
 public abstract class RequestRowDataModel<T extends Request> implements RequestRow<T> {
 
@@ -143,6 +144,15 @@ public abstract class RequestRowDataModel<T extends Request> implements RequestR
     public String getRequesterName() {
 	try {
 	    return entity.getRequester().getName();
+	} catch (NullPointerException e) {
+	    return null;
+	}
+    }
+
+    @Override
+    public LocalizationLanguage getRequesterLanguage() {
+	try {
+	    return entity.getRequester().getPreferLanguage();
 	} catch (NullPointerException e) {
 	    return null;
 	}

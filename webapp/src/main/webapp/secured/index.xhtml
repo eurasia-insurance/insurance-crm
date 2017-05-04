@@ -179,6 +179,11 @@
 					sortBy="#{req.requesterName}">
 					<h:outputText value="#{req.requesterName}" />
 				</p:column>
+				<p:column headerText="Яз." width="20"
+					sortBy="#{req.requesterLanguage}">
+					<h:outputText
+						value="#{localizationLanguageService.displayNameShort(req.requesterLanguage)}" />
+				</p:column>
 				<p:column headerText="Телефон заявителя" width="130"
 					sortBy="#{req.requesterPhone}">
 					<p:commandButton

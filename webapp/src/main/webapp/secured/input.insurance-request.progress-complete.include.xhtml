@@ -97,6 +97,22 @@
 							</p:row>
 						</p:panelGrid>
 					</h:panelGroup>
+
+					<h:panelGroup id="agreementNumber">
+						<p:panelGrid rendered="#{ir.transactionStatus eq 'COMPLETED'}">
+							<p:row>
+								<p:column>
+									<p:outputLabel value="Номер договора" />
+								</p:column>
+								<p:column>
+									<p:inputText id="agreementNumber" value="#{ir.agreementNumber}">
+										<p:ajax process="@this" update="@this" />
+									</p:inputText>
+								</p:column>
+							</p:row>
+						</p:panelGrid>
+					</h:panelGroup>
+
 					<h:panelGroup id="transactionProblemWrapper">
 						<p:panelGrid rendered="#{ir.transactionStatus eq 'NOT_COMPLETED'}">
 							<p:row>

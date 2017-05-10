@@ -18,8 +18,8 @@
 
 				<crm:outputRowText label="ФИО" value="#{rqr.name}" />
 
-				<crm:outputRowText label="Телефон" value="#{rqr.phone}"
-					rendered="#{showPhoneNumber}" />
+				<crm:outputRowText label="Телефон" value="#{rqr.phone.formatted}"
+					rendered="#{not empty rqr.phone and showPhoneNumber}" />
 
 				<crm:outputRowText label="E-mail" value="#{rqr.email}" />
 

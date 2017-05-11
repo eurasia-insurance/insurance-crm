@@ -53,8 +53,8 @@ public class RequestFilterBean implements RequestFilter, Serializable {
     private ObtainingMethod obtainingMethod;
     private ObtainingStatus obtainingStatus;
     private TransactionStatus transactionStatus;
+    private String agreementNumberMask;
     private TransactionProblem transactionProblem;
-
 
     public RequestFilterBean() {
     }
@@ -217,6 +217,15 @@ public class RequestFilterBean implements RequestFilter, Serializable {
     }
 
     @Override
+    public String getAgreementNumberMask() {
+	return agreementNumberMask;
+    }
+
+    public void setAgreementNumberMask(String agreementNumberMask) {
+	this.agreementNumberMask = agreementNumberMask;
+    }
+
+    @Override
     public TransactionProblem getTransactionProblem() {
 	return transactionProblem;
     }
@@ -252,6 +261,6 @@ public class RequestFilterBean implements RequestFilter, Serializable {
     }
 
     public void setRequestSource(RequestSource requestSource) {
-        this.requestSource = requestSource;
+	this.requestSource = requestSource;
     }
 }

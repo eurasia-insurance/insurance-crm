@@ -46,6 +46,10 @@
 					label="Причина"
 					value="#{transactionProblemService.displayNameShort(rr.transactionProblem)}" />
 
+				<crm:outputRowText
+					rendered="#{rr.progressStatus eq 'FINISHED' and rr.transactionStatus eq 'COMPLETED'}"
+					label="Номер договора" value="#{rr.agreementNumber}" />
+
 			</p:panelGrid>
 		</p:panel>
 
@@ -60,7 +64,8 @@
 							<crm:outputRow label="Заявка поступила">
 								<crm:outputLocalDateTime value="#{rr.created}" />
 								<h:outputText rendered="#{not empty rr.createdBy}"
-									value="&amp;nbsp;(#{userFacade.displayName(rr.createdBy)})" escape="false" />
+									value="&amp;nbsp;(#{userFacade.displayName(rr.createdBy)})"
+									escape="false" />
 							</crm:outputRow>
 
 							<crm:outputRow label="Обновлена">

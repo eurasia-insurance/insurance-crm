@@ -16,6 +16,8 @@ import com.lapsa.reports.table.impl.DefaultTextValueCell;
 
 public class RequestsValueRow implements ValueRow {
 
+    private static final DefaultTextValueCell EMPTY_CELL = new DefaultTextValueCell("");
+
     public static final String[] HEADER_ROW_CAPTIONS = new String[] {
 	    "Продукт", // 1
 	    "Тип", // 2
@@ -48,36 +50,114 @@ public class RequestsValueRow implements ValueRow {
 	if (request instanceof InsuranceRequest)
 	    insuranceRequest = (InsuranceRequest) request;
 
-	row.add(insuranceRequest == null ? new DefaultTextValueCell("")
-		: new DefaultTextValueCell(insuranceRequest.getProductType())); // 1
-	row.add(insuranceRequest == null ? new DefaultTextValueCell("")
-		: new DefaultTextValueCell(insuranceRequest.getType())); // 2
-	row.add(new DefaultIntegerNumberValueCell(request.getId())); // 3
-	row.add(new DefaultDateTimeValueCell(request.getCreated())); // 4
-	row.add(new DefaultTextValueCell(request.getCreatedBy() == null ? "" : request.getCreatedBy().getName())); // 5
-	row.add(new DefaultDateTimeValueCell(request.getAccepted())); // 6
-	row.add(new DefaultDateTimeValueCell(request.getCompleted())); // 7
-	row.add(new DefaultDateTimeValueCell(request.getClosed())); // 8
-	row.add(insuranceRequest == null ? new DefaultTextValueCell("")
-		: new DefaultAmountValueCell(insuranceRequest.getProduct().getCalculation().getPremiumCost(),
-			insuranceRequest.getProduct().getCalculation().getPremiumCurrency())); // 9
-	row.add(new DefaultTextValueCell(request.getRequester().getName())); // 10
-	row.add(new DefaultTextValueCell(request.getRequester().getEmail())); // 11
-	row.add(new DefaultTextValueCell(request.getRequester().getPhone())); // 12
-	row.add(new DefaultTextValueCell(request.getStatus())); // 13
-	row.add(new DefaultTextValueCell(request.getProgressStatus())); // 14
+	try {
+	    row.add(new DefaultTextValueCell(insuranceRequest.getProductType())); // 1
+	} catch (NullPointerException e) {
+	    row.add(EMPTY_CELL);
+	}
 
-	row.add(insuranceRequest == null ? new DefaultTextValueCell("")
-		: new DefaultTextValueCell(insuranceRequest.getTransactionStatus())); // 15
+	try {
+	    row.add(new DefaultTextValueCell(insuranceRequest.getType())); // 2
+	} catch (NullPointerException e) {
+	    row.add(EMPTY_CELL);
+	}
 
-	row.add(insuranceRequest == null ? new DefaultTextValueCell("")
-		: new DefaultTextValueCell(insuranceRequest.getTransactionProblem())); // 16
+	try {
+	    row.add(new DefaultIntegerNumberValueCell(request.getId())); // 3
+	} catch (NullPointerException e) {
+	    row.add(EMPTY_CELL);
+	}
 
-	row.add(insuranceRequest == null ? new DefaultTextValueCell("")
-		: new DefaultTextValueCell(insuranceRequest.getAgreementNumber())); // 17
+	try {
+	    row.add(new DefaultDateTimeValueCell(request.getCreated())); // 4
+	} catch (NullPointerException e) {
+	    row.add(EMPTY_CELL);
+	}
 
-	row.add(request == null ? new DefaultTextValueCell("")
-		: new DefaultTextValueCell(request.getNote())); // 18
+	try {
+	    row.add(new DefaultTextValueCell(request.getCreatedBy() == null ? "" : request.getCreatedBy().getName())); // 5
+	} catch (NullPointerException e) {
+	    row.add(EMPTY_CELL);
+	}
+
+	try {
+	    row.add(new DefaultDateTimeValueCell(request.getAccepted())); // 6
+	} catch (NullPointerException e) {
+	    row.add(EMPTY_CELL);
+	}
+
+	try {
+	    row.add(new DefaultDateTimeValueCell(request.getCompleted())); // 7
+	} catch (NullPointerException e) {
+	    row.add(EMPTY_CELL);
+	}
+
+	try {
+	    row.add(new DefaultDateTimeValueCell(request.getClosed())); // 8
+	} catch (NullPointerException e) {
+	    row.add(EMPTY_CELL);
+	}
+
+	try {
+	    row.add(new DefaultAmountValueCell(insuranceRequest.getProduct().getCalculation().getPremiumCost(),
+		    insuranceRequest.getProduct().getCalculation().getPremiumCurrency())); // 9
+	} catch (NullPointerException e) {
+	    row.add(EMPTY_CELL);
+	}
+
+	try {
+	    row.add(new DefaultTextValueCell(request.getRequester().getName())); // 10
+	} catch (NullPointerException e) {
+	    row.add(EMPTY_CELL);
+	}
+
+	try {
+	    row.add(new DefaultTextValueCell(request.getRequester().getEmail())); // 11
+	} catch (NullPointerException e) {
+	    row.add(EMPTY_CELL);
+	}
+
+	try {
+	    row.add(new DefaultTextValueCell(request.getRequester().getPhone().getFormatted())); // 12
+	} catch (NullPointerException e) {
+	    row.add(EMPTY_CELL);
+	}
+
+	try {
+	    row.add(new DefaultTextValueCell(request.getStatus())); // 13
+	} catch (NullPointerException e) {
+	    row.add(EMPTY_CELL);
+	}
+
+	try {
+	    row.add(new DefaultTextValueCell(request.getProgressStatus())); // 14
+	} catch (NullPointerException e) {
+	    row.add(EMPTY_CELL);
+	}
+
+	try {
+	    row.add(new DefaultTextValueCell(insuranceRequest.getTransactionStatus())); // 15
+	} catch (NullPointerException e) {
+	    row.add(EMPTY_CELL);
+	}
+
+	try {
+	    row.add(new DefaultTextValueCell(insuranceRequest.getTransactionProblem())); // 16
+	} catch (NullPointerException e) {
+	    row.add(EMPTY_CELL);
+	}
+
+	try {
+	    row.add(new DefaultTextValueCell(insuranceRequest.getAgreementNumber())); // 17
+	} catch (NullPointerException e) {
+	    row.add(EMPTY_CELL);
+	}
+
+	try {
+	    row.add(new DefaultTextValueCell(request.getNote())); // 18
+	} catch (NullPointerException e) {
+	    row.add(EMPTY_CELL);
+	}
 
 	this.row = Collections.unmodifiableList(row);
     }

@@ -84,5 +84,7 @@ public interface RequestRow<T extends Request> {
 
     String getUTMTerm();
 
+    String getAgreementNumber();
+
     String getNote();
 }

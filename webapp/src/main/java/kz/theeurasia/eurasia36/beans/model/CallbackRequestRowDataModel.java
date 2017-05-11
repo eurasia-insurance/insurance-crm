@@ -56,4 +56,9 @@ public class CallbackRequestRowDataModel extends RequestRowDataModel<CallbackReq
     public PaymentStatus getPaymentStatus() {
 	return PaymentStatus.UNDEFINED;
     }
+
+    @Override
+    public String getAgreementNumber() {
+	return null;
+    }
 }

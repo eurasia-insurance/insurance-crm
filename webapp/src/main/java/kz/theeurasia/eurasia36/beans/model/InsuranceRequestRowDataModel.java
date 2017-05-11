@@ -78,4 +78,13 @@ public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> e
 	}
     }
 
+    @Override
+    public String getAgreementNumber() {
+	try {
+	    return entity.getAgreementNumber();
+	} catch (NullPointerException e) {
+	    return null;
+	}
+    }
+
 }

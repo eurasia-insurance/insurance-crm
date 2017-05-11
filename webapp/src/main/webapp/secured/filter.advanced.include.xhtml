@@ -161,7 +161,8 @@
 							<p:outputLabel value="Виды заявок:" for="requestClass" />
 						</p:column>
 						<p:column>
-							<p:selectOneMenu id="requestClass" value="#{settings.requestType}">
+							<p:selectOneMenu id="requestClass"
+								value="#{settings.requestType}">
 								<f:selectItem itemValue="#{RequestType.REQUEST}"
 									itemLabel="Любые заявки" />
 								<f:selectItem itemValue="#{RequestType.INSURANCE_REQUEST}"
@@ -230,6 +231,17 @@
 										<f:selectItems
 											value="#{insuranceRequestTypeService.allItemsShortSI}" />
 									</p:selectOneMenu>
+								</p:column>
+								<p:column>
+									<p:outputLabel value="Номер договора: "
+										for="agreementNumberMask" />
+								</p:column>
+								<p:column>
+									<p:inputText id="agreementNumberMask"
+										value="#{settings.requestFilter.agreementNumberMask}">
+										<p:ajax event="keyup" delay="700" process="@this"
+											update="@form" listener="#{mainFacade.onFilterChanged}" />
+									</p:inputText>
 								</p:column>
 							</p:row>
 						</p:panelGrid>

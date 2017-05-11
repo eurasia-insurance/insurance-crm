@@ -26,14 +26,14 @@
 		<!-- APIs -->
 		<kz-lib.version>3.0</kz-lib.version>
 		<international-lib.version>3.1</international-lib.version>
-		<insurance-lib.version>2.1</insurance-lib.version>
+		<insurance-lib.version>2.2-SNAPSHOT</insurance-lib.version>
 		<lapsa-lib.version>2.0</lapsa-lib.version>
 		<donkeyfaces-lib.version>1.3</donkeyfaces-lib.version>
 		<reports-lib.version>1.1</reports-lib.version>
 		<pushapi-lib.version>1.0</pushapi-lib.version>
 		<!-- EJBs & WARs -->
 		<insurance-services-impl-cdi.version>2.1</insurance-services-impl-cdi.version>
-		<insurance-dao-impl-jpa.version>2.1</insurance-dao-impl-jpa.version>
+		<insurance-dao-impl-jpa.version>2.2-SNAPSHOT</insurance-dao-impl-jpa.version>
 		<insurance-jpa-unit.version>1.12</insurance-jpa-unit.version>
 		<pushapi-dao-impl-jpa.version>1.0</pushapi-dao-impl-jpa.version>
 		<pushapi-jpa-unit.version>1.0</pushapi-jpa-unit.version>

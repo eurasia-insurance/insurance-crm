@@ -35,7 +35,8 @@ public class RequestsValueRow implements ValueRow {
 	    "Стадия обработки", // 14
 	    "Результат", // 15
 	    "Причина", // 16
-	    "Примечание" // 17
+	    "Номер договора", // 17
+	    "Примечание" // 18
     };
 
     private final List<ValueCell<?>> row;
@@ -72,8 +73,11 @@ public class RequestsValueRow implements ValueRow {
 	row.add(insuranceRequest == null ? new DefaultTextValueCell("")
 		: new DefaultTextValueCell(insuranceRequest.getTransactionProblem())); // 16
 
+	row.add(insuranceRequest == null ? new DefaultTextValueCell("")
+		: new DefaultTextValueCell(insuranceRequest.getAgreementNumber())); // 17
+
 	row.add(request == null ? new DefaultTextValueCell("")
-		: new DefaultTextValueCell(request.getNote())); // 17
+		: new DefaultTextValueCell(request.getNote())); // 18
 
 	this.row = Collections.unmodifiableList(row);
     }

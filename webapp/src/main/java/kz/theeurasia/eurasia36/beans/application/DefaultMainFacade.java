@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.WeekFields;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -27,12 +28,15 @@ import com.lapsa.insurance.dao.NotPersistedException;
 import com.lapsa.insurance.dao.PeristenceOperationFailed;
 import com.lapsa.insurance.dao.PolicyRequestDAO;
 import com.lapsa.insurance.dao.RequestDAO;
+import com.lapsa.insurance.dao.UserDAO;
 import com.lapsa.insurance.dao.filter.RequestFilter;
 import com.lapsa.insurance.domain.CalculationData;
 import com.lapsa.insurance.domain.InsuranceRequest;
 import com.lapsa.insurance.domain.ObtainingData;
 import com.lapsa.insurance.domain.PaymentData;
 import com.lapsa.insurance.domain.Request;
+import com.lapsa.insurance.domain.crm.User;
+import com.lapsa.insurance.domain.crm.UserGroup;
 
 import kz.theeurasia.eurasia36.application.InsuranceRoleGroup;
 import kz.theeurasia.eurasia36.application.MainFacade;
@@ -51,11 +55,13 @@ public class DefaultMainFacade implements MainFacade {
 
     @Override
     public void onFilterChanged(AjaxBehaviorEvent event) {
+	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
 	onFilterChanged();
     }
 
     @Override
     public void onFilterChanged() {
+	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
 	refreshRequests();
 	unselectIfNotShown();
     }
@@ -333,33 +339,146 @@ public class DefaultMainFacade implements MainFacade {
 	settingsHolder.getRequestFilter().setRequestStatus(last);
     }
 
+    @FunctionalInterface
+    interface FilterFinder {
+	List<Request> find();
+    }
+
+    @Inject
+    private UserDAO userDAO;
+
     private void refreshRequests() {
+	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
+
 	RequestType requestType = settingsHolder.getRequestType();
 
 	RequestFilter requestFilter = settingsHolder.getRequestFilter();
 
-	List<Request> requests = null;
+	FilterFinder f = null;
 
-	switch (requestType) {
-	case INSURANCE_REQUEST:
-	    requests = checkedList(insuranceRequestDAO.findByFilter(requestFilter));
-	    break;
-	case CALLBACK_REQUEST:
-	    requests = checkedList(callbackRequestDAO.findByFilter(requestFilter));
-	    break;
-	case CASCO_REQUEST:
-	    requests = checkedList(cascoRequestDAO.findByFilter(requestFilter));
-	    break;
-	case POLICY_REQUEST:
-	    requests = checkedList(policyRequestDAO.findByFilter(requestFilter));
-	    break;
-	case REQUEST:
-	default:
-	    requests = checkedList(requestDAO.findByFilter(requestFilter));
-	    break;
+	if (isInRole(InsuranceRoleGroup.VIEWERS_ALL)) {
+	    switch (requestType) {
+	    case INSURANCE_REQUEST:
+		f = () -> {
+		    return checkedList(insuranceRequestDAO.findByFilter(requestFilter));
+		};
+		break;
+	    case CALLBACK_REQUEST:
+		f = () -> {
+		    return checkedList(callbackRequestDAO.findByFilter(requestFilter));
+		};
+		break;
+	    case CASCO_REQUEST:
+		f = () -> {
+		    return checkedList(cascoRequestDAO.findByFilter(requestFilter));
+		};
+		break;
+	    case POLICY_REQUEST:
+		f = () -> {
+		    return checkedList(policyRequestDAO.findByFilter(requestFilter));
+		};
+		break;
+	    case REQUEST:
+	    default:
+		f = () -> {
+		    return checkedList(requestDAO.findByFilter(requestFilter));
+		};
+		break;
+	    }
+
+	} else if (isInRole(InsuranceRoleGroup.VIEWERS_GROUP_BASED)) {
+
+	    final boolean showNoCreators;
+	    List<User> restrictedToUsers = new ArrayList<>();
+
+	    if (currentUser.getValue().isHasGroup()) {
+		// если пользователь - участник какой-либо группы
+		// показываем ему авторов состоящих в его группах
+		for (UserGroup gg : currentUser.getValue().getGroups())
+		    restrictedToUsers.addAll(gg.getMembers());
+		// анонимов не показываем
+		showNoCreators = false;
+
+	    } else {
+		// если пользователь - не состоит ни в какой группе
+		// показываем ему только авторов, не состоящих ни в одной группе
+		restrictedToUsers = userDAO.findAllWithNoGroup();
+		// показываем ему анонимов
+		showNoCreators = true;
+	    }
+
+	    final User[] uar = restrictedToUsers.toArray(new User[0]);
+
+	    switch (requestType) {
+	    case INSURANCE_REQUEST:
+		f = () -> {
+		    return checkedList(
+			    insuranceRequestDAO.findByFilter(requestFilter, showNoCreators, uar));
+		};
+		break;
+	    case CALLBACK_REQUEST:
+		f = () -> {
+		    return checkedList(
+			    callbackRequestDAO.findByFilter(requestFilter, showNoCreators, uar));
+		};
+		break;
+	    case CASCO_REQUEST:
+		f = () -> {
+		    return checkedList(
+			    cascoRequestDAO.findByFilter(requestFilter, showNoCreators, uar));
+		};
+		break;
+	    case POLICY_REQUEST:
+		f = () -> {
+		    return checkedList(
+			    policyRequestDAO.findByFilter(requestFilter, showNoCreators, uar));
+		};
+		break;
+	    case REQUEST:
+	    default:
+		f = () -> {
+		    return checkedList(requestDAO.findByFilter(requestFilter, showNoCreators, uar));
+		};
+		break;
+	    }
+	} else if (isInRole(InsuranceRoleGroup.VIEWERS_OWNED_ONLY)) {
+	    switch (requestType) {
+	    case INSURANCE_REQUEST:
+		f = () -> {
+		    return checkedList(
+			    insuranceRequestDAO.findByFilter(requestFilter, false, currentUser.getValue()));
+		};
+		break;
+	    case CALLBACK_REQUEST:
+		f = () -> {
+		    return checkedList(
+			    callbackRequestDAO.findByFilter(requestFilter, false, currentUser.getValue()));
+		};
+		break;
+	    case CASCO_REQUEST:
+		f = () -> {
+		    return checkedList(cascoRequestDAO.findByFilter(requestFilter, false, currentUser.getValue()));
+		};
+		break;
+	    case POLICY_REQUEST:
+		f = () -> {
+		    return checkedList(
+			    policyRequestDAO.findByFilter(requestFilter, false, currentUser.getValue()));
+		};
+		break;
+	    case REQUEST:
+	    default:
+		f = () -> {
+		    return checkedList(requestDAO.findByFilter(requestFilter, false, currentUser.getValue()));
+		};
+		break;
+	    }
 	}
 
-	requestsHolder.setValue(RequestsDataModelFactory.createList(requests));
+	if (f == null)
+	    throw new RuntimeException("Can not determine type of restrictions");
+
+	requestsHolder.setValue(RequestsDataModelFactory.createList(f.find()));
     }
 
     @SuppressWarnings("unchecked")

@@ -6,8 +6,6 @@ public interface CurrentUserHolder extends WritableValueHolder<User> {
 
     boolean isCanView();
 
-    boolean isCanViewOwnedOnly();
-
     boolean isCanChange();
 
     boolean isCanClose();

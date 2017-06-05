@@ -10,11 +10,11 @@ public enum InsuranceRoleGroup implements SecurityRoleGroup {
 
     VIEWERS_OWNED_ONLY(InsuranceRole.AGENT_ROLE),
 
-    VIEWERS(
-	    InsuranceRole.AGENT_ROLE,
-	    InsuranceRole.REPORTER_ROLE,
-	    InsuranceRole.SPECIALIST_ROLE,
-	    InsuranceRole.ADMIN_ROLE),
+    VIEWERS_GROUP_BASED(InsuranceRole.SPECIALIST_ROLE),
+
+    VIEWERS_ALL(InsuranceRole.ADMIN_ROLE),
+
+    VIEWERS(InsuranceRole.AGENT_ROLE, InsuranceRole.SPECIALIST_ROLE, InsuranceRole.ADMIN_ROLE),
 
     CHANGERS(
 	    InsuranceRole.SPECIALIST_ROLE,

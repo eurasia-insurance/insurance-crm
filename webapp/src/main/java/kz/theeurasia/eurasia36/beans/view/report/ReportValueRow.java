@@ -17,7 +17,7 @@ import com.lapsa.reports.table.impl.DefaultTextValueCell;
 
 import kz.theeurasia.eurasia36.beans.model.RequestRow;
 
-public class RequestsValueRow implements ValueRow {
+public class ReportValueRow implements ValueRow {
 
     private static final DefaultTextValueCell EMPTY_CELL = new DefaultTextValueCell("");
 
@@ -76,7 +76,7 @@ public class RequestsValueRow implements ValueRow {
 
     private final List<ValueCell<?>> row;
 
-    public RequestsValueRow(RequestRow<?> request) {
+    public ReportValueRow(RequestRow<?> request) {
 	this.row = Arrays.stream(FIELDS).map(fd -> {
 	    try {
 		return fd.cellSupplier.apply(request);

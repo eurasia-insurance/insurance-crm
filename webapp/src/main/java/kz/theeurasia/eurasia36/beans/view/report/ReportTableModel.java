@@ -10,16 +10,16 @@ import com.lapsa.reports.table.ValueRow;
 import com.lapsa.reports.table.impl.DefaultHeaderRow;
 
 import kz.theeurasia.eurasia36.beans.model.RequestRow;
-import kz.theeurasia.eurasia36.beans.view.report.RequestsValueRow.FieldDescriptor;
+import kz.theeurasia.eurasia36.beans.view.report.ReportValueRow.FieldDescriptor;
 
-public class RequestsTableModel implements TableModel {
+public class ReportTableModel implements TableModel {
 
     private final HeaderRow headerRow;
     private final List<RequestRow<?>> rows;
 
-    public RequestsTableModel(List<RequestRow<?>> rows) {
+    public ReportTableModel(List<RequestRow<?>> rows) {
 	this.rows = rows;
-	this.headerRow = new DefaultHeaderRow(Arrays.stream(RequestsValueRow.FIELDS) //
+	this.headerRow = new DefaultHeaderRow(Arrays.stream(ReportValueRow.FIELDS) //
 		.map(FieldDescriptor::getTitle) //
 		.toArray(String[]::new));
     }
@@ -36,7 +36,7 @@ public class RequestsTableModel implements TableModel {
 
 	    @Override
 	    public ValueRow next() {
-		return new RequestsValueRow(i.next());
+		return new ReportValueRow(i.next());
 	    }
 	};
     }
@@ -53,7 +53,7 @@ public class RequestsTableModel implements TableModel {
 
     @Override
     public ValueRow getRow(int number) {
-	return new RequestsValueRow(rows.get(number));
+	return new ReportValueRow(rows.get(number));
     }
 
 }

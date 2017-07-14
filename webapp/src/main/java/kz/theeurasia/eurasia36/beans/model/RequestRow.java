@@ -2,6 +2,7 @@ package kz.theeurasia.eurasia36.beans.model;
 
 import java.time.LocalDateTime;
 
+import com.lapsa.fin.FinCurrency;
 import com.lapsa.insurance.crm.InsuranceRequestType;
 import com.lapsa.insurance.crm.PaymentStatus;
 import com.lapsa.insurance.crm.ProgressStatus;
@@ -23,11 +24,10 @@ public interface RequestRow<T extends Request> {
 
     RequestType getType();
 
-    // request properties
-
     Integer getId();
 
     RequestStatus getRequestStatus();
+
     RequestSource getRequestSource();
 
     ProgressStatus getProgressStatus();
@@ -60,9 +60,13 @@ public interface RequestRow<T extends Request> {
 
     Double getAmount();
 
+    FinCurrency getCurrency();
+
     PaymentMethod getPaymentMethod();
 
     PaymentStatus getPaymentStatus();
+
+    String getPaymentReference();
 
     String getRequesterName();
 

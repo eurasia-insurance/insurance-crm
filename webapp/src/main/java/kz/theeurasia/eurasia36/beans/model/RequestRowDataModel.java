@@ -49,7 +49,6 @@ public abstract class RequestRowDataModel<T extends Request> implements RequestR
 	}
     }
 
-
     @Override
     public ProgressStatus getProgressStatus() {
 	try {

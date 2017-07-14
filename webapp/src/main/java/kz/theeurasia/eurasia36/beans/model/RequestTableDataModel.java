@@ -14,7 +14,7 @@ import com.lapsa.reports.ReportGenerator;
 import com.lapsa.reports.ReportGeneratorFactory;
 import com.lapsa.reports.table.TableModel;
 
-import kz.theeurasia.eurasia36.beans.view.report.RequestsTableModel;
+import kz.theeurasia.eurasia36.beans.view.report.ReportTableModel;
 
 public class RequestTableDataModel extends ListDataModel<RequestRow<?>>
 	implements RequestList {
@@ -72,8 +72,8 @@ public class RequestTableDataModel extends ListDataModel<RequestRow<?>>
 
     @Override
     public StreamedContent getAsExcel() {
-	List<Request> list = getEntitiesList();
-	TableModel model = new RequestsTableModel(list);
+	List<RequestRow<?>> rows = getRows();
+	TableModel model = new ReportTableModel(rows);
 	ReportGenerator excelGenerator = ReportGeneratorFactory.createReportGenerator("excel");
 	ReportData data = excelGenerator.generateTableReport(model);
 	return new DefaultStreamedContent(data.contentAsInputStream(), data.contentType(), "report.xls");

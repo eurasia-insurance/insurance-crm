@@ -1,5 +1,6 @@
 package kz.theeurasia.eurasia36.beans.model;
 
+import com.lapsa.fin.FinCurrency;
 import com.lapsa.insurance.crm.InsuranceRequestType;
 import com.lapsa.insurance.crm.PaymentStatus;
 import com.lapsa.insurance.crm.TransactionProblem;
@@ -48,6 +49,11 @@ public class CallbackRequestRowDataModel extends RequestRowDataModel<CallbackReq
     }
 
     @Override
+    public FinCurrency getCurrency() {
+	return null;
+    }
+
+    @Override
     public PaymentMethod getPaymentMethod() {
 	return PaymentMethod.UNDEFINED;
     }
@@ -55,6 +61,11 @@ public class CallbackRequestRowDataModel extends RequestRowDataModel<CallbackReq
     @Override
     public PaymentStatus getPaymentStatus() {
 	return PaymentStatus.UNDEFINED;
+    }
+
+    @Override
+    public String getPaymentReference() {
+	return null;
     }
 
     @Override

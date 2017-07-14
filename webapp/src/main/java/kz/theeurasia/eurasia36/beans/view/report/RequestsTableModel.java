@@ -4,21 +4,21 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import com.lapsa.insurance.domain.Request;
 import com.lapsa.reports.table.HeaderRow;
 import com.lapsa.reports.table.TableModel;
 import com.lapsa.reports.table.ValueRow;
 import com.lapsa.reports.table.impl.DefaultHeaderRow;
 
+import kz.theeurasia.eurasia36.beans.model.RequestRow;
 import kz.theeurasia.eurasia36.beans.view.report.RequestsValueRow.FieldDescriptor;
 
 public class RequestsTableModel implements TableModel {
 
-    private final List<Request> list;
     private final HeaderRow headerRow;
+    private final List<RequestRow<?>> rows;
 
-    public RequestsTableModel(List<Request> list) {
-	this.list = list;
+    public RequestsTableModel(List<RequestRow<?>> rows) {
+	this.rows = rows;
 	this.headerRow = new DefaultHeaderRow(Arrays.stream(RequestsValueRow.FIELDS) //
 		.map(FieldDescriptor::getTitle) //
 		.toArray(String[]::new));
@@ -26,7 +26,7 @@ public class RequestsTableModel implements TableModel {
 
     @Override
     public Iterator<ValueRow> iterator() {
-	final Iterator<Request> i = list.iterator();
+	final Iterator<RequestRow<?>> i = rows.iterator();
 	return new Iterator<ValueRow>() {
 
 	    @Override
@@ -48,12 +48,12 @@ public class RequestsTableModel implements TableModel {
 
     @Override
     public int getRowCount() {
-	return list.size();
+	return rows.size();
     }
 
     @Override
     public ValueRow getRow(int number) {
-	return new RequestsValueRow(list.get(number));
+	return new RequestsValueRow(rows.get(number));
     }
 
 }

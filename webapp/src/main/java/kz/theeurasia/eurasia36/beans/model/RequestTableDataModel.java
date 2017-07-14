@@ -72,8 +72,8 @@ public class RequestTableDataModel extends ListDataModel<RequestRow<?>>
 
     @Override
     public StreamedContent getAsExcel() {
-	List<Request> list = getEntitiesList();
-	TableModel model = new RequestsTableModel(list);
+	List<RequestRow<?>> rows = getRows();
+	TableModel model = new RequestsTableModel(rows);
 	ReportGenerator excelGenerator = ReportGeneratorFactory.createReportGenerator("excel");
 	ReportData data = excelGenerator.generateTableReport(model);
 	return new DefaultStreamedContent(data.contentAsInputStream(), data.contentType(), "report.xls");

@@ -1,5 +1,6 @@
 package kz.theeurasia.eurasia36.beans.model;
 
+import com.lapsa.fin.FinCurrency;
 import com.lapsa.insurance.crm.InsuranceRequestType;
 import com.lapsa.insurance.crm.PaymentStatus;
 import com.lapsa.insurance.crm.TransactionProblem;
@@ -61,6 +62,15 @@ public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> e
     }
 
     @Override
+    public FinCurrency getCurrency() {
+	try {
+	    return entity.getProduct().getCalculation().getPremiumCurrency();
+	} catch (NullPointerException e) {
+	    return null;
+	}
+    }
+
+    @Override
     public PaymentMethod getPaymentMethod() {
 	try {
 	    return entity.getPayment().getMethod();
@@ -79,6 +89,15 @@ public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> e
     }
 
     @Override
+    public String getPaymentReference() {
+	try {
+	    return entity.getPayment().getPaymentReference();
+	} catch (NullPointerException e) {
+	    return null;
+	}
+    }
+
+    @Override
     public String getAgreementNumber() {
 	try {
 	    return entity.getAgreementNumber();
@@ -86,5 +105,4 @@ public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> e
 	    return null;
 	}
     }
-
 }

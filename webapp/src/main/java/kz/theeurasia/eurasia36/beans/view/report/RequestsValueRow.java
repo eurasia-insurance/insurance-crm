@@ -76,6 +76,13 @@ public class RequestsValueRow implements ValueRow {
 		    (request, insuranceRequest) -> new DefaultTextValueCell(insuranceRequest.getAgreementNumber())),
 	    new FieldDescriptor("Примечание",
 		    (request, insuranceRequest) -> new DefaultTextValueCell(request.getNote())),
+	    new FieldDescriptor("Способ оплаты",
+		    (request, insuranceRequest) -> new DefaultTextValueCell(insuranceRequest.getPayment().getMethod())),
+	    new FieldDescriptor("Статус оплаты",
+		    (request, insuranceRequest) -> new DefaultTextValueCell(insuranceRequest.getPayment().getStatus())),
+	    new FieldDescriptor("Платежный референс",
+		    (request, insuranceRequest) -> new DefaultTextValueCell(
+			    insuranceRequest.getPayment().getPaymentReference())),
     };
 
     private final List<ValueCell<?>> row;

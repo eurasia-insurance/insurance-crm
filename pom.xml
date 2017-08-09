@@ -37,7 +37,7 @@
 		<insurance-jpa-unit.version>1.12.1</insurance-jpa-unit.version>
 		<pushapi-dao-impl-jpa.version>1.0</pushapi-dao-impl-jpa.version>
 		<pushapi-jpa-unit.version>1.0</pushapi-jpa-unit.version>
-		<pushapi-app.version>1.0</pushapi-app.version>
+		<pushapi-app.version>1.0.1</pushapi-app.version>
 		<!-- external -->
 		<primefaces.version>5.3.16</primefaces.version>
 		<primefaces-themes.version>1.0.10</primefaces-themes.version>

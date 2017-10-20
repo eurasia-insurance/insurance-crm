@@ -9,11 +9,11 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.lapsa.insurance.domain.crm.User;
-import com.lapsa.insurance.services.domain.UserFacade;
 import com.lapsa.utils.security.SecurityUtils;
 
 import kz.theeurasia.eurasia36.application.InsuranceRoleGroup;
 import kz.theeurasia.eurasia36.beans.api.CurrentUserHolder;
+import tech.lapsa.insurance.facade.UserFacade;
 
 @Named("currentUser")
 @SessionScoped

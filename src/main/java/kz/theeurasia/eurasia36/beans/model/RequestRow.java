@@ -1,20 +1,20 @@
 package kz.theeurasia.eurasia36.beans.model;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 import com.lapsa.fin.FinCurrency;
-import com.lapsa.insurance.crm.InsuranceRequestType;
-import com.lapsa.insurance.crm.PaymentStatus;
-import com.lapsa.insurance.crm.ProgressStatus;
-import com.lapsa.insurance.crm.RequestSource;
-import com.lapsa.insurance.crm.RequestStatus;
-import com.lapsa.insurance.crm.TransactionProblem;
-import com.lapsa.insurance.crm.TransactionStatus;
 import com.lapsa.insurance.domain.Request;
 import com.lapsa.insurance.domain.crm.User;
 import com.lapsa.insurance.elements.InsuranceProductType;
+import com.lapsa.insurance.elements.InsuranceRequestType;
 import com.lapsa.insurance.elements.PaymentMethod;
-import com.lapsa.localization.LocalizationLanguage;
+import com.lapsa.insurance.elements.PaymentStatus;
+import com.lapsa.insurance.elements.ProgressStatus;
+import com.lapsa.insurance.elements.RequestSource;
+import com.lapsa.insurance.elements.RequestStatus;
+import com.lapsa.insurance.elements.TransactionProblem;
+import com.lapsa.insurance.elements.TransactionStatus;
+import com.lapsa.international.localization.LocalizationLanguage;
 
 import kz.theeurasia.eurasia36.beans.api.RequestType;
 
@@ -40,21 +40,21 @@ public interface RequestRow<T extends Request> {
 
     InsuranceRequestType getInsuranceRequestType();
 
-    LocalDateTime getCreated();
+    Instant getCreated();
 
     User getCreatedBy();
 
-    LocalDateTime getUpdated();
+    Instant getUpdated();
 
-    LocalDateTime getAccepted();
+    Instant getAccepted();
 
     User getAcceptedBy();
 
-    LocalDateTime getCompleted();
+    Instant getCompleted();
 
     User getCompletedBy();
 
-    LocalDateTime getClosed();
+    Instant getClosed();
 
     User getClosedBy();
 

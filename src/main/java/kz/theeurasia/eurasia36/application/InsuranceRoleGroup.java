@@ -2,25 +2,24 @@ package kz.theeurasia.eurasia36.application;
 
 import java.util.StringJoiner;
 
-import com.lapsa.insurance.security.InsuranceRole;
 import com.lapsa.utils.security.SecurityRole;
 import com.lapsa.utils.security.SecurityRoleGroup;
 
+import tech.lapsa.insurance.crm.auth.InsuranceSecurity.Role;
+
 public enum InsuranceRoleGroup implements SecurityRoleGroup {
 
-    VIEWERS_OWNED_ONLY(InsuranceRole.AGENT_ROLE),
+    VIEWERS_OWNED_ONLY(Role.AGENT),
 
-    VIEWERS_GROUP_BASED(InsuranceRole.SPECIALIST_ROLE),
+    VIEWERS_GROUP_BASED(Role.SPECIALIST),
 
-    VIEWERS_ALL(InsuranceRole.ADMIN_ROLE),
+    VIEWERS_ALL(Role.ADMIN),
 
-    VIEWERS(InsuranceRole.AGENT_ROLE, InsuranceRole.SPECIALIST_ROLE, InsuranceRole.ADMIN_ROLE),
+    VIEWERS(Role.AGENT, Role.SPECIALIST, Role.ADMIN),
 
-    CHANGERS(
-	    InsuranceRole.SPECIALIST_ROLE,
-	    InsuranceRole.ADMIN_ROLE),
+    CHANGERS(Role.SPECIALIST, Role.ADMIN),
 
-    CLOSERS(InsuranceRole.ADMIN_ROLE);
+    CLOSERS(Role.ADMIN);
 
     private final SecurityRole[] roles;
 

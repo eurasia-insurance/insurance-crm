@@ -2,6 +2,7 @@ package kz.theeurasia.eurasia36.beans.application;
 
 import static com.lapsa.utils.security.SecurityUtils.*;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoField;
@@ -17,19 +18,6 @@ import javax.inject.Named;
 
 import org.primefaces.event.SelectEvent;
 
-import com.lapsa.insurance.crm.ObtainingStatus;
-import com.lapsa.insurance.crm.PaymentStatus;
-import com.lapsa.insurance.crm.ProgressStatus;
-import com.lapsa.insurance.crm.RequestStatus;
-import com.lapsa.insurance.dao.CallbackRequestDAO;
-import com.lapsa.insurance.dao.CascoRequestDAO;
-import com.lapsa.insurance.dao.InsuranceRequestDAO;
-import com.lapsa.insurance.dao.NotPersistedException;
-import com.lapsa.insurance.dao.PeristenceOperationFailed;
-import com.lapsa.insurance.dao.PolicyRequestDAO;
-import com.lapsa.insurance.dao.RequestDAO;
-import com.lapsa.insurance.dao.UserDAO;
-import com.lapsa.insurance.dao.filter.RequestFilter;
 import com.lapsa.insurance.domain.CalculationData;
 import com.lapsa.insurance.domain.InsuranceRequest;
 import com.lapsa.insurance.domain.ObtainingData;
@@ -37,6 +25,10 @@ import com.lapsa.insurance.domain.PaymentData;
 import com.lapsa.insurance.domain.Request;
 import com.lapsa.insurance.domain.crm.User;
 import com.lapsa.insurance.domain.crm.UserGroup;
+import com.lapsa.insurance.elements.ObtainingStatus;
+import com.lapsa.insurance.elements.PaymentStatus;
+import com.lapsa.insurance.elements.ProgressStatus;
+import com.lapsa.insurance.elements.RequestStatus;
 
 import kz.theeurasia.eurasia36.application.InsuranceRoleGroup;
 import kz.theeurasia.eurasia36.application.MainFacade;
@@ -48,6 +40,14 @@ import kz.theeurasia.eurasia36.beans.api.RequestsHolder;
 import kz.theeurasia.eurasia36.beans.api.SettingsHolder;
 import kz.theeurasia.eurasia36.beans.model.RequestsDataModelFactory;
 import kz.theeurasia.eurasia36.beans.view.pojo.RequestFilterBean;
+import tech.lapsa.insurance.dao.CallbackRequestDAO;
+import tech.lapsa.insurance.dao.CascoRequestDAO;
+import tech.lapsa.insurance.dao.InsuranceRequestDAO;
+import tech.lapsa.insurance.dao.PolicyRequestDAO;
+import tech.lapsa.insurance.dao.RequestDAO;
+import tech.lapsa.insurance.dao.UserDAO;
+import tech.lapsa.insurance.dao.filter.RequestFilter;
+import tech.lapsa.patterns.dao.NotFound;
 
 @Named("mainFacade")
 @ApplicationScoped
@@ -487,12 +487,12 @@ public class DefaultMainFacade implements MainFacade {
     }
 
     private void saveRequest() {
-	Request request = requestHolder.getValue().getEntity();
 	try {
-	    request.setUpdated(LocalDateTime.now());
+	    Request request = requestHolder.getValue().getEntity();
+	    request.setUpdated(Instant.now());
 	    Request insuranceRequestSaved = requestDAO.save(request);
 	    requestHolder.setValue(RequestsDataModelFactory.createRow(insuranceRequestSaved));
-	} catch (PeristenceOperationFailed e) {
+	} catch (Exception e) {
 	    facesMessagesFacade.addExceptionMessage(e);
 	}
     }
@@ -502,9 +502,7 @@ public class DefaultMainFacade implements MainFacade {
 	try {
 	    Request insuranceRequestSaved = requestDAO.restore(request);
 	    requestHolder.setValue(RequestsDataModelFactory.createRow(insuranceRequestSaved));
-	} catch (PeristenceOperationFailed e) {
-	    facesMessagesFacade.addExceptionMessage(e);
-	} catch (NotPersistedException e) {
+	} catch (NotFound e) {
 	    facesMessagesFacade.addExceptionMessage(e);
 	}
     }
@@ -516,7 +514,7 @@ public class DefaultMainFacade implements MainFacade {
 
     private void closeRequest() {
 	Request request = requestHolder.getValue().getEntity();
-	request.setClosed(LocalDateTime.now());
+	request.setClosed(Instant.now());
 	request.setStatus(RequestStatus.CLOSED);
 	request.setClosedBy(currentUser.getValue());
     }
@@ -530,7 +528,7 @@ public class DefaultMainFacade implements MainFacade {
     private void acceptRequest() {
 	Request request = requestHolder.getValue().getEntity();
 	request.setProgressStatus(ProgressStatus.ON_PROCESS);
-	request.setAccepted(LocalDateTime.now());
+	request.setAccepted(Instant.now());
 	request.setAcceptedBy(currentUser.getValue());
     }
 
@@ -547,7 +545,7 @@ public class DefaultMainFacade implements MainFacade {
     private void completeRequest() {
 	Request request = requestHolder.getValue().getEntity();
 	request.setProgressStatus(ProgressStatus.FINISHED);
-	request.setCompleted(LocalDateTime.now());
+	request.setCompleted(Instant.now());
 	request.setCompletedBy(currentUser.getValue());
     }
 

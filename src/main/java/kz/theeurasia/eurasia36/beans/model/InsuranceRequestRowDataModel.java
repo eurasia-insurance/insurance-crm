@@ -1,13 +1,13 @@
 package kz.theeurasia.eurasia36.beans.model;
 
 import com.lapsa.fin.FinCurrency;
-import com.lapsa.insurance.crm.InsuranceRequestType;
-import com.lapsa.insurance.crm.PaymentStatus;
-import com.lapsa.insurance.crm.TransactionProblem;
-import com.lapsa.insurance.crm.TransactionStatus;
 import com.lapsa.insurance.domain.InsuranceRequest;
 import com.lapsa.insurance.elements.InsuranceProductType;
+import com.lapsa.insurance.elements.InsuranceRequestType;
 import com.lapsa.insurance.elements.PaymentMethod;
+import com.lapsa.insurance.elements.PaymentStatus;
+import com.lapsa.insurance.elements.TransactionProblem;
+import com.lapsa.insurance.elements.TransactionStatus;
 
 public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> extends RequestRowDataModel<T>
 	implements RequestRow<T> {
@@ -91,7 +91,7 @@ public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> e
     @Override
     public String getPaymentReference() {
 	try {
-	    return entity.getPayment().getPaymentReference();
+	    return entity.getPayment().getPostReference();
 	} catch (NullPointerException e) {
 	    return null;
 	}

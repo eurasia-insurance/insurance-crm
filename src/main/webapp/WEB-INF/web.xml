@@ -124,6 +124,20 @@
 		<mime-type>image/svg+xml</mime-type>
 	</mime-mapping>
 
+	<!-- ROLEs -->
+	<security-role>
+		<role-name>role-admin</role-name>
+	</security-role>
+	<security-role>
+		<role-name>role-specialist</role-name>
+	</security-role>
+	<security-role>
+		<role-name>role-agent</role-name>
+	</security-role>
+	<security-role>
+		<role-name>role-reporter</role-name>
+	</security-role>
+
 	<!-- SECURITYs -->
 	<security-constraint>
 		<web-resource-collection>

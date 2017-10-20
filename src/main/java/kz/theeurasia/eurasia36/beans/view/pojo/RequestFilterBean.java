@@ -2,19 +2,21 @@ package kz.theeurasia.eurasia36.beans.view.pojo;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
-import com.lapsa.insurance.crm.InsuranceRequestType;
-import com.lapsa.insurance.crm.ObtainingStatus;
-import com.lapsa.insurance.crm.PaymentStatus;
-import com.lapsa.insurance.crm.ProgressStatus;
-import com.lapsa.insurance.crm.RequestSource;
-import com.lapsa.insurance.crm.RequestStatus;
-import com.lapsa.insurance.crm.TransactionProblem;
-import com.lapsa.insurance.crm.TransactionStatus;
-import com.lapsa.insurance.dao.filter.RequestFilter;
 import com.lapsa.insurance.domain.crm.User;
+import com.lapsa.insurance.elements.InsuranceRequestType;
 import com.lapsa.insurance.elements.ObtainingMethod;
+import com.lapsa.insurance.elements.ObtainingStatus;
 import com.lapsa.insurance.elements.PaymentMethod;
+import com.lapsa.insurance.elements.PaymentStatus;
+import com.lapsa.insurance.elements.ProgressStatus;
+import com.lapsa.insurance.elements.RequestSource;
+import com.lapsa.insurance.elements.RequestStatus;
+import com.lapsa.insurance.elements.TransactionProblem;
+import com.lapsa.insurance.elements.TransactionStatus;
+
+import tech.lapsa.insurance.dao.filter.RequestFilter;
 
 public class RequestFilterBean implements RequestFilter, Serializable {
     private static final long serialVersionUID = -5052366661196023039L;
@@ -249,5 +251,10 @@ public class RequestFilterBean implements RequestFilter, Serializable {
 
     public void setRequestSource(RequestSource requestSource) {
 	this.requestSource = requestSource;
+    }
+
+    @Override
+    public ZoneId getZoneId() {
+	return ZoneId.systemDefault();
     }
 }

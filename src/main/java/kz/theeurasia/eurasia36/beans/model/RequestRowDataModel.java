@@ -1,13 +1,13 @@
 package kz.theeurasia.eurasia36.beans.model;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
-import com.lapsa.insurance.crm.ProgressStatus;
-import com.lapsa.insurance.crm.RequestSource;
-import com.lapsa.insurance.crm.RequestStatus;
 import com.lapsa.insurance.domain.Request;
 import com.lapsa.insurance.domain.crm.User;
-import com.lapsa.localization.LocalizationLanguage;
+import com.lapsa.insurance.elements.ProgressStatus;
+import com.lapsa.insurance.elements.RequestSource;
+import com.lapsa.insurance.elements.RequestStatus;
+import com.lapsa.international.localization.LocalizationLanguage;
 
 public abstract class RequestRowDataModel<T extends Request> implements RequestRow<T> {
 
@@ -59,7 +59,7 @@ public abstract class RequestRowDataModel<T extends Request> implements RequestR
     }
 
     @Override
-    public LocalDateTime getCreated() {
+    public Instant getCreated() {
 	try {
 	    return entity.getCreated();
 	} catch (NullPointerException e) {
@@ -77,7 +77,7 @@ public abstract class RequestRowDataModel<T extends Request> implements RequestR
     }
 
     @Override
-    public LocalDateTime getUpdated() {
+    public Instant getUpdated() {
 	try {
 	    return entity.getUpdated();
 	} catch (NullPointerException e) {
@@ -86,7 +86,7 @@ public abstract class RequestRowDataModel<T extends Request> implements RequestR
     }
 
     @Override
-    public LocalDateTime getAccepted() {
+    public Instant getAccepted() {
 	try {
 	    return entity.getAccepted();
 	} catch (NullPointerException e) {
@@ -104,7 +104,7 @@ public abstract class RequestRowDataModel<T extends Request> implements RequestR
     }
 
     @Override
-    public LocalDateTime getCompleted() {
+    public Instant getCompleted() {
 	try {
 	    return entity.getCompleted();
 	} catch (NullPointerException e) {
@@ -122,7 +122,7 @@ public abstract class RequestRowDataModel<T extends Request> implements RequestR
     }
 
     @Override
-    public LocalDateTime getClosed() {
+    public Instant getClosed() {
 	try {
 	    return entity.getClosed();
 	} catch (NullPointerException e) {

@@ -110,14 +110,6 @@ public class DefaultRequestTypeService implements RequestTypeService {
     }
 
     @Override
-    public String displayName(Request request) {
-	RequestType type = type(request);
-	if (type == null)
-	    return null;
-	return type.name();
-    }
-
-    @Override
     public List<CascoVehicle> cascoVehiclesAsList(Casco casco) {
 	try {
 	    CascoVehicle vehicle = casco.getInsuredVehicle();
@@ -126,5 +118,4 @@ public class DefaultRequestTypeService implements RequestTypeService {
 	    return null;
 	}
     }
-
 }

@@ -1,6 +1,9 @@
 package kz.theeurasia.eurasia36.beans.api;
 
-public enum RequestType {
+import tech.lapsa.java.commons.localization.LocalizedElement;
+
+public enum RequestType implements LocalizedElement {
+
     REQUEST("request"),
     INSURANCE_REQUEST("insurance"),
     POLICY_REQUEST("policy"),

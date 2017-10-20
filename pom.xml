@@ -16,6 +16,8 @@
 	<name>Insurance Lib : CRM Web-app</name>
 
 	<properties>
+		<!-- BOMS -->
+		<java-commons-root.version>1.0-SNAPSHOT</java-commons-root.version>
 		<!-- UTILs -->
 		<font-awesome-lib.version>4.7.0</font-awesome-lib.version>
 		<!-- tech -->
@@ -46,6 +48,13 @@
 	<dependencyManagement>
 		<dependencies>
 			<!-- BOM -->
+			<dependency>
+				<groupId>tech.lapsa.java</groupId>
+				<artifactId>java-commons-root</artifactId>
+				<version>${java-commons-root.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
 			<dependency>
 				<groupId>tech.lapsa.insurance</groupId>
 				<artifactId>insurance-facade-root</artifactId>
@@ -168,6 +177,17 @@
 
 	<dependencies>
 		<!-- tech -->
+		<dependency>
+			<groupId>tech.lapsa.java</groupId>
+			<artifactId>java-commons</artifactId>
+			<scope>compile</scope>
+			<optional>false</optional>
+		</dependency>
+		<dependency>
+			<groupId>tech.lapsa.java</groupId>
+			<artifactId>java-commons-test</artifactId>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>tech.lapsa.insurance</groupId>
 			<artifactId>insurance-facade-client</artifactId>

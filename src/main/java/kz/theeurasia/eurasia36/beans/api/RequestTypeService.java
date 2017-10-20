@@ -9,8 +9,6 @@ import com.lapsa.insurance.domain.casco.CascoVehicle;
 public interface RequestTypeService {
     RequestType type(Request request);
 
-    String displayName(Request request);
-
     boolean isA(Request request, RequestType type);
 
     List<CascoVehicle> cascoVehiclesAsList(Casco casco);

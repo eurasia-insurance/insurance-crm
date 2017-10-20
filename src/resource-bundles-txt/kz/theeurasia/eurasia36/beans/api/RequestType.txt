@@ -1,0 +1,5 @@
+kz.theeurasia.eurasia36.beans.api.RequestType.CALLBACK_REQUEST = Обратный звонок
+kz.theeurasia.eurasia36.beans.api.RequestType.CASCO_REQUEST = Авто-Каско
+kz.theeurasia.eurasia36.beans.api.RequestType.INSURANCE_REQUEST = Страхование
+kz.theeurasia.eurasia36.beans.api.RequestType.POLICY_REQUEST = Полис ОСГПОВТС
+kz.theeurasia.eurasia36.beans.api.RequestType.REQUEST = Заявка

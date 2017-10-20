@@ -32,7 +32,6 @@ import com.lapsa.insurance.elements.RequestStatus;
 
 import kz.theeurasia.eurasia36.application.MainFacade;
 import kz.theeurasia.eurasia36.beans.api.CurrentUserHolder;
-import kz.theeurasia.eurasia36.beans.api.FacesMessagesFacade;
 import kz.theeurasia.eurasia36.beans.api.RequestHolder;
 import kz.theeurasia.eurasia36.beans.api.RequestType;
 import kz.theeurasia.eurasia36.beans.api.RequestsHolder;
@@ -305,9 +304,6 @@ public class DefaultMainFacade implements MainFacade {
     private SettingsHolder settingsHolder;
 
     @Inject
-    private FacesMessagesFacade facesMessagesFacade;
-
-    @Inject
     private InsuranceRequestDAO insuranceRequestDAO;
 
     @Inject
@@ -487,14 +483,10 @@ public class DefaultMainFacade implements MainFacade {
     }
 
     private void saveRequest() {
-	try {
-	    Request request = requestHolder.getValue().getEntity();
-	    request.setUpdated(Instant.now());
-	    Request insuranceRequestSaved = requestDAO.save(request);
-	    requestHolder.setValue(RequestsDataModelFactory.createRow(insuranceRequestSaved));
-	} catch (Exception e) {
-	    facesMessagesFacade.addExceptionMessage(e);
-	}
+	Request request = requestHolder.getValue().getEntity();
+	request.setUpdated(Instant.now());
+	Request insuranceRequestSaved = requestDAO.save(request);
+	requestHolder.setValue(RequestsDataModelFactory.createRow(insuranceRequestSaved));
     }
 
     private void resetRequest() {
@@ -503,7 +495,7 @@ public class DefaultMainFacade implements MainFacade {
 	    Request insuranceRequestSaved = requestDAO.restore(request);
 	    requestHolder.setValue(RequestsDataModelFactory.createRow(insuranceRequestSaved));
 	} catch (NotFound e) {
-	    facesMessagesFacade.addExceptionMessage(e);
+	    throw new IllegalStateException(e);
 	}
     }
 

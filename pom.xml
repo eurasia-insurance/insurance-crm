@@ -25,7 +25,6 @@
 		<javax-validation-commons.version>1.0-SNAPSHOT</javax-validation-commons.version>
 		<payara-hibernate-validation.version>1.0-SNAPSHOT</payara-hibernate-validation.version>
 		<insurance-facade.version>1.0-SNAPSHOT</insurance-facade.version>
-
 		<!-- oldies -->
 		<insurance-lib.version>2.3-SNAPSHOT</insurance-lib.version>
 		<insurance-jpa-unit.version>1.12.1</insurance-jpa-unit.version>
@@ -37,7 +36,6 @@
 		<pushapi-lib.version>1.1-SNAPSHOT</pushapi-lib.version>
 		<pushapi-jpa-unit.version>1.1-SNAPSHOT</pushapi-jpa-unit.version>
 		<pushapi-app.version>1.1-SNAPSHOT</pushapi-app.version>
-
 		<!-- external -->
 		<primefaces.version>5.3.16</primefaces.version>
 		<primefaces-themes.version>1.0.10</primefaces-themes.version>
@@ -182,6 +180,33 @@
 			<type>ejb</type>
 			<scope>runtime</scope>
 			<optional>false</optional>
+			<!-- remove when creating request from CRM -->
+			<exclusions>
+				<exclusion>
+					<artifactId>epayment-facade-client</artifactId>
+					<groupId>tech.lapsa.epayment</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>epayment-facade</artifactId>
+					<groupId>tech.lapsa.epayment</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>insurance-esbd-client</artifactId>
+					<groupId>tech.lapsa.insurance</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>insurance-esbd</artifactId>
+					<groupId>tech.lapsa.insurance</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>insurance-notifier-client</artifactId>
+					<groupId>tech.lapsa.insurance</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>insurance-notifier</artifactId>
+					<groupId>tech.lapsa.insurance</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<!-- сделать так, чтобы DAO не нужно было использовать напрямую -->
 		<dependency>

@@ -11,8 +11,8 @@ import javax.inject.Named;
 import com.lapsa.insurance.domain.crm.User;
 import com.lapsa.utils.security.SecurityUtils;
 
-import kz.theeurasia.eurasia36.application.InsuranceRoleGroup;
 import kz.theeurasia.eurasia36.beans.api.CurrentUserHolder;
+import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
 import tech.lapsa.insurance.facade.UserFacade;
 
 @Named("currentUser")

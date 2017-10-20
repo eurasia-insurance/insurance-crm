@@ -1,4 +1,4 @@
-package kz.theeurasia.eurasia36.application;
+package tech.lapsa.insurance.crm.auth;
 
 import java.util.StringJoiner;
 

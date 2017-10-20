@@ -30,7 +30,6 @@ import com.lapsa.insurance.elements.PaymentStatus;
 import com.lapsa.insurance.elements.ProgressStatus;
 import com.lapsa.insurance.elements.RequestStatus;
 
-import kz.theeurasia.eurasia36.application.InsuranceRoleGroup;
 import kz.theeurasia.eurasia36.application.MainFacade;
 import kz.theeurasia.eurasia36.beans.api.CurrentUserHolder;
 import kz.theeurasia.eurasia36.beans.api.FacesMessagesFacade;
@@ -40,6 +39,7 @@ import kz.theeurasia.eurasia36.beans.api.RequestsHolder;
 import kz.theeurasia.eurasia36.beans.api.SettingsHolder;
 import kz.theeurasia.eurasia36.beans.model.RequestsDataModelFactory;
 import kz.theeurasia.eurasia36.beans.view.pojo.RequestFilterBean;
+import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
 import tech.lapsa.insurance.dao.CallbackRequestDAO;
 import tech.lapsa.insurance.dao.CascoRequestDAO;
 import tech.lapsa.insurance.dao.InsuranceRequestDAO;

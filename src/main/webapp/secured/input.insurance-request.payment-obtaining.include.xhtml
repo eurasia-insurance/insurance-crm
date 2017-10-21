@@ -25,7 +25,7 @@
 								process="@this" update="insuranceRequestPaymentObtainingPanel" />
 							<f:selectItem value="#{configurationFacade.mustSelectSI}" />
 							<f:selectItems
-								value="#{obtainingMethodService.valueItemsShortSI}" />
+								value="#{si.array.few(ObtainingMethod.selectable)}" />
 						</p:selectOneMenu>
 					</h:panelGroup>
 					<!-- << agreeement ok -->
@@ -36,7 +36,7 @@
 							<p:ajax listener="#{mainFacade.onObtainingMethodChanged}"
 								process="@this" update="insuranceRequestPaymentObtainingPanel" />
 							<f:selectItem value="#{configurationFacade.mustSelectSI}" />
-							<f:selectItems value="#{obtainingMethodService.allItemsShortSI}" />
+							<f:selectItems value="#{si.array.few(ObtainingMethod.all)}" />
 						</p:selectOneMenu>
 					</h:panelGroup>
 					<!-- << agreeement failed or status is UNKNOWN -->
@@ -51,7 +51,7 @@
 							<p:ajax listener="#{mainFacade.onPaymentMethodChanged}"
 								process="@this" update="insuranceRequestPaymentObtainingPanel" />
 							<f:selectItem value="#{configurationFacade.mustSelectSI}" />
-							<f:selectItems value="#{paymentMethodService.valueItemsShortSI}" />
+							<f:selectItems value="#{si.array.few(PaymentMethod.selectable)}" />
 						</p:selectOneMenu>
 					</h:panelGroup>
 					<!-- << agreeement ok -->
@@ -62,7 +62,7 @@
 							<p:ajax listener="#{mainFacade.onPaymentMethodChanged}"
 								process="@this" update="insuranceRequestPaymentObtainingPanel" />
 							<f:selectItem value="#{configurationFacade.mustSelectSI}" />
-							<f:selectItems value="#{paymentMethodService.allItemsShortSI}" />
+							<f:selectItems value="#{si.array.few(PaymentMethod.all)}" />
 						</p:selectOneMenu>
 					</h:panelGroup>
 					<!-- << agreeement failed or status is UNKNOWN -->
@@ -76,7 +76,7 @@
 					<!-- >> agreeement status is KNOWN -->
 					<h:panelGroup rendered="#{not empty ir.transactionStatus}">
 						<h:outputText
-							value="#{obtainingStatusService.displayNameShort(ir.obtaining.status)}" />
+							value="#{localized.few(ir.obtaining.status)}" />
 					</h:panelGroup>
 					<!-- << agreeement status is KNOWN -->
 					<!-- >> agreeement status is UNKNOWN -->
@@ -84,8 +84,7 @@
 						<p:selectOneMenu value="#{ir.obtaining.status}">
 							<p:ajax process="@this" update="@this" />
 							<f:selectItem value="#{configurationFacade.mustSelectSI}" />
-							<f:selectItems
-								value="#{obtainingStatusService.selectableItemsShortSI}" />
+							<f:selectItems value="#{si.array.few(ObtainingStatus.selectable)}" />
 						</p:selectOneMenu>
 					</h:panelGroup>
 					<!-- << agreeement status is UNKNOWN -->
@@ -97,7 +96,7 @@
 					<!-- >> agreeement status is KNOWN -->
 					<h:panelGroup rendered="#{not empty ir.transactionStatus}">
 						<h:outputText
-							value="#{paymentStatusService.displayNameShort(ir.payment.status)}" />
+							value="#{localized.few(ir.payment.status)}" />
 					</h:panelGroup>
 					<!-- << agreeement status is KNOWN -->
 					<!-- >> agreeement status is UNKNOWN -->
@@ -105,8 +104,7 @@
 						<p:selectOneMenu value="#{ir.payment.status}">
 							<p:ajax process="@this" update="@this" />
 							<f:selectItem value="#{configurationFacade.mustSelectSI}" />
-							<f:selectItems
-								value="#{paymentStatusService.selectableItemsShortSI}" />
+							<f:selectItems value="#{si.array.few(PaymentStatus.selectable)}" />
 						</p:selectOneMenu>
 					</h:panelGroup>
 					<!-- << agreeement status is UNKNOWN -->

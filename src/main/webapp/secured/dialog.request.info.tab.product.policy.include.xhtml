@@ -11,7 +11,7 @@
 		type="com.lapsa.insurance.elements.InsuranceProductType" />
 
 	<p:tab
-		title="#{insuranceProductTypeService.displayName(InsuranceProductType.POLICY)}"
+		title="#{localized.regular(InsuranceProductType.POLICY)}"
 		rendered="#{rendered}">
 
 		<h:panelGroup rendered="#{not empty policy.period}">
@@ -38,15 +38,15 @@
 			</p:column>
 			<p:column headerText="Класс">
 				<h:outputText
-					value="#{insuranceClassTypeService.displayNameShort(driver.insuranceClassType)}" />
+					value="#{localized.few(driver.insuranceClassType)}" />
 			</p:column>
 			<p:column headerText="Водительский стаж">
 				<h:outputText
-					value="#{insuredExpirienceClassService.displayNameShort(driver.expirienceClass)}" />
+					value="#{localized.few(driver.expirienceClass)}" />
 			</p:column>
 			<p:column headerText="Возраст">
 				<h:outputText
-					value="#{insuredAgeClassService.displayNameShort(driver.ageClass)}" />
+					value="#{localized.few(driver.ageClass)}" />
 			</p:column>
 			<p:rowExpansion>
 				<crm:outputScanImage value="#{driver.driverLicenseData.frontside}" />
@@ -70,19 +70,19 @@
 			</p:column>
 			<p:column headerText="Регион авто">
 				<h:outputText rendered="#{not vehicle.temporaryEntry}"
-					value="#{kzAreaService.displayNameShort(vehicle.area)}" />
+					value="#{localized.few(vehicle.area)}" />
 			</p:column>
 			<p:column headerText="Город">
 				<h:outputText rendered="#{not vehicle.temporaryEntry}"
-					value="#{kzCityService.displayNameShort(vehicle.city)}" />
+					value="#{localized.few(vehicle.city)}" />
 			</p:column>
 			<p:column headerText="Возраст авто">
 				<h:outputText
-					value="#{vehicleAgeClassService.displayNameShort(vehicle.vehicleAgeClass)}" />
+					value="#{localized.few(vehicle.vehicleAgeClass)}" />
 			</p:column>
 			<p:column headerText="Класс авто">
 				<h:outputText
-					value="#{vehicleClassService.displayNameShort(vehicle.vehicleClass)}" />
+					value="#{localized.few(vehicle.vehicleClass)}" />
 			</p:column>
 			<p:rowExpansion>
 				<crm:outputScanImage value="#{vehicle.certificateData.frontside}" />

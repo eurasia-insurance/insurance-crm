@@ -4,20 +4,21 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui"
+	xmlns:jfc="http://lapsa.tech/javax/faces-commons"
 	xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
 
-	<p:tab title="#{paymentMethodService.displayName(pym.method)}"
+	<p:tab title="#{localized.regular(pym.method)}"
 		rendered="#{rendered}">
 
 		<p:panel>
 			<p:panelGrid>
 
 				<crm:outputRow label="Стоимость премии">
-					<crm:outputMoneyAmount value="#{clc.premiumCost}" />
+					<jfc:outputMoneyAmount value="#{clc.premiumCost}" />
 				</crm:outputRow>
 
 				<crm:outputRowText label="Статус оплаты"
-					value="#{paymentStatusService.displayNameShort(pym.status)}" />
+					value="#{localized.few(pym.status)}" />
 
 			</p:panelGrid>
 		</p:panel>

@@ -5,15 +5,16 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
+	xmlns:jfc="http://lapsa.tech/javax/faces-commons"
 	xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
 
 	<p:panel>
 		<p:panelGrid>
 			<crm:outputRow label="Расчитанная страховая премия">
-				<crm:outputMoneyAmount value="#{clc.calculatedPremiumCost}" />
+				<jfc:outputMoneyAmount value="#{clc.calculatedPremiumCost}" />
 			</crm:outputRow>
 			<crm:outputRow label="Полученная страховая премия">
-				<crm:outputMoneyAmount value="#{clc.actualPremiumCost}" />
+				<jfc:outputMoneyAmount value="#{clc.actualPremiumCost}" />
 			</crm:outputRow>
 			<crm:outputRowText label="Валюта" value="#{clc.premiumCurrency}" />
 		</p:panelGrid>

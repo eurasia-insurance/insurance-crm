@@ -26,7 +26,7 @@
 				<crm:outputRowText label="ИИН" value="#{rqr.idNumber}" />
 
 				<crm:outputRowText label="Предпочитаемый язык"
-					value="#{localizationLanguageService.displayName(rqr.preferLanguage)}" />
+					value="#{localized.regular(rqr.preferLanguage)}" />
 
 				<crm:outputRowYesNo value="#{rqr.allowSpam}"
 					label="Согласие на получение рассылок и уведомлений" />

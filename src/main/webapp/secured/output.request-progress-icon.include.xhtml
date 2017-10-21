@@ -33,13 +33,13 @@
 	<p:tooltip for="iconWrapper" trackMouse="true">
 		<h:panelGroup rendered="#{req.progressStatus ne 'FINISHED'}">
 			<h:outputText
-				value="#{progressStatusService.displayName(req.progressStatus)}" />
+				value="#{localized.regular(req.progressStatus)}" />
 		</h:panelGroup>
 		<h:panelGroup rendered="#{req.progressStatus eq 'FINISHED'}">
 			<h:outputText rendered="#{req.transactionStatus eq 'COMPLETED'}"
-				value="#{transactionStatusService.displayName(req.transactionStatus)}" />
+				value="#{localized.regular(req.transactionStatus)}" />
 			<h:outputText rendered="#{req.transactionStatus eq 'NOT_COMPLETED'}"
-				value="#{transactionProblemService.displayName(req.transactionProblem)}" />
+				value="#{localized.regular(req.transactionProblem)}" />
 		</h:panelGroup>
 	</p:tooltip>
 

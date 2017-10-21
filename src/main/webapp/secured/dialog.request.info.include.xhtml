@@ -19,7 +19,7 @@
 
 			<!-- >> dialog -->
 			<p:dialog widgetVar="#{dialogWV}"
-				header="#{rts.displayName(rr.entity)} # #{rr.id} : #{rr.requesterName}"
+				header="#{localized.few(rts.type(rr.entity))} # #{rr.id} : #{rr.requesterName}"
 				closeOnEscape="true" modal="true" width="1024" height="600"
 				closable="true" resizable="false" maximizable="true"
 				position="center top">

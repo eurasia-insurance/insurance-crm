@@ -4,6 +4,7 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui"
+	xmlns:jfc="http://lapsa.tech/javax/faces-commons"
 	xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
 
 	<p:tab title="Общие сведения" rendered="#{rendered}">
@@ -12,16 +13,16 @@
 			<p:panelGrid>
 
 				<crm:outputRowText label="Статус заявки"
-					value="#{requestStatusService.displayNameShort(rr.requestStatus)}" />
+					value="#{localized.few(rr.requestStatus)}" />
 
 				<crm:outputRowText label="Источник заявки"
-					value="#{requestSourceService.displayNameShort(rr.requestSource)}" />
+					value="#{localized.few(rr.requestSource)}" />
 
 				<crm:outputRowText label="Тип заявки"
-					value="#{insuranceRequestTypeService.displayNameShort(rr.insuranceRequestType)}" />
+					value="#{localized.few(rr.insuranceRequestType)}" />
 
 				<crm:outputRowText label="Стадия обработки заявки"
-					value="#{progressStatusService.displayNameShort(rr.progressStatus)}" />
+					value="#{localized.few(rr.progressStatus)}" />
 
 				<crm:outputRow rendered="#{rr.progressStatus eq 'FINISHED'}"
 					label="Результат">
@@ -38,13 +39,13 @@
 						</c:when>
 					</c:choose>
 					<h:outputText
-						value="#{transactionStatusService.displayNameShort(rr.transactionStatus)}" />
+						value="#{localized.few(rr.transactionStatus)}" />
 				</crm:outputRow>
 
 				<crm:outputRowText
 					rendered="#{rr.progressStatus eq 'FINISHED' and rr.transactionStatus eq 'NOT_COMPLETED'}"
 					label="Причина"
-					value="#{transactionProblemService.displayNameShort(rr.transactionProblem)}" />
+					value="#{localized.few(rr.transactionProblem)}" />
 
 				<crm:outputRowText
 					rendered="#{rr.progressStatus eq 'FINISHED' and rr.transactionStatus eq 'COMPLETED'}"
@@ -62,14 +63,14 @@
 						<p:panelGrid>
 
 							<crm:outputRow label="Заявка поступила">
-								<crm:outputLocalDateTime value="#{rr.created}" />
+								<jfc:outputInstant value="#{rr.created}" />
 								<h:outputText rendered="#{not empty rr.createdBy}"
-									value="&amp;nbsp;(#{userFacade.displayName(rr.createdBy)})"
+									value="&amp;nbsp;(#{localized.regular(rr.createdBy)})"
 									escape="false" />
 							</crm:outputRow>
 
 							<crm:outputRow label="Обновлена">
-								<crm:outputLocalDateTime value="#{rr.updated}" />
+								<jfc:outputInstant value="#{rr.updated}" />
 							</crm:outputRow>
 
 						</p:panelGrid>
@@ -80,25 +81,25 @@
 
 							<crm:outputRow rendered="#{not empty rr.accepted}"
 								label="Принята в обработку">
-								<crm:outputLocalDateTime value="#{rr.accepted}" />
+								<jfc:outputInstant value="#{rr.accepted}" />
 								<h:outputText rendered="#{not empty rr.acceptedBy}"
-									value="&amp;nbsp;(#{userFacade.displayName(rr.acceptedBy)})"
+									value="&amp;nbsp;(#{localized.regular(rr.acceptedBy)})"
 									escape="false" />
 							</crm:outputRow>
 
 							<crm:outputRow rendered="#{not empty rr.completed}"
 								label="Обработка завершена">
-								<crm:outputLocalDateTime value="#{rr.completed}" />
+								<jfc:outputInstant value="#{rr.completed}" />
 								<h:outputText rendered="#{not empty rr.completedBy}"
-									value="&amp;nbsp;(#{userFacade.displayName(rr.completedBy)})"
+									value="&amp;nbsp;(#{localized.regular(rr.completedBy)})"
 									escape="false" />
 							</crm:outputRow>
 
 							<crm:outputRow rendered="#{not empty rr.closed}"
 								label="Заявка закрыта">
-								<crm:outputLocalDateTime value="#{rr.closed}" />
+								<jfc:outputInstant value="#{rr.closed}" />
 								<h:outputText rendered="#{not empty rr.closedBy}"
-									value="&amp;nbsp;(#{userFacade.displayName(rr.closedBy)})"
+									value="&amp;nbsp;(#{localized.regular(rr.closedBy)})"
 									escape="false" />
 							</crm:outputRow>
 

@@ -9,7 +9,7 @@
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:df="http://lapsa.com/donkeyfaces"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+	xmlns:jfc="http://lapsa.tech/javax/faces-commons"
 	xmlns:push="http://lapsa.com/pushapi"
 	template="/WEB-INF/templates/clean.xhtml">
 	<ui:define name="page-title">#{ui['name.site']}</ui:define>
@@ -115,8 +115,7 @@
 				</p:ajax>
 
 				<f:facet name="header">
-					<div style="text-align: right;">на <crm:outputLocalDateTime
-							value="#{crmDateUtil.nowDateTime}" useVerbal="false" /></div>
+					<div style="text-align: right;">на <jfc:outputInstant value="#{instant.now}" useVerbal="false" /></div>
 				</f:facet>
 
 				<p:column width="25" sortBy="#{req.progressStatus}"
@@ -139,37 +138,37 @@
 				<p:column headerText="Источник" width="50"
 					sortBy="#{req.requestSource}">
 					<h:outputText
-						value="#{requestSourceService.displayNameShort(req.requestSource)}" />
+						value="#{localized.few(req.requestSource)}" />
 				</p:column>
 				<p:column headerText="Тип" width="100"
 					sortBy="#{req.insuranceRequestType}"
 					styleClass="#{not empty req.insuranceRequestType ? ('col-request-' += req.insuranceRequestType) : ''}">
 					<h:outputText
-						value="#{insuranceRequestTypeService.displayNameShort(req.insuranceRequestType)}" />
+						value="#{localized.few(req.insuranceRequestType)}" />
 				</p:column>
 				<p:column headerText="Продукт" width="60"
 					sortBy="#{req.insuranceProductType}">
 					<h:outputText
-						value="#{insuranceProductTypeService.displayNameShort(req.insuranceProductType)}" />
+						value="#{localized.few(req.insuranceProductType)}" />
 				</p:column>
 				<p:column headerText="Номер" sortBy="#{req.id}" width="50">
 					<h:outputText value="#{req.id}" />
 				</p:column>
 				<p:column headerText="Дата создания" width="150"
 					sortBy="#{req.created}">
-					<crm:outputLocalDateTime value="#{req.created}" />
+					<jfc:outputInstant value="#{req.created}" />
 				</p:column>
 				<p:column headerText="Создано" width="50" sortBy="#{req.createdBy}">
 					<h:outputText rendered="#{not empty req.createdBy}"
-						value="#{userFacade.displayName(req.createdBy)}" />
+						value="#{localized.few(req.createdBy)}" />
 				</p:column>
 				<p:column headerText="Дата обновления" width="150"
 					sortBy="#{req.updated}">
-					<crm:outputLocalDateTime value="#{req.updated}" />
+					<jfc:outputInstant value="#{req.updated}" />
 				</p:column>
 				<p:column headerText="Сумма" width="100" style="text-align: right"
 					sortBy="#{req.amount}">
-					<crm:outputMoneyAmount value="#{req.amount}"
+					<jfc:outputMoneyAmount value="#{req.amount}"
 						outputZeroes="#{false}" />
 				</p:column>
 				<p:column headerText="Имя заявителя" width="300"
@@ -179,7 +178,7 @@
 				<p:column headerText="Яз." width="20"
 					sortBy="#{req.requesterLanguage}">
 					<h:outputText
-						value="#{localizationLanguageService.displayNameShort(req.requesterLanguage)}" />
+						value="#{localized.few(req.requesterLanguage)}" />
 				</p:column>
 				<p:column headerText="Телефон заявителя" width="130"
 					sortBy="#{req.requesterPhone}">
@@ -227,7 +226,7 @@
 				<p:column headerText="Доп информация" sortable="false">
 					<h:panelGroup rendered="#{req.insuranceProductType eq 'POLICY'}"
 						style="white-space: nowrap">
-						Авто: #{kzAreaService.displayNameShort(req.entity.policy.insuredVehicles[0].area)}, #{kzCityService.displayNameShort(req.entity.policy.insuredVehicles[0].city)}<br />
+						Авто: #{localized.few(req.entity.policy.insuredVehicles[0].area)}, #{localized.few(req.entity.policy.insuredVehicles[0].city)}<br />
 					</h:panelGroup>
 				</p:column>
 			</p:dataTable>

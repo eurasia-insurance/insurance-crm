@@ -6,7 +6,7 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
 
-	<p:tab title="#{obtainingMethodService.displayName(obt.method)}"
+	<p:tab title="#{localized.regular(obt.method)}"
 		rendered="#{rendered}">
 
 		<p:panel>
@@ -15,13 +15,13 @@
 				<crm:outputRowText label="Офис" value="#{obt.pickupPOS.name}" />
 
 				<crm:outputRowText label="Город"
-					value="#{kzCityService.displayNameShort(obt.pickupPOS.address.city)}" />
+					value="#{localized.few(obt.pickupPOS.address.city)}" />
 
 				<crm:outputRowText label="Адрес"
 					value="#{obt.pickupPOS.address.street}" />
 
 				<crm:outputRowText label="Статус получения"
-					value="#{obtainingStatusService.displayNameShort(obt.status)}" />
+					value="#{localized.few(obt.status)}" />
 
 			</p:panelGrid>
 		</p:panel>

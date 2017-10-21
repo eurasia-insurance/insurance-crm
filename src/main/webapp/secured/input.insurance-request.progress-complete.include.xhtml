@@ -9,7 +9,7 @@
 	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
-	xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
+	xmlns:jfc="http://lapsa.tech/javax/faces-commons">
 
 	<p:panel style="height: 260px;" rendered="#{rendered}">
 		<p:panelGrid>
@@ -43,7 +43,7 @@
 									<p:outputLabel value="Расчитанная стоимость премии" />
 								</p:column>
 								<p:column>
-									<crm:outputMoneyAmount
+									<jfc:outputMoneyAmount
 										value="#{ir.product.calculation.calculatedPremiumCost}" />
 								</p:column>
 							</p:row>
@@ -119,8 +119,7 @@
 									<p:selectOneMenu id="transactionProblem"
 										value="#{ir.transactionProblem}">
 										<f:selectItem value="#{configurationFacade.mustSelectSI}" />
-										<f:selectItems
-											value="#{transactionProblemService.selectableItemsSI}" />
+										<f:selectItems value="#{si.array.regular(TransactionProblem.selectable)}" />
 										<p:ajax process="@this" update="@this" />
 									</p:selectOneMenu>
 								</p:column>

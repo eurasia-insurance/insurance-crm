@@ -5,15 +5,16 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
+	xmlns:jfc="http://lapsa.tech/javax/faces-commons"
 	xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
 
 	<p:panel>
 		<p:panelGrid>
 			<crm:outputRow label="Дата начала страхования">
-				<crm:outputLocalDate value="#{per.from}" useVerbal="false" />
+				<jfc:outputLocalDate value="#{per.from}" useVerbal="false" />
 			</crm:outputRow>
 			<crm:outputRow label="Дата окончания страхования">
-				<crm:outputLocalDate value="#{per.to}" useVerbal="false" />
+				<jfc:outputLocalDate value="#{per.to}" useVerbal="false" />
 			</crm:outputRow>
 		</p:panelGrid>
 	</p:panel>

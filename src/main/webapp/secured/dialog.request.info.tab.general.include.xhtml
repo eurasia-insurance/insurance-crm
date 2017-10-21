@@ -65,7 +65,7 @@
 							<crm:outputRow label="Заявка поступила">
 								<jfc:outputInstant value="#{rr.created}" />
 								<h:outputText rendered="#{not empty rr.createdBy}"
-									value="&amp;nbsp;(#{localized.regular(rr.createdBy)})"
+									value="&amp;nbsp;(#{rr.createdBy.name})"
 									escape="false" />
 							</crm:outputRow>
 
@@ -83,7 +83,7 @@
 								label="Принята в обработку">
 								<jfc:outputInstant value="#{rr.accepted}" />
 								<h:outputText rendered="#{not empty rr.acceptedBy}"
-									value="&amp;nbsp;(#{localized.regular(rr.acceptedBy)})"
+									value="&amp;nbsp;(#{rr.acceptedBy.name})"
 									escape="false" />
 							</crm:outputRow>
 
@@ -91,7 +91,7 @@
 								label="Обработка завершена">
 								<jfc:outputInstant value="#{rr.completed}" />
 								<h:outputText rendered="#{not empty rr.completedBy}"
-									value="&amp;nbsp;(#{localized.regular(rr.completedBy)})"
+									value="&amp;nbsp;(#{rr.completedBy.name})"
 									escape="false" />
 							</crm:outputRow>
 
@@ -99,7 +99,7 @@
 								label="Заявка закрыта">
 								<jfc:outputInstant value="#{rr.closed}" />
 								<h:outputText rendered="#{not empty rr.closedBy}"
-									value="&amp;nbsp;(#{localized.regular(rr.closedBy)})"
+									value="&amp;nbsp;(#{rr.closedBy.name})"
 									escape="false" />
 							</crm:outputRow>
 

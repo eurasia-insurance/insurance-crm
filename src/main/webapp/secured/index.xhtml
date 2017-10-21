@@ -160,7 +160,7 @@
 				</p:column>
 				<p:column headerText="Создано" width="50" sortBy="#{req.createdBy}">
 					<h:outputText rendered="#{not empty req.createdBy}"
-						value="#{localized.few(req.createdBy)}" />
+						value="#{req.createdBy.name}" />
 				</p:column>
 				<p:column headerText="Дата обновления" width="150"
 					sortBy="#{req.updated}">

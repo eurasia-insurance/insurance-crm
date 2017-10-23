@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
+	xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
+
+	<o:importConstants
+		type="com.lapsa.insurance.elements.InsuranceProductType" />
+
+	<p:tab
+		title="#{localized.regular(InsuranceProductType.POLICY)}"
+		rendered="#{rendered}">
+
+		<h:panelGroup rendered="#{not empty policy.period}">
+			<ui:include src="output.period.include.xhtml">
+				<ui:param name="per" value="#{policy.period}" />
+			</ui:include>
+		</h:panelGroup>
+
+		<h:panelGroup rendered="#{not empty policy.calculation}">
+			<ui:include src="output.calculation.include.xhtml">
+				<ui:param name="clc" value="#{policy.calculation}" />
+			</ui:include>
+		</h:panelGroup>
+
+		<p:dataTable value="#{policy.insuredDrivers}" var="driver">
+			<f:facet name="header">
+				<h:outputText value="Сведения о застрахованных водителях" />
+			</f:facet>
+			<p:column width="16">
+				<p:rowToggler />
+			</p:column>
+			<p:column headerText="ИИН">
+				<h:outputText value="#{driver.idNumber}" />
+			</p:column>
+			<p:column headerText="Класс">
+				<h:outputText
+					value="#{localized.few(driver.insuranceClassType)}" />
+			</p:column>
+			<p:column headerText="Водительский стаж">
+				<h:outputText
+					value="#{localized.few(driver.expirienceClass)}" />
+			</p:column>
+			<p:column headerText="Возраст">
+				<h:outputText
+					value="#{localized.few(driver.ageClass)}" />
+			</p:column>
+			<p:rowExpansion>
+				<crm:outputScanImage value="#{driver.driverLicenseData.frontside}" />
+				<crm:outputScanImage value="#{driver.driverLicenseData.backside}" />
+				<crm:outputScanImage value="#{driver.identityCardData.frontside}" />
+				<crm:outputScanImage value="#{driver.identityCardData.backside}" />
+			</p:rowExpansion>
+		</p:dataTable>
+
+
+		<p:dataTable value="#{policy.insuredVehicles}" var="vehicle">
+			<f:facet name="header">
+				<h:outputText
+					value="Сведения о застрахованных транспортных средствах" />
+			</f:facet>
+			<p:column width="16">
+				<p:rowToggler />
+			</p:column>
+			<p:column headerText="Временный въезд">
+				<crm:outputYesNo value="#{vehicle.temporaryEntry}" />
+			</p:column>
+			<p:column headerText="Регион авто">
+				<h:outputText rendered="#{not vehicle.temporaryEntry}"
+					value="#{localized.few(vehicle.area)}" />
+			</p:column>
+			<p:column headerText="Город">
+				<h:outputText rendered="#{not vehicle.temporaryEntry}"
+					value="#{localized.few(vehicle.city)}" />
+			</p:column>
+			<p:column headerText="Возраст авто">
+				<h:outputText
+					value="#{localized.few(vehicle.vehicleAgeClass)}" />
+			</p:column>
+			<p:column headerText="Класс авто">
+				<h:outputText
+					value="#{localized.few(vehicle.vehicleClass)}" />
+			</p:column>
+			<p:rowExpansion>
+				<crm:outputScanImage value="#{vehicle.certificateData.frontside}" />
+				<crm:outputScanImage value="#{vehicle.certificateData.backside}" />
+			</p:rowExpansion>
+		</p:dataTable>
+	</p:tab>
+
+</ui:composition>

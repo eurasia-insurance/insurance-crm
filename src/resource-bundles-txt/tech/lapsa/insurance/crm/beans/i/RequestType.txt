@@ -1,0 +1,5 @@
+tech.lapsa.insurance.crm.beans.i.RequestType.CALLBACK_REQUEST = Обратный звонок
+tech.lapsa.insurance.crm.beans.i.RequestType.CASCO_REQUEST = Авто-КАСКО
+tech.lapsa.insurance.crm.beans.i.RequestType.INSURANCE_REQUEST = Заявка на страхование
+tech.lapsa.insurance.crm.beans.i.RequestType.POLICY_REQUEST = ОСГПОВТС
+tech.lapsa.insurance.crm.beans.i.RequestType.REQUEST = Заявка

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
+	xmlns:jfc="http://lapsa.tech/javax/faces-commons"
+	xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
+
+	<o:importConstants
+		type="com.lapsa.insurance.elements.InsuranceProductType" />
+
+	<p:tab
+		title="#{localized.regular(InsuranceProductType.CASCO)}"
+		rendered="#{rendered}">
+
+		<h:panelGroup rendered="#{not empty casco.period}">
+			<ui:include src="output.period.include.xhtml">
+				<ui:param name="per" value="#{casco.period}" />
+			</ui:include>
+		</h:panelGroup>
+
+		<h:panelGroup rendered="#{not empty casco.calculation}">
+			<ui:include src="output.calculation.include.xhtml">
+				<ui:param name="clc" value="#{casco.calculation}" />
+			</ui:include>
+		</h:panelGroup>
+
+		<p:panel>
+			<p:panelGrid>
+
+				<crm:outputRow label="Страховое покрытие">
+					<h:panelGrid>
+						<crm:outputRowYesNo value="#{casco.coverRoadAccidents}"
+							label="ущерб от ДТП" />
+						<crm:outputRowYesNo value="#{casco.coverNonRoadAccidents}"
+							label="от других видов ущерба, включая угон" />
+						<crm:outputRowYesNo value="#{casco.thirdPartyLiabilityCoverage}"
+							label="ответственность перед третьими лицами на сумму до ₸ 20 000 000" />
+						<crm:outputRowYesNo value="#{casco.driverAndPassengerCoverage}"
+							label="жизнь и здоровье водителя и пассажиров" />
+						<crm:outputRow rendered="#{casco.driverAndPassengerCoverage}"
+							label="количество застрахованных:">
+							<h:outputText value="#{casco.driverAndPassengerCount}">
+								<f:convertNumber type="number" maxFractionDigits="0"
+									groupingUsed="true" integerOnly="true" />
+							</h:outputText>
+						</crm:outputRow>
+					</h:panelGrid>
+				</crm:outputRow>
+
+				<crm:outputRow label="Сведения о транспортном средстве">
+					<h:panelGrid>
+						<crm:outputRow label="Стоимость ТС:">
+							<jfc:outputMoneyAmount value="#{casco.insuredVehicle.cost}" />
+						</crm:outputRow>
+						<crm:outputRowText label="Год выпуска ТС:"
+							value="#{casco.insuredVehicle.yearOfManufacture}" />
+						<crm:outputRowText label="Категория"
+							value="#{localized.regular(casco.insuredVehicle.carAgeClass)}" />
+						<crm:outputRowText label="Регион регистрации авто"
+							value="#{localized.regular(casco.insuredVehicle.area)}" />
+						<crm:outputRowText label="Город регистрации авто"
+							value="#{localized.regular(casco.insuredVehicle.city)}" />
+					</h:panelGrid>
+				</crm:outputRow>
+
+				<crm:outputRow label="Франшиза по частичному ущербу:">
+					<h:outputText rendered="#{not casco.deductiblePartialRequired}"
+						value="Не применять" />
+					<h:panelGrid rendered="#{casco.deductiblePartialRequired}">
+						<crm:outputRowText label="Размер франшизы по частичном ущербу:"
+							value="#{localized.regular(casco.deductiblePartialRate)}" />
+						<crm:outputRowYesNo value="#{casco.noGuiltNoDeductibleRequired}"
+							label="НЕ применять франшизу в случае ДТП возникшего НЕ по вине застрахованного" />
+					</h:panelGrid>
+				</crm:outputRow>
+
+				<crm:outputRow label="Франшиза по полному ущербу:">
+					<h:panelGrid>
+						<crm:outputRowText label="Размер франшизы по полному ущербу:"
+							value="#{localized.regular(casco.deductibleFullRate)}" />
+					</h:panelGrid>
+				</crm:outputRow>
+
+				<crm:outputRow label="Дополнительные опции:">
+					<h:panelGrid>
+						<crm:outputRowYesNo value="#{casco.specialServiceStationRequired}"
+							label="направить на ремонт в специализированное СТО" />
+						<crm:outputRowYesNo value="#{casco.noPoliceCallRequired}"
+							label="не требовать оформления документов в Дорожной полиции при ущербе не более ₸ 200 000" />
+						<crm:outputRowYesNo value="#{casco.helpWithPoliceRequired}"
+							label="оказать помощь в сборе документов для оформления страхового случая в Дорожной полиции" />
+						<crm:outputRowYesNo value="#{casco.evacuatorRequired}"
+							label="возместить расходы на услуги эвакуатора стоимостью не более ₸ 10 000" />
+						<crm:outputRowYesNo value="#{casco.replacementCarRequired}"
+							label="предоставить подменный авто на время ремонта на СТО сроком до 10 дней" />
+						<crm:outputRowYesNo value="#{casco.contractEndsAfterFirstCase}"
+							label="при возникновении страхового случая прекратить действие договора страхования" />
+					</h:panelGrid>
+				</crm:outputRow>
+
+			</p:panelGrid>
+		</p:panel>
+
+		<!-- >> insuredDrivers dataTable -->
+		<p:dataTable value="#{casco.insuredDrivers}" var="driver"
+			rowIndexVar="rowIndex">
+			<f:facet name="header">
+				<h:outputText value="Сведения о водителях допущенных к управлению" />
+			</f:facet>
+			<p:column width="16">
+				<p:rowToggler />
+			</p:column>
+			<p:column headerText="Допущенные к управлению">
+				<p:outputLabel
+					value="Удостоверение личности водителя #{rowIndex + 1}" />
+			</p:column>
+			<p:rowExpansion>
+				<crm:outputScanImage value="#{driver.driverLicenseData.frontside}" />
+				<crm:outputScanImage value="#{driver.driverLicenseData.backside}" />
+				<crm:outputScanImage value="#{driver.identityCardData.frontside}" />
+				<crm:outputScanImage value="#{driver.identityCardData.backside}" />
+			</p:rowExpansion>
+		</p:dataTable>
+		<!-- << insuredDrivers dataTable -->
+
+		<!-- >> cascoVehicles dataTable -->
+		<p:dataTable value="#{rts.cascoVehiclesAsList(casco)}" var="vehicle"
+			rowIndexVar="rowIndex">
+			<f:facet name="header">
+			Сведения об авто
+			</f:facet>
+			<p:column width="16">
+				<p:rowToggler />
+			</p:column>
+			<p:column headerText="Авто">
+				<p:outputLabel value="Фотографии документов и ТС" />
+			</p:column>
+			<p:rowExpansion>
+				<crm:outputScanImage value="#{vehicle.certificateData.frontside}" />
+				<crm:outputScanImage value="#{vehicle.certificateData.backside}" />
+				<crm:outputScanImage value="#{vehicle.view1}" />
+				<crm:outputScanImage value="#{vehicle.view2}" />
+				<crm:outputScanImage value="#{vehicle.view3}" />
+				<crm:outputScanImage value="#{vehicle.view4}" />
+			</p:rowExpansion>
+		</p:dataTable>
+		<!-- << cascoVehicles dataTable -->
+
+	</p:tab>
+
+</ui:composition>

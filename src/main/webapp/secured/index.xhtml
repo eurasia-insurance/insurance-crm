@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:comp="http://xmlns.jcp.org/jsf/composite"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:df="http://lapsa.com/donkeyfaces"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:jfc="http://lapsa.tech/javax/faces-commons"
+	xmlns:push="http://lapsa.com/pushapi"
+	template="/WEB-INF/templates/clean.xhtml">
+	<ui:define name="page-title">#{ui['name.site']}</ui:define>
+
+	<ui:define name="header-content">
+		<push:loader />
+	</ui:define>
+
+	<ui:define name="page-content">
+
+		<o:importConstants type="tech.lapsa.insurance.crm.auth.InsuranceSecurity.Role" />
+
+		<c:set var="canView" value="#{currentUser.canView}" scope="request" />
+
+		<c:set var="canChange" value="#{currentUser.canChange}"
+			scope="request" />
+
+		<c:set var="canClose" value="#{currentUser.canClose}" scope="request" />
+
+		<o:importConstants
+			type="tech.lapsa.insurance.crm.beans.i.RequestType" />
+
+		<h:outputText rendered="#{not canView}"
+			value="Недостаточно доступа для просмотра заявок. Обратитесь к админстратору." />
+
+		<h:form id="form" rendered="#{canView}">
+
+			<ui:decorate
+				template="/WEB-INF/templates/primefaces-growl.include.xhtml" />
+
+			<f:metadata>
+				<f:viewAction action="#{mainFacade.doInitialize}" />
+			</f:metadata>
+
+			<h:panelGroup id="requestDialog">
+				<ui:include src="dialog.request.info.include.xhtml">
+					<ui:param name="dialogWV" value="requestDialogWV" />
+					<ui:param name="rr" value="#{rqst.value}" />
+				</ui:include>
+			</h:panelGroup>
+
+			<h:panelGroup id="requestCloseDialog">
+				<ui:include src="dialog.request.close.include.xhtml">
+					<ui:param name="dialogWV" value="requestCloseDialogWV" />
+					<ui:param name="rr" value="#{rqst.value}" />
+					<ui:param name="update"
+						value="@form:requestsTable @form:summaryPanel @form:mainToolbar @form:requestDialog" />
+				</ui:include>
+			</h:panelGroup>
+
+			<h:panelGroup id="requestProgressCompleteDialog">
+				<ui:include src="dialog.request.progress-complete.include.xhtml">
+					<ui:param name="dialogWV" value="requestProgressCompleteDialogWV" />
+					<ui:param name="rr" value="#{rqst.value}" />
+					<ui:param name="update"
+						value="@form:requestsTable @form:summaryPanel @form:mainToolbar @form:requestDialog" />
+				</ui:include>
+			</h:panelGroup>
+
+			<h:panelGroup id="mainToolbar">
+				<ui:include src="menu.main-toolbar.xhtml">
+					<ui:param name="rr" value="#{rqst.value}" />
+					<ui:param name="update"
+						value="@form:requestsTable @form:mainToolbar @form:summaryPanel" />
+				</ui:include>
+			</h:panelGroup>
+
+			<h:panelGroup id="filterPanel">
+				<ui:include src="filter.include.xhtml" />
+			</h:panelGroup>
+
+			<h:panelGroup id="summaryPanel">
+				<ui:include src="panel.summary.include.xhtml">
+					<ui:param name="count" value="#{rqsts.value.totalCount}" />
+					<ui:param name="amount" value="#{rqsts.value.totalAmount}" />
+				</ui:include>
+			</h:panelGroup>
+
+			<h:panelGroup id="autoRefreshPoll">
+				<p:poll rendered="#{settings.autoRefresh}"
+					interval="#{settings.autoRefreshInterval}" autoStart="true"
+					process="@this"
+					update="@form:requestsTable @form:mainToolbar @form:summaryPanel"
+					listener="#{mainFacade.doRefresh}" />
+			</h:panelGroup>
+
+			<p:dataTable id="requestsTable" widgetVar="requestsTableWV" var="req"
+				value="#{rqsts.value}" selectionMode="single"
+				selection="#{rqst.value}" rows="20" paginator="true"
+				paginatorAlwaysVisible="false"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="10,20,50,100,200" sortMode="multipe"
+				sortOrder="DESCENDING" sortBy="#{req.created}"
+				emptyMessage="Нет заявок удовлетворяющих критериям поиска"
+				rowStyleClass="#{req.requestStatus eq 'CLOSED' ? 'row-closed': ''}">
+
+				<p:ajax event="rowSelect" process="@this" update="@form:mainToolbar" />
+
+				<p:ajax event="rowDblselect" process="@this"
+					update="@form:requestDialog"
+					oncomplete="PF('requestDialogWV').show(); return false;">
+					<p:resetInput target="@form:requestDialog" />
+				</p:ajax>
+
+				<f:facet name="header">
+					<div style="text-align: right;">на <jfc:outputInstant value="#{instant.now}" useVerbal="false" /></div>
+				</f:facet>
+
+				<p:column width="25" sortBy="#{req.progressStatus}"
+					style="text-align: center">
+					<ui:include src="output.request-progress-icon.include.xhtml">
+						<ui:param name="rr" value="#{req}" />
+					</ui:include>
+				</p:column>
+				<p:column width="25" sortBy="#{req.type}" style="text-align: center">
+					<ui:include src="output.request-type-icon.include.xhtml">
+						<ui:param name="rr" value="#{req}" />
+					</ui:include>
+				</p:column>
+				<p:column width="25" sortBy="#{req.paymentMethod}"
+					style="text-align: center">
+					<ui:include src="output.request-payment-icon.include.xhtml">
+						<ui:param name="rr" value="#{req}" />
+					</ui:include>
+				</p:column>
+				<p:column headerText="Источник" width="50"
+					sortBy="#{req.requestSource}">
+					<h:outputText
+						value="#{localized.few(req.requestSource)}" />
+				</p:column>
+				<p:column headerText="Тип" width="100"
+					sortBy="#{req.insuranceRequestType}"
+					styleClass="#{not empty req.insuranceRequestType ? ('col-request-' += req.insuranceRequestType) : ''}">
+					<h:outputText
+						value="#{localized.few(req.insuranceRequestType)}" />
+				</p:column>
+				<p:column headerText="Продукт" width="60"
+					sortBy="#{req.insuranceProductType}">
+					<h:outputText
+						value="#{localized.few(req.insuranceProductType)}" />
+				</p:column>
+				<p:column headerText="Номер" sortBy="#{req.id}" width="50">
+					<h:outputText value="#{req.id}" />
+				</p:column>
+				<p:column headerText="Дата создания" width="150"
+					sortBy="#{req.created}">
+					<jfc:outputInstant value="#{req.created}" />
+				</p:column>
+				<p:column headerText="Создано" width="50" sortBy="#{req.createdBy}">
+					<h:outputText rendered="#{not empty req.createdBy}"
+						value="#{req.createdBy.name}" />
+				</p:column>
+				<p:column headerText="Дата обновления" width="150"
+					sortBy="#{req.updated}">
+					<jfc:outputInstant value="#{req.updated}" />
+				</p:column>
+				<p:column headerText="Сумма" width="100" style="text-align: right"
+					sortBy="#{req.amount}">
+					<jfc:outputMoneyAmount value="#{req.amount}"
+						outputZeroes="#{false}" />
+				</p:column>
+				<p:column headerText="Имя заявителя" width="300"
+					sortBy="#{req.requesterName}">
+					<h:outputText value="#{req.requesterName}" />
+				</p:column>
+				<p:column headerText="Яз." width="20"
+					sortBy="#{req.requesterLanguage}">
+					<h:outputText
+						value="#{localized.few(req.requesterLanguage)}" />
+				</p:column>
+				<p:column headerText="Телефон заявителя" width="130"
+					sortBy="#{req.requesterPhone}">
+					<p:commandButton
+						rendered="#{req.progressStatus eq 'NEW' and canChange}"
+						value="Показать" icon="fa fa-hand-o-right"
+						action="#{mainFacade.doAcceptRequestOnce}" process="@this"
+						update="@form:requestsTable @form:mainToolbar @form:summaryPanel">
+						<f:setPropertyActionListener value="#{req}" target="#{rqst.value}" />
+					</p:commandButton>
+					<h:outputText value="#{req.requesterPhone}"
+						rendered="#{req.progressStatus ne 'NEW'}" />
+				</p:column>
+				<p:column headerText="ИИН заявителя" width="100"
+					sortBy="#{req.requesterIdNumber}">
+					<h:outputText value="#{req.requesterIdNumber}" />
+				</p:column>
+				<p:column width="10">
+					<h:panelGroup rendered="#{not empty req.UTMSource}">
+						<h:panelGroup id="source">
+							<h:panelGroup styleClass="fa fa-google"
+								rendered="#{req.UTMSource eq 'google'}" />
+							<h:panelGroup styleClass="fa fa-home"
+								rendered="#{req.UTMSource eq 'theeurasia'}" />
+							<h:panelGroup styleClass="fa fa-y-combinator"
+								rendered="#{req.UTMSource eq 'yandex'}" />
+							<h:panelGroup styleClass="fa fa-facebook"
+								rendered="#{req.UTMSource eq 'facebook'}" />
+							<h:panelGroup styleClass="fa fa-instagram"
+								rendered="#{req.UTMSource eq 'instagram'}" />
+							<h:panelGroup styleClass="fa fa-youtube"
+								rendered="#{req.UTMSource eq 'youtube'}" />
+						</h:panelGroup>
+						<p:tooltip for="source" trackMouse="true">
+							<h:outputText value="Источник: #{req.UTMSource}" />
+							<br />
+							<h:outputText value="Тип: #{req.UTMMedium}" />
+							<br />
+							<h:outputText value="Кампания: #{req.UTMCampaign}" />
+							<br />
+							<h:outputText value="Ключевые слова: #{req.UTMTerm}" />
+						</p:tooltip>
+					</h:panelGroup>
+				</p:column>
+				<p:column headerText="Доп информация" sortable="false">
+					<h:panelGroup rendered="#{req.insuranceProductType eq 'POLICY'}"
+						style="white-space: nowrap">
+						Авто: #{localized.few(req.entity.policy.insuredVehicles[0].area)}, #{localized.few(req.entity.policy.insuredVehicles[0].city)}<br />
+					</h:panelGroup>
+				</p:column>
+			</p:dataTable>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:jfc="http://lapsa.tech/javax/faces-commons"
+	xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
+
+	<p:tab title="Общие сведения" rendered="#{rendered}">
+
+		<p:panel>
+			<p:panelGrid>
+
+				<crm:outputRowText label="Статус заявки"
+					value="#{localized.few(rr.requestStatus)}" />
+
+				<crm:outputRowText label="Источник заявки"
+					value="#{localized.few(rr.requestSource)}" />
+
+				<crm:outputRowText label="Тип заявки"
+					value="#{localized.few(rr.insuranceRequestType)}" />
+
+				<crm:outputRowText label="Стадия обработки заявки"
+					value="#{localized.few(rr.progressStatus)}" />
+
+				<crm:outputRow rendered="#{rr.progressStatus eq 'FINISHED'}"
+					label="Результат">
+					<c:choose>
+						<c:when test="#{rr.transactionStatus eq 'NOT_COMPLETED'}">
+							<h:panelGroup styleClass="request-icon icon-fail ">
+								<i class="fa fa-ban " aria-hidden="true" />
+							</h:panelGroup>
+						</c:when>
+						<c:when test="#{rr.transactionStatus eq 'COMPLETED'}">
+							<h:panelGroup styleClass="request-icon icon-success ">
+								<i class="fa fa-check " aria-hidden="true" />
+							</h:panelGroup>
+						</c:when>
+					</c:choose>
+					<h:outputText
+						value="#{localized.few(rr.transactionStatus)}" />
+				</crm:outputRow>
+
+				<crm:outputRowText
+					rendered="#{rr.progressStatus eq 'FINISHED' and rr.transactionStatus eq 'NOT_COMPLETED'}"
+					label="Причина"
+					value="#{localized.few(rr.transactionProblem)}" />
+
+				<crm:outputRowText
+					rendered="#{rr.progressStatus eq 'FINISHED' and rr.transactionStatus eq 'COMPLETED'}"
+					label="Номер договора" value="#{rr.agreementNumber}" />
+
+			</p:panelGrid>
+		</p:panel>
+
+		<p:panel>
+
+			<p:panelGrid>
+				<p:row>
+
+					<p:column>
+						<p:panelGrid>
+
+							<crm:outputRow label="Заявка поступила">
+								<jfc:outputInstant value="#{rr.created}" />
+								<h:outputText rendered="#{not empty rr.createdBy}"
+									value="&amp;nbsp;(#{rr.createdBy.name})"
+									escape="false" />
+							</crm:outputRow>
+
+							<crm:outputRow label="Обновлена">
+								<jfc:outputInstant value="#{rr.updated}" />
+							</crm:outputRow>
+
+						</p:panelGrid>
+					</p:column>
+
+					<p:column>
+						<p:panelGrid>
+
+							<crm:outputRow rendered="#{not empty rr.accepted}"
+								label="Принята в обработку">
+								<jfc:outputInstant value="#{rr.accepted}" />
+								<h:outputText rendered="#{not empty rr.acceptedBy}"
+									value="&amp;nbsp;(#{rr.acceptedBy.name})"
+									escape="false" />
+							</crm:outputRow>
+
+							<crm:outputRow rendered="#{not empty rr.completed}"
+								label="Обработка завершена">
+								<jfc:outputInstant value="#{rr.completed}" />
+								<h:outputText rendered="#{not empty rr.completedBy}"
+									value="&amp;nbsp;(#{rr.completedBy.name})"
+									escape="false" />
+							</crm:outputRow>
+
+							<crm:outputRow rendered="#{not empty rr.closed}"
+								label="Заявка закрыта">
+								<jfc:outputInstant value="#{rr.closed}" />
+								<h:outputText rendered="#{not empty rr.closedBy}"
+									value="&amp;nbsp;(#{rr.closedBy.name})"
+									escape="false" />
+							</crm:outputRow>
+
+						</p:panelGrid>
+					</p:column>
+
+				</p:row>
+			</p:panelGrid>
+
+		</p:panel>
+
+		<p:panel>
+			<p:panelGrid>
+				<crm:outputRowText label="Примечание" value="#{rr.note}" />
+			</p:panelGrid>
+		</p:panel>
+
+	</p:tab>
+
+</ui:composition>

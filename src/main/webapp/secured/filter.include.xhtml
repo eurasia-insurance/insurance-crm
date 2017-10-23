@@ -122,7 +122,7 @@
 										<p:ajax process="@this" update="@form"
 											listener="#{mainFacade.onFilterChanged}" />
 										<f:selectItem value="#{configurationFacade.anySI}" />
-										<f:selectItems value="#{userFacade.whoCreatedRequestsShortSI}" />
+										<f:selectItems value="#{si.list.few(userFacade.whoEverCreatedRequests)}" />
 									</p:selectOneMenu>
 								</p:column>
 							</p:row>

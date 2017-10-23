@@ -1,4 +1,4 @@
-package kz.theeurasia.eurasia36.beans.view;
+package tech.lapsa.insurance.crm.beans;
 
 import java.io.Serializable;
 import java.security.Principal;
@@ -11,13 +11,13 @@ import javax.inject.Named;
 import com.lapsa.insurance.domain.crm.User;
 import com.lapsa.utils.security.SecurityUtils;
 
-import kz.theeurasia.eurasia36.beans.api.CurrentUserHolder;
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
+import tech.lapsa.insurance.crm.beans.i.CurrentUserHolder;
 import tech.lapsa.insurance.facade.UserFacade;
 
 @Named("currentUser")
 @SessionScoped
-public class DefaultCurrentUserHolder extends DefaultWritableValueHolder<User>
+public class CurrentUserHolderBean extends AWritableValueHolder<User>
 	implements Serializable, CurrentUserHolder {
     private static final long serialVersionUID = 3813022087120135731L;
 

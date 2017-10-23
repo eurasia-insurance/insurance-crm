@@ -1,4 +1,4 @@
-package kz.theeurasia.eurasia36.beans.api;
+package tech.lapsa.insurance.crm.beans.i;
 
 import javax.faces.application.FacesMessage;
 

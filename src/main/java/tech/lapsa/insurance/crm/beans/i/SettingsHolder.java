@@ -1,6 +1,6 @@
-package kz.theeurasia.eurasia36.beans.api;
+package tech.lapsa.insurance.crm.beans.i;
 
-import kz.theeurasia.eurasia36.beans.view.pojo.RequestFilterBean;
+import tech.lapsa.insurance.crm.beans.RequestFilterImpl;
 
 public interface SettingsHolder {
 
@@ -12,7 +12,7 @@ public interface SettingsHolder {
 
     int getAutoRefreshInterval();
 
-    RequestFilterBean getRequestFilter();
+    RequestFilterImpl getRequestFilter();
 
     RequestType getRequestType();
 }

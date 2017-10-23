@@ -1,6 +1,6 @@
-package kz.theeurasia.eurasia36.beans.application;
+package tech.lapsa.insurance.crm.beans;
 
-import static kz.theeurasia.eurasia36.application.ParameterConstants.*;
+import static tech.lapsa.insurance.crm.beans.ParameterConstants.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,11 +10,11 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.faces.model.SelectItem;
 import javax.inject.Named;
 
-import kz.theeurasia.eurasia36.beans.api.ConfigurationFacade;
+import tech.lapsa.insurance.crm.beans.i.ConfigurationFacade;
 
 @Named("configurationFacade")
 @ApplicationScoped
-public class DefaultConfigurationFacade implements ConfigurationFacade {
+public class ConfigurationFacadeBean implements ConfigurationFacade {
 
     @Override
     public long getMaximumImagefileSize() {

@@ -1,4 +1,4 @@
-package kz.theeurasia.eurasia36.beans.model;
+package tech.lapsa.insurance.crm.beans.rows;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ import com.lapsa.reports.ReportGenerator;
 import com.lapsa.reports.ReportGeneratorFactory;
 import com.lapsa.reports.table.TableModel;
 
-import kz.theeurasia.eurasia36.beans.view.report.ReportTableModel;
+import tech.lapsa.insurance.crm.report.ReportTableModel;
 
 public class RequestTableDataModel extends ListDataModel<RequestRow<?>>
 	implements RequestList {

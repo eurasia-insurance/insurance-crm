@@ -1,6 +1,6 @@
-package kz.theeurasia.eurasia36.beans.api;
+package tech.lapsa.insurance.crm.beans.i;
 
-import kz.theeurasia.eurasia36.beans.model.RequestRow;
+import tech.lapsa.insurance.crm.beans.rows.RequestRow;
 
 public interface RequestHolder extends WritableValueHolder<RequestRow<?>> {
 }

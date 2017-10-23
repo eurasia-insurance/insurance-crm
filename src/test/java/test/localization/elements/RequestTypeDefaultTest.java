@@ -2,7 +2,7 @@ package test.localization.elements;
 
 import java.util.Locale;
 
-import kz.theeurasia.eurasia36.beans.api.RequestType;
+import tech.lapsa.insurance.crm.beans.i.RequestType;
 import test.localization.ElementsLocalizationTest;
 
 public class RequestTypeDefaultTest extends ElementsLocalizationTest<RequestType> {

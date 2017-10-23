@@ -1,14 +1,14 @@
-package kz.theeurasia.eurasia36.beans.application;
+package tech.lapsa.insurance.crm.beans;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
 
-import kz.theeurasia.eurasia36.beans.api.FacesMessagesFacade;
+import tech.lapsa.insurance.crm.beans.i.FacesMessagesFacade;
 
 @ApplicationScoped
-public class DefaultFacesMessagesFacade implements FacesMessagesFacade {
+public class FacesMessagesFacadeBean implements FacesMessagesFacade {
 
     private FacesMessage addMessage(String message, Severity severity) {
 	FacesMessage fm = createMessage(message, severity);

@@ -1,4 +1,4 @@
-package kz.theeurasia.eurasia36.beans.view.pojo;
+package tech.lapsa.insurance.crm.beans;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -18,7 +18,7 @@ import com.lapsa.insurance.elements.TransactionStatus;
 
 import tech.lapsa.insurance.dao.filter.RequestFilter;
 
-public class RequestFilterBean implements RequestFilter, Serializable {
+public class RequestFilterImpl implements RequestFilter, Serializable {
     private static final long serialVersionUID = -5052366661196023039L;
 
     // Request properties
@@ -52,7 +52,7 @@ public class RequestFilterBean implements RequestFilter, Serializable {
     private String agreementNumberMask;
     private TransactionProblem transactionProblem;
 
-    public RequestFilterBean() {
+    public RequestFilterImpl() {
     }
 
     @Override

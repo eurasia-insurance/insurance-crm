@@ -1,4 +1,4 @@
-package kz.theeurasia.eurasia36.beans.model;
+package tech.lapsa.insurance.crm.beans.rows;
 
 import java.time.Instant;
 
@@ -16,7 +16,7 @@ import com.lapsa.insurance.elements.TransactionProblem;
 import com.lapsa.insurance.elements.TransactionStatus;
 import com.lapsa.international.localization.LocalizationLanguage;
 
-import kz.theeurasia.eurasia36.beans.api.RequestType;
+import tech.lapsa.insurance.crm.beans.i.RequestType;
 
 public interface RequestRow<T extends Request> {
 

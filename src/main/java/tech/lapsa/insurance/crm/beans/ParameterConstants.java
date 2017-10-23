@@ -1,4 +1,4 @@
-package kz.theeurasia.eurasia36.application;
+package tech.lapsa.insurance.crm.beans;
 
 import java.awt.Color;
 
@@ -6,7 +6,11 @@ import com.lapsa.image.ImageProcessingFactory.FixedResizeMode;
 import com.lapsa.image.ImageProcessingFactory.ProportionalResizeMode;
 import com.lapsa.image.ImageProcessingFactory.ResizeMode;
 
-public interface ParameterConstants {
+public final class ParameterConstants {
+
+    private ParameterConstants() {
+    }
+
     public static final String[] ACCEPT_IMAGE_CONTENT_TYPES = { "image/jpeg", "image/jpg", "image/gif", "image/png" };
     public static final long MAXIMUM_IMAGE_UPLOAD_FILE_SIZE = 1024 * 1024 * 2; // 2MB
 

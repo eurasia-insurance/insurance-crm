@@ -1,4 +1,4 @@
-package kz.theeurasia.eurasia36.beans.application;
+package tech.lapsa.insurance.crm.beans;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -15,8 +15,8 @@ import com.lapsa.insurance.domain.casco.CascoRequest;
 import com.lapsa.insurance.domain.casco.CascoVehicle;
 import com.lapsa.insurance.domain.policy.PolicyRequest;
 
-import kz.theeurasia.eurasia36.beans.api.RequestType;
-import kz.theeurasia.eurasia36.beans.api.RequestTypeService;
+import tech.lapsa.insurance.crm.beans.i.RequestType;
+import tech.lapsa.insurance.crm.beans.i.RequestTypeService;
 
 @Named("rts")
 @ApplicationScoped

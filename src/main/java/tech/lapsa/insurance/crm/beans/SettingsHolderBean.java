@@ -1,4 +1,4 @@
-package kz.theeurasia.eurasia36.beans.view;
+package tech.lapsa.insurance.crm.beans;
 
 import java.io.Serializable;
 
@@ -7,27 +7,26 @@ import javax.inject.Named;
 
 import org.omnifaces.cdi.ViewScoped;
 
-import kz.theeurasia.eurasia36.beans.api.RequestType;
-import kz.theeurasia.eurasia36.beans.api.SettingsHolder;
-import kz.theeurasia.eurasia36.beans.view.pojo.RequestFilterBean;
+import tech.lapsa.insurance.crm.beans.i.RequestType;
+import tech.lapsa.insurance.crm.beans.i.SettingsHolder;
 
 @Named("settings")
 @ViewScoped
-public class DefaultSettingsHolder implements Serializable, SettingsHolder {
+public class SettingsHolderBean implements Serializable, SettingsHolder {
     private static final long serialVersionUID = -6980458753963030228L;
 
     private boolean advanced = false;
     private boolean autoRefresh = true;
     private int autoRefreshInterval = 30;
 
-    private RequestFilterBean requestFilter;
+    private RequestFilterImpl requestFilter;
 
     private RequestType requestType;
 
     @Override
     @PostConstruct
     public void resetFilters() {
-	requestFilter = new RequestFilterBean();
+	requestFilter = new RequestFilterImpl();
 	requestType = RequestType.REQUEST;
     }
 
@@ -61,7 +60,7 @@ public class DefaultSettingsHolder implements Serializable, SettingsHolder {
     }
 
     @Override
-    public RequestFilterBean getRequestFilter() {
+    public RequestFilterImpl getRequestFilter() {
 	return requestFilter;
     }
 

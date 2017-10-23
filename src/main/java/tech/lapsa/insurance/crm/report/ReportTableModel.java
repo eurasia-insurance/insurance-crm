@@ -1,4 +1,4 @@
-package kz.theeurasia.eurasia36.beans.view.report;
+package tech.lapsa.insurance.crm.report;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -9,8 +9,8 @@ import com.lapsa.reports.table.TableModel;
 import com.lapsa.reports.table.ValueRow;
 import com.lapsa.reports.table.impl.DefaultHeaderRow;
 
-import kz.theeurasia.eurasia36.beans.model.RequestRow;
-import kz.theeurasia.eurasia36.beans.view.report.ReportValueRow.FieldDescriptor;
+import tech.lapsa.insurance.crm.beans.rows.RequestRow;
+import tech.lapsa.insurance.crm.report.ReportValueRow.FieldDescriptor;
 
 public class ReportTableModel implements TableModel {
 

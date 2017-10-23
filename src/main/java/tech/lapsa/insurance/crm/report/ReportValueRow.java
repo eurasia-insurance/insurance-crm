@@ -1,4 +1,4 @@
-package kz.theeurasia.eurasia36.beans.view.report;
+package tech.lapsa.insurance.crm.report;
 
 import static java.util.stream.Collectors.*;
 
@@ -15,7 +15,7 @@ import com.lapsa.reports.table.impl.DefaultDateTimeValueCell;
 import com.lapsa.reports.table.impl.DefaultIntegerNumberValueCell;
 import com.lapsa.reports.table.impl.DefaultTextValueCell;
 
-import kz.theeurasia.eurasia36.beans.model.RequestRow;
+import tech.lapsa.insurance.crm.beans.rows.RequestRow;
 
 public class ReportValueRow implements ValueRow {
 

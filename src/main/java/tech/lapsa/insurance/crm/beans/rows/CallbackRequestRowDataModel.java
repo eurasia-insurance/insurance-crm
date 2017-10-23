@@ -1,4 +1,4 @@
-package kz.theeurasia.eurasia36.beans.model;
+package tech.lapsa.insurance.crm.beans.rows;
 
 import com.lapsa.fin.FinCurrency;
 import com.lapsa.insurance.domain.CallbackRequest;
@@ -9,7 +9,7 @@ import com.lapsa.insurance.elements.PaymentStatus;
 import com.lapsa.insurance.elements.TransactionProblem;
 import com.lapsa.insurance.elements.TransactionStatus;
 
-import kz.theeurasia.eurasia36.beans.api.RequestType;
+import tech.lapsa.insurance.crm.beans.i.RequestType;
 
 public class CallbackRequestRowDataModel extends RequestRowDataModel<CallbackRequest>
 	implements RequestRow<CallbackRequest> {

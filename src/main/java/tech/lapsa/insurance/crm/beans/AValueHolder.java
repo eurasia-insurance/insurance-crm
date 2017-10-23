@@ -1,8 +1,8 @@
-package kz.theeurasia.eurasia36.beans.view;
+package tech.lapsa.insurance.crm.beans;
 
-import kz.theeurasia.eurasia36.beans.api.ValueHolder;
+import tech.lapsa.insurance.crm.beans.i.ValueHolder;
 
-public abstract class DefaultValueHolder<T> implements ValueHolder<T> {
+public abstract class AValueHolder<T> implements ValueHolder<T> {
 
     protected T value;
 

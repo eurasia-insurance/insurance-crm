@@ -1,4 +1,4 @@
-package kz.theeurasia.eurasia36.beans.application;
+package tech.lapsa.insurance.crm.beans;
 
 import java.util.List;
 
@@ -8,11 +8,11 @@ import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
-import kz.theeurasia.eurasia36.beans.api.ComponentFacade;
+import tech.lapsa.insurance.crm.beans.i.ComponentFacade;
 
 @Named("componentFacade")
 @ApplicationScoped
-public class DefaultComponentFacade implements ComponentFacade {
+public class ComponentFacadeBean implements ComponentFacade {
 
     @Override
     public String messagesFor(UIInput component) {

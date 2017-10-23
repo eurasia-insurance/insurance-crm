@@ -1,4 +1,4 @@
-package kz.theeurasia.eurasia36.ws;
+package tech.lapsa.insurance.crm.ws;
 
 import javax.inject.Singleton;
 

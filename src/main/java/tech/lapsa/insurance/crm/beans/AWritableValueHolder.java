@@ -1,10 +1,10 @@
-package kz.theeurasia.eurasia36.beans.view;
+package tech.lapsa.insurance.crm.beans;
 
 import javax.annotation.PostConstruct;
 
-import kz.theeurasia.eurasia36.beans.api.WritableValueHolder;
+import tech.lapsa.insurance.crm.beans.i.WritableValueHolder;
 
-public abstract class DefaultWritableValueHolder<T> extends DefaultValueHolder<T> implements WritableValueHolder<T> {
+public abstract class AWritableValueHolder<T> extends AValueHolder<T> implements WritableValueHolder<T> {
 
     @PostConstruct
     public void init() {

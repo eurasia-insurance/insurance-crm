@@ -1,4 +1,4 @@
-package kz.theeurasia.eurasia36.beans.application;
+package tech.lapsa.insurance.crm.beans;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
-package kz.theeurasia.eurasia36.beans.api;
+package tech.lapsa.insurance.crm.beans.i;
 
-import kz.theeurasia.eurasia36.beans.model.RequestList;
+import tech.lapsa.insurance.crm.beans.rows.RequestList;
 
 public interface RequestsHolder extends WritableValueHolder<RequestList> {
 }

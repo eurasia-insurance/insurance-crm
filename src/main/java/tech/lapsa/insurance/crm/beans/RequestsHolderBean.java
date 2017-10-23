@@ -1,4 +1,4 @@
-package kz.theeurasia.eurasia36.beans.view;
+package tech.lapsa.insurance.crm.beans;
 
 import java.io.Serializable;
 
@@ -6,12 +6,12 @@ import javax.inject.Named;
 
 import org.omnifaces.cdi.ViewScoped;
 
-import kz.theeurasia.eurasia36.beans.api.RequestsHolder;
-import kz.theeurasia.eurasia36.beans.model.RequestList;
+import tech.lapsa.insurance.crm.beans.i.RequestsHolder;
+import tech.lapsa.insurance.crm.beans.rows.RequestList;
 
 @Named("rqsts")
 @ViewScoped
-public class DefaultRequestsHolder extends DefaultWritableValueHolder<RequestList>
+public class RequestsHolderBean extends AWritableValueHolder<RequestList>
 	implements Serializable, RequestsHolder {
     private static final long serialVersionUID = 7249376610273191727L;
 

@@ -30,7 +30,7 @@
 		<c:set var="canClose" value="#{currentUser.canClose}" scope="request" />
 
 		<o:importConstants
-			type="kz.theeurasia.eurasia36.beans.api.RequestType" />
+			type="tech.lapsa.insurance.crm.beans.i.RequestType" />
 
 		<h:outputText rendered="#{not canView}"
 			value="Недостаточно доступа для просмотра заявок. Обратитесь к админстратору." />

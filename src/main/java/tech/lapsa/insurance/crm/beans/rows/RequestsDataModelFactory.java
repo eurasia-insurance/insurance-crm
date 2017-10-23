@@ -1,4 +1,4 @@
-package kz.theeurasia.eurasia36.beans.model;
+package tech.lapsa.insurance.crm.beans.rows;
 
 import java.util.ArrayList;
 import java.util.List;

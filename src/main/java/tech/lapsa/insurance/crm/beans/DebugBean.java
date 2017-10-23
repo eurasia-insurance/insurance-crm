@@ -1,13 +1,13 @@
-package kz.theeurasia.eurasia36.beans.request;
+package tech.lapsa.insurance.crm.beans;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.ViewExpiredException;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
-@Named
+@Named("debug")
 @RequestScoped
-public class Debug {
+public class DebugBean {
     private static final boolean DEBUG = false;
 
     public boolean isDebug() {

@@ -1,5 +1,5 @@
-kz.theeurasia.eurasia36.beans.api.RequestType.CALLBACK_REQUEST = Обратный звонок
-kz.theeurasia.eurasia36.beans.api.RequestType.CASCO_REQUEST = Авто-Каско
-kz.theeurasia.eurasia36.beans.api.RequestType.INSURANCE_REQUEST = Страхование
-kz.theeurasia.eurasia36.beans.api.RequestType.POLICY_REQUEST = Полис ОСГПОВТС
-kz.theeurasia.eurasia36.beans.api.RequestType.REQUEST = Заявка
+tech.lapsa.insurance.crm.beans.i.RequestType.CALLBACK_REQUEST = РћР±СЂР°С‚РЅС‹Р№ Р·РІРѕРЅРѕРє
+tech.lapsa.insurance.crm.beans.i.RequestType.CASCO_REQUEST = РђРІС‚Рѕ-РљРђРЎРљРћ
+tech.lapsa.insurance.crm.beans.i.RequestType.INSURANCE_REQUEST = Р—Р°СЏРІРєР° РЅР° СЃС‚СЂР°С…РѕРІР°РЅРёРµ
+tech.lapsa.insurance.crm.beans.i.RequestType.POLICY_REQUEST = РћРЎР“РџРћР’РўРЎ
+tech.lapsa.insurance.crm.beans.i.RequestType.REQUEST = Р—Р°СЏРІРєР°

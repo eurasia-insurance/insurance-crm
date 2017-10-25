@@ -72,6 +72,12 @@ public class ReportValueRow implements ValueRow {
 	    new FieldDescriptor("Платежный референс", row -> new DefaultTextValueCell(row.getPaymentReference())),
 
 	    new FieldDescriptor("Примечание", row -> new DefaultTextValueCell(row.getNote())),
+	    
+	    new FieldDescriptor("utm_source", row -> new DefaultTextValueCell(row.getUTMSource())),
+	    new FieldDescriptor("utm_medium", row -> new DefaultTextValueCell(row.getUTMMedium())),
+	    new FieldDescriptor("utm_campaign", row -> new DefaultTextValueCell(row.getUTMCampaign())),
+	    new FieldDescriptor("utm_content", row -> new DefaultTextValueCell(row.getUTMContent())),
+	    new FieldDescriptor("utm_term", row -> new DefaultTextValueCell(row.getUTMTerm())),
     };
 
     private final List<ValueCell<?>> row;

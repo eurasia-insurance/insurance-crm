@@ -17,6 +17,7 @@ import com.lapsa.insurance.elements.TransactionProblem;
 import com.lapsa.insurance.elements.TransactionStatus;
 
 import tech.lapsa.insurance.dao.filter.RequestFilter;
+import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 
 public class RequestFilterImpl implements RequestFilter, Serializable {
     private static final long serialVersionUID = -5052366661196023039L;
@@ -25,7 +26,6 @@ public class RequestFilterImpl implements RequestFilter, Serializable {
 
     private Integer id;
     private String requesterNameMask;
-    private String requesterIdNumberMask;
 
     private RequestStatus requestStatus;
     private RequestSource requestSource;
@@ -53,6 +53,8 @@ public class RequestFilterImpl implements RequestFilter, Serializable {
     private String agreementNumberMask;
     private TransactionProblem transactionProblem;
 
+    private TaxpayerNumber requesterTaxpayerNumber;
+
     public RequestFilterImpl() {
     }
 
@@ -72,15 +74,6 @@ public class RequestFilterImpl implements RequestFilter, Serializable {
 
     public void setRequesterNameMask(String requesterNameMask) {
 	this.requesterNameMask = requesterNameMask;
-    }
-
-    @Override
-    public String getRequesterIdNumberMask() {
-	return requesterIdNumberMask;
-    }
-
-    public void setRequesterIdNumberMask(String requesterIdNumberMask) {
-	this.requesterIdNumberMask = requesterIdNumberMask;
     }
 
     @Override
@@ -261,6 +254,15 @@ public class RequestFilterImpl implements RequestFilter, Serializable {
 
     public void setRequestSource(RequestSource requestSource) {
 	this.requestSource = requestSource;
+    }
+
+    @Override
+    public TaxpayerNumber getRequesterTaxpayerNumber() {
+	return requesterTaxpayerNumber;
+    }
+
+    public void setRequesterTaxpayerNumber(TaxpayerNumber requesterTaxpayerNumber) {
+	this.requesterTaxpayerNumber = requesterTaxpayerNumber;
     }
 
     @Override

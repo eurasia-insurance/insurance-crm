@@ -178,7 +178,7 @@ public abstract class RequestRowDataModel<T extends Request> implements RequestR
     @Override
     public String getRequesterIdNumber() {
 	try {
-	    return entity.getRequester().getIdNumber();
+	    return entity.getRequester().getIdNumber().getNumber();
 	} catch (NullPointerException e) {
 	    return null;
 	}

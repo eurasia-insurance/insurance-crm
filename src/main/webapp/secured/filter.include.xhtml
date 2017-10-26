@@ -170,11 +170,11 @@
 							</p:inputText>
 						</p:column>
 						<p:column>
-							<p:outputLabel value="ИИН заявителя:" for="requesterIdNumberMask" />
+							<p:outputLabel value="ИИН заявителя:" for="requesterTaxpayerNumber" />
 						</p:column>
 						<p:column>
-							<p:inputText id="requesterIdNumberMask"
-								value="#{settings.requestFilter.requesterIdNumberMask}">
+							<p:inputText id="requesterTaxpayerNumber"
+								value="#{settings.requestFilter.requesterTaxpayerNumber}">
 								<p:ajax event="keyup" delay="700" process="@this" update="@form"
 									listener="#{mainFacade.onFilterChanged}" />
 							</p:inputText>

@@ -323,6 +323,12 @@
 			<optional>false</optional>
 		</dependency>
 		<dependency>
+			<groupId>com.lapsa.kz-lib</groupId>
+			<artifactId>kz-faces</artifactId>
+			<scope>compile</scope>
+			<optional>false</optional>
+		</dependency>
+		<dependency>
 			<groupId>com.lapsa.international-lib</groupId>
 			<artifactId>international-core</artifactId>
 			<scope>compile</scope>
@@ -331,6 +337,12 @@
 		<dependency>
 			<groupId>com.lapsa.international-lib</groupId>
 			<artifactId>international-eelib</artifactId>
+			<scope>compile</scope>
+			<optional>false</optional>
+		</dependency>
+		<dependency>
+			<groupId>com.lapsa.international-lib</groupId>
+			<artifactId>international-faces</artifactId>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>

@@ -9,7 +9,7 @@
 
 	<groupId>tech.lapsa.insurance</groupId>
 	<artifactId>insurance-crm</artifactId>
-	<version>3.0</version>
+	<version>3.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
 	<name>Insurance Lib : CRM Web-app</name>
@@ -472,7 +472,7 @@
 	<scm>
 		<connection>scm:git:https://gitlab.lapsa.tech/lapsa/insurance/crm.git</connection>
 		<developerConnection>scm:git:https://gitlab.lapsa.tech/lapsa/insurance/crm.git</developerConnection>
-		<tag>v3.0</tag>
+		<tag>HEAD</tag>
 	</scm>
 
 	<issueManagement>

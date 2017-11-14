@@ -1,5 +1,7 @@
 package tech.lapsa.insurance.crm.beans;
 
+import static tech.lapsa.java.commons.function.MyExceptions.*;
+
 import java.util.List;
 
 import javax.faces.bean.ApplicationScoped;
@@ -18,7 +20,7 @@ public class UserFacadeBean {
     private UserFacade delegate;
 
     public List<User> getWhoEverCreatedRequests() {
-	return delegate.getWhoEverCreatedRequests();
+	return reThrowAsUnchecked(() -> delegate.getWhoEverCreatedRequests());
     }
 
 }

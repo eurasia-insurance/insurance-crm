@@ -1,5 +1,7 @@
 package tech.lapsa.insurance.crm.beans;
 
+import static tech.lapsa.java.commons.function.MyExceptions.*;
+
 import java.io.Serializable;
 import java.security.Principal;
 
@@ -33,6 +35,7 @@ public class CurrentUserHolderBean extends AWritableValueHolder<User>
 
     @Override
     public void reset() {
+
 	Principal userPrincipal = SecurityUtils.getUserPrincipal();
 
 	String principalName = null;
@@ -46,7 +49,8 @@ public class CurrentUserHolderBean extends AWritableValueHolder<User>
 	if (principalName == null)
 	    principalName = DEFAULT_REMOTE_USER;
 
-	value = userFacade.findOrCreate(principalName);
+	final String princ = principalName;
+	value = reThrowAsUnchecked(() -> userFacade.findOrCreate(princ));
     }
 
     @Override
@@ -63,6 +67,5 @@ public class CurrentUserHolderBean extends AWritableValueHolder<User>
     public boolean isCanClose() {
 	return SecurityUtils.isInRole(InsuranceRoleGroup.CLOSERS);
     }
-
 
 }

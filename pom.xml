@@ -22,7 +22,7 @@
 		<!-- tech -->
 		<insurance-dao.version>1.1-SNAPSHOT</insurance-dao.version>
 		<insurance-faces.version>3.1-SNAPSHOT</insurance-faces.version>
-		<pushapi-dao.version>1.0</pushapi-dao.version>
+		<pushapi-dao.version>1.1-SNAPSHOT</pushapi-dao.version>
 		<javax-validation-commons.version>1.0</javax-validation-commons.version>
 		<payara-hibernate-validation.version>1.0</payara-hibernate-validation.version>
 		<insurance-facade.version>1.1-SNAPSHOT</insurance-facade.version>
@@ -35,9 +35,8 @@
 		<international-lib.version>3.3-SNAPSHOT</international-lib.version>
 		<donkeyfaces-lib.version>1.3</donkeyfaces-lib.version>
 		<reports-lib.version>1.1</reports-lib.version>
-		<pushapi-lib.version>1.1</pushapi-lib.version>
-		<pushapi-jpa-unit.version>1.1</pushapi-jpa-unit.version>
-		<pushapi-app.version>1.1</pushapi-app.version>
+		<pushapi-lib.version>1.2-SNAPSHOT</pushapi-lib.version>
+		<pushapi-app.version>1.2-SNAPSHOT</pushapi-app.version>
 		<!-- external -->
 		<primefaces.version>5.3.16</primefaces.version>
 		<primefaces-themes.version>1.0.10</primefaces-themes.version>
@@ -140,11 +139,6 @@
 				<groupId>com.lapsa.pushapi-lib</groupId>
 				<artifactId>pushapi-app</artifactId>
 				<version>${pushapi-app.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.lapsa.pushapi-lib</groupId>
-				<artifactId>pushapi-jpa-unit</artifactId>
-				<version>${pushapi-jpa-unit.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.lapsa.reports-lib</groupId>

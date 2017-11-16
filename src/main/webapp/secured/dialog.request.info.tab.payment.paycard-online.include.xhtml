@@ -12,7 +12,7 @@
 		<p:panel>
 			<p:panelGrid>
 
-				<crm:outputRow label="Стоимость премии">
+				<crm:outputRow label="К оплате">
 					<jfc:outputMoneyAmount value="#{clc.premiumCost}" />
 				</crm:outputRow>
 
@@ -21,11 +21,18 @@
 
 				<crm:outputRowText label="Номер инвойса" value="#{pym.externalId}" />
 
+				<crm:outputRowText label="Метод оплаты"
+					value="#{pym.methodName}" />
+
+				<crm:outputRow label="Фактически оплачено">
+					<jfc:outputMoneyAmount value="#{pym.paymentAmount}" />
+				</crm:outputRow>
+
 				<crm:outputRowText label="Референс оплаты"
-					value="#{pym.postReference}" />
+					value="#{pym.paymentReference}" />
 
 				<crm:outputRow label="Время оплаты">
-					<jfc:outputInstant value="#{pym.postInstant}" />
+					<jfc:outputInstant value="#{pym.paymentInstant}" />
 				</crm:outputRow>
 
 

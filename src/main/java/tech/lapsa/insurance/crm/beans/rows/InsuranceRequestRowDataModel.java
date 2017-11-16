@@ -1,5 +1,7 @@
 package tech.lapsa.insurance.crm.beans.rows;
 
+import java.time.Instant;
+
 import com.lapsa.fin.FinCurrency;
 import com.lapsa.insurance.domain.InsuranceRequest;
 import com.lapsa.insurance.elements.InsuranceProductType;
@@ -91,7 +93,25 @@ public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> e
     @Override
     public String getPaymentReference() {
 	try {
-	    return entity.getPayment().getPostReference();
+	    return entity.getPayment().getPaymentReference();
+	} catch (NullPointerException e) {
+	    return null;
+	}
+    }
+
+    @Override
+    public String getPaymentMethodName() {
+	try {
+	    return entity.getPayment().getMethodName();
+	} catch (NullPointerException e) {
+	    return null;
+	}
+    }
+
+    @Override
+    public Instant getPaymentInstant() {
+	try {
+	    return entity.getPayment().getPaymentInstant();
 	} catch (NullPointerException e) {
 	    return null;
 	}

@@ -68,6 +68,10 @@ public interface RequestRow<T extends Request> {
 
     String getPaymentReference();
 
+    String getPaymentMethodName();
+
+    Instant getPaymentInstant();
+
     String getRequesterName();
 
     String getRequesterEmail();

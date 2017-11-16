@@ -21,11 +21,14 @@
 
 				<crm:outputRowText label="Номер инвойса" value="#{pym.externalId}" />
 
+				<crm:outputRowText label="Метод оплаты"
+					value="#{pym.methodName}" />
+
 				<crm:outputRowText label="Референс оплаты"
-					value="#{pym.postReference}" />
+					value="#{pym.paymentReference}" />
 
 				<crm:outputRow label="Время оплаты">
-					<jfc:outputInstant value="#{pym.postInstant}" />
+					<jfc:outputInstant value="#{pym.paymentInstant}" />
 				</crm:outputRow>
 
 

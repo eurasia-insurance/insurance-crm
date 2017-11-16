@@ -1,5 +1,7 @@
 package tech.lapsa.insurance.crm.beans.rows;
 
+import java.time.Instant;
+
 import com.lapsa.fin.FinCurrency;
 import com.lapsa.insurance.domain.CallbackRequest;
 import com.lapsa.insurance.elements.InsuranceProductType;
@@ -70,6 +72,16 @@ public class CallbackRequestRowDataModel extends RequestRowDataModel<CallbackReq
 
     @Override
     public String getAgreementNumber() {
+	return null;
+    }
+
+    @Override
+    public String getPaymentMethodName() {
+	return null;
+    }
+
+    @Override
+    public Instant getPaymentInstant() {
 	return null;
     }
 }

@@ -8,7 +8,6 @@ import com.lapsa.insurance.domain.crm.User;
 import com.lapsa.insurance.elements.InsuranceRequestType;
 import com.lapsa.insurance.elements.ObtainingMethod;
 import com.lapsa.insurance.elements.ObtainingStatus;
-import com.lapsa.insurance.elements.PaymentMethod;
 import com.lapsa.insurance.elements.PaymentStatus;
 import com.lapsa.insurance.elements.ProgressStatus;
 import com.lapsa.insurance.elements.RequestSource;
@@ -44,7 +43,6 @@ public class RequestFilterImpl implements RequestFilter, Serializable {
     // InsuranceRequest properties
 
     private InsuranceRequestType insuranceRequestType;
-    private PaymentMethod paymentMethod;
     private PaymentStatus paymentStatus;
     private String paymentExternalId;
     private ObtainingMethod obtainingMethod;
@@ -155,15 +153,6 @@ public class RequestFilterImpl implements RequestFilter, Serializable {
 
     public void setRequestType(InsuranceRequestType insuranceRequestType) {
 	this.insuranceRequestType = insuranceRequestType;
-    }
-
-    @Override
-    public PaymentMethod getPaymentMethod() {
-	return paymentMethod;
-    }
-
-    public void setPaymentMethod(PaymentMethod paymentMethod) {
-	this.paymentMethod = paymentMethod;
     }
 
     @Override

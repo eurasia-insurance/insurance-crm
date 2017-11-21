@@ -55,17 +55,6 @@
 						</p:selectOneMenu>
 					</h:panelGroup>
 					<!-- << agreeement ok -->
-					<!-- >> agreeement failed or status is UNKNOWN -->
-					<h:panelGroup
-						rendered="#{empty ir.transactionStatus or (ir.transactionStatus eq 'NOT_COMPLETED')}">
-						<p:selectOneMenu value="#{ir.payment.method}">
-							<p:ajax listener="#{mainFacade.onPaymentMethodChanged}"
-								process="@this" update="insuranceRequestPaymentObtainingPanel" />
-							<f:selectItem value="#{configurationFacade.mustSelectSI}" />
-							<f:selectItems value="#{si.array.few(PaymentMethod.all)}" />
-						</p:selectOneMenu>
-					</h:panelGroup>
-					<!-- << agreeement failed or status is UNKNOWN -->
 				</p:column>
 			</p:row>
 			<p:row>

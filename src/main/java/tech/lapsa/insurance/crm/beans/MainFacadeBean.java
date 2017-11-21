@@ -274,11 +274,6 @@ public class MainFacadeBean implements MainFacade {
     }
 
     @Override
-    public void onPaymentMethodChanged(AjaxBehaviorEvent event) {
-	// DO NOTHING
-    }
-
-    @Override
     public void onActualPremiumCostChanged(AjaxBehaviorEvent event) {
 	handleActualPremiumCostChange();
     }

@@ -7,7 +7,7 @@
 	xmlns:jfc="http://lapsa.tech/javax/faces-commons"
 	xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
 
-	<p:tab title="#{localized.regular(pym.method)}" rendered="#{rendered}">
+	<p:tab title="Оплата" rendered="#{rendered}">
 
 		<p:panel>
 			<p:panelGrid>
@@ -21,12 +21,13 @@
 
 				<crm:outputRowText label="Номер инвойса" value="#{pym.externalId}" />
 
-				<crm:outputRowText label="Метод оплаты"
-					value="#{pym.methodName}" />
+				<crm:outputRowText label="Метод оплаты" value="#{pym.methodName}" />
 
 				<crm:outputRow label="Фактически оплачено">
 					<jfc:outputMoneyAmount value="#{pym.paymentAmount}" />
 				</crm:outputRow>
+
+				<crm:outputRowText label="Валюта" value="#{pym.paymentCurrency}" />
 
 				<crm:outputRowText label="Референс оплаты"
 					value="#{pym.paymentReference}" />

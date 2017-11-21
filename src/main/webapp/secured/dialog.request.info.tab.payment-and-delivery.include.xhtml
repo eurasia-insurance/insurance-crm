@@ -18,14 +18,8 @@
 				<ui:param name="obt" value="#{obt}" />
 			</ui:include>
 			<ui:include
-				src="dialog.request.info.tab.payment.paycard-online.include.xhtml">
-				<ui:param name="rendered" value="#{pym.method eq 'PAYCARD_ONLINE'}" />
-				<ui:param name="pym" value="#{pym}" />
-				<ui:param name="clc" value="#{clc}" />
-			</ui:include>
-			<ui:include
-				src="dialog.request.info.tab.payment.paycash.include.xhtml">
-				<ui:param name="rendered" value="#{pym.method eq 'PAYCASH'}" />
+				src="dialog.request.info.tab.payment.include.xhtml">
+				<ui:param name="rendered" value="#{true}" />
 				<ui:param name="pym" value="#{pym}" />
 				<ui:param name="clc" value="#{clc}" />
 			</ui:include>

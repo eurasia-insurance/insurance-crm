@@ -15,12 +15,13 @@
 	<ui:define name="page-title">#{ui['name.site']}</ui:define>
 
 	<ui:define name="header-content">
-<!-- 		< push:loader / > -->
+		<!-- 		< push:loader / > -->
 	</ui:define>
 
 	<ui:define name="page-content">
 
-		<o:importConstants type="tech.lapsa.insurance.crm.auth.InsuranceSecurity.Role" />
+		<o:importConstants
+			type="tech.lapsa.insurance.crm.auth.InsuranceSecurity.Role" />
 
 		<c:set var="canView" value="#{currentUser.canView}" scope="request" />
 
@@ -29,8 +30,7 @@
 
 		<c:set var="canClose" value="#{currentUser.canClose}" scope="request" />
 
-		<o:importConstants
-			type="tech.lapsa.insurance.crm.beans.i.RequestType" />
+		<o:importConstants type="tech.lapsa.insurance.crm.beans.i.RequestType" />
 
 		<h:outputText rendered="#{not canView}"
 			value="Недостаточно доступа для просмотра заявок. Обратитесь к админстратору." />
@@ -115,7 +115,8 @@
 				</p:ajax>
 
 				<f:facet name="header">
-					<div style="text-align: right;">на <jfc:outputInstant value="#{instant.now}" useVerbal="false" /></div>
+					<div style="text-align: right;">на <jfc:outputInstant
+							value="#{instant.now}" useVerbal="false" /></div>
 				</f:facet>
 
 				<p:column width="25" sortBy="#{req.progressStatus}"
@@ -129,27 +130,24 @@
 						<ui:param name="rr" value="#{req}" />
 					</ui:include>
 				</p:column>
-				<p:column width="25" sortBy="#{req.paymentMethod}"
-					style="text-align: center">
-					<ui:include src="output.request-payment-icon.include.xhtml">
-						<ui:param name="rr" value="#{req}" />
-					</ui:include>
-				</p:column>
+				<!-- 				< p:column width="25" sortBy="#{req.paymentMethod}" -->
+				<!-- 					style="text-align: center"> -->
+				<!-- 					< ui:include src="output.request-payment-icon.include.xhtml"> -->
+				<!-- 						< ui:param name="rr" value="#{req}" /> -->
+				<!-- 					< /ui:include> -->
+				<!-- 				< /p:column> -->
 				<p:column headerText="Источник" width="50"
 					sortBy="#{req.requestSource}">
-					<h:outputText
-						value="#{localized.few(req.requestSource)}" />
+					<h:outputText value="#{localized.few(req.requestSource)}" />
 				</p:column>
 				<p:column headerText="Тип" width="100"
 					sortBy="#{req.insuranceRequestType}"
 					styleClass="#{not empty req.insuranceRequestType ? ('col-request-' += req.insuranceRequestType) : ''}">
-					<h:outputText
-						value="#{localized.few(req.insuranceRequestType)}" />
+					<h:outputText value="#{localized.few(req.insuranceRequestType)}" />
 				</p:column>
 				<p:column headerText="Продукт" width="60"
 					sortBy="#{req.insuranceProductType}">
-					<h:outputText
-						value="#{localized.few(req.insuranceProductType)}" />
+					<h:outputText value="#{localized.few(req.insuranceProductType)}" />
 				</p:column>
 				<p:column headerText="Номер" sortBy="#{req.id}" width="50">
 					<h:outputText value="#{req.id}" />
@@ -177,8 +175,7 @@
 				</p:column>
 				<p:column headerText="Яз." width="20"
 					sortBy="#{req.requesterLanguage}">
-					<h:outputText
-						value="#{localized.few(req.requesterLanguage)}" />
+					<h:outputText value="#{localized.few(req.requesterLanguage)}" />
 				</p:column>
 				<p:column headerText="Телефон заявителя" width="130"
 					sortBy="#{req.requesterPhone}">

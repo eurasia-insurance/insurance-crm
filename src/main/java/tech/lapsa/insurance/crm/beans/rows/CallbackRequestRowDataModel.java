@@ -6,7 +6,6 @@ import com.lapsa.fin.FinCurrency;
 import com.lapsa.insurance.domain.CallbackRequest;
 import com.lapsa.insurance.elements.InsuranceProductType;
 import com.lapsa.insurance.elements.InsuranceRequestType;
-import com.lapsa.insurance.elements.PaymentMethod;
 import com.lapsa.insurance.elements.PaymentStatus;
 import com.lapsa.insurance.elements.TransactionProblem;
 import com.lapsa.insurance.elements.TransactionStatus;
@@ -53,11 +52,6 @@ public class CallbackRequestRowDataModel extends RequestRowDataModel<CallbackReq
     @Override
     public FinCurrency getCurrency() {
 	return null;
-    }
-
-    @Override
-    public PaymentMethod getPaymentMethod() {
-	return PaymentMethod.UNDEFINED;
     }
 
     @Override

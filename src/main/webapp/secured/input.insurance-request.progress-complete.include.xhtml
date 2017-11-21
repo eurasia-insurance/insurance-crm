@@ -20,7 +20,7 @@
 				<p:column>
 					<p:selectOneButton value="#{ir.transactionStatus}" layout="custom">
 						<f:selectItem itemLabel="Да" itemValue="COMPLETED" />
-						<f:selectItem itemLabel="Нет" itemValue="NOT_COMPLETED" />
+						<f:selectItem itemLabel="Нет" itemValue="NOT_COMPLETED" itemDisabled="#{ir.payment.status eq 'DONE'}"/>
 						<p:ajax listener="#{mainFacade.onTransactionStatusChanged}"
 							process="@this"
 							update="actualPolicyCostWrapper transactionProblemWrapper #{extupdate}" />

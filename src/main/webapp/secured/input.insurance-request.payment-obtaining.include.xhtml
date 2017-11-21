@@ -41,21 +41,6 @@
 					</h:panelGroup>
 					<!-- << agreeement failed or status is UNKNOWN -->
 				</p:column>
-				<p:column>
-					<p:outputLabel value="Способ оплаты:" />
-				</p:column>
-				<p:column>
-					<!-- >> agreeement ok -->
-					<h:panelGroup rendered="#{ir.transactionStatus eq 'COMPLETED'}">
-						<p:selectOneMenu value="#{ir.payment.method}">
-							<p:ajax listener="#{mainFacade.onPaymentMethodChanged}"
-								process="@this" update="insuranceRequestPaymentObtainingPanel" />
-							<f:selectItem value="#{configurationFacade.mustSelectSI}" />
-							<f:selectItems value="#{si.array.few(PaymentMethod.selectable)}" />
-						</p:selectOneMenu>
-					</h:panelGroup>
-					<!-- << agreeement ok -->
-				</p:column>
 			</p:row>
 			<p:row>
 				<p:column>
@@ -64,8 +49,7 @@
 				<p:column>
 					<!-- >> agreeement status is KNOWN -->
 					<h:panelGroup rendered="#{not empty ir.transactionStatus}">
-						<h:outputText
-							value="#{localized.few(ir.obtaining.status)}" />
+						<h:outputText value="#{localized.few(ir.obtaining.status)}" />
 					</h:panelGroup>
 					<!-- << agreeement status is KNOWN -->
 					<!-- >> agreeement status is UNKNOWN -->
@@ -73,7 +57,8 @@
 						<p:selectOneMenu value="#{ir.obtaining.status}">
 							<p:ajax process="@this" update="@this" />
 							<f:selectItem value="#{configurationFacade.mustSelectSI}" />
-							<f:selectItems value="#{si.array.few(ObtainingStatus.selectable)}" />
+							<f:selectItems
+								value="#{si.array.few(ObtainingStatus.selectable)}" />
 						</p:selectOneMenu>
 					</h:panelGroup>
 					<!-- << agreeement status is UNKNOWN -->
@@ -82,21 +67,7 @@
 					<p:outputLabel value="Статус оплаты:" />
 				</p:column>
 				<p:column>
-					<!-- >> agreeement status is KNOWN -->
-					<h:panelGroup rendered="#{not empty ir.transactionStatus}">
-						<h:outputText
-							value="#{localized.few(ir.payment.status)}" />
-					</h:panelGroup>
-					<!-- << agreeement status is KNOWN -->
-					<!-- >> agreeement status is UNKNOWN -->
-					<h:panelGroup rendered="#{empty ir.transactionStatus}">
-						<p:selectOneMenu value="#{ir.payment.status}">
-							<p:ajax process="@this" update="@this" />
-							<f:selectItem value="#{configurationFacade.mustSelectSI}" />
-							<f:selectItems value="#{si.array.few(PaymentStatus.selectable)}" />
-						</p:selectOneMenu>
-					</h:panelGroup>
-					<!-- << agreeement status is UNKNOWN -->
+					<h:outputText value="#{localized.few(ir.payment.status)}" />
 				</p:column>
 			</p:row>
 		</p:panelGrid>

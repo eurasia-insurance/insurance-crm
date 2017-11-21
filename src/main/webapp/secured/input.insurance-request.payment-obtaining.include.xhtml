@@ -8,7 +8,8 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:jfc="http://lapsa.tech/javax/faces-commons">
 
 	<p:panel style="height: 110px;"
 		id="insuranceRequestPaymentObtainingPanel" rendered="#{rendered}">
@@ -68,6 +69,10 @@
 				</p:column>
 				<p:column>
 					<h:outputText value="#{localized.few(ir.payment.status)}" />
+					<h:outputText value=" " />
+					<jfc:outputMoneyAmount value="#{ir.payment.paymentAmount}" />
+					<h:outputText value=" " />
+					<h:outputText value="#{ir.payment.methodName}" />
 				</p:column>
 			</p:row>
 		</p:panelGrid>

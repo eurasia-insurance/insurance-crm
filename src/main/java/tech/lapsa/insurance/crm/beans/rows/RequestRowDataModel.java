@@ -3,6 +3,8 @@ package tech.lapsa.insurance.crm.beans.rows;
 import java.time.Instant;
 
 import com.lapsa.insurance.domain.Request;
+import com.lapsa.insurance.domain.RequesterData;
+import com.lapsa.insurance.domain.crm.UTMData;
 import com.lapsa.insurance.domain.crm.User;
 import com.lapsa.insurance.elements.ProgressStatus;
 import com.lapsa.insurance.elements.RequestSource;
@@ -179,6 +181,24 @@ public abstract class RequestRowDataModel<T extends Request> implements RequestR
     public String getRequesterIdNumber() {
 	try {
 	    return entity.getRequester().getIdNumber().getNumber();
+	} catch (NullPointerException e) {
+	    return null;
+	}
+    }
+
+    @Override
+    public RequesterData getRequester() {
+	try {
+	    return entity.getRequester();
+	} catch (NullPointerException e) {
+	    return null;
+	}
+    }
+
+    @Override
+    public UTMData getUtm() {
+	try {
+	    return entity.getUtmData();
 	} catch (NullPointerException e) {
 	    return null;
 	}

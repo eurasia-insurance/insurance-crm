@@ -17,6 +17,7 @@ import com.lapsa.insurance.domain.policy.PolicyRequest;
 
 import tech.lapsa.insurance.crm.beans.i.RequestType;
 import tech.lapsa.insurance.crm.beans.i.RequestTypeService;
+import tech.lapsa.insurance.crm.beans.rows.RequestRow;
 
 @Named("rts")
 @ApplicationScoped
@@ -36,29 +37,28 @@ public class DefaultRequestTypeService implements RequestTypeService {
     }
 
     @Override
-    public boolean typeIs(RequestType value, RequestType expecting) {
-	if (value == null)
+    public boolean isTypeA(final RequestType sourceType, final RequestType targetType) {
+	if (sourceType == null)
 	    return false;
-	if (expecting == null)
+	if (targetType == null)
 	    return false;
-
-	switch (expecting) {
+	switch (targetType) {
 	case CALLBACK_REQUEST:
-	    switch (value) {
+	    switch (sourceType) {
 	    case CALLBACK_REQUEST:
 		return true;
 	    default:
 		return false;
 	    }
 	case CASCO_REQUEST:
-	    switch (value) {
+	    switch (sourceType) {
 	    case CASCO_REQUEST:
 		return true;
 	    default:
 		return false;
 	    }
 	case INSURANCE_REQUEST:
-	    switch (value) {
+	    switch (sourceType) {
 	    case POLICY_REQUEST:
 	    case CASCO_REQUEST:
 	    case INSURANCE_REQUEST:
@@ -67,14 +67,14 @@ public class DefaultRequestTypeService implements RequestTypeService {
 		return false;
 	    }
 	case POLICY_REQUEST:
-	    switch (value) {
+	    switch (sourceType) {
 	    case POLICY_REQUEST:
 		return true;
 	    default:
 		return false;
 	    }
 	case REQUEST:
-	    switch (value) {
+	    switch (sourceType) {
 	    case POLICY_REQUEST:
 	    case CASCO_REQUEST:
 	    case INSURANCE_REQUEST:
@@ -90,23 +90,31 @@ public class DefaultRequestTypeService implements RequestTypeService {
     }
 
     @Override
-    public boolean isA(Request request, RequestType type) {
-	if (request == null)
+    public boolean isRequestA(final Request sourceRequest, final RequestType targetType) {
+	if (sourceRequest == null)
 	    return false;
-	switch (type) {
+	switch (targetType) {
 	case CALLBACK_REQUEST:
-	    return request instanceof CallbackRequest;
+	    return sourceRequest instanceof CallbackRequest;
 	case CASCO_REQUEST:
-	    return request instanceof CascoRequest;
+	    return sourceRequest instanceof CascoRequest;
 	case POLICY_REQUEST:
-	    return request instanceof PolicyRequest;
+	    return sourceRequest instanceof PolicyRequest;
 	case INSURANCE_REQUEST:
-	    return request instanceof InsuranceRequest;
+	    return sourceRequest instanceof InsuranceRequest;
 	case REQUEST:
-	    return request instanceof Request;
+	    return sourceRequest instanceof Request;
 	default:
 	    return false;
 	}
+    }
+
+    @Override
+    public boolean isRowA(final RequestRow<?> sourceRow, final RequestType targetType) {
+	if (sourceRow == null)
+	    return false;
+	final RequestType source = sourceRow.getType();
+	return isTypeA(source, targetType);
     }
 
     @Override

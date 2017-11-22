@@ -27,15 +27,15 @@
 				<!-- >> wrapper -->
 				<h:panelGroup id="content">
 					<h:panelGroup
-						rendered="#{rts.isA(rr.entity, RequestType.POLICY_REQUEST)}">
+						rendered="#{rts.isRowA(rr, RequestType.POLICY_REQUEST)}">
 						<ui:decorate template="dialog.request.info.policy.include.xhtml" />
 					</h:panelGroup>
 					<h:panelGroup
-						rendered="#{rts.isA(rr.entity, RequestType.CASCO_REQUEST)}">
+						rendered="#{rts.isRowA(rr, RequestType.CASCO_REQUEST)}">
 						<ui:decorate template="dialog.request.info.casco.include.xhtml" />
 					</h:panelGroup>
 					<h:panelGroup
-						rendered="#{rts.isA(rr.entity, RequestType.CALLBACK_REQUEST)}">
+						rendered="#{rts.isRowA(rr, RequestType.CALLBACK_REQUEST)}">
 						<ui:decorate template="dialog.request.info.callback.include.xhtml" />
 					</h:panelGroup>
 				</h:panelGroup>

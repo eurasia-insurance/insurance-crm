@@ -3,8 +3,15 @@ package tech.lapsa.insurance.crm.beans.rows;
 import java.time.Instant;
 
 import com.lapsa.fin.FinCurrency;
+import com.lapsa.insurance.domain.CalculationData;
+import com.lapsa.insurance.domain.ObtainingData;
+import com.lapsa.insurance.domain.PaymentData;
 import com.lapsa.insurance.domain.Request;
+import com.lapsa.insurance.domain.RequesterData;
+import com.lapsa.insurance.domain.casco.Casco;
+import com.lapsa.insurance.domain.crm.UTMData;
 import com.lapsa.insurance.domain.crm.User;
+import com.lapsa.insurance.domain.policy.Policy;
 import com.lapsa.insurance.elements.InsuranceProductType;
 import com.lapsa.insurance.elements.InsuranceRequestType;
 import com.lapsa.insurance.elements.PaymentStatus;
@@ -75,6 +82,8 @@ public interface RequestRow<T extends Request> {
 
     String getRequesterPhone();
 
+    RequesterData getRequester();
+
     LocalizationLanguage getRequesterLanguage();
 
     String getRequesterIdNumber();
@@ -89,7 +98,19 @@ public interface RequestRow<T extends Request> {
 
     String getUTMTerm();
 
+    UTMData getUtm();
+
     String getAgreementNumber();
 
     String getNote();
+
+    PaymentData getPayment();
+
+    ObtainingData getObtaining();
+
+    CalculationData getCalculation();
+
+    Policy getPolicy();
+
+    Casco getCasco();
 }

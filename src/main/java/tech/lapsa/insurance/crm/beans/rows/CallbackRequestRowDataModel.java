@@ -3,7 +3,12 @@ package tech.lapsa.insurance.crm.beans.rows;
 import java.time.Instant;
 
 import com.lapsa.fin.FinCurrency;
+import com.lapsa.insurance.domain.CalculationData;
 import com.lapsa.insurance.domain.CallbackRequest;
+import com.lapsa.insurance.domain.ObtainingData;
+import com.lapsa.insurance.domain.PaymentData;
+import com.lapsa.insurance.domain.casco.Casco;
+import com.lapsa.insurance.domain.policy.Policy;
 import com.lapsa.insurance.elements.InsuranceProductType;
 import com.lapsa.insurance.elements.InsuranceRequestType;
 import com.lapsa.insurance.elements.PaymentStatus;
@@ -76,6 +81,31 @@ public class CallbackRequestRowDataModel extends RequestRowDataModel<CallbackReq
 
     @Override
     public Instant getPaymentInstant() {
+	return null;
+    }
+
+    @Override
+    public PaymentData getPayment() {
+	return null;
+    }
+
+    @Override
+    public ObtainingData getObtaining() {
+	return null;
+    }
+
+    @Override
+    public CalculationData getCalculation() {
+	return null;
+    }
+
+    @Override
+    public Policy getPolicy() {
+	return null;
+    }
+
+    @Override
+    public Casco getCasco() {
 	return null;
     }
 }

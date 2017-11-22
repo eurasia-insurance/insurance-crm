@@ -184,7 +184,7 @@
 
 				<!-- >> insuranceRequestSettings rendered -->
 				<h:panelGroup
-					rendered="#{rts.typeIs(settings.requestType, RequestType.INSURANCE_REQUEST)}">
+					rendered="#{rts.isTypeA(settings.requestType, RequestType.INSURANCE_REQUEST)}">
 
 					<!-- >> product -->
 					<p:panel header="Стадия">

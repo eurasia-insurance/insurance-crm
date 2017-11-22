@@ -10,10 +10,10 @@
 
 	<h:panelGroup styleClass="request-icon icon-request-type">
 		<h:panelGroup
-			rendered="#{rts.isA(rr.entity, RequestType.CALLBACK_REQUEST)}"
+			rendered="#{rts.isRowA(rr, RequestType.CALLBACK_REQUEST)}"
 			styleClass="fa fa-volume-control-phone" />
 		<h:panelGroup
-			rendered="#{rts.isA(rr.entity, RequestType.INSURANCE_REQUEST)}"
+			rendered="#{rts.isRowA(rr, RequestType.INSURANCE_REQUEST)}"
 			styleClass="fa fa-calculator" />
 	</h:panelGroup>
 

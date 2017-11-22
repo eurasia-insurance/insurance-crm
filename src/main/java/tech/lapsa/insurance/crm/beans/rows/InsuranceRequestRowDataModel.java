@@ -3,7 +3,10 @@ package tech.lapsa.insurance.crm.beans.rows;
 import java.time.Instant;
 
 import com.lapsa.fin.FinCurrency;
+import com.lapsa.insurance.domain.CalculationData;
 import com.lapsa.insurance.domain.InsuranceRequest;
+import com.lapsa.insurance.domain.ObtainingData;
+import com.lapsa.insurance.domain.PaymentData;
 import com.lapsa.insurance.elements.InsuranceProductType;
 import com.lapsa.insurance.elements.InsuranceRequestType;
 import com.lapsa.insurance.elements.PaymentStatus;
@@ -111,6 +114,33 @@ public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> e
     public String getAgreementNumber() {
 	try {
 	    return entity.getAgreementNumber();
+	} catch (NullPointerException e) {
+	    return null;
+	}
+    }
+
+    @Override
+    public PaymentData getPayment() {
+	try {
+	    return entity.getPayment();
+	} catch (NullPointerException e) {
+	    return null;
+	}
+    }
+
+    @Override
+    public ObtainingData getObtaining() {
+	try {
+	    return entity.getObtaining();
+	} catch (NullPointerException e) {
+	    return null;
+	}
+    }
+
+    @Override
+    public CalculationData getCalculation() {
+	try {
+	    return entity.getProduct().getCalculation();
 	} catch (NullPointerException e) {
 	    return null;
 	}

@@ -7,7 +7,6 @@ import com.lapsa.insurance.domain.Request;
 import com.lapsa.insurance.domain.crm.User;
 import com.lapsa.insurance.elements.InsuranceProductType;
 import com.lapsa.insurance.elements.InsuranceRequestType;
-import com.lapsa.insurance.elements.PaymentMethod;
 import com.lapsa.insurance.elements.PaymentStatus;
 import com.lapsa.insurance.elements.ProgressStatus;
 import com.lapsa.insurance.elements.RequestSource;
@@ -61,8 +60,6 @@ public interface RequestRow<T extends Request> {
     Double getAmount();
 
     FinCurrency getCurrency();
-
-    PaymentMethod getPaymentMethod();
 
     PaymentStatus getPaymentStatus();
 

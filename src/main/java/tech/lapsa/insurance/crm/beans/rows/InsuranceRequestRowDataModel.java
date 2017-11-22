@@ -6,7 +6,6 @@ import com.lapsa.fin.FinCurrency;
 import com.lapsa.insurance.domain.InsuranceRequest;
 import com.lapsa.insurance.elements.InsuranceProductType;
 import com.lapsa.insurance.elements.InsuranceRequestType;
-import com.lapsa.insurance.elements.PaymentMethod;
 import com.lapsa.insurance.elements.PaymentStatus;
 import com.lapsa.insurance.elements.TransactionProblem;
 import com.lapsa.insurance.elements.TransactionStatus;
@@ -69,15 +68,6 @@ public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> e
 	    return entity.getProduct().getCalculation().getPremiumCurrency();
 	} catch (NullPointerException e) {
 	    return null;
-	}
-    }
-
-    @Override
-    public PaymentMethod getPaymentMethod() {
-	try {
-	    return entity.getPayment().getMethod();
-	} catch (NullPointerException e) {
-	    return PaymentMethod.UNDEFINED;
 	}
     }
 

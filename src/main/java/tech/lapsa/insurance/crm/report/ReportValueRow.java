@@ -67,7 +67,7 @@ public class ReportValueRow implements ValueRow {
 	    new FieldDescriptor("Причина", row -> new DefaultTextValueCell(row.getTransactionProblem())),
 
 	    new FieldDescriptor("Номер договора", row -> new DefaultTextValueCell(row.getAgreementNumber())),
-	    new FieldDescriptor("Способ оплаты", row -> new DefaultTextValueCell(row.getPaymentMethod())),
+	    new FieldDescriptor("Способ оплаты", row -> new DefaultTextValueCell(row.getPaymentMethodName())),
 	    new FieldDescriptor("Статус оплаты", row -> new DefaultTextValueCell(row.getPaymentStatus())),
 	    new FieldDescriptor("Платежный референс", row -> new DefaultTextValueCell(row.getPaymentReference())),
 

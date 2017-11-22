@@ -28,21 +28,21 @@
 
 					<ui:include src="input.insurance-request.progress-complete.include.xhtml">
 						<ui:param name="rendered"
-							value="#{rts.isA(rr.entity, RequestType.INSURANCE_REQUEST)}" />
+							value="#{rts.isRowA(rr, RequestType.INSURANCE_REQUEST)}" />
 						<ui:param name="ir" value="#{rr.entity}" />
 						<ui:param name="extupdate" value="content" />
 					</ui:include>
 
 					<ui:include src="input.insurance-request.payment-obtaining.include.xhtml">
 						<ui:param name="rendered"
-							value="#{rts.isA(rr.entity, RequestType.INSURANCE_REQUEST)}" />
+							value="#{rts.isRowA(rr, RequestType.INSURANCE_REQUEST)}" />
 						<ui:param name="ir" value="#{rr.entity}" />
 					</ui:include>
 
 					<ui:include
 						src="input.callback-request.progress-complete.include.xhtml">
 						<ui:param name="rendered"
-							value="#{rts.isA(rr.entity, RequestType.CALLBACK_REQUEST)}" />
+							value="#{rts.isRowA(rr, RequestType.CALLBACK_REQUEST)}" />
 						<ui:param name="cr" value="#{rr.entity}" />
 					</ui:include>
 

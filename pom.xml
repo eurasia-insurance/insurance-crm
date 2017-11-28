@@ -23,7 +23,7 @@
 		<insurance-dao.version>1.1-SNAPSHOT</insurance-dao.version>
 		<insurance-faces.version>3.1-SNAPSHOT</insurance-faces.version>
 		<pushapi-dao.version>1.1-SNAPSHOT</pushapi-dao.version>
-		<javax-validation-commons.version>1.0</javax-validation-commons.version>
+		<javax-validation-commons.version>1.1-SNAPSHOT</javax-validation-commons.version>
 		<payara-hibernate-validation.version>1.0</payara-hibernate-validation.version>
 		<insurance-facade.version>1.1-SNAPSHOT</insurance-facade.version>
 		<javax-faces-commons.version>1.0</javax-faces-commons.version>

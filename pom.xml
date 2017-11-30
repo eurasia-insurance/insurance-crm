@@ -219,14 +219,6 @@
 			<!-- remove when creating request from CRM -->
 			<exclusions>
 				<exclusion>
-					<artifactId>epayment-facade-client</artifactId>
-					<groupId>tech.lapsa.epayment</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>epayment-facade</artifactId>
-					<groupId>tech.lapsa.epayment</groupId>
-				</exclusion>
-				<exclusion>
 					<artifactId>insurance-esbd-client</artifactId>
 					<groupId>tech.lapsa.insurance</groupId>
 				</exclusion>

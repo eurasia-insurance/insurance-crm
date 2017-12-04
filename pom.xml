@@ -240,13 +240,6 @@
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
-		<dependency>
-			<groupId>tech.lapsa.pushapi</groupId>
-			<artifactId>pushapi-dao</artifactId>
-			<type>ejb</type>
-			<scope>runtime</scope>
-			<optional>false</optional>
-		</dependency>
 		<!-- oldies -->
 		<dependency>
 			<groupId>com.lapsa.insurance-lib</groupId>

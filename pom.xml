@@ -212,45 +212,10 @@
 		</dependency>
 		<dependency>
 			<groupId>tech.lapsa.insurance</groupId>
-			<artifactId>insurance-facade</artifactId>
-			<type>ejb</type>
-			<scope>runtime</scope>
-			<optional>false</optional>
-			<!-- remove when creating request from CRM -->
-			<exclusions>
-				<exclusion>
-					<artifactId>insurance-esbd-client</artifactId>
-					<groupId>tech.lapsa.insurance</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>insurance-esbd</artifactId>
-					<groupId>tech.lapsa.insurance</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>insurance-notifier-client</artifactId>
-					<groupId>tech.lapsa.insurance</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>insurance-notifier</artifactId>
-					<groupId>tech.lapsa.insurance</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<!-- сделать так, чтобы DAO не нужно было использовать напрямую -->
-		<dependency>
-			<groupId>tech.lapsa.insurance</groupId>
 			<artifactId>insurance-dao-client</artifactId>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
-		<dependency>
-			<groupId>tech.lapsa.insurance</groupId>
-			<artifactId>insurance-dao</artifactId>
-			<type>ejb</type>
-			<scope>runtime</scope>
-			<optional>false</optional>
-		</dependency>
-		<!-- сделать так, чтобы DAO не нужно было использовать напрямую -->
 		<dependency>
 			<groupId>tech.lapsa.insurance</groupId>
 			<artifactId>insurance-faces</artifactId>
@@ -273,13 +238,6 @@
 			<groupId>tech.lapsa.pushapi</groupId>
 			<artifactId>pushapi-dao-client</artifactId>
 			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
-			<groupId>tech.lapsa.pushapi</groupId>
-			<artifactId>pushapi-dao</artifactId>
-			<type>ejb</type>
-			<scope>runtime</scope>
 			<optional>false</optional>
 		</dependency>
 		<!-- oldies -->

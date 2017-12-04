@@ -44,7 +44,7 @@ public class RequestFilterImpl implements RequestFilter, Serializable {
 
     private InsuranceRequestType insuranceRequestType;
     private PaymentStatus paymentStatus;
-    private String paymentExternalId;
+    private String paymentInvoiceNumber;
     private ObtainingMethod obtainingMethod;
     private ObtainingStatus obtainingStatus;
     private TransactionStatus transactionStatus;
@@ -165,12 +165,12 @@ public class RequestFilterImpl implements RequestFilter, Serializable {
     }
 
     @Override
-    public String getPaymentExternalId() {
-	return paymentExternalId;
+    public String getPaymentInvoiceNumber() {
+	return paymentInvoiceNumber;
     }
 
-    public void setPaymentExternalId(String paymentExternalId) {
-	this.paymentExternalId = paymentExternalId;
+    public void setPaymentInvoiceNumber(String paymentInvoiceNumber) {
+	this.paymentInvoiceNumber = paymentInvoiceNumber;
     }
 
     @Override

@@ -12,12 +12,21 @@
 		<p:panel>
 			<p:panelGrid>
 
-				<crm:outputRowText label="Номер счета" value="#{pym.invoiceNumber}" />
+				<crm:outputRow label="Номер счета">
+					<h:outputText value="#{pym.invoiceNumber}" />
+					[
+					<h:outputLink
+						value="#{functionFacade.paymentUrl(pym.invoiceNumber)}"
+						target="_blank">страница счета
+					</h:outputLink>
+					]
+				</crm:outputRow>
 
 				<crm:outputRowText label="Статус оплаты"
 					value="#{localized.few(pym.status)}" />
 
-				<crm:outputRowText label="Фактический метод оплаты" value="#{pym.methodName}" />
+				<crm:outputRowText label="Фактический метод оплаты"
+					value="#{pym.methodName}" />
 
 				<crm:outputRow label="Фактически оплаченная сумма">
 					<jfc:outputMoneyAmount value="#{pym.paymentAmount}" />

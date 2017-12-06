@@ -26,8 +26,8 @@
 		<javax-validation-commons.version>1.1-SNAPSHOT</javax-validation-commons.version>
 		<payara-hibernate-validation.version>1.0</payara-hibernate-validation.version>
 		<insurance-facade.version>1.1-SNAPSHOT</insurance-facade.version>
-		<javax-faces-commons.version>1.0</javax-faces-commons.version>
-		<lapsa-primefaces.version>1.0</lapsa-primefaces.version>
+		<javax-faces-commons.version>1.1-SNAPSHOT</javax-faces-commons.version>
+		<lapsa-primefaces.version>1.1-SNAPSHOT</lapsa-primefaces.version>
 		<!-- oldies -->
 		<insurance-lib.version>2.4-SNAPSHOT</insurance-lib.version>
 		<insurance-jpa-unit.version>1.14-SNAPSHOT</insurance-jpa-unit.version>

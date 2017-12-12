@@ -15,6 +15,8 @@ import com.lapsa.reports.ReportGeneratorFactory;
 import com.lapsa.reports.table.TableModel;
 
 import tech.lapsa.insurance.crm.report.ReportTableModel;
+import tech.lapsa.java.commons.function.MyNumbers;
+import tech.lapsa.java.commons.function.MyStreams;
 
 public class RequestTableDataModel extends ListDataModel<RequestRow<?>>
 	implements RequestList {
@@ -30,11 +32,10 @@ public class RequestTableDataModel extends ListDataModel<RequestRow<?>>
 
     @Override
     public Double getTotalAmount() {
-	List<RequestRow<?>> list = getRows();
-	double amount = 0d;
-	for (RequestRow<?> entity : list)
-	    amount += entity.getAmount();
-	return amount;
+	return MyStreams.orEmptyOf(getRows()) //
+		.map(RequestRow::getAmount) //
+		.mapToDouble(MyNumbers::safeUnbox) //
+		.sum();
     }
 
     @Override

@@ -5,14 +5,16 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import tech.lapsa.insurance.crm.beans.i.FunctionFacade;
-import tech.lapsa.insurance.facade.PaymentsFacade;
+import tech.lapsa.insurance.facade.EJBViaCDI;
+import tech.lapsa.insurance.facade.EpaymentConnectionFacade;
 
 @Named("functionFacade")
 @ApplicationScoped
 public class FunctionFacadeCDIBean implements FunctionFacade {
 
     @Inject
-    private PaymentsFacade payments;
+    @EJBViaCDI
+    private EpaymentConnectionFacade payments;
 
     @Override
     public String paymentUrl(final String invoiceNumber) {

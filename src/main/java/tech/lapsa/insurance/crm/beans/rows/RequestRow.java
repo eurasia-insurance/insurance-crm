@@ -66,8 +66,12 @@ public interface RequestRow<T extends Request> {
 
     Double getAmount();
 
+    Double getCalculatedPremium();
+
     FinCurrency getCurrency();
 
+    String getPaymentInvoiceNumber();
+    
     PaymentStatus getPaymentStatus();
 
     String getPaymentReference();

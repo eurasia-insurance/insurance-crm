@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.faces.FacesException;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -37,14 +38,17 @@ import tech.lapsa.insurance.crm.beans.i.RequestHolder;
 import tech.lapsa.insurance.crm.beans.i.RequestType;
 import tech.lapsa.insurance.crm.beans.i.RequestsHolder;
 import tech.lapsa.insurance.crm.beans.i.SettingsHolder;
+import tech.lapsa.insurance.crm.beans.rows.RequestRow;
 import tech.lapsa.insurance.crm.beans.rows.RequestsDataModelFactory;
 import tech.lapsa.insurance.dao.CallbackRequestDAO;
 import tech.lapsa.insurance.dao.CascoRequestDAO;
+import tech.lapsa.insurance.dao.EJBViaCDI;
 import tech.lapsa.insurance.dao.InsuranceRequestDAO;
 import tech.lapsa.insurance.dao.PolicyRequestDAO;
 import tech.lapsa.insurance.dao.RequestDAO;
 import tech.lapsa.insurance.dao.UserDAO;
 import tech.lapsa.insurance.dao.filter.RequestFilter;
+import tech.lapsa.insurance.facade.EpaymentConnectionFacade;
 import tech.lapsa.patterns.dao.NotFound;
 
 @Named("mainFacade")
@@ -225,6 +229,15 @@ public class MainFacadeBean implements MainFacade {
     }
 
     @Override
+    public String doMarkPaidRequest() {
+	checkRoleGranted(InsuranceRoleGroup.CHANGERS);
+	markPaidRequest();
+	refreshRequests();
+	unselectIfNotShown();
+	return null;
+    }
+
+    @Override
     public String doResumeRequest() {
 	checkRoleGranted(InsuranceRoleGroup.CHANGERS);
 	resumeRequest();
@@ -291,26 +304,45 @@ public class MainFacadeBean implements MainFacade {
 
     // PRIVATE
 
+    // dao
+
+    @Inject
+    @EJBViaCDI
+    private InsuranceRequestDAO insuranceRequestDAO;
+
+    @Inject
+    @EJBViaCDI
+    private RequestDAO requestDAO;
+
+    @Inject
+    @EJBViaCDI
+    private CallbackRequestDAO callbackRequestDAO;
+
+    @Inject
+    @EJBViaCDI
+    private PolicyRequestDAO policyRequestDAO;
+
+    @Inject
+    @EJBViaCDI
+    private CascoRequestDAO cascoRequestDAO;
+
+    @Inject
+    @EJBViaCDI
+    private UserDAO userDAO;
+
+    // facade
+
+    @Inject
+    @tech.lapsa.insurance.facade.EJBViaCDI
+    private EpaymentConnectionFacade toEpayments;
+
+    // local
+
     @Inject
     private RequestsHolder requestsHolder;
 
     @Inject
     private SettingsHolder settingsHolder;
-
-    @Inject
-    private InsuranceRequestDAO insuranceRequestDAO;
-
-    @Inject
-    private RequestDAO requestDAO;
-
-    @Inject
-    private CallbackRequestDAO callbackRequestDAO;
-
-    @Inject
-    private PolicyRequestDAO policyRequestDAO;
-
-    @Inject
-    private CascoRequestDAO cascoRequestDAO;
 
     @Inject
     private RequestHolder requestHolder;
@@ -333,9 +365,6 @@ public class MainFacadeBean implements MainFacade {
     interface FilterFinder {
 	List<Request> find();
     }
-
-    @Inject
-    private UserDAO userDAO;
 
     private void refreshRequests() {
 	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
@@ -533,6 +562,21 @@ public class MainFacadeBean implements MainFacade {
 	request.setProgressStatus(ProgressStatus.FINISHED);
 	request.setCompleted(Instant.now());
 	request.setCompletedBy(currentUser.getValue());
+    }
+
+    private void markPaidRequest() {
+	final RequestRow<?> rr = requestHolder.getValue();
+
+	final String invoiceNumber = rr.getPaymentInvoiceNumber();
+	final Double paidAmount = requestHolder.getPaidAmount();
+	final Instant paidInstant = requestHolder.getPaidInstant();
+	final String paidReference = requestHolder.getPaidReference();
+
+	try {
+	    toEpayments.markInvoiceHasPaid(invoiceNumber, paidAmount, paidInstant, paidReference);
+	} catch (IllegalArgumentException | IllegalStateException e) {
+	    throw new FacesException(e);
+	}
     }
 
     private void handleTransactionStatusChange() {

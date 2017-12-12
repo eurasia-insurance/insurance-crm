@@ -15,17 +15,20 @@ import com.lapsa.utils.security.SecurityUtils;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
 import tech.lapsa.insurance.crm.beans.i.CurrentUserHolder;
+import tech.lapsa.insurance.facade.EJBViaCDI;
 import tech.lapsa.insurance.facade.UserFacade;
 
 @Named("currentUser")
 @SessionScoped
 public class CurrentUserHolderBean extends AWritableValueHolder<User>
 	implements Serializable, CurrentUserHolder {
-    private static final long serialVersionUID = 3813022087120135731L;
+
+    private static final long serialVersionUID = 1L;
 
     private static final String DEFAULT_REMOTE_USER = "Guest";
 
     @Inject
+    @EJBViaCDI
     private UserFacade userFacade;
 
     @PostConstruct

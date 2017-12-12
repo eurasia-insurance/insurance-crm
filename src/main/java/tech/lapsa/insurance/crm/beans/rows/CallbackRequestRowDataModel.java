@@ -51,7 +51,12 @@ public class CallbackRequestRowDataModel extends RequestRowDataModel<CallbackReq
 
     @Override
     public Double getAmount() {
-	return 0d;
+	return null;
+    }
+
+    @Override
+    public Double getCalculatedPremium() {
+	return null;
     }
 
     @Override
@@ -62,6 +67,11 @@ public class CallbackRequestRowDataModel extends RequestRowDataModel<CallbackReq
     @Override
     public PaymentStatus getPaymentStatus() {
 	return PaymentStatus.UNDEFINED;
+    }
+
+    @Override
+    public String getPaymentInvoiceNumber() {
+	return null;
     }
 
     @Override

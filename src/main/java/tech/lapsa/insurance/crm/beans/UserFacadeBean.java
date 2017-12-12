@@ -10,6 +10,7 @@ import javax.inject.Named;
 
 import com.lapsa.insurance.domain.crm.User;
 
+import tech.lapsa.insurance.facade.EJBViaCDI;
 import tech.lapsa.insurance.facade.UserFacade;
 
 @Named("userFacade")
@@ -17,6 +18,7 @@ import tech.lapsa.insurance.facade.UserFacade;
 public class UserFacadeBean {
 
     @Inject
+    @EJBViaCDI
     private UserFacade delegate;
 
     public List<User> getWhoEverCreatedRequests() {

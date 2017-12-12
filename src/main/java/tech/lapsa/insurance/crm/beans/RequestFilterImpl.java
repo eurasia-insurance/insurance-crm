@@ -1,6 +1,5 @@
 package tech.lapsa.insurance.crm.beans;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
@@ -18,8 +17,9 @@ import com.lapsa.insurance.elements.TransactionStatus;
 import tech.lapsa.insurance.dao.filter.RequestFilter;
 import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 
-public class RequestFilterImpl implements RequestFilter, Serializable {
-    private static final long serialVersionUID = -5052366661196023039L;
+public class RequestFilterImpl implements RequestFilter {
+
+    private static final long serialVersionUID = 1L;
 
     // Request properties
 

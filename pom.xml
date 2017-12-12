@@ -206,13 +206,13 @@
 		</dependency>
 		<dependency>
 			<groupId>tech.lapsa.insurance</groupId>
-			<artifactId>insurance-facade-client</artifactId>
+			<artifactId>insurance-facade-producer-remote</artifactId>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
 		<dependency>
 			<groupId>tech.lapsa.insurance</groupId>
-			<artifactId>insurance-dao-client</artifactId>
+			<artifactId>insurance-dao-producer-remote</artifactId>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>

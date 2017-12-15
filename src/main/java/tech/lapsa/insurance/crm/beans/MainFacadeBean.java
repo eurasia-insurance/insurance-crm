@@ -10,6 +10,7 @@ import java.time.temporal.ChronoUnit;
 import java.time.temporal.WeekFields;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.FacesException;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -303,30 +304,35 @@ public class MainFacadeBean implements MainFacade {
 
     // PRIVATE
 
-    // dao (remote)
+    // EJBs
 
-    @Inject
+    // insurance-dao (remote)
+
+    @EJB
     private InsuranceRequestDAORemote insuranceRequestDAO;
 
-    @Inject
+    @EJB
     private RequestDAORemote requestDAO;
 
-    @Inject
+    @EJB
     private CallbackRequestDAORemote callbackRequestDAO;
 
-    @Inject
+    @EJB
     private PolicyRequestDAORemote policyRequestDAO;
 
-    @Inject
+    @EJB
     private CascoRequestDAORemote cascoRequestDAO;
 
-    @Inject
+    @EJB
     private UserDAORemote userDAO;
 
-    // facade (remote)
+    // insurance-facade (remote)
 
-    @Inject
+    @EJB
     private EpaymentConnectionFacadeRemote toEpayments;
+
+    
+    // CDIs
 
     // local
 

@@ -10,7 +10,7 @@ import com.lapsa.insurance.domain.policy.PolicyRequest;
 
 public final class RequestsDataModelFactory {
 
-    public static RequestList createList(List<Request> requests) {
+    public static RequestList createList(List<? extends Request> requests) {
 	List<RequestRow<?>> rows = new ArrayList<>();
 	for (Request r : requests) {
 	    RequestRow<?> row = createRow(r);

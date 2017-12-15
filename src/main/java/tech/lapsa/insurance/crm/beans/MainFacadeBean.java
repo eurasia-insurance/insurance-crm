@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.WeekFields;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -25,7 +24,6 @@ import com.lapsa.insurance.domain.ObtainingData;
 import com.lapsa.insurance.domain.PaymentData;
 import com.lapsa.insurance.domain.Request;
 import com.lapsa.insurance.domain.crm.User;
-import com.lapsa.insurance.domain.crm.UserGroup;
 import com.lapsa.insurance.elements.ObtainingStatus;
 import com.lapsa.insurance.elements.PaymentStatus;
 import com.lapsa.insurance.elements.ProgressStatus;
@@ -40,15 +38,16 @@ import tech.lapsa.insurance.crm.beans.i.RequestsHolder;
 import tech.lapsa.insurance.crm.beans.i.SettingsHolder;
 import tech.lapsa.insurance.crm.beans.rows.RequestRow;
 import tech.lapsa.insurance.crm.beans.rows.RequestsDataModelFactory;
-import tech.lapsa.insurance.dao.CallbackRequestDAO;
-import tech.lapsa.insurance.dao.CascoRequestDAO;
-import tech.lapsa.insurance.dao.EJBViaCDI;
-import tech.lapsa.insurance.dao.InsuranceRequestDAO;
-import tech.lapsa.insurance.dao.PolicyRequestDAO;
-import tech.lapsa.insurance.dao.RequestDAO;
-import tech.lapsa.insurance.dao.UserDAO;
+import tech.lapsa.insurance.dao.CallbackRequestDAO.CallbackRequestDAORemote;
+import tech.lapsa.insurance.dao.CascoRequestDAO.CascoRequestDAORemote;
+import tech.lapsa.insurance.dao.InsuranceRequestDAO.InsuranceRequestDAORemote;
+import tech.lapsa.insurance.dao.PolicyRequestDAO.PolicyRequestDAORemote;
+import tech.lapsa.insurance.dao.RequestDAO.RequestDAORemote;
+import tech.lapsa.insurance.dao.UserDAO.UserDAORemote;
 import tech.lapsa.insurance.dao.filter.RequestFilter;
-import tech.lapsa.insurance.facade.EpaymentConnectionFacade;
+import tech.lapsa.insurance.facade.EpaymentConnectionFacade.EpaymentConnectionFacadeRemote;
+import tech.lapsa.java.commons.exceptions.IllegalArgument;
+import tech.lapsa.java.commons.exceptions.IllegalState;
 import tech.lapsa.patterns.dao.NotFound;
 
 @Named("mainFacade")
@@ -304,37 +303,30 @@ public class MainFacadeBean implements MainFacade {
 
     // PRIVATE
 
-    // dao
+    // dao (remote)
 
     @Inject
-    @EJBViaCDI
-    private InsuranceRequestDAO insuranceRequestDAO;
+    private InsuranceRequestDAORemote insuranceRequestDAO;
 
     @Inject
-    @EJBViaCDI
-    private RequestDAO requestDAO;
+    private RequestDAORemote requestDAO;
 
     @Inject
-    @EJBViaCDI
-    private CallbackRequestDAO callbackRequestDAO;
+    private CallbackRequestDAORemote callbackRequestDAO;
 
     @Inject
-    @EJBViaCDI
-    private PolicyRequestDAO policyRequestDAO;
+    private PolicyRequestDAORemote policyRequestDAO;
 
     @Inject
-    @EJBViaCDI
-    private CascoRequestDAO cascoRequestDAO;
+    private CascoRequestDAORemote cascoRequestDAO;
 
     @Inject
-    @EJBViaCDI
-    private UserDAO userDAO;
+    private UserDAORemote userDAO;
 
-    // facade
+    // facade (remote)
 
     @Inject
-    @tech.lapsa.insurance.facade.EJBViaCDI
-    private EpaymentConnectionFacade toEpayments;
+    private EpaymentConnectionFacadeRemote toEpayments;
 
     // local
 
@@ -362,160 +354,118 @@ public class MainFacadeBean implements MainFacade {
     }
 
     @FunctionalInterface
-    interface FilterFinder {
-	List<Request> find();
+    interface RequestsFinder {
+	List<? extends Request> find() throws IllegalArgument;
     }
 
     private void refreshRequests() {
 	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
+	final RequestType requestType = settingsHolder.getRequestType();
+	final RequestFilter requestFilter = settingsHolder.getRequestFilter();
+	final RequestsFinder requestFinder = setupFinder(requestType, requestFilter);
+	final List<? extends Request> list;
+	try {
+	    list = requestFinder.find();
+	} catch (IllegalArgument e) {
+	    throw new FacesException(e);
+	}
+	requestsHolder.setValue(RequestsDataModelFactory.createList(list));
+    }
 
-	RequestType requestType = settingsHolder.getRequestType();
-
-	RequestFilter requestFilter = settingsHolder.getRequestFilter();
-
-	FilterFinder f = null;
-
+    private RequestsFinder setupFinder(final RequestType requestType, final RequestFilter requestFilter) {
 	if (isInRole(InsuranceRoleGroup.VIEWERS_ALL)) {
 	    switch (requestType) {
 	    case INSURANCE_REQUEST:
-		f = () -> {
-		    return checkedList(insuranceRequestDAO.findByFilter(requestFilter));
-		};
-		break;
+		return () -> insuranceRequestDAO.findByFilter(requestFilter);
 	    case CALLBACK_REQUEST:
-		f = () -> {
-		    return checkedList(callbackRequestDAO.findByFilter(requestFilter));
-		};
-		break;
+		return () -> callbackRequestDAO.findByFilter(requestFilter);
 	    case CASCO_REQUEST:
-		f = () -> {
-		    return checkedList(cascoRequestDAO.findByFilter(requestFilter));
-		};
-		break;
+		return () -> cascoRequestDAO.findByFilter(requestFilter);
 	    case POLICY_REQUEST:
-		f = () -> {
-		    return checkedList(policyRequestDAO.findByFilter(requestFilter));
-		};
-		break;
+		return () -> policyRequestDAO.findByFilter(requestFilter);
 	    case REQUEST:
 	    default:
-		f = () -> {
-		    return checkedList(requestDAO.findByFilter(requestFilter));
-		};
-		break;
+		return () -> requestDAO.findByFilter(requestFilter);
 	    }
 
 	} else if (isInRole(InsuranceRoleGroup.VIEWERS_GROUP_BASED)) {
 
 	    final boolean showNoCreators;
-	    List<User> restrictedToUsers = new ArrayList<>();
+	    final User[] uar;
 
 	    if (currentUser.getValue().isHasGroup()) {
 		// если пользователь - участник какой-либо группы
 		// показываем ему авторов состоящих в его группах
-		for (UserGroup gg : currentUser.getValue().getGroups())
-		    restrictedToUsers.addAll(gg.getMembers());
+		uar = currentUser.getValue() //
+			.getGroups() //
+			.stream() //
+			.flatMap(x -> x.getMembers().stream()) //
+			.toArray(User[]::new);
 		// анонимов не показываем
 		showNoCreators = false;
-
 	    } else {
 		// если пользователь - не состоит ни в какой группе
 		// показываем ему только авторов, не состоящих ни в одной группе
-		restrictedToUsers = userDAO.findAllWithNoGroup();
+		uar = userDAO.findAllWithNoGroup() //
+			.stream() //
+			.toArray(User[]::new);
 		// показываем ему анонимов
 		showNoCreators = true;
 	    }
 
-	    final User[] uar = restrictedToUsers.toArray(new User[0]);
-
 	    switch (requestType) {
 	    case INSURANCE_REQUEST:
-		f = () -> {
-		    return checkedList(
-			    insuranceRequestDAO.findByFilter(requestFilter, showNoCreators, uar));
-		};
-		break;
+		return () -> insuranceRequestDAO.findByFilter(requestFilter, showNoCreators, uar);
 	    case CALLBACK_REQUEST:
-		f = () -> {
-		    return checkedList(
-			    callbackRequestDAO.findByFilter(requestFilter, showNoCreators, uar));
-		};
-		break;
+		return () -> callbackRequestDAO.findByFilter(requestFilter, showNoCreators, uar);
 	    case CASCO_REQUEST:
-		f = () -> {
-		    return checkedList(
-			    cascoRequestDAO.findByFilter(requestFilter, showNoCreators, uar));
-		};
-		break;
+		return () -> cascoRequestDAO.findByFilter(requestFilter, showNoCreators, uar);
 	    case POLICY_REQUEST:
-		f = () -> {
-		    return checkedList(
-			    policyRequestDAO.findByFilter(requestFilter, showNoCreators, uar));
-		};
-		break;
+		return () -> policyRequestDAO.findByFilter(requestFilter, showNoCreators, uar);
 	    case REQUEST:
 	    default:
-		f = () -> {
-		    return checkedList(requestDAO.findByFilter(requestFilter, showNoCreators, uar));
-		};
-		break;
+		return () -> requestDAO.findByFilter(requestFilter, showNoCreators, uar);
 	    }
 	} else if (isInRole(InsuranceRoleGroup.VIEWERS_OWNED_ONLY)) {
 	    switch (requestType) {
 	    case INSURANCE_REQUEST:
-		f = () -> {
-		    return checkedList(
-			    insuranceRequestDAO.findByFilter(requestFilter, false, currentUser.getValue()));
-		};
-		break;
+		return () -> insuranceRequestDAO.findByFilter(requestFilter, false, currentUser.getValue());
 	    case CALLBACK_REQUEST:
-		f = () -> {
-		    return checkedList(
-			    callbackRequestDAO.findByFilter(requestFilter, false, currentUser.getValue()));
-		};
-		break;
+		return () -> callbackRequestDAO.findByFilter(requestFilter, false, currentUser.getValue());
 	    case CASCO_REQUEST:
-		f = () -> {
-		    return checkedList(cascoRequestDAO.findByFilter(requestFilter, false, currentUser.getValue()));
-		};
-		break;
+		return () -> cascoRequestDAO.findByFilter(requestFilter, false, currentUser.getValue());
 	    case POLICY_REQUEST:
-		f = () -> {
-		    return checkedList(
-			    policyRequestDAO.findByFilter(requestFilter, false, currentUser.getValue()));
-		};
-		break;
+		return () -> policyRequestDAO.findByFilter(requestFilter, false, currentUser.getValue());
 	    case REQUEST:
 	    default:
-		f = () -> {
-		    return checkedList(requestDAO.findByFilter(requestFilter, false, currentUser.getValue()));
-		};
-		break;
+		return () -> requestDAO.findByFilter(requestFilter, false, currentUser.getValue());
 	    }
 	}
 
-	if (f == null)
-	    throw new RuntimeException("Can not determine type of restrictions");
-
-	requestsHolder.setValue(RequestsDataModelFactory.createList(f.find()));
-    }
-
-    @SuppressWarnings("unchecked")
-    private static <T> List<T> checkedList(List<? extends T> list) {
-	return (List<T>) list;
+	throw new FacesException("Can not determine type of restrictions");
     }
 
     private void saveRequest() {
 	Request request = requestHolder.getValue().getEntity();
 	request.setUpdated(Instant.now());
-	Request insuranceRequestSaved = requestDAO.save(request);
+	final Request insuranceRequestSaved;
+	try {
+	    insuranceRequestSaved = requestDAO.save(request);
+	} catch (IllegalArgument e) {
+	    throw new FacesException(e);
+	}
 	requestHolder.setValue(RequestsDataModelFactory.createRow(insuranceRequestSaved));
     }
 
     private void resetRequest() {
-	Request request = requestHolder.getValue().getEntity();
+	final Request request = requestHolder.getValue().getEntity();
 	try {
-	    Request insuranceRequestSaved = requestDAO.restore(request);
+	    final Request insuranceRequestSaved;
+	    try {
+		insuranceRequestSaved = requestDAO.restore(request);
+	    } catch (IllegalArgument e) {
+		throw new FacesException(e);
+	    }
 	    requestHolder.setValue(RequestsDataModelFactory.createRow(insuranceRequestSaved));
 	} catch (NotFound e) {
 	    throw new IllegalStateException(e);
@@ -574,7 +524,7 @@ public class MainFacadeBean implements MainFacade {
 
 	try {
 	    toEpayments.markInvoiceHasPaid(invoiceNumber, paidAmount, paidInstant, paidReference);
-	} catch (IllegalArgumentException | IllegalStateException e) {
+	} catch (IllegalArgument | IllegalState e) {
 	    throw new FacesException(e);
 	}
     }

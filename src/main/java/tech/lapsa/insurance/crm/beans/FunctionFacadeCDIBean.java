@@ -1,20 +1,18 @@
 package tech.lapsa.insurance.crm.beans;
 
+import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
 
 import tech.lapsa.insurance.crm.beans.i.FunctionFacade;
-import tech.lapsa.insurance.facade.EJBViaCDI;
-import tech.lapsa.insurance.facade.EpaymentConnectionFacade;
+import tech.lapsa.insurance.facade.EpaymentConnectionFacade.EpaymentConnectionFacadeRemote;
 
 @Named("functionFacade")
 @ApplicationScoped
 public class FunctionFacadeCDIBean implements FunctionFacade {
 
-    @Inject
-    @EJBViaCDI
-    private EpaymentConnectionFacade payments;
+    @EJB
+    private EpaymentConnectionFacadeRemote payments;
 
     @Override
     public String paymentUrl(final String invoiceNumber) {

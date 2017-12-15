@@ -6,8 +6,8 @@ import java.io.Serializable;
 import java.security.Principal;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.lapsa.insurance.domain.crm.User;
@@ -15,8 +15,7 @@ import com.lapsa.utils.security.SecurityUtils;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
 import tech.lapsa.insurance.crm.beans.i.CurrentUserHolder;
-import tech.lapsa.insurance.facade.EJBViaCDI;
-import tech.lapsa.insurance.facade.UserFacade;
+import tech.lapsa.insurance.facade.UserFacade.UserFacadeRemote;
 
 @Named("currentUser")
 @SessionScoped
@@ -27,9 +26,8 @@ public class CurrentUserHolderBean extends AWritableValueHolder<User>
 
     private static final String DEFAULT_REMOTE_USER = "Guest";
 
-    @Inject
-    @EJBViaCDI
-    private UserFacade userFacade;
+    @EJB
+    private UserFacadeRemote userFacade;
 
     @PostConstruct
     public void init() {

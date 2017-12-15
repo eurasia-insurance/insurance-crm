@@ -39,13 +39,13 @@ import tech.lapsa.insurance.crm.beans.i.RequestsHolder;
 import tech.lapsa.insurance.crm.beans.i.SettingsHolder;
 import tech.lapsa.insurance.crm.beans.rows.RequestRow;
 import tech.lapsa.insurance.crm.beans.rows.RequestsDataModelFactory;
+import tech.lapsa.insurance.dao.RequestFilter;
 import tech.lapsa.insurance.dao.CallbackRequestDAO.CallbackRequestDAORemote;
 import tech.lapsa.insurance.dao.CascoRequestDAO.CascoRequestDAORemote;
 import tech.lapsa.insurance.dao.InsuranceRequestDAO.InsuranceRequestDAORemote;
 import tech.lapsa.insurance.dao.PolicyRequestDAO.PolicyRequestDAORemote;
 import tech.lapsa.insurance.dao.RequestDAO.RequestDAORemote;
 import tech.lapsa.insurance.dao.UserDAO.UserDAORemote;
-import tech.lapsa.insurance.dao.filter.RequestFilter;
 import tech.lapsa.insurance.facade.EpaymentConnectionFacade.EpaymentConnectionFacadeRemote;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.exceptions.IllegalState;
@@ -598,7 +598,7 @@ public class MainFacadeBean implements MainFacade {
     private void filterCreatedToday() {
 	LocalDateTime after = LocalDate.now().atStartOfDay();
 
-	RequestFilterImpl filter = settingsHolder.getRequestFilter();
+	RequestFilter filter = settingsHolder.getRequestFilter();
 	filter.setCreatedAfter(after);
 	filter.setCreatedBefore(null);
     }
@@ -608,7 +608,7 @@ public class MainFacadeBean implements MainFacade {
 	LocalDateTime before = LocalDate.now().atStartOfDay()
 		.minus(1, ChronoUnit.SECONDS);
 
-	RequestFilterImpl filter = settingsHolder.getRequestFilter();
+	RequestFilter filter = settingsHolder.getRequestFilter();
 	filter.setCreatedAfter(after);
 	filter.setCreatedBefore(before);
     }
@@ -617,7 +617,7 @@ public class MainFacadeBean implements MainFacade {
 	LocalDateTime after = LocalDate.now()
 		.with(ChronoField.DAY_OF_WEEK, WeekFields.ISO.getFirstDayOfWeek().getValue()).atStartOfDay();
 
-	RequestFilterImpl filter = settingsHolder.getRequestFilter();
+	RequestFilter filter = settingsHolder.getRequestFilter();
 	filter.setCreatedAfter(after);
 	filter.setCreatedBefore(null);
     }
@@ -630,7 +630,7 @@ public class MainFacadeBean implements MainFacade {
 		.with(ChronoField.DAY_OF_WEEK, WeekFields.ISO.getFirstDayOfWeek().getValue()).atStartOfDay().minus(1,
 			ChronoUnit.SECONDS);
 
-	RequestFilterImpl filter = settingsHolder.getRequestFilter();
+	RequestFilter filter = settingsHolder.getRequestFilter();
 	filter.setCreatedAfter(after);
 	filter.setCreatedBefore(before);
     }
@@ -638,7 +638,7 @@ public class MainFacadeBean implements MainFacade {
     private void filterCreatedThisMonth() {
 	LocalDateTime after = LocalDate.now().withDayOfMonth(1).atStartOfDay();
 
-	RequestFilterImpl filter = settingsHolder.getRequestFilter();
+	RequestFilter filter = settingsHolder.getRequestFilter();
 	filter.setCreatedAfter(after);
 	filter.setCreatedBefore(null);
     }
@@ -648,7 +648,7 @@ public class MainFacadeBean implements MainFacade {
 	LocalDateTime before = LocalDate.now().withDayOfMonth(1).atStartOfDay().minus(1,
 		ChronoUnit.SECONDS);
 
-	RequestFilterImpl filter = settingsHolder.getRequestFilter();
+	RequestFilter filter = settingsHolder.getRequestFilter();
 	filter.setCreatedAfter(after);
 	filter.setCreatedBefore(before);
     }
@@ -656,7 +656,7 @@ public class MainFacadeBean implements MainFacade {
     private void filterCompletedToday() {
 	LocalDateTime after = LocalDate.now().atStartOfDay();
 
-	RequestFilterImpl filter = settingsHolder.getRequestFilter();
+	RequestFilter filter = settingsHolder.getRequestFilter();
 	filter.setCompletedAfter(after);
 	filter.setCompletedBefore(null);
     }
@@ -666,7 +666,7 @@ public class MainFacadeBean implements MainFacade {
 	LocalDateTime before = LocalDate.now().atStartOfDay()
 		.minus(1, ChronoUnit.SECONDS);
 
-	RequestFilterImpl filter = settingsHolder.getRequestFilter();
+	RequestFilter filter = settingsHolder.getRequestFilter();
 	filter.setCompletedAfter(after);
 	filter.setCompletedBefore(before);
     }
@@ -675,7 +675,7 @@ public class MainFacadeBean implements MainFacade {
 	LocalDateTime after = LocalDate.now()
 		.with(ChronoField.DAY_OF_WEEK, WeekFields.ISO.getFirstDayOfWeek().getValue()).atStartOfDay();
 
-	RequestFilterImpl filter = settingsHolder.getRequestFilter();
+	RequestFilter filter = settingsHolder.getRequestFilter();
 	filter.setCompletedAfter(after);
 	filter.setCompletedBefore(null);
     }
@@ -688,7 +688,7 @@ public class MainFacadeBean implements MainFacade {
 		.with(ChronoField.DAY_OF_WEEK, WeekFields.ISO.getFirstDayOfWeek().getValue()).atStartOfDay().minus(1,
 			ChronoUnit.SECONDS);
 
-	RequestFilterImpl filter = settingsHolder.getRequestFilter();
+	RequestFilter filter = settingsHolder.getRequestFilter();
 	filter.setCompletedAfter(after);
 	filter.setCompletedBefore(before);
     }
@@ -696,7 +696,7 @@ public class MainFacadeBean implements MainFacade {
     private void filterCompletedThisMonth() {
 	LocalDateTime after = LocalDate.now().withDayOfMonth(1).atStartOfDay();
 
-	RequestFilterImpl filter = settingsHolder.getRequestFilter();
+	RequestFilter filter = settingsHolder.getRequestFilter();
 	filter.setCompletedAfter(after);
 	filter.setCompletedBefore(null);
     }
@@ -706,7 +706,7 @@ public class MainFacadeBean implements MainFacade {
 	LocalDateTime before = LocalDate.now().withDayOfMonth(1).atStartOfDay().minus(1,
 		ChronoUnit.SECONDS);
 
-	RequestFilterImpl filter = settingsHolder.getRequestFilter();
+	RequestFilter filter = settingsHolder.getRequestFilter();
 	filter.setCompletedAfter(after);
 	filter.setCompletedBefore(before);
     }

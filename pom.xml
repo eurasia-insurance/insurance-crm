@@ -22,7 +22,6 @@
 		<!-- tech -->
 		<insurance-dao.version>1.1-SNAPSHOT</insurance-dao.version>
 		<insurance-faces.version>3.1-SNAPSHOT</insurance-faces.version>
-		<pushapi-dao.version>1.1-SNAPSHOT</pushapi-dao.version>
 		<javax-validation-commons.version>1.1-SNAPSHOT</javax-validation-commons.version>
 		<payara-hibernate-validation.version>1.0</payara-hibernate-validation.version>
 		<insurance-facade.version>1.1-SNAPSHOT</insurance-facade.version>
@@ -35,8 +34,6 @@
 		<international-lib.version>3.3-SNAPSHOT</international-lib.version>
 		<donkeyfaces-lib.version>1.3</donkeyfaces-lib.version>
 		<reports-lib.version>1.1</reports-lib.version>
-		<pushapi-lib.version>1.2-SNAPSHOT</pushapi-lib.version>
-		<pushapi-app.version>1.2-SNAPSHOT</pushapi-app.version>
 		<!-- external -->
 		<primefaces.version>5.3.16</primefaces.version>
 		<primefaces-themes.version>1.0.10</primefaces-themes.version>
@@ -65,13 +62,6 @@
 				<groupId>tech.lapsa.insurance</groupId>
 				<artifactId>insurance-dao-root</artifactId>
 				<version>${insurance-dao.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<dependency>
-				<groupId>tech.lapsa.pushapi</groupId>
-				<artifactId>pushapi-dao-root</artifactId>
-				<version>${pushapi-dao.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -134,11 +124,6 @@
 				<version>${donkeyfaces-lib.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
-			</dependency>
-			<dependency>
-				<groupId>com.lapsa.pushapi-lib</groupId>
-				<artifactId>pushapi-app</artifactId>
-				<version>${pushapi-app.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.lapsa.reports-lib</groupId>
@@ -234,12 +219,6 @@
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
-		<dependency>
-			<groupId>tech.lapsa.pushapi</groupId>
-			<artifactId>pushapi-dao-client</artifactId>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
 		<!-- oldies -->
 		<dependency>
 			<groupId>com.lapsa.insurance-lib</groupId>
@@ -286,12 +265,6 @@
 		<dependency>
 			<groupId>com.lapsa.international-lib</groupId>
 			<artifactId>international-faces</artifactId>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
-			<groupId>com.lapsa.pushapi-lib</groupId>
-			<artifactId>pushapi-app</artifactId>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>

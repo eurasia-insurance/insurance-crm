@@ -331,7 +331,6 @@ public class MainFacadeBean implements MainFacade {
     @EJB
     private EpaymentConnectionFacadeRemote toEpayments;
 
-    
     // CDIs
 
     // local
@@ -379,19 +378,21 @@ public class MainFacadeBean implements MainFacade {
     }
 
     private RequestsFinder setupFinder(final RequestType requestType, final RequestFilter requestFilter) {
+	final int from = requestsHolder.getFrom();
+	final int limit = requestsHolder.getLimit();
 	if (isInRole(InsuranceRoleGroup.VIEWERS_ALL)) {
 	    switch (requestType) {
 	    case INSURANCE_REQUEST:
-		return () -> insuranceRequestDAO.findByFilter(requestFilter);
+		return () -> insuranceRequestDAO.findByFilter(from, limit, requestFilter);
 	    case CALLBACK_REQUEST:
-		return () -> callbackRequestDAO.findByFilter(requestFilter);
+		return () -> callbackRequestDAO.findByFilter(from, limit, requestFilter);
 	    case CASCO_REQUEST:
-		return () -> cascoRequestDAO.findByFilter(requestFilter);
+		return () -> cascoRequestDAO.findByFilter(from, limit, requestFilter);
 	    case POLICY_REQUEST:
-		return () -> policyRequestDAO.findByFilter(requestFilter);
+		return () -> policyRequestDAO.findByFilter(from, limit, requestFilter);
 	    case REQUEST:
 	    default:
-		return () -> requestDAO.findByFilter(requestFilter);
+		return () -> requestDAO.findByFilter(from, limit, requestFilter);
 	    }
 
 	} else if (isInRole(InsuranceRoleGroup.VIEWERS_GROUP_BASED)) {
@@ -421,30 +422,31 @@ public class MainFacadeBean implements MainFacade {
 
 	    switch (requestType) {
 	    case INSURANCE_REQUEST:
-		return () -> insuranceRequestDAO.findByFilter(requestFilter, showNoCreators, uar);
+		return () -> insuranceRequestDAO.findByFilter(from, limit, requestFilter, showNoCreators, uar);
 	    case CALLBACK_REQUEST:
-		return () -> callbackRequestDAO.findByFilter(requestFilter, showNoCreators, uar);
+		return () -> callbackRequestDAO.findByFilter(from, limit, requestFilter, showNoCreators, uar);
 	    case CASCO_REQUEST:
-		return () -> cascoRequestDAO.findByFilter(requestFilter, showNoCreators, uar);
+		return () -> cascoRequestDAO.findByFilter(from, limit, requestFilter, showNoCreators, uar);
 	    case POLICY_REQUEST:
-		return () -> policyRequestDAO.findByFilter(requestFilter, showNoCreators, uar);
+		return () -> policyRequestDAO.findByFilter(from, limit, requestFilter, showNoCreators, uar);
 	    case REQUEST:
 	    default:
-		return () -> requestDAO.findByFilter(requestFilter, showNoCreators, uar);
+		return () -> requestDAO.findByFilter(from, limit, requestFilter, showNoCreators, uar);
 	    }
 	} else if (isInRole(InsuranceRoleGroup.VIEWERS_OWNED_ONLY)) {
 	    switch (requestType) {
 	    case INSURANCE_REQUEST:
-		return () -> insuranceRequestDAO.findByFilter(requestFilter, false, currentUser.getValue());
+		return () -> insuranceRequestDAO.findByFilter(from, limit, requestFilter, false,
+			currentUser.getValue());
 	    case CALLBACK_REQUEST:
-		return () -> callbackRequestDAO.findByFilter(requestFilter, false, currentUser.getValue());
+		return () -> callbackRequestDAO.findByFilter(from, limit, requestFilter, false, currentUser.getValue());
 	    case CASCO_REQUEST:
-		return () -> cascoRequestDAO.findByFilter(requestFilter, false, currentUser.getValue());
+		return () -> cascoRequestDAO.findByFilter(from, limit, requestFilter, false, currentUser.getValue());
 	    case POLICY_REQUEST:
-		return () -> policyRequestDAO.findByFilter(requestFilter, false, currentUser.getValue());
+		return () -> policyRequestDAO.findByFilter(from, limit, requestFilter, false, currentUser.getValue());
 	    case REQUEST:
 	    default:
-		return () -> requestDAO.findByFilter(requestFilter, false, currentUser.getValue());
+		return () -> requestDAO.findByFilter(from, limit, requestFilter, false, currentUser.getValue());
 	    }
 	}
 

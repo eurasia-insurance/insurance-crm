@@ -19,4 +19,25 @@ public class RequestsHolderBean extends AWritableValueHolder<RequestList>
     public void reset() {
 	this.value = null;
     }
+
+    private int from = 0;
+    private int limit = 50;
+
+    @Override
+    public int getFrom() {
+	return from;
+    }
+
+    public void setFrom(int from) {
+	this.from = from;
+    }
+
+    @Override
+    public int getLimit() {
+	return limit;
+    }
+
+    public void setLimit(int limit) {
+	this.limit = limit;
+    }
 }

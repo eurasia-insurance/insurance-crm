@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.WeekFields;
+import java.util.Currency;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -30,6 +31,8 @@ import com.lapsa.insurance.elements.PaymentStatus;
 import com.lapsa.insurance.elements.ProgressStatus;
 import com.lapsa.insurance.elements.RequestStatus;
 
+import tech.lapsa.epayment.facade.EpaymentFacade.EpaymentFacadeRemote;
+import tech.lapsa.epayment.facade.InvoiceNotFound;
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
 import tech.lapsa.insurance.crm.beans.i.CurrentUserHolder;
 import tech.lapsa.insurance.crm.beans.i.MainFacade;
@@ -39,14 +42,13 @@ import tech.lapsa.insurance.crm.beans.i.RequestsHolder;
 import tech.lapsa.insurance.crm.beans.i.SettingsHolder;
 import tech.lapsa.insurance.crm.beans.rows.RequestRow;
 import tech.lapsa.insurance.crm.beans.rows.RequestsDataModelFactory;
-import tech.lapsa.insurance.dao.RequestFilter;
 import tech.lapsa.insurance.dao.CallbackRequestDAO.CallbackRequestDAORemote;
 import tech.lapsa.insurance.dao.CascoRequestDAO.CascoRequestDAORemote;
 import tech.lapsa.insurance.dao.InsuranceRequestDAO.InsuranceRequestDAORemote;
 import tech.lapsa.insurance.dao.PolicyRequestDAO.PolicyRequestDAORemote;
 import tech.lapsa.insurance.dao.RequestDAO.RequestDAORemote;
+import tech.lapsa.insurance.dao.RequestFilter;
 import tech.lapsa.insurance.dao.UserDAO.UserDAORemote;
-import tech.lapsa.insurance.facade.EpaymentConnectionFacade.EpaymentConnectionFacadeRemote;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.exceptions.IllegalState;
 import tech.lapsa.patterns.dao.NotFound;
@@ -326,10 +328,10 @@ public class MainFacadeBean implements MainFacade {
     @EJB
     private UserDAORemote userDAO;
 
-    // insurance-facade (remote)
+    // epayment-facade (remote)
 
     @EJB
-    private EpaymentConnectionFacadeRemote toEpayments;
+    private EpaymentFacadeRemote epayments;
 
     // CDIs
 
@@ -531,8 +533,9 @@ public class MainFacadeBean implements MainFacade {
 	final String paidReference = requestHolder.getPaidReference();
 
 	try {
-	    toEpayments.markInvoiceHasPaid(invoiceNumber, paidAmount, paidInstant, paidReference);
-	} catch (IllegalArgument | IllegalState e) {
+	    epayments.completeWithUnknownPayment(invoiceNumber, paidAmount, Currency.getInstance("KZT"), paidInstant,
+		    paidReference);
+	} catch (IllegalArgument | IllegalState | InvoiceNotFound e) {
 	    throw new FacesException(e);
 	}
     }

@@ -14,7 +14,8 @@ import tech.lapsa.insurance.dao.RequestFilter;
 @Named("settings")
 @ViewScoped
 public class SettingsHolderBean implements Serializable, SettingsHolder {
-    private static final long serialVersionUID = -6980458753963030228L;
+
+    private static final long serialVersionUID = 1L;
 
     private boolean advanced = false;
     private boolean autoRefresh = true;

@@ -1,9 +1,10 @@
 package tech.lapsa.insurance.crm.beans;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.EJB;
-import javax.faces.bean.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
 import com.lapsa.insurance.domain.crm.User;
@@ -11,8 +12,10 @@ import com.lapsa.insurance.domain.crm.User;
 import tech.lapsa.insurance.facade.UserFacade.UserFacadeRemote;
 
 @Named("userFacade")
-@ApplicationScoped
-public class UserFacadeBean {
+@RequestScoped
+public class UserFacadeBean implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @EJB
     private UserFacadeRemote delegate;

@@ -67,6 +67,15 @@
 				</ui:include>
 			</h:panelGroup>
 
+			<h:panelGroup id="requestMarkPaidDialog">
+				<ui:include src="dialog.request.mark-paid.include.xhtml">
+					<ui:param name="dialogWV" value="requestMarkPaidDialogWV" />
+					<ui:param name="rr" value="#{rqst.value}" />
+					<ui:param name="update"
+						value="@form:requestsTable @form:summaryPanel @form:mainToolbar @form:requestDialog" />
+				</ui:include>
+			</h:panelGroup>
+
 			<h:panelGroup id="mainToolbar">
 				<ui:include src="menu.main-toolbar.xhtml">
 					<ui:param name="rr" value="#{rqst.value}" />

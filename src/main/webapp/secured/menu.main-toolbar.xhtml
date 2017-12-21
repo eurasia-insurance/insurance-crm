@@ -63,6 +63,13 @@
 						action="#{mainFacade.doResumeRequest}" process="@this"
 						update="requestToolbar #{update}" />
 
+					<p:commandButton value="Оплатить..." icon="fa fa-money"
+						disabled="#{rr.paymentStatus eq 'DONE'}" process="@this"
+						update="@form:requestMarkPaidDialog"
+						oncomplete="PF('requestMarkPaidDialogWV').show(); return false;">
+						<p:resetInput target="@form:requestMarkPaidDialog" />
+					</p:commandButton>
+
 					<p:commandButton value="Завершено..." icon="fa fa-check-circle-o"
 						disabled="#{rr.progressStatus ne 'ON_PROCESS'}" process="@this"
 						update="@form:requestProgressCompleteDialog"

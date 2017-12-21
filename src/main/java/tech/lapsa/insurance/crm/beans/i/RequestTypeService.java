@@ -6,7 +6,7 @@ import com.lapsa.insurance.domain.Request;
 import com.lapsa.insurance.domain.casco.Casco;
 import com.lapsa.insurance.domain.casco.CascoVehicle;
 
-import tech.lapsa.insurance.crm.beans.rows.RequestRow;
+import tech.lapsa.insurance.crm.rows.RequestRow;
 
 public interface RequestTypeService {
     boolean isTypeA(RequestType sourceType, RequestType targetType);

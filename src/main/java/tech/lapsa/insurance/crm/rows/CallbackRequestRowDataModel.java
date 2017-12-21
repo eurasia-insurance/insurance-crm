@@ -1,4 +1,4 @@
-package tech.lapsa.insurance.crm.beans.rows;
+package tech.lapsa.insurance.crm.rows;
 
 import java.time.Instant;
 
@@ -51,7 +51,12 @@ public class CallbackRequestRowDataModel extends RequestRowDataModel<CallbackReq
 
     @Override
     public Double getAmount() {
-	return 0d;
+	return null;
+    }
+
+    @Override
+    public Double getCalculatedPremium() {
+	return null;
     }
 
     @Override
@@ -62,6 +67,11 @@ public class CallbackRequestRowDataModel extends RequestRowDataModel<CallbackReq
     @Override
     public PaymentStatus getPaymentStatus() {
 	return PaymentStatus.UNDEFINED;
+    }
+
+    @Override
+    public String getPaymentInvoiceNumber() {
+	return null;
     }
 
     @Override

@@ -54,6 +54,8 @@ public interface MainFacade {
 
     String doCompleteRequest();
 
+    String doMarkPaidRequest();
+
     void onTransactionStatusChanged(AjaxBehaviorEvent event);
 
     void onObtainingMethodChanged(AjaxBehaviorEvent event);

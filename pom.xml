@@ -19,25 +19,23 @@
 		<java-commons.version>1.1-SNAPSHOT</java-commons.version>
 		<!-- UTILs -->
 		<font-awesome-lib.version>4.7.0</font-awesome-lib.version>
-		<!-- tech -->
-		<insurance-dao.version>1.1-SNAPSHOT</insurance-dao.version>
-		<insurance-faces.version>3.1-SNAPSHOT</insurance-faces.version>
-		<pushapi-dao.version>1.1-SNAPSHOT</pushapi-dao.version>
+		<!-- validation -->
 		<javax-validation-commons.version>1.1-SNAPSHOT</javax-validation-commons.version>
 		<payara-hibernate-validation.version>1.0</payara-hibernate-validation.version>
+		<!-- ejbs -->
+		<insurance-dao.version>1.1-SNAPSHOT</insurance-dao.version>
 		<insurance-facade.version>1.1-SNAPSHOT</insurance-facade.version>
-		<javax-faces-commons.version>1.0</javax-faces-commons.version>
-		<lapsa-primefaces.version>1.0</lapsa-primefaces.version>
+		<epayment-facade.version>1.1-SNAPSHOT</epayment-facade.version>
 		<!-- oldies -->
 		<insurance-lib.version>2.4-SNAPSHOT</insurance-lib.version>
-		<insurance-jpa-unit.version>1.14-SNAPSHOT</insurance-jpa-unit.version>
 		<kz-lib.version>3.2-SNAPSHOT</kz-lib.version>
 		<international-lib.version>3.3-SNAPSHOT</international-lib.version>
 		<donkeyfaces-lib.version>1.3</donkeyfaces-lib.version>
 		<reports-lib.version>1.1</reports-lib.version>
-		<pushapi-lib.version>1.2-SNAPSHOT</pushapi-lib.version>
-		<pushapi-app.version>1.2-SNAPSHOT</pushapi-app.version>
-		<!-- external -->
+		<!-- faces -->
+		<javax-faces-commons.version>1.1-SNAPSHOT</javax-faces-commons.version>
+		<lapsa-primefaces.version>1.1-SNAPSHOT</lapsa-primefaces.version>
+		<insurance-faces.version>3.1-SNAPSHOT</insurance-faces.version>
 		<primefaces.version>5.3.16</primefaces.version>
 		<primefaces-themes.version>1.0.10</primefaces-themes.version>
 		<primefaces-extensions.version>4.0.0</primefaces-extensions.version>
@@ -69,9 +67,9 @@
 				<scope>import</scope>
 			</dependency>
 			<dependency>
-				<groupId>tech.lapsa.pushapi</groupId>
-				<artifactId>pushapi-dao-root</artifactId>
-				<version>${pushapi-dao.version}</version>
+				<groupId>tech.lapsa.epayment</groupId>
+				<artifactId>epayment-facade-root</artifactId>
+				<version>${epayment-facade.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -110,11 +108,6 @@
 				<scope>import</scope>
 			</dependency>
 			<dependency>
-				<groupId>com.lapsa.insurance-lib</groupId>
-				<artifactId>insurance-jpa-unit</artifactId>
-				<version>${insurance-jpa-unit.version}</version>
-			</dependency>
-			<dependency>
 				<groupId>com.lapsa.kz-lib</groupId>
 				<artifactId>kz-root</artifactId>
 				<version>${kz-lib.version}</version>
@@ -134,11 +127,6 @@
 				<version>${donkeyfaces-lib.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
-			</dependency>
-			<dependency>
-				<groupId>com.lapsa.pushapi-lib</groupId>
-				<artifactId>pushapi-app</artifactId>
-				<version>${pushapi-app.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.lapsa.reports-lib</groupId>
@@ -217,6 +205,12 @@
 			<optional>false</optional>
 		</dependency>
 		<dependency>
+			<groupId>tech.lapsa.epayment</groupId>
+			<artifactId>epayment-facade-client</artifactId>
+			<scope>compile</scope>
+			<optional>false</optional>
+		</dependency>
+		<dependency>
 			<groupId>tech.lapsa.insurance</groupId>
 			<artifactId>insurance-faces</artifactId>
 			<scope>compile</scope>
@@ -231,12 +225,6 @@
 		<dependency>
 			<groupId>tech.lapsa.payara</groupId>
 			<artifactId>payara-hibernate-validation</artifactId>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
-			<groupId>tech.lapsa.pushapi</groupId>
-			<artifactId>pushapi-dao-client</artifactId>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>
@@ -286,12 +274,6 @@
 		<dependency>
 			<groupId>com.lapsa.international-lib</groupId>
 			<artifactId>international-faces</artifactId>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
-			<groupId>com.lapsa.pushapi-lib</groupId>
-			<artifactId>pushapi-app</artifactId>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>

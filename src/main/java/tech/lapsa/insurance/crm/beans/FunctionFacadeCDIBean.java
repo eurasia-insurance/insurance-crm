@@ -1,25 +1,32 @@
 package tech.lapsa.insurance.crm.beans;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import java.io.Serializable;
+
+import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
+import javax.faces.FacesException;
 import javax.inject.Named;
 
+import tech.lapsa.epayment.facade.EpaymentFacade.EpaymentFacadeRemote;
+import tech.lapsa.epayment.facade.InvoiceNotFound;
 import tech.lapsa.insurance.crm.beans.i.FunctionFacade;
-import tech.lapsa.insurance.facade.PaymentsFacade;
+import tech.lapsa.java.commons.exceptions.IllegalArgument;
 
 @Named("functionFacade")
-@ApplicationScoped
-public class FunctionFacadeCDIBean implements FunctionFacade {
+@RequestScoped
+public class FunctionFacadeCDIBean implements FunctionFacade, Serializable {
 
-    @Inject
-    private PaymentsFacade payments;
+    private static final long serialVersionUID = 1L;
+
+    @EJB
+    private EpaymentFacadeRemote epayments;
 
     @Override
     public String paymentUrl(final String invoiceNumber) {
 	try {
-	    return payments.getPaymentURI(invoiceNumber).toASCIIString();
-	} catch (Exception e) {
-	    return null;
+	    return epayments.getDefaultPaymentURI(invoiceNumber).toASCIIString();
+	} catch (IllegalArgument | InvoiceNotFound e) {
+	    throw new FacesException(e);
 	}
     }
 

@@ -1,4 +1,4 @@
-package tech.lapsa.insurance.crm.beans.rows;
+package tech.lapsa.insurance.crm.rows;
 
 import com.lapsa.insurance.domain.casco.Casco;
 import com.lapsa.insurance.domain.casco.CascoRequest;

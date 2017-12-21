@@ -2,16 +2,19 @@ package tech.lapsa.insurance.crm.beans;
 
 import static com.lapsa.utils.security.SecurityUtils.*;
 
+import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.WeekFields;
-import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
+import javax.faces.FacesException;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -23,33 +26,30 @@ import com.lapsa.insurance.domain.InsuranceRequest;
 import com.lapsa.insurance.domain.ObtainingData;
 import com.lapsa.insurance.domain.PaymentData;
 import com.lapsa.insurance.domain.Request;
-import com.lapsa.insurance.domain.crm.User;
-import com.lapsa.insurance.domain.crm.UserGroup;
 import com.lapsa.insurance.elements.ObtainingStatus;
 import com.lapsa.insurance.elements.PaymentStatus;
 import com.lapsa.insurance.elements.ProgressStatus;
 import com.lapsa.insurance.elements.RequestStatus;
 
+import tech.lapsa.epayment.facade.EpaymentFacade.EpaymentFacadeRemote;
+import tech.lapsa.epayment.facade.InvoiceNotFound;
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
 import tech.lapsa.insurance.crm.beans.i.CurrentUserHolder;
 import tech.lapsa.insurance.crm.beans.i.MainFacade;
 import tech.lapsa.insurance.crm.beans.i.RequestHolder;
-import tech.lapsa.insurance.crm.beans.i.RequestType;
-import tech.lapsa.insurance.crm.beans.i.RequestsHolder;
 import tech.lapsa.insurance.crm.beans.i.SettingsHolder;
-import tech.lapsa.insurance.crm.beans.rows.RequestsDataModelFactory;
-import tech.lapsa.insurance.dao.CallbackRequestDAO;
-import tech.lapsa.insurance.dao.CascoRequestDAO;
-import tech.lapsa.insurance.dao.InsuranceRequestDAO;
-import tech.lapsa.insurance.dao.PolicyRequestDAO;
-import tech.lapsa.insurance.dao.RequestDAO;
-import tech.lapsa.insurance.dao.UserDAO;
-import tech.lapsa.insurance.dao.filter.RequestFilter;
+import tech.lapsa.insurance.crm.rows.RequestRow;
+import tech.lapsa.insurance.dao.RequestDAO.RequestDAORemote;
+import tech.lapsa.insurance.dao.RequestFilter;
+import tech.lapsa.java.commons.exceptions.IllegalArgument;
+import tech.lapsa.java.commons.exceptions.IllegalState;
 import tech.lapsa.patterns.dao.NotFound;
 
 @Named("mainFacade")
-@ApplicationScoped
-public class MainFacadeBean implements MainFacade {
+@RequestScoped
+public class MainFacadeBean implements MainFacade, Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Override
     public void onFilterChanged(AjaxBehaviorEvent event) {
@@ -225,6 +225,15 @@ public class MainFacadeBean implements MainFacade {
     }
 
     @Override
+    public String doMarkPaidRequest() {
+	checkRoleGranted(InsuranceRoleGroup.CHANGERS);
+	markPaidRequest();
+	refreshRequests();
+	unselectIfNotShown();
+	return null;
+    }
+
+    @Override
     public String doResumeRequest() {
 	checkRoleGranted(InsuranceRoleGroup.CHANGERS);
 	resumeRequest();
@@ -291,26 +300,24 @@ public class MainFacadeBean implements MainFacade {
 
     // PRIVATE
 
-    @Inject
-    private RequestsHolder requestsHolder;
+    // EJBs
+
+    // insurance-dao (remote)
+
+    @EJB
+    private RequestDAORemote requestDAO;
+
+    // epayment-facade (remote)
+
+    @EJB
+    private EpaymentFacadeRemote epayments;
+
+    // CDIs
+
+    // local
 
     @Inject
     private SettingsHolder settingsHolder;
-
-    @Inject
-    private InsuranceRequestDAO insuranceRequestDAO;
-
-    @Inject
-    private RequestDAO requestDAO;
-
-    @Inject
-    private CallbackRequestDAO callbackRequestDAO;
-
-    @Inject
-    private PolicyRequestDAO policyRequestDAO;
-
-    @Inject
-    private CascoRequestDAO cascoRequestDAO;
 
     @Inject
     private RequestHolder requestHolder;
@@ -330,172 +337,44 @@ public class MainFacadeBean implements MainFacade {
     }
 
     @FunctionalInterface
-    interface FilterFinder {
-	List<Request> find();
+    interface RequestsFinder {
+	List<? extends Request> find() throws IllegalArgument;
     }
-
-    @Inject
-    private UserDAO userDAO;
 
     private void refreshRequests() {
+	// TODO REFACT : Decide to do with this something
 	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
-
-	RequestType requestType = settingsHolder.getRequestType();
-
-	RequestFilter requestFilter = settingsHolder.getRequestFilter();
-
-	FilterFinder f = null;
-
-	if (isInRole(InsuranceRoleGroup.VIEWERS_ALL)) {
-	    switch (requestType) {
-	    case INSURANCE_REQUEST:
-		f = () -> {
-		    return checkedList(insuranceRequestDAO.findByFilter(requestFilter));
-		};
-		break;
-	    case CALLBACK_REQUEST:
-		f = () -> {
-		    return checkedList(callbackRequestDAO.findByFilter(requestFilter));
-		};
-		break;
-	    case CASCO_REQUEST:
-		f = () -> {
-		    return checkedList(cascoRequestDAO.findByFilter(requestFilter));
-		};
-		break;
-	    case POLICY_REQUEST:
-		f = () -> {
-		    return checkedList(policyRequestDAO.findByFilter(requestFilter));
-		};
-		break;
-	    case REQUEST:
-	    default:
-		f = () -> {
-		    return checkedList(requestDAO.findByFilter(requestFilter));
-		};
-		break;
-	    }
-
-	} else if (isInRole(InsuranceRoleGroup.VIEWERS_GROUP_BASED)) {
-
-	    final boolean showNoCreators;
-	    List<User> restrictedToUsers = new ArrayList<>();
-
-	    if (currentUser.getValue().isHasGroup()) {
-		// если пользователь - участник какой-либо группы
-		// показываем ему авторов состоящих в его группах
-		for (UserGroup gg : currentUser.getValue().getGroups())
-		    restrictedToUsers.addAll(gg.getMembers());
-		// анонимов не показываем
-		showNoCreators = false;
-
-	    } else {
-		// если пользователь - не состоит ни в какой группе
-		// показываем ему только авторов, не состоящих ни в одной группе
-		restrictedToUsers = userDAO.findAllWithNoGroup();
-		// показываем ему анонимов
-		showNoCreators = true;
-	    }
-
-	    final User[] uar = restrictedToUsers.toArray(new User[0]);
-
-	    switch (requestType) {
-	    case INSURANCE_REQUEST:
-		f = () -> {
-		    return checkedList(
-			    insuranceRequestDAO.findByFilter(requestFilter, showNoCreators, uar));
-		};
-		break;
-	    case CALLBACK_REQUEST:
-		f = () -> {
-		    return checkedList(
-			    callbackRequestDAO.findByFilter(requestFilter, showNoCreators, uar));
-		};
-		break;
-	    case CASCO_REQUEST:
-		f = () -> {
-		    return checkedList(
-			    cascoRequestDAO.findByFilter(requestFilter, showNoCreators, uar));
-		};
-		break;
-	    case POLICY_REQUEST:
-		f = () -> {
-		    return checkedList(
-			    policyRequestDAO.findByFilter(requestFilter, showNoCreators, uar));
-		};
-		break;
-	    case REQUEST:
-	    default:
-		f = () -> {
-		    return checkedList(requestDAO.findByFilter(requestFilter, showNoCreators, uar));
-		};
-		break;
-	    }
-	} else if (isInRole(InsuranceRoleGroup.VIEWERS_OWNED_ONLY)) {
-	    switch (requestType) {
-	    case INSURANCE_REQUEST:
-		f = () -> {
-		    return checkedList(
-			    insuranceRequestDAO.findByFilter(requestFilter, false, currentUser.getValue()));
-		};
-		break;
-	    case CALLBACK_REQUEST:
-		f = () -> {
-		    return checkedList(
-			    callbackRequestDAO.findByFilter(requestFilter, false, currentUser.getValue()));
-		};
-		break;
-	    case CASCO_REQUEST:
-		f = () -> {
-		    return checkedList(cascoRequestDAO.findByFilter(requestFilter, false, currentUser.getValue()));
-		};
-		break;
-	    case POLICY_REQUEST:
-		f = () -> {
-		    return checkedList(
-			    policyRequestDAO.findByFilter(requestFilter, false, currentUser.getValue()));
-		};
-		break;
-	    case REQUEST:
-	    default:
-		f = () -> {
-		    return checkedList(requestDAO.findByFilter(requestFilter, false, currentUser.getValue()));
-		};
-		break;
-	    }
-	}
-
-	if (f == null)
-	    throw new RuntimeException("Can not determine type of restrictions");
-
-	requestsHolder.setValue(RequestsDataModelFactory.createList(f.find()));
-    }
-
-    @SuppressWarnings("unchecked")
-    private static <T> List<T> checkedList(List<? extends T> list) {
-	return (List<T>) list;
     }
 
     private void saveRequest() {
 	Request request = requestHolder.getValue().getEntity();
 	request.setUpdated(Instant.now());
-	Request insuranceRequestSaved = requestDAO.save(request);
-	requestHolder.setValue(RequestsDataModelFactory.createRow(insuranceRequestSaved));
+	final Request insuranceRequestSaved;
+	try {
+	    insuranceRequestSaved = requestDAO.save(request);
+	} catch (IllegalArgument e) {
+	    throw new FacesException(e);
+	}
+	requestHolder.setValue(RequestRow.from(insuranceRequestSaved));
     }
 
     private void resetRequest() {
-	Request request = requestHolder.getValue().getEntity();
+	final Request request = requestHolder.getValue().getEntity();
 	try {
-	    Request insuranceRequestSaved = requestDAO.restore(request);
-	    requestHolder.setValue(RequestsDataModelFactory.createRow(insuranceRequestSaved));
+	    final Request insuranceRequestSaved;
+	    try {
+		insuranceRequestSaved = requestDAO.restore(request);
+	    } catch (IllegalArgument e) {
+		throw new FacesException(e);
+	    }
+	    requestHolder.setValue(RequestRow.from(insuranceRequestSaved));
 	} catch (NotFound e) {
 	    throw new IllegalStateException(e);
 	}
     }
 
     private void unselectIfNotShown() {
-	if (requestsHolder.getValue() == null || requestsHolder.getValue().getRowKey(requestHolder.getValue()) == null)
-	    requestHolder.reset();
+	// TODO REFACT : Decide to do with this something
     }
 
     private void closeRequest() {
@@ -533,6 +412,22 @@ public class MainFacadeBean implements MainFacade {
 	request.setProgressStatus(ProgressStatus.FINISHED);
 	request.setCompleted(Instant.now());
 	request.setCompletedBy(currentUser.getValue());
+    }
+
+    private void markPaidRequest() {
+	final RequestRow<?> rr = requestHolder.getValue();
+
+	final String invoiceNumber = rr.getPaymentInvoiceNumber();
+	final Double paidAmount = requestHolder.getPaidAmount();
+	final Instant paidInstant = requestHolder.getPaidInstant();
+	final String paidReference = requestHolder.getPaidReference();
+
+	try {
+	    epayments.completeWithUnknownPayment(invoiceNumber, paidAmount, Currency.getInstance("KZT"), paidInstant,
+		    paidReference);
+	} catch (IllegalArgument | IllegalState | InvoiceNotFound e) {
+	    throw new FacesException(e);
+	}
     }
 
     private void handleTransactionStatusChange() {
@@ -598,7 +493,7 @@ public class MainFacadeBean implements MainFacade {
     private void filterCreatedToday() {
 	LocalDateTime after = LocalDate.now().atStartOfDay();
 
-	RequestFilterImpl filter = settingsHolder.getRequestFilter();
+	RequestFilter filter = settingsHolder.getRequestFilter();
 	filter.setCreatedAfter(after);
 	filter.setCreatedBefore(null);
     }
@@ -608,7 +503,7 @@ public class MainFacadeBean implements MainFacade {
 	LocalDateTime before = LocalDate.now().atStartOfDay()
 		.minus(1, ChronoUnit.SECONDS);
 
-	RequestFilterImpl filter = settingsHolder.getRequestFilter();
+	RequestFilter filter = settingsHolder.getRequestFilter();
 	filter.setCreatedAfter(after);
 	filter.setCreatedBefore(before);
     }
@@ -617,7 +512,7 @@ public class MainFacadeBean implements MainFacade {
 	LocalDateTime after = LocalDate.now()
 		.with(ChronoField.DAY_OF_WEEK, WeekFields.ISO.getFirstDayOfWeek().getValue()).atStartOfDay();
 
-	RequestFilterImpl filter = settingsHolder.getRequestFilter();
+	RequestFilter filter = settingsHolder.getRequestFilter();
 	filter.setCreatedAfter(after);
 	filter.setCreatedBefore(null);
     }
@@ -630,7 +525,7 @@ public class MainFacadeBean implements MainFacade {
 		.with(ChronoField.DAY_OF_WEEK, WeekFields.ISO.getFirstDayOfWeek().getValue()).atStartOfDay().minus(1,
 			ChronoUnit.SECONDS);
 
-	RequestFilterImpl filter = settingsHolder.getRequestFilter();
+	RequestFilter filter = settingsHolder.getRequestFilter();
 	filter.setCreatedAfter(after);
 	filter.setCreatedBefore(before);
     }
@@ -638,7 +533,7 @@ public class MainFacadeBean implements MainFacade {
     private void filterCreatedThisMonth() {
 	LocalDateTime after = LocalDate.now().withDayOfMonth(1).atStartOfDay();
 
-	RequestFilterImpl filter = settingsHolder.getRequestFilter();
+	RequestFilter filter = settingsHolder.getRequestFilter();
 	filter.setCreatedAfter(after);
 	filter.setCreatedBefore(null);
     }
@@ -648,7 +543,7 @@ public class MainFacadeBean implements MainFacade {
 	LocalDateTime before = LocalDate.now().withDayOfMonth(1).atStartOfDay().minus(1,
 		ChronoUnit.SECONDS);
 
-	RequestFilterImpl filter = settingsHolder.getRequestFilter();
+	RequestFilter filter = settingsHolder.getRequestFilter();
 	filter.setCreatedAfter(after);
 	filter.setCreatedBefore(before);
     }
@@ -656,7 +551,7 @@ public class MainFacadeBean implements MainFacade {
     private void filterCompletedToday() {
 	LocalDateTime after = LocalDate.now().atStartOfDay();
 
-	RequestFilterImpl filter = settingsHolder.getRequestFilter();
+	RequestFilter filter = settingsHolder.getRequestFilter();
 	filter.setCompletedAfter(after);
 	filter.setCompletedBefore(null);
     }
@@ -666,7 +561,7 @@ public class MainFacadeBean implements MainFacade {
 	LocalDateTime before = LocalDate.now().atStartOfDay()
 		.minus(1, ChronoUnit.SECONDS);
 
-	RequestFilterImpl filter = settingsHolder.getRequestFilter();
+	RequestFilter filter = settingsHolder.getRequestFilter();
 	filter.setCompletedAfter(after);
 	filter.setCompletedBefore(before);
     }
@@ -675,7 +570,7 @@ public class MainFacadeBean implements MainFacade {
 	LocalDateTime after = LocalDate.now()
 		.with(ChronoField.DAY_OF_WEEK, WeekFields.ISO.getFirstDayOfWeek().getValue()).atStartOfDay();
 
-	RequestFilterImpl filter = settingsHolder.getRequestFilter();
+	RequestFilter filter = settingsHolder.getRequestFilter();
 	filter.setCompletedAfter(after);
 	filter.setCompletedBefore(null);
     }
@@ -688,7 +583,7 @@ public class MainFacadeBean implements MainFacade {
 		.with(ChronoField.DAY_OF_WEEK, WeekFields.ISO.getFirstDayOfWeek().getValue()).atStartOfDay().minus(1,
 			ChronoUnit.SECONDS);
 
-	RequestFilterImpl filter = settingsHolder.getRequestFilter();
+	RequestFilter filter = settingsHolder.getRequestFilter();
 	filter.setCompletedAfter(after);
 	filter.setCompletedBefore(before);
     }
@@ -696,7 +591,7 @@ public class MainFacadeBean implements MainFacade {
     private void filterCompletedThisMonth() {
 	LocalDateTime after = LocalDate.now().withDayOfMonth(1).atStartOfDay();
 
-	RequestFilterImpl filter = settingsHolder.getRequestFilter();
+	RequestFilter filter = settingsHolder.getRequestFilter();
 	filter.setCompletedAfter(after);
 	filter.setCompletedBefore(null);
     }
@@ -706,7 +601,7 @@ public class MainFacadeBean implements MainFacade {
 	LocalDateTime before = LocalDate.now().withDayOfMonth(1).atStartOfDay().minus(1,
 		ChronoUnit.SECONDS);
 
-	RequestFilterImpl filter = settingsHolder.getRequestFilter();
+	RequestFilter filter = settingsHolder.getRequestFilter();
 	filter.setCompletedAfter(after);
 	filter.setCompletedBefore(before);
     }

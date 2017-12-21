@@ -1,6 +1,6 @@
 package tech.lapsa.insurance.crm.beans.i;
 
-import tech.lapsa.insurance.crm.beans.RequestFilterImpl;
+import tech.lapsa.insurance.dao.RequestFilter;
 
 public interface SettingsHolder {
 
@@ -12,7 +12,7 @@ public interface SettingsHolder {
 
     int getAutoRefreshInterval();
 
-    RequestFilterImpl getRequestFilter();
+    RequestFilter getRequestFilter();
 
     RequestType getRequestType();
 }

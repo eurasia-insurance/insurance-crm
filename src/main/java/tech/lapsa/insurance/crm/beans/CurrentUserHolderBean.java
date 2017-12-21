@@ -6,27 +6,28 @@ import java.io.Serializable;
 import java.security.Principal;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Inject;
+import javax.ejb.EJB;
 import javax.inject.Named;
+
+import org.omnifaces.cdi.ViewScoped;
 
 import com.lapsa.insurance.domain.crm.User;
 import com.lapsa.utils.security.SecurityUtils;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
 import tech.lapsa.insurance.crm.beans.i.CurrentUserHolder;
-import tech.lapsa.insurance.facade.UserFacade;
+import tech.lapsa.insurance.facade.UserFacade.UserFacadeRemote;
 
 @Named("currentUser")
-@SessionScoped
-public class CurrentUserHolderBean extends AWritableValueHolder<User>
-	implements Serializable, CurrentUserHolder {
-    private static final long serialVersionUID = 3813022087120135731L;
+@ViewScoped
+public class CurrentUserHolderBean extends AWritableValueHolder<User> implements CurrentUserHolder, Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private static final String DEFAULT_REMOTE_USER = "Guest";
 
-    @Inject
-    private UserFacade userFacade;
+    @EJB
+    private UserFacadeRemote userFacade;
 
     @PostConstruct
     public void init() {

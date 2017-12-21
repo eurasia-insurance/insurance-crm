@@ -10,12 +10,10 @@
 	xmlns:df="http://lapsa.com/donkeyfaces"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:jfc="http://lapsa.tech/javax/faces-commons"
-	xmlns:push="http://lapsa.com/pushapi"
 	template="/WEB-INF/templates/clean.xhtml">
 	<ui:define name="page-title">#{ui['name.site']}</ui:define>
 
 	<ui:define name="header-content">
-		<!-- 		< push:loader / > -->
 	</ui:define>
 
 	<ui:define name="page-content">
@@ -81,13 +79,6 @@
 				<ui:include src="filter.include.xhtml" />
 			</h:panelGroup>
 
-			<h:panelGroup id="summaryPanel">
-				<ui:include src="panel.summary.include.xhtml">
-					<ui:param name="count" value="#{rqsts.value.totalCount}" />
-					<ui:param name="amount" value="#{rqsts.value.totalAmount}" />
-				</ui:include>
-			</h:panelGroup>
-
 			<h:panelGroup id="autoRefreshPoll">
 				<p:poll rendered="#{settings.autoRefresh}"
 					interval="#{settings.autoRefreshInterval}" autoStart="true"
@@ -97,8 +88,8 @@
 			</h:panelGroup>
 
 			<p:dataTable id="requestsTable" widgetVar="requestsTableWV" var="req"
-				value="#{rqsts.value}" selectionMode="single"
-				selection="#{rqst.value}" rows="20" paginator="true"
+				value="#{requests}" selectionMode="single"
+				selection="#{rqst.value}" rows="20" paginator="true" lazy="true"
 				paginatorAlwaysVisible="false"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="10,20,50,100,200" sortMode="multipe"
@@ -136,17 +127,14 @@
 						<ui:param name="rr" value="#{req}" />
 					</ui:include>
 				</p:column>
-				<p:column headerText="Источник" width="50"
-					sortBy="#{req.requestSource}">
+				<p:column headerText="Источник" width="50">
 					<h:outputText value="#{localized.few(req.requestSource)}" />
 				</p:column>
 				<p:column headerText="Тип" width="100"
-					sortBy="#{req.insuranceRequestType}"
 					styleClass="#{not empty req.insuranceRequestType ? ('col-request-' += req.insuranceRequestType) : ''}">
 					<h:outputText value="#{localized.few(req.insuranceRequestType)}" />
 				</p:column>
-				<p:column headerText="Продукт" width="60"
-					sortBy="#{req.insuranceProductType}">
+				<p:column headerText="Продукт" width="60">
 					<h:outputText value="#{localized.few(req.insuranceProductType)}" />
 				</p:column>
 				<p:column headerText="Номер" sortBy="#{req.id}" width="50">
@@ -156,7 +144,7 @@
 					sortBy="#{req.created}">
 					<jfc:outputInstant value="#{req.created}" />
 				</p:column>
-				<p:column headerText="Создано" width="50" sortBy="#{req.createdBy}">
+				<p:column headerText="Создано" width="50">
 					<h:outputText rendered="#{not empty req.createdBy}"
 						value="#{req.createdBy.name}" />
 				</p:column>
@@ -164,8 +152,7 @@
 					sortBy="#{req.updated}">
 					<jfc:outputInstant value="#{req.updated}" />
 				</p:column>
-				<p:column headerText="Сумма" width="100" style="text-align: right"
-					sortBy="#{req.amount}">
+				<p:column headerText="Сумма" width="100" style="text-align: right">
 					<jfc:outputMoneyAmount value="#{req.amount}"
 						outputZeroes="#{false}" />
 				</p:column>
@@ -173,8 +160,7 @@
 					sortBy="#{req.requesterName}">
 					<h:outputText value="#{req.requesterName}" />
 				</p:column>
-				<p:column headerText="Яз." width="20"
-					sortBy="#{req.requesterLanguage}">
+				<p:column headerText="Яз." width="20">
 					<h:outputText value="#{localized.few(req.requesterLanguage)}" />
 				</p:column>
 				<p:column headerText="Телефон заявителя" width="130"
@@ -227,6 +213,12 @@
 					</h:panelGroup>
 				</p:column>
 			</p:dataTable>
+
+			<h:panelGroup id="summaryPanel">
+				<ui:include src="panel.summary.include.xhtml">
+					<ui:param name="count" value="#{requests.rowCount}" />
+				</ui:include>
+			</h:panelGroup>
 
 		</h:form>
 

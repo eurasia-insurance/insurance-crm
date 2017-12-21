@@ -1,4 +1,4 @@
-package tech.lapsa.insurance.crm.beans.rows;
+package tech.lapsa.insurance.crm.rows;
 
 import java.time.Instant;
 
@@ -66,9 +66,27 @@ public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> e
     }
 
     @Override
+    public Double getCalculatedPremium() {
+	try {
+	    return entity.getProduct().getCalculation().getCalculatedPremiumCost();
+	} catch (NullPointerException e) {
+	    return null;
+	}
+    }
+
+    @Override
     public FinCurrency getCurrency() {
 	try {
 	    return entity.getProduct().getCalculation().getPremiumCurrency();
+	} catch (NullPointerException e) {
+	    return null;
+	}
+    }
+
+    @Override
+    public String getPaymentInvoiceNumber() {
+	try {
+	    return entity.getPayment().getInvoiceNumber();
 	} catch (NullPointerException e) {
 	    return null;
 	}

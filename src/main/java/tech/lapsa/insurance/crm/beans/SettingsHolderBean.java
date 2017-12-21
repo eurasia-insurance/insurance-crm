@@ -9,24 +9,26 @@ import org.omnifaces.cdi.ViewScoped;
 
 import tech.lapsa.insurance.crm.beans.i.RequestType;
 import tech.lapsa.insurance.crm.beans.i.SettingsHolder;
+import tech.lapsa.insurance.dao.RequestFilter;
 
 @Named("settings")
 @ViewScoped
 public class SettingsHolderBean implements Serializable, SettingsHolder {
-    private static final long serialVersionUID = -6980458753963030228L;
+
+    private static final long serialVersionUID = 1L;
 
     private boolean advanced = false;
     private boolean autoRefresh = true;
     private int autoRefreshInterval = 30;
 
-    private RequestFilterImpl requestFilter;
+    private RequestFilter requestFilter;
 
     private RequestType requestType;
 
     @Override
     @PostConstruct
     public void resetFilters() {
-	requestFilter = new RequestFilterImpl();
+	requestFilter = new RequestFilter();
 	requestType = RequestType.REQUEST;
     }
 
@@ -60,7 +62,7 @@ public class SettingsHolderBean implements Serializable, SettingsHolder {
     }
 
     @Override
-    public RequestFilterImpl getRequestFilter() {
+    public RequestFilter getRequestFilter() {
 	return requestFilter;
     }
 

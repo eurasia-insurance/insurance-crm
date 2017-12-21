@@ -324,6 +324,12 @@
 			<artifactId>primefaces-extensions</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		<!-- Payara -->
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>org.eclipse.persistence.core</artifactId>
+			<scope>provided</scope>
+		</dependency>
 		<!-- JavaEE -->
 		<dependency>
 			<groupId>org.glassfish</groupId>

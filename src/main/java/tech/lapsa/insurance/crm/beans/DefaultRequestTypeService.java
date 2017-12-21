@@ -17,7 +17,7 @@ import com.lapsa.insurance.domain.policy.PolicyRequest;
 
 import tech.lapsa.insurance.crm.beans.i.RequestType;
 import tech.lapsa.insurance.crm.beans.i.RequestTypeService;
-import tech.lapsa.insurance.crm.beans.rows.RequestRow;
+import tech.lapsa.insurance.crm.rows.RequestRow;
 
 @Named("rts")
 @ApplicationScoped

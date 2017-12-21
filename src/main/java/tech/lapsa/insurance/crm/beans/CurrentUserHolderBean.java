@@ -7,8 +7,9 @@ import java.security.Principal;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
+
+import org.omnifaces.cdi.ViewScoped;
 
 import com.lapsa.insurance.domain.crm.User;
 import com.lapsa.utils.security.SecurityUtils;
@@ -18,9 +19,8 @@ import tech.lapsa.insurance.crm.beans.i.CurrentUserHolder;
 import tech.lapsa.insurance.facade.UserFacade.UserFacadeRemote;
 
 @Named("currentUser")
-@SessionScoped
-public class CurrentUserHolderBean extends AWritableValueHolder<User>
-	implements Serializable, CurrentUserHolder {
+@ViewScoped
+public class CurrentUserHolderBean extends AWritableValueHolder<User> implements CurrentUserHolder, Serializable {
 
     private static final long serialVersionUID = 1L;
 

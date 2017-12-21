@@ -1,12 +1,12 @@
 package tech.lapsa.insurance.crm.beans;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.ApplicationScoped;
 import javax.faces.application.ViewExpiredException;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 @Named("debug")
-@RequestScoped
+@ApplicationScoped
 public class DebugBean {
     private static final boolean DEBUG = false;
 

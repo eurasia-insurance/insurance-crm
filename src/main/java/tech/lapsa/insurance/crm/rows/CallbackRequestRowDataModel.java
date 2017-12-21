@@ -1,4 +1,4 @@
-package tech.lapsa.insurance.crm.beans.rows;
+package tech.lapsa.insurance.crm.rows;
 
 import java.time.Instant;
 

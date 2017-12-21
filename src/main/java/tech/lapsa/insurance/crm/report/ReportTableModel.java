@@ -9,8 +9,8 @@ import com.lapsa.reports.table.TableModel;
 import com.lapsa.reports.table.ValueRow;
 import com.lapsa.reports.table.impl.DefaultHeaderRow;
 
-import tech.lapsa.insurance.crm.beans.rows.RequestRow;
 import tech.lapsa.insurance.crm.report.ReportValueRow.FieldDescriptor;
+import tech.lapsa.insurance.crm.rows.RequestRow;
 
 public class ReportTableModel implements TableModel {
 

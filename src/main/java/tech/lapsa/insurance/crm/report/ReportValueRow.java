@@ -15,7 +15,7 @@ import com.lapsa.reports.table.impl.DefaultDateTimeValueCell;
 import com.lapsa.reports.table.impl.DefaultIntegerNumberValueCell;
 import com.lapsa.reports.table.impl.DefaultTextValueCell;
 
-import tech.lapsa.insurance.crm.beans.rows.RequestRow;
+import tech.lapsa.insurance.crm.rows.RequestRow;
 
 public class ReportValueRow implements ValueRow {
 

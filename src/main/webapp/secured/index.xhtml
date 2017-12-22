@@ -59,7 +59,8 @@
 			</h:panelGroup>
 
 			<h:panelGroup id="transactionUncompleteDialog">
-				<ui:include src="dialog.request.transcation-uncomplete.include.xhtml">
+				<ui:include
+					src="dialog.request.transcation-uncomplete.include.xhtml">
 					<ui:param name="dialogWV" value="transactionUncompleteDialogWV" />
 					<ui:param name="rr" value="#{rqst.value}" />
 					<ui:param name="update"
@@ -83,8 +84,7 @@
 				<p:poll rendered="#{settings.autoRefresh}"
 					interval="#{settings.autoRefreshInterval}" autoStart="true"
 					process="@this"
-					update="@form:requestsTable @form:mainToolbar @form:summaryPanel"
-					listener="#{mainFacade.doRefresh}" />
+					update="@form:requestsTable @form:mainToolbar @form:summaryPanel" />
 			</h:panelGroup>
 
 			<p:dataTable id="requestsTable" widgetVar="requestsTableWV" var="rr"

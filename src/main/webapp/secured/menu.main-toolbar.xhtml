@@ -19,7 +19,7 @@
 				<h:panelGroup rendered="#{canView}">
 
 					<p:commandButton icon="fa fa-refresh" process="@this"
-						update="requestToolbar #{update}" action="#{mainFacade.doRefresh}" />
+						update="requestToolbar #{update}" />
 
 					<p:selectBooleanButton value="#{settings.autoRefresh}"
 						onLabel="Автообновление" offLabel="Автообновление"

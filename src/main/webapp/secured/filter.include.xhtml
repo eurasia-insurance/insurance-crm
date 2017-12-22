@@ -119,10 +119,10 @@
 								<p:column>
 									<p:selectOneMenu id="createdBy"
 										value="#{settings.requestFilter.createdBy}">
-										<p:ajax process="@this" update="@form"
-											listener="#{mainFacade.onFilterChanged}" />
+										<p:ajax process="@this" update="@form" />
 										<f:selectItem value="#{configurationFacade.anySI}" />
-										<f:selectItems value="#{si.list.few(userFacade.whoEverCreatedRequests)}" />
+										<f:selectItems
+											value="#{si.list.few(userFacade.whoEverCreatedRequests)}" />
 									</p:selectOneMenu>
 								</p:column>
 							</p:row>
@@ -143,8 +143,7 @@
 						<p:column>
 							<p:selectOneMenu id="progressStatus"
 								value="#{settings.requestFilter.progressStatus}">
-								<p:ajax process="@this" update="@form"
-									listener="#{mainFacade.onFilterChanged}" />
+								<p:ajax process="@this" update="@form" />
 								<f:selectItem value="#{configurationFacade.anySI}" />
 								<f:selectItems value="#{si.array.regular(ProgressStatus.all)}" />
 							</p:selectOneMenu>
@@ -155,8 +154,7 @@
 						<p:column>
 							<p:inputNumber id="id" value="#{settings.requestFilter.id}"
 								decimalPlaces="0" minValue="0" size="5">
-								<p:ajax event="keyup" delay="700" process="@this" update="@form"
-									listener="#{mainFacade.onFilterChanged}" />
+								<p:ajax event="keyup" delay="700" process="@this" update="@form" />
 							</p:inputNumber>
 						</p:column>
 						<p:column>
@@ -165,18 +163,17 @@
 						<p:column>
 							<p:inputText id="requesterNameMask"
 								value="#{settings.requestFilter.requesterNameMask}">
-								<p:ajax event="keyup" delay="700" process="@this" update="@form"
-									listener="#{mainFacade.onFilterChanged}" />
+								<p:ajax event="keyup" delay="700" process="@this" update="@form" />
 							</p:inputText>
 						</p:column>
 						<p:column>
-							<p:outputLabel value="ИИН заявителя:" for="requesterTaxpayerNumber" />
+							<p:outputLabel value="ИИН заявителя:"
+								for="requesterTaxpayerNumber" />
 						</p:column>
 						<p:column>
 							<p:inputText id="requesterTaxpayerNumber"
 								value="#{settings.requestFilter.requesterTaxpayerNumber}">
-								<p:ajax event="keyup" delay="700" process="@this" update="@form"
-									listener="#{mainFacade.onFilterChanged}" />
+								<p:ajax event="keyup" delay="700" process="@this" update="@form" />
 							</p:inputText>
 						</p:column>
 					</p:row>

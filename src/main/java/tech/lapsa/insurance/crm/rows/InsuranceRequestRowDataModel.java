@@ -5,7 +5,6 @@ import java.util.Currency;
 
 import com.lapsa.insurance.domain.CalculationData;
 import com.lapsa.insurance.domain.InsuranceRequest;
-import com.lapsa.insurance.domain.ObtainingData;
 import com.lapsa.insurance.domain.PaymentData;
 import com.lapsa.insurance.elements.InsuranceProductType;
 import com.lapsa.insurance.elements.InsuranceRequestType;
@@ -175,15 +174,6 @@ public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> e
     public PaymentData getPayment() {
 	try {
 	    return entity.getPayment();
-	} catch (NullPointerException e) {
-	    return null;
-	}
-    }
-
-    @Override
-    public ObtainingData getObtaining() {
-	try {
-	    return entity.getObtaining();
 	} catch (NullPointerException e) {
 	    return null;
 	}

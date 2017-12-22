@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.lapsa.insurance.domain.CalculationData;
 import com.lapsa.insurance.domain.CallbackRequest;
-import com.lapsa.insurance.domain.ObtainingData;
 import com.lapsa.insurance.domain.PaymentData;
 import com.lapsa.insurance.domain.Request;
 import com.lapsa.insurance.domain.RequesterData;
@@ -146,8 +145,6 @@ public interface RequestRow<T extends Request> {
     String getNote();
 
     PaymentData getPayment();
-
-    ObtainingData getObtaining();
 
     CalculationData getCalculation();
 

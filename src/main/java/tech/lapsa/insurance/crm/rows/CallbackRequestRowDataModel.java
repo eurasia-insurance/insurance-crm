@@ -5,7 +5,6 @@ import java.util.Currency;
 
 import com.lapsa.insurance.domain.CalculationData;
 import com.lapsa.insurance.domain.CallbackRequest;
-import com.lapsa.insurance.domain.ObtainingData;
 import com.lapsa.insurance.domain.PaymentData;
 import com.lapsa.insurance.domain.casco.Casco;
 import com.lapsa.insurance.domain.policy.Policy;
@@ -91,11 +90,6 @@ public class CallbackRequestRowDataModel extends RequestRowDataModel<CallbackReq
 
     @Override
     public PaymentData getPayment() {
-	return null;
-    }
-
-    @Override
-    public ObtainingData getObtaining() {
 	return null;
     }
 

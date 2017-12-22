@@ -18,7 +18,6 @@
 							<p:row>
 								<p:column>
 									<p:commandLink process="@this" update="@form" value="Открытые"
-										action="#{mainFacade.doRefresh}"
 										style="#{settings.requestFilter.requestStatus == 'OPEN' ? 'font-weight: bold' : ''}">
 										<f:setPropertyActionListener
 											target="#{settings.requestFilter.requestStatus}" value="OPEN" />
@@ -26,7 +25,6 @@
 								</p:column>
 								<p:column>
 									<p:commandLink process="@this" update="@form" value="Закрытые"
-										action="#{mainFacade.doRefresh}"
 										style="#{settings.requestFilter.requestStatus == 'CLOSED' ? 'font-weight: bold' : ''}">
 										<f:setPropertyActionListener
 											target="#{settings.requestFilter.requestStatus}"
@@ -35,7 +33,6 @@
 								</p:column>
 								<p:column>
 									<p:commandLink process="@this" update="@form" value="Все"
-										action="#{mainFacade.doRefresh}"
 										style="#{settings.requestFilter.requestStatus == null ? 'font-weight: bold' : ''}">
 										<f:setPropertyActionListener
 											target="#{settings.requestFilter.requestStatus}"
@@ -57,7 +54,7 @@
 							<p:row>
 								<p:column>
 									<p:commandLink process="@this" update="@form"
-										value="Приняты мной" action="#{mainFacade.doRefresh}"
+										value="Приняты мной"
 										style="#{settings.requestFilter.acceptedBy == currentUser.value ? 'font-weight: bold' : ''}">
 										<f:setPropertyActionListener
 											target="#{settings.requestFilter.acceptedBy}"
@@ -66,7 +63,6 @@
 								</p:column>
 								<p:column>
 									<p:commandLink process="@this" update="@form" value="Любые"
-										action="#{mainFacade.doRefresh}"
 										style="#{settings.requestFilter.acceptedBy == null ? 'font-weight: bold' : ''}">
 										<f:setPropertyActionListener
 											target="#{settings.requestFilter.acceptedBy}" value="#{null}" />
@@ -86,7 +82,7 @@
 							<p:row>
 								<p:column>
 									<p:commandLink process="@this" update="@form"
-										value="Завершены мной" action="#{mainFacade.doRefresh}"
+										value="Завершены мной"
 										style="#{settings.requestFilter.completedBy == currentUser.value ? 'font-weight: bold' : ''}">
 										<f:setPropertyActionListener
 											target="#{settings.requestFilter.completedBy}"
@@ -95,7 +91,6 @@
 								</p:column>
 								<p:column>
 									<p:commandLink process="@this" update="@form" value="Любые"
-										action="#{mainFacade.doRefresh}"
 										style="#{settings.requestFilter.completedBy == null ? 'font-weight: bold' : ''}">
 										<f:setPropertyActionListener
 											target="#{settings.requestFilter.completedBy}"

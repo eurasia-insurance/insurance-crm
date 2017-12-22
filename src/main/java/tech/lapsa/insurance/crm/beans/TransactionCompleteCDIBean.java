@@ -19,6 +19,7 @@ import com.lapsa.insurance.elements.TransactionStatus;
 
 import tech.lapsa.epayment.facade.EpaymentFacade.EpaymentFacadeRemote;
 import tech.lapsa.epayment.facade.InvoiceNotFound;
+import tech.lapsa.insurance.crm.beans.i.CurrentUserHolder;
 import tech.lapsa.insurance.crm.beans.i.RequestHolder;
 import tech.lapsa.insurance.crm.rows.RequestRow;
 import tech.lapsa.insurance.dao.RequestDAO.RequestDAORemote;
@@ -167,6 +168,9 @@ public class TransactionCompleteCDIBean implements Serializable {
     @Inject
     private RequestHolder requestHolder;
 
+    @Inject
+    private CurrentUserHolder currentUser;
+
     // EJBs
 
     // insurance-dao (remote)
@@ -193,12 +197,17 @@ public class TransactionCompleteCDIBean implements Serializable {
 	    throw new FacesException(e);
 	}
 
+	final Instant now = Instant.now();
+
+	ir.setUpdated(now);
+	ir.setCompleted(now);
+	ir.setCompletedBy(currentUser.getValue());
+
 	ir.setProgressStatus(ProgressStatus.FINISHED);
 	ir.setTransactionStatus(TransactionStatus.COMPLETED);
 	ir.getPayment().setStatus(PaymentStatus.DONE);
 	ir.setAgreementNumber(agreementNumber);
 	ir.setNote(note);
-	ir.setUpdated(Instant.now());
 
 	final InsuranceRequest ir2;
 	try {

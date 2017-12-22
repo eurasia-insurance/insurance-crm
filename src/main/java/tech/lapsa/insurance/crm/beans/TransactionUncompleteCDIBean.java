@@ -26,7 +26,6 @@ import tech.lapsa.insurance.dao.RequestDAO.RequestDAORemote;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.exceptions.IllegalState;
 import tech.lapsa.java.commons.function.MyObjects;
-import tech.lapsa.javax.validation.NotEmptyString;
 import tech.lapsa.javax.validation.NotNullValue;
 
 @Named("transactionUncomplete")
@@ -58,8 +57,6 @@ public class TransactionUncompleteCDIBean implements Serializable {
 
     // note
 
-    @NotNullValue
-    @NotEmptyString
     private String note;
 
     public String getNote() {

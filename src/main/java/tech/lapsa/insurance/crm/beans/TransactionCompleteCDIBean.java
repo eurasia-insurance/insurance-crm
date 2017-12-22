@@ -128,8 +128,6 @@ public class TransactionCompleteCDIBean implements Serializable {
 
     // note
 
-    @NotNullValue
-    @NotEmptyString
     private String note;
 
     public String getNote() {

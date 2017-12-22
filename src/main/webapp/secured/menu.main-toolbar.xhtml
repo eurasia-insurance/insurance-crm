@@ -63,33 +63,18 @@
 						action="#{mainFacade.doResumeRequest}" process="@this"
 						update="requestToolbar #{update}" />
 
-					<p:commandButton value="Оплатить..." icon="fa fa-money"
-						disabled="#{rr.paymentStatus eq 'DONE'}" process="@this"
-						update="@form:requestMarkPaidDialog"
-						oncomplete="PF('requestMarkPaidDialogWV').show(); return false;">
-						<p:resetInput target="@form:requestMarkPaidDialog" />
+					<p:commandButton value="Договор заключен..." icon="fa fa-check"
+						disabled="#{rr.progressStatus eq 'FINISHED'}" process="@this"
+						update="@form:transactionCompleteDialog"
+						oncomplete="PF('transactionCompleteDialogWV').show(); return false;">
+						<p:resetInput target="@form:transactionCompleteDialog" />
 					</p:commandButton>
 
-					<p:commandButton value="Завершено..." icon="fa fa-check-circle-o"
-						disabled="#{rr.progressStatus ne 'ON_PROCESS'}" process="@this"
-						update="@form:requestProgressCompleteDialog"
-						oncomplete="PF('requestProgressCompleteDialogWV').show(); return false;">
-						<p:resetInput target="@form:requestProgressCompleteDialog" />
-					</p:commandButton>
-
-				</h:panelGroup>
-
-				<h:panelGroup rendered="#{canClose}">
-
-					<h:panelGroup styleClass="ui-separator">
-						<h:panelGroup class="ui-icon ui-icon-grip-dotted-vertical" />
-					</h:panelGroup>
-
-					<p:commandButton value="Закрыть..." icon="fa fa-window-close"
-						disabled="#{rr.progressStatus ne 'FINISHED' or rr.requestStatus eq 'CLOSED'}"
-						process="@this" update="@form:requestCloseDialog"
-						oncomplete="PF('requestCloseDialogWV').show(); return false;">
-						<p:resetInput target="@form:requestCloseDialog" />
+					<p:commandButton value="Договор не заключен..." icon="fa fa-ban"
+						disabled="#{rr.progressStatus eq 'FINISHED'}" process="@this"
+						update="@form:transactionUncompleteDialog"
+						oncomplete="PF('transactionUncompleteDialogWV').show(); return false;">
+						<p:resetInput target="@form:transactionUncompleteDialog" />
 					</p:commandButton>
 
 				</h:panelGroup>

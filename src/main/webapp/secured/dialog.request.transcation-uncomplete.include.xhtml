@@ -19,59 +19,25 @@
 
 			<!-- >> dialog -->
 			<p:dialog widgetVar="#{dialogWV}"
-				header="Договор заключен с '#{rr.requesterName}'?"
+				header="Договор не заключен с '#{rr.requesterName}'?"
 				closeOnEscape="false" modal="true" closable="false"
 				resizable="false" position="center top" width="740" height="480">
 
 				<!-- >> wrapper -->
 				<h:panelGroup id="content">
-
 					<p:panel>
 						<p:panelGrid>
-							<p:row rendered="#{not empty rr.calculatedAmount}">
-								<p:column>
-									<p:outputLabel value="Расчитанная сумма премии" />
-								</p:column>
-								<p:column>
-									<jfc:outputMoneyAmount value="#{rr.calculatedAmount}" />
-								</p:column>
-							</p:row>
 							<p:row>
 								<p:column>
-									<p:outputLabel value="Фактически оплачено" />
+									<p:outputLabel value="Укажите причину" />
 								</p:column>
 								<p:column>
-									<jfc:outputMoneyAmount rendered="#{transactionComplete.paid}"
-										value="#{transactionComplete.paidAmount}"
-										currency="#{transactionComplete.paidCurrency}" />
-									<p:inputNumber rendered="#{!transactionComplete.paid}"
-										value="#{transactionComplete.paidAmount}" symbol=" &#8376;"
-										symbolPosition="e" decimalSeparator="," decimalPlaces="2"
-										thousandSeparator=" " minValue="1" onfocus="select()">
+									<p:selectOneMenu value="#{transactionUncomplete.problem}">
+										<f:selectItem value="#{configurationFacade.mustSelectSI}" />
+										<f:selectItems
+											value="#{si.array.regular(TransactionProblem.selectable)}" />
 										<p:ajax process="@this" update="@this" />
-									</p:inputNumber>
-								</p:column>
-							</p:row>
-							<p:row>
-								<p:column>
-									<p:outputLabel value="Дата и время оплаты" />
-								</p:column>
-								<p:column>
-									<jfc:outputInstant rendered="#{transactionComplete.paid}"
-										value="#{transactionComplete.paidInstant}" />
-									<lpf:inputInstant rendered="#{!transactionComplete.paid}"
-										value="#{transactionComplete.paidInstant}" process="@this"
-										update="@this" />
-								</p:column>
-							</p:row>
-							<p:row>
-								<p:column>
-									<p:outputLabel value="Номер договора" />
-								</p:column>
-								<p:column>
-									<p:inputText value="#{transactionComplete.agreementNumber}">
-										<p:ajax process="@this" update="@this" />
-									</p:inputText>
+									</p:selectOneMenu>
 								</p:column>
 							</p:row>
 							<p:row>
@@ -82,7 +48,7 @@
 							<p:row>
 								<p:column colspan="2">
 									<p:inputTextarea rows="7" cols="60"
-										value="#{transactionComplete.note}">
+										value="#{transactionUncomplete.note}">
 										<p:ajax process="@this" update="@this" />
 									</p:inputTextarea>
 								</p:column>
@@ -93,7 +59,7 @@
 					<p:toolbar>
 						<f:facet name="right">
 							<p:commandButton value="OK"
-								action="#{transactionComplete.doComplete}" process="content"
+								action="#{transactionUncomplete.doComplete}" process="content"
 								update="content #{update}"
 								oncomplete="hideIfValidated(PF('#{dialogWV}'), args)" />
 							<p:commandButton value="Отмена"

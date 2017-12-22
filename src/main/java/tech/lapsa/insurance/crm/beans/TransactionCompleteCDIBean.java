@@ -187,7 +187,8 @@ public class TransactionCompleteCDIBean implements Serializable {
 
 	MyObjects.requireNonNull(r, "request");
 	if (r.getProgressStatus() == ProgressStatus.FINISHED)
-	    MyExceptions.format(IllegalStateException::new, "Progress status is invalid %1$s", r.getProgressStatus());
+	    throw MyExceptions.format(IllegalStateException::new, "Progress status is invalid %1$s",
+		    r.getProgressStatus());
 
 	final Instant now = Instant.now();
 

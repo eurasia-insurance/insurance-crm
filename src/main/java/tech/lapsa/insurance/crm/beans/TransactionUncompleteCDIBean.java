@@ -100,13 +100,14 @@ public class TransactionUncompleteCDIBean implements Serializable {
     @EJB
     private EpaymentFacadeRemote epayments;
 
-    public String doComplete() {
+    public String doComplete() throws FacesException, IllegalStateException, IllegalArgumentException {
 
 	final Request r = requestHolder.getValue().getEntity();
 
 	MyObjects.requireNonNull(r, "request");
 	if (r.getProgressStatus() == ProgressStatus.FINISHED)
-	    MyExceptions.format(IllegalStateException::new, "Progress status is invalid %1$s", r.getProgressStatus());
+	    throw MyExceptions.format(IllegalStateException::new, "Progress status is invalid %1$s",
+		    r.getProgressStatus());
 
 	final Instant now = Instant.now();
 

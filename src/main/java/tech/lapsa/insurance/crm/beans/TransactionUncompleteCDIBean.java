@@ -119,6 +119,8 @@ public class TransactionUncompleteCDIBean implements Serializable {
 
 	if (MyObjects.isA(r, InsuranceRequest.class)) {
 	    final InsuranceRequest ir = MyObjects.requireA(r, InsuranceRequest.class);
+	    if (ir.getPayment().getStatus() == PaymentStatus.DONE)
+		throw MyExceptions.format(IllegalStateException::new, "Request already paid");
 	    ir.setTransactionStatus(TransactionStatus.NOT_COMPLETED);
 	    ir.getPayment().setStatus(PaymentStatus.CANCELED);
 	    ir.setTransactionProblem(problem);

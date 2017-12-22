@@ -53,8 +53,7 @@ public class ReportValueRow implements ValueRow {
 	    new FieldDescriptor("Дата закрытия", row -> new DefaultDateTimeValueCell(row.getClosed())),
 	    new FieldDescriptor("Кем закрыто", row -> new DefaultTextValueCell(row.getClosedBy().getName())),
 
-	    new FieldDescriptor("Сумма премии",
-		    row -> new DefaultAmountValueCell(row.getAmount(), row.getCurrency())),
+	    new FieldDescriptor("Сумма премии", row -> new DefaultAmountValueCell(row.getAmount(), row.getCurrency())),
 
 	    new FieldDescriptor("Имя заявителя", row -> new DefaultTextValueCell(row.getRequesterName())),
 	    new FieldDescriptor("Email заявителя", row -> new DefaultTextValueCell(row.getRequesterEmail())),

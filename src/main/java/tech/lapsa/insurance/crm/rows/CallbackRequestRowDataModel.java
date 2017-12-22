@@ -1,8 +1,8 @@
 package tech.lapsa.insurance.crm.rows;
 
 import java.time.Instant;
+import java.util.Currency;
 
-import com.lapsa.fin.FinCurrency;
 import com.lapsa.insurance.domain.CalculationData;
 import com.lapsa.insurance.domain.CallbackRequest;
 import com.lapsa.insurance.domain.ObtainingData;
@@ -55,12 +55,7 @@ public class CallbackRequestRowDataModel extends RequestRowDataModel<CallbackReq
     }
 
     @Override
-    public Double getCalculatedPremium() {
-	return null;
-    }
-
-    @Override
-    public FinCurrency getCurrency() {
+    public Currency getCalculatedCurrency() {
 	return null;
     }
 
@@ -116,6 +111,26 @@ public class CallbackRequestRowDataModel extends RequestRowDataModel<CallbackReq
 
     @Override
     public Casco getCasco() {
+	return null;
+    }
+
+    @Override
+    public Double getCalculatedAmount() {
+	return null;
+    }
+
+    @Override
+    public Double getPaymentAmount() {
+	return null;
+    }
+
+    @Override
+    public Currency getPaymentCurrency() {
+	return null;
+    }
+
+    @Override
+    public Currency getCurrency() {
 	return null;
     }
 }

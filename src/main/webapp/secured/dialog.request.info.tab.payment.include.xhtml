@@ -29,7 +29,8 @@
 					value="#{pym.methodName}" />
 
 				<crm:outputRow label="Фактически оплаченная сумма">
-					<jfc:outputMoneyAmount value="#{pym.paymentAmount}" />
+					<jfc:outputMoneyAmount value="#{pym.amount}"
+						currency="#{pym.currency}" />
 				</crm:outputRow>
 
 				<crm:outputRow label="Время фактической оплаты">

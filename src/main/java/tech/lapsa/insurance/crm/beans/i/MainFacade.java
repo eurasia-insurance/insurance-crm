@@ -1,14 +1,8 @@
 package tech.lapsa.insurance.crm.beans.i;
 
-import javax.faces.event.AjaxBehaviorEvent;
-
 import org.primefaces.event.SelectEvent;
 
 public interface MainFacade {
-
-    void onFilterChanged();
-
-    void onFilterChanged(AjaxBehaviorEvent event);
 
     String doInitialize();
 
@@ -40,10 +34,6 @@ public interface MainFacade {
 
     String doCancelEditRequest();
 
-    String doRefresh();
-
-    String doCloseRequest();
-
     void onDatatableDblSelect(SelectEvent event);
 
     String doAcceptRequestOnce();
@@ -51,18 +41,4 @@ public interface MainFacade {
     String doPauseRequest();
 
     String doResumeRequest();
-
-    String doCompleteRequest();
-
-    String doMarkPaidRequest();
-
-    void onTransactionStatusChanged(AjaxBehaviorEvent event);
-
-    void onObtainingMethodChanged(AjaxBehaviorEvent event);
-
-    void onActualPremiumCostChanged(AjaxBehaviorEvent event);
-
-    void onDiscountAmountChanged(AjaxBehaviorEvent event);
-
-    String doSetDiscount(double discountPercent);
 }

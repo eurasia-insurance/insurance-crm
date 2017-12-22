@@ -1,17 +1,19 @@
 package tech.lapsa.insurance.crm.rows;
 
 import java.time.Instant;
+import java.util.Currency;
 
-import com.lapsa.fin.FinCurrency;
 import com.lapsa.insurance.domain.CalculationData;
 import com.lapsa.insurance.domain.InsuranceRequest;
-import com.lapsa.insurance.domain.ObtainingData;
 import com.lapsa.insurance.domain.PaymentData;
 import com.lapsa.insurance.elements.InsuranceProductType;
 import com.lapsa.insurance.elements.InsuranceRequestType;
 import com.lapsa.insurance.elements.PaymentStatus;
 import com.lapsa.insurance.elements.TransactionProblem;
 import com.lapsa.insurance.elements.TransactionStatus;
+
+import tech.lapsa.java.commons.function.MyNumbers;
+import tech.lapsa.java.commons.function.MyObjects;
 
 public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> extends RequestRowDataModel<T>
 	implements RequestRow<T> {
@@ -58,26 +60,57 @@ public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> e
 
     @Override
     public Double getAmount() {
+	final Double payment = getPaymentAmount();
+	if (MyNumbers.positive(payment))
+	    return payment;
+	final Double calculated = getCalculatedAmount();
+	if (MyNumbers.positive(calculated))
+	    return calculated;
+	return null;
+    }
+
+    @Override
+    public Currency getCurrency() {
+	final Currency payment = getPaymentCurrency();
+	if (MyObjects.nonNull(payment))
+	    return payment;
+	final Currency calculated = getCalculatedCurrency();
+	if (MyObjects.nonNull(calculated))
+	    return calculated;
+	return null;
+    }
+
+    @Override
+    public Double getCalculatedAmount() {
 	try {
-	    return entity.getProduct().getCalculation().getPremiumCost();
+	    return entity.getProduct().getCalculation().getAmount();
 	} catch (NullPointerException e) {
 	    return null;
 	}
     }
 
     @Override
-    public Double getCalculatedPremium() {
+    public Currency getCalculatedCurrency() {
 	try {
-	    return entity.getProduct().getCalculation().getCalculatedPremiumCost();
+	    return entity.getProduct().getCalculation().getCurrency();
 	} catch (NullPointerException e) {
 	    return null;
 	}
     }
 
     @Override
-    public FinCurrency getCurrency() {
+    public Double getPaymentAmount() {
 	try {
-	    return entity.getProduct().getCalculation().getPremiumCurrency();
+	    return entity.getPayment().getAmount();
+	} catch (NullPointerException e) {
+	    return null;
+	}
+    }
+
+    @Override
+    public Currency getPaymentCurrency() {
+	try {
+	    return entity.getPayment().getCurrency();
 	} catch (NullPointerException e) {
 	    return null;
 	}
@@ -141,15 +174,6 @@ public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> e
     public PaymentData getPayment() {
 	try {
 	    return entity.getPayment();
-	} catch (NullPointerException e) {
-	    return null;
-	}
-    }
-
-    @Override
-    public ObtainingData getObtaining() {
-	try {
-	    return entity.getObtaining();
 	} catch (NullPointerException e) {
 	    return null;
 	}

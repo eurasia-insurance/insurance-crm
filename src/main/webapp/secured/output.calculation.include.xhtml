@@ -11,12 +11,9 @@
 	<p:panel>
 		<p:panelGrid>
 			<crm:outputRow label="Расчитанная страховая премия">
-				<jfc:outputMoneyAmount value="#{clc.calculatedPremiumCost}" />
+				<jfc:outputMoneyAmount value="#{clc.amount}" />
 			</crm:outputRow>
-			<crm:outputRow label="Полученная страховая премия">
-				<jfc:outputMoneyAmount value="#{clc.actualPremiumCost}" />
-			</crm:outputRow>
-			<crm:outputRowText label="Валюта" value="#{clc.premiumCurrency}" />
+			<crm:outputRowText label="Валюта" value="#{clc.currency}" />
 		</p:panelGrid>
 	</p:panel>
 

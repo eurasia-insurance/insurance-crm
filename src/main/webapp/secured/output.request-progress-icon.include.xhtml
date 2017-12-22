@@ -7,39 +7,39 @@
 
 	<h:panelGroup id="iconWrapper" styleClass="request-icon">
 		<h:panelGroup styleClass="icon-new"
-			rendered="#{req.progressStatus eq 'NEW'}">
+			rendered="#{rr.progressStatus eq 'NEW'}">
 			<i class="fa fa-exclamation" aria-hidden="true" />
 		</h:panelGroup>
 		<h:panelGroup styleClass="icon-on-process "
-			rendered="#{req.progressStatus eq 'ON_PROCESS'}">
+			rendered="#{rr.progressStatus eq 'ON_PROCESS'}">
 			<i class="fa fa-spinner" aria-hidden="true" />
 		</h:panelGroup>
-		<h:panelGroup rendered="#{req.progressStatus eq 'ON_HOLD'}">
+		<h:panelGroup rendered="#{rr.progressStatus eq 'ON_HOLD'}">
 			<i class="fa fa-pause" aria-hidden="true" />
 		</h:panelGroup>
 		<h:panelGroup styleClass="icon-on-process "
-			rendered="#{req.progressStatus eq 'FINISHED' and empty req.transactionStatus}">
+			rendered="#{rr.progressStatus eq 'FINISHED' and empty rr.transactionStatus}">
 			<i class="fa fa-check " aria-hidden="true" />
 		</h:panelGroup>
 		<h:panelGroup styleClass="icon-fail "
-			rendered="#{req.progressStatus eq 'FINISHED' and req.transactionStatus eq 'NOT_COMPLETED'}">
+			rendered="#{rr.progressStatus eq 'FINISHED' and rr.transactionStatus eq 'NOT_COMPLETED'}">
 			<i class="fa fa-ban " aria-hidden="true" />
 		</h:panelGroup>
 		<h:panelGroup styleClass="icon-success "
-			rendered="#{req.progressStatus eq 'FINISHED' and req.transactionStatus eq 'COMPLETED'}">
+			rendered="#{rr.progressStatus eq 'FINISHED' and rr.transactionStatus eq 'COMPLETED'}">
 			<i class="fa fa-check " aria-hidden="true" />
 		</h:panelGroup>
 	</h:panelGroup>
 	<p:tooltip for="iconWrapper" trackMouse="true">
-		<h:panelGroup rendered="#{req.progressStatus ne 'FINISHED'}">
+		<h:panelGroup rendered="#{rr.progressStatus ne 'FINISHED'}">
 			<h:outputText
-				value="#{localized.regular(req.progressStatus)}" />
+				value="#{localized.regular(rr.progressStatus)}" />
 		</h:panelGroup>
-		<h:panelGroup rendered="#{req.progressStatus eq 'FINISHED'}">
-			<h:outputText rendered="#{req.transactionStatus eq 'COMPLETED'}"
-				value="#{localized.regular(req.transactionStatus)}" />
-			<h:outputText rendered="#{req.transactionStatus eq 'NOT_COMPLETED'}"
-				value="#{localized.regular(req.transactionProblem)}" />
+		<h:panelGroup rendered="#{rr.progressStatus eq 'FINISHED'}">
+			<h:outputText rendered="#{rr.transactionStatus eq 'COMPLETED'}"
+				value="#{localized.regular(rr.transactionStatus)}" />
+			<h:outputText rendered="#{rr.transactionStatus eq 'NOT_COMPLETED'}"
+				value="#{localized.regular(rr.transactionProblem)}" />
 		</h:panelGroup>
 	</p:tooltip>
 

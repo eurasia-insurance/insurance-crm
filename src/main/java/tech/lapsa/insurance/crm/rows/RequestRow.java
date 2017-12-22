@@ -1,12 +1,11 @@
 package tech.lapsa.insurance.crm.rows;
 
 import java.time.Instant;
+import java.util.Currency;
 import java.util.List;
 
-import com.lapsa.fin.FinCurrency;
 import com.lapsa.insurance.domain.CalculationData;
 import com.lapsa.insurance.domain.CallbackRequest;
-import com.lapsa.insurance.domain.ObtainingData;
 import com.lapsa.insurance.domain.PaymentData;
 import com.lapsa.insurance.domain.Request;
 import com.lapsa.insurance.domain.RequesterData;
@@ -91,19 +90,31 @@ public interface RequestRow<T extends Request> {
 
     Double getAmount();
 
-    Double getCalculatedPremium();
+    Currency getCurrency();
 
-    FinCurrency getCurrency();
+    // calculated
+
+    Double getCalculatedAmount();
+
+    Currency getCalculatedCurrency();
+
+    // payment
+
+    PaymentStatus getPaymentStatus();
 
     String getPaymentInvoiceNumber();
 
-    PaymentStatus getPaymentStatus();
+    Double getPaymentAmount();
+
+    Currency getPaymentCurrency();
 
     String getPaymentReference();
 
     String getPaymentMethodName();
 
     Instant getPaymentInstant();
+
+    // requester
 
     String getRequesterName();
 
@@ -135,12 +146,9 @@ public interface RequestRow<T extends Request> {
 
     PaymentData getPayment();
 
-    ObtainingData getObtaining();
-
     CalculationData getCalculation();
 
     Policy getPolicy();
 
     Casco getCasco();
-
 }

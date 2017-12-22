@@ -181,42 +181,41 @@ public class TransactionCompleteCDIBean implements Serializable {
     @EJB
     private EpaymentFacadeRemote epayments;
 
-    public String doComplete() {
-
-	// TODO check progress status
-	// TODO check transaction status
+    public String doComplete() throws FacesException, IllegalStateException, IllegalArgumentException {
 
 	final Request r = requestHolder.getValue().getEntity();
-	final InsuranceRequest ir;
-	try {
-	    ir = MyObjects.requireA(r, InsuranceRequest.class);
-	} catch (IllegalArgumentException e) {
-	    // it should not happen
-	    throw new FacesException(e);
-	}
+
+	MyObjects.requireNonNull(r, "request");
+	if (r.getProgressStatus() == ProgressStatus.FINISHED)
+	    MyExceptions.format(IllegalStateException::new, "Progress status is invalid %1$s", r.getProgressStatus());
 
 	final Instant now = Instant.now();
 
-	ir.setUpdated(now);
-	ir.setCompleted(now);
-	ir.setCompletedBy(currentUser.getValue());
+	r.setUpdated(now);
+	r.setCompleted(now);
+	r.setCompletedBy(currentUser.getValue());
+	r.setNote(note);
+	r.setProgressStatus(ProgressStatus.FINISHED);
 
-	ir.setProgressStatus(ProgressStatus.FINISHED);
-	ir.setTransactionStatus(TransactionStatus.COMPLETED);
-	ir.getPayment().setStatus(PaymentStatus.DONE);
-	ir.setAgreementNumber(agreementNumber);
-	ir.setNote(note);
+	if (MyObjects.isA(r, InsuranceRequest.class)) {
+	    final InsuranceRequest ir = MyObjects.requireA(r, InsuranceRequest.class);
+	    ir.setTransactionStatus(TransactionStatus.COMPLETED);
+	    ir.getPayment().setStatus(PaymentStatus.DONE);
+	    ir.setTransactionProblem(null);
+	    ir.setAgreementNumber(agreementNumber);
+	}
 
-	final InsuranceRequest ir2;
+	final Request saved;
 	try {
-	    ir2 = requestDAO.save(ir);
+	    saved = requestDAO.save(r);
 	} catch (IllegalArgument e) {
 	    // it should not happen
 	    throw new FacesException(e);
 	}
 
-	if (paidable && !paid) {
-	    final String invoiceNumber = ir2.getPayment().getInvoiceNumber();
+	if (MyObjects.isA(r, InsuranceRequest.class) && paidable && !paid) {
+	    final InsuranceRequest ir = MyObjects.requireA(saved, InsuranceRequest.class);
+	    final String invoiceNumber = ir.getPayment().getInvoiceNumber();
 	    try {
 		epayments.completeWithUnknownPayment(invoiceNumber, paidAmount, paidCurrency, paidInstant,
 			paidReference);
@@ -226,7 +225,7 @@ public class TransactionCompleteCDIBean implements Serializable {
 	    }
 	}
 
-	requestHolder.setValue(RequestRow.from(ir2));
+	requestHolder.setValue(RequestRow.from(r));
 
 	return null;
     }

@@ -25,7 +25,7 @@
 						<p:column>
 							<lpf:inputLocalDateTime id="createdAfter"
 								value="#{settings.requestFilter.createdAfter}" process="@this"
-								update="@form" changedListener="#{mainFacade.onFilterChanged}" />
+								update="@form" />
 						</p:column>
 						<p:column>
 							<p:outputLabel value="Поступило по:" for="createdBefore" />
@@ -33,7 +33,7 @@
 						<p:column>
 							<lpf:inputLocalDateTime id="createdBefore"
 								value="#{settings.requestFilter.createdBefore}" process="@this"
-								update="@form" changedListener="#{mainFacade.onFilterChanged}" />
+								update="@form" />
 						</p:column>
 					</p:row>
 				</p:panelGrid>
@@ -87,7 +87,7 @@
 						<p:column>
 							<lpf:inputLocalDateTime id="completedAfter"
 								value="#{settings.requestFilter.completedAfter}" process="@this"
-								update="@form" changedListener="#{mainFacade.onFilterChanged}" />
+								update="@form" />
 						</p:column>
 						<p:column>
 							<p:outputLabel value="Завершено по:" for="completedBefore" />
@@ -95,8 +95,7 @@
 						<p:column>
 							<lpf:inputLocalDateTime id="completedBefore"
 								value="#{settings.requestFilter.completedBefore}"
-								process="@this" update="@form"
-								changedListener="#{mainFacade.onFilterChanged}" />
+								process="@this" update="@form" />
 						</p:column>
 					</p:row>
 				</p:panelGrid>

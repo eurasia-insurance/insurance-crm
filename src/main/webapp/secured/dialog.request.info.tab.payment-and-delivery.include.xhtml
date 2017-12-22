@@ -8,16 +8,6 @@
 	<p:tab title="Оплата и доставка" rendered="#{rendered}">
 		<p:accordionPanel dynamic="true" cache="true" activeIndex="0">
 			<ui:include
-				src="dialog.request.info.tab.obtaining.delivery.include.xhtml">
-				<ui:param name="rendered" value="#{obt.method eq 'DELIVERY'}" />
-				<ui:param name="obt" value="#{obt}" />
-			</ui:include>
-			<ui:include
-				src="dialog.request.info.tab.obtaining.pickup.include.xhtml">
-				<ui:param name="rendered" value="#{obt.method eq 'PICKUP'}" />
-				<ui:param name="obt" value="#{obt}" />
-			</ui:include>
-			<ui:include
 				src="dialog.request.info.tab.payment.include.xhtml">
 				<ui:param name="rendered" value="#{true}" />
 				<ui:param name="pym" value="#{pym}" />

@@ -118,12 +118,6 @@
 			<optional>false</optional>
 		</dependency>
 		<dependency>
-			<groupId>com.lapsa.donkeyfaces-lib</groupId>
-			<artifactId>donkeyfaces-faces</artifactId>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
 			<groupId>com.lapsa.reports-lib</groupId>
 			<artifactId>reports-api</artifactId>
 			<scope>compile</scope>
@@ -152,12 +146,6 @@
 			<groupId>org.primefaces.themes</groupId>
 			<artifactId>all-themes</artifactId>
 			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.omnifaces</groupId>
-			<artifactId>omnifaces</artifactId>
-			<scope>compile</scope>
-			<optional>false</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.primefaces.extensions</groupId>

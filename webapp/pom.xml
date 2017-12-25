@@ -2,327 +2,23 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>tech.lapsa.maven</groupId>
-		<artifactId>maven-general</artifactId>
-		<version>3.1</version>
+		<groupId>tech.lapsa.insurance</groupId>
+		<artifactId>insurance-crm-root</artifactId>
+		<version>3.1-SNAPSHOT</version>
 	</parent>
 
-	<groupId>tech.lapsa.insurance</groupId>
 	<artifactId>insurance-crm</artifactId>
-	<version>3.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
-	<name>Insurance Lib : CRM Web-app</name>
-
-	<properties>
-		<!-- BOMS -->
-		<java-commons.version>1.1-SNAPSHOT</java-commons.version>
-		<!-- UTILs -->
-		<font-awesome-lib.version>4.7.0</font-awesome-lib.version>
-		<!-- validation -->
-		<javax-validation-commons.version>1.1-SNAPSHOT</javax-validation-commons.version>
-		<payara-hibernate-validation.version>1.0</payara-hibernate-validation.version>
-		<!-- ejbs -->
-		<insurance-dao.version>1.1-SNAPSHOT</insurance-dao.version>
-		<insurance-facade.version>1.1-SNAPSHOT</insurance-facade.version>
-		<epayment-facade.version>1.1-SNAPSHOT</epayment-facade.version>
-		<!-- oldies -->
-		<insurance-lib.version>2.4-SNAPSHOT</insurance-lib.version>
-		<kz-lib.version>3.2-SNAPSHOT</kz-lib.version>
-		<international-lib.version>3.3-SNAPSHOT</international-lib.version>
-		<donkeyfaces-lib.version>1.3</donkeyfaces-lib.version>
-		<reports-lib.version>1.1</reports-lib.version>
-		<!-- faces -->
-		<javax-faces-commons.version>1.1-SNAPSHOT</javax-faces-commons.version>
-		<lapsa-primefaces.version>1.1-SNAPSHOT</lapsa-primefaces.version>
-		<insurance-faces.version>3.1-SNAPSHOT</insurance-faces.version>
-		<primefaces.version>5.3.16</primefaces.version>
-		<primefaces-themes.version>1.0.10</primefaces-themes.version>
-		<primefaces-extensions.version>4.0.0</primefaces-extensions.version>
-		<omnifaces.version>2.5.1</omnifaces.version>
-	</properties>
-
-	<dependencyManagement>
-		<dependencies>
-			<!-- BOM -->
-			<dependency>
-				<groupId>tech.lapsa.java</groupId>
-				<artifactId>java-commons-root</artifactId>
-				<version>${java-commons.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<dependency>
-				<groupId>tech.lapsa.insurance</groupId>
-				<artifactId>insurance-facade-root</artifactId>
-				<version>${insurance-facade.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<dependency>
-				<groupId>tech.lapsa.insurance</groupId>
-				<artifactId>insurance-dao-root</artifactId>
-				<version>${insurance-dao.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<dependency>
-				<groupId>tech.lapsa.epayment</groupId>
-				<artifactId>epayment-facade-root</artifactId>
-				<version>${epayment-facade.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<!-- tech -->
-			<dependency>
-				<groupId>tech.lapsa.javax</groupId>
-				<artifactId>javax-faces-commons</artifactId>
-				<version>${javax-faces-commons.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>tech.lapsa.lapsa</groupId>
-				<artifactId>lapsa-primefaces</artifactId>
-				<version>${lapsa-primefaces.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>tech.lapsa.insurance</groupId>
-				<artifactId>insurance-faces</artifactId>
-				<version>${insurance-faces.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>tech.lapsa.javax</groupId>
-				<artifactId>javax-validation-commons</artifactId>
-				<version>${javax-validation-commons.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>tech.lapsa.payara</groupId>
-				<artifactId>payara-hibernate-validation</artifactId>
-				<version>${payara-hibernate-validation.version}</version>
-			</dependency>
-			<!-- oldies -->
-			<dependency>
-				<groupId>com.lapsa.insurance-lib</groupId>
-				<artifactId>insurance-root</artifactId>
-				<version>${insurance-lib.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<dependency>
-				<groupId>com.lapsa.kz-lib</groupId>
-				<artifactId>kz-root</artifactId>
-				<version>${kz-lib.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<dependency>
-				<groupId>com.lapsa.international-lib</groupId>
-				<artifactId>international-root</artifactId>
-				<version>${international-lib.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<dependency>
-				<groupId>com.lapsa.donkeyfaces-lib</groupId>
-				<artifactId>parent</artifactId>
-				<version>${donkeyfaces-lib.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<dependency>
-				<groupId>com.lapsa.reports-lib</groupId>
-				<artifactId>reports-api</artifactId>
-				<version>${reports-lib.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.lapsa.reports-lib</groupId>
-				<artifactId>reports-excel</artifactId>
-				<version>${reports-lib.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.lapsa.font-awesome-lib</groupId>
-				<artifactId>font-awesome</artifactId>
-				<version>${font-awesome-lib.version}</version>
-			</dependency>
-			<!-- external -->
-			<dependency>
-				<groupId>org.primefaces</groupId>
-				<artifactId>primefaces</artifactId>
-				<version>${primefaces.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.primefaces.themes</groupId>
-				<artifactId>all-themes</artifactId>
-				<version>${primefaces-themes.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.primefaces.extensions</groupId>
-				<artifactId>primefaces-extensions</artifactId>
-				<version>${primefaces-extensions.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.omnifaces</groupId>
-				<artifactId>omnifaces</artifactId>
-				<version>${omnifaces.version}</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+	<name>Insurance Lib : CRM : Web Application</name>
 
 	<dependencies>
-		<!-- tech -->
+		<!-- own -->
 		<dependency>
-			<groupId>tech.lapsa.javax</groupId>
-			<artifactId>javax-faces-commons</artifactId>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
-			<groupId>tech.lapsa.lapsa</groupId>
-			<artifactId>lapsa-primefaces</artifactId>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
-			<groupId>tech.lapsa.java</groupId>
-			<artifactId>java-commons</artifactId>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
-			<groupId>tech.lapsa.java</groupId>
-			<artifactId>java-commons-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>tech.lapsa.insurance</groupId>
-			<artifactId>insurance-facade-client</artifactId>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
-			<groupId>tech.lapsa.insurance</groupId>
-			<artifactId>insurance-dao-client</artifactId>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
-			<groupId>tech.lapsa.epayment</groupId>
-			<artifactId>epayment-facade-client</artifactId>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
-			<groupId>tech.lapsa.insurance</groupId>
-			<artifactId>insurance-faces</artifactId>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
-			<groupId>tech.lapsa.javax</groupId>
-			<artifactId>javax-validation-commons</artifactId>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
-			<groupId>tech.lapsa.payara</groupId>
-			<artifactId>payara-hibernate-validation</artifactId>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<!-- oldies -->
-		<dependency>
-			<groupId>com.lapsa.insurance-lib</groupId>
-			<artifactId>insurance-elements</artifactId>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
-			<groupId>com.lapsa.insurance-lib</groupId>
-			<artifactId>insurance-domain</artifactId>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
-			<groupId>com.lapsa.kz-lib</groupId>
-			<artifactId>kz-core</artifactId>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
-			<groupId>com.lapsa.kz-lib</groupId>
-			<artifactId>kz-eelib</artifactId>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
-			<groupId>com.lapsa.kz-lib</groupId>
-			<artifactId>kz-faces</artifactId>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
-			<groupId>com.lapsa.international-lib</groupId>
-			<artifactId>international-core</artifactId>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
-			<groupId>com.lapsa.international-lib</groupId>
-			<artifactId>international-eelib</artifactId>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
-			<groupId>com.lapsa.international-lib</groupId>
-			<artifactId>international-faces</artifactId>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
-			<groupId>com.lapsa.donkeyfaces-lib</groupId>
-			<artifactId>donkeyfaces-faces</artifactId>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
-			<groupId>com.lapsa.reports-lib</groupId>
-			<artifactId>reports-api</artifactId>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
-			<groupId>com.lapsa.reports-lib</groupId>
-			<artifactId>reports-excel</artifactId>
-			<scope>runtime</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
-			<groupId>com.lapsa.font-awesome-lib</groupId>
-			<artifactId>font-awesome</artifactId>
-			<scope>runtime</scope>
-			<optional>false</optional>
-		</dependency>
-		<!-- external -->
-		<dependency>
-			<groupId>org.primefaces</groupId>
-			<artifactId>primefaces</artifactId>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.primefaces.themes</groupId>
-			<artifactId>all-themes</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.omnifaces</groupId>
-			<artifactId>omnifaces</artifactId>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.primefaces.extensions</groupId>
-			<artifactId>primefaces-extensions</artifactId>
-			<scope>runtime</scope>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>insurance-crm-dependencies</artifactId>
+			<type>pom</type>
+			<scope>provided</scope>
 		</dependency>
 		<!-- Payara -->
 		<dependency>
@@ -347,6 +43,11 @@
 			<scope>provided</scope>
 		</dependency>
 		<!-- test -->
+		<dependency>
+			<groupId>tech.lapsa.java</groupId>
+			<artifactId>java-commons-test</artifactId>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -400,16 +101,5 @@
 			</plugin>
 		</plugins>
 	</build>
-
-	<scm>
-		<connection>scm:git:https://gitlab.lapsa.tech/lapsa/insurance/crm.git</connection>
-		<developerConnection>scm:git:https://gitlab.lapsa.tech/lapsa/insurance/crm.git</developerConnection>
-		<tag>HEAD</tag>
-	</scm>
-
-	<issueManagement>
-		<system>gitlab</system>
-		<url>https://gitlab.lapsa.tech/lapsa/insurance/crm/issues</url>
-	</issueManagement>
 
 </project>

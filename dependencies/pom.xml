@@ -34,6 +34,12 @@
 		</dependency>
 		<dependency>
 			<groupId>tech.lapsa.insurance</groupId>
+			<artifactId>insurance-domain</artifactId>
+			<scope>compile</scope>
+			<optional>false</optional>
+		</dependency>
+		<dependency>
+			<groupId>tech.lapsa.insurance</groupId>
 			<artifactId>insurance-facade-client</artifactId>
 			<scope>compile</scope>
 			<optional>false</optional>
@@ -70,14 +76,8 @@
 		</dependency>
 		<!-- oldies -->
 		<dependency>
-			<groupId>com.lapsa.insurance-lib</groupId>
-			<artifactId>insurance-elements</artifactId>
-			<scope>compile</scope>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
-			<groupId>com.lapsa.insurance-lib</groupId>
-			<artifactId>insurance-domain</artifactId>
+			<groupId>com.lapsa.lapsa-lib</groupId>
+			<artifactId>lapsa-utils</artifactId>
 			<scope>compile</scope>
 			<optional>false</optional>
 		</dependency>

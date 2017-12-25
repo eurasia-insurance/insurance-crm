@@ -41,10 +41,10 @@
 									<p:outputLabel value="Фактически оплачено" />
 								</p:column>
 								<p:column>
-									<jfc:outputMoneyAmount rendered="#{transactionComplete.paid}"
+									<jfc:outputMoneyAmount rendered="#{transactionComplete.wasPaidBefore}"
 										value="#{transactionComplete.paidAmount}"
 										currency="#{transactionComplete.paidCurrency}" />
-									<p:inputNumber rendered="#{!transactionComplete.paid}"
+									<p:inputNumber rendered="#{!transactionComplete.wasPaidBefore}"
 										value="#{transactionComplete.paidAmount}" symbol=" &#8376;"
 										symbolPosition="e" decimalSeparator="," decimalPlaces="2"
 										thousandSeparator=" " minValue="1" onfocus="select()">
@@ -57,9 +57,9 @@
 									<p:outputLabel value="Дата и время оплаты" />
 								</p:column>
 								<p:column>
-									<jfc:outputInstant rendered="#{transactionComplete.paid}"
+									<jfc:outputInstant rendered="#{transactionComplete.wasPaidBefore}"
 										value="#{transactionComplete.paidInstant}" />
-									<lpf:inputInstant rendered="#{!transactionComplete.paid}"
+									<lpf:inputInstant rendered="#{!transactionComplete.wasPaidBefore}"
 										value="#{transactionComplete.paidInstant}" process="@this"
 										update="@this" />
 								</p:column>

@@ -11,22 +11,15 @@ import javax.faces.FacesException;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.lapsa.insurance.domain.InsuranceRequest;
 import com.lapsa.insurance.domain.Request;
-import com.lapsa.insurance.elements.PaymentStatus;
-import com.lapsa.insurance.elements.ProgressStatus;
-import com.lapsa.insurance.elements.TransactionStatus;
 
-import tech.lapsa.epayment.facade.EpaymentFacade.EpaymentFacadeRemote;
-import tech.lapsa.epayment.facade.InvoiceNotFound;
 import tech.lapsa.insurance.crm.beans.i.CurrentUserHolder;
 import tech.lapsa.insurance.crm.beans.i.RequestHolder;
 import tech.lapsa.insurance.crm.rows.RequestRow;
-import tech.lapsa.insurance.dao.RequestDAO.RequestDAORemote;
+import tech.lapsa.insurance.facade.RequestCompletionFacade.RequestCompletionFacadeRemote;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.exceptions.IllegalState;
 import tech.lapsa.java.commons.function.MyExceptions;
-import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.javax.validation.NotEmptyString;
 import tech.lapsa.javax.validation.NotNullValue;
 
@@ -44,12 +37,12 @@ public class TransactionCompleteCDIBean implements Serializable {
 	return paidable;
     }
 
-    // paid
+    // wasPaidBefore
 
-    private boolean paid;
+    private boolean wasPaidBefore;
 
-    public boolean isPaid() {
-	return paid;
+    public boolean isWasPaidBefore() {
+	return wasPaidBefore;
     }
 
     // paidAmount
@@ -62,7 +55,7 @@ public class TransactionCompleteCDIBean implements Serializable {
     }
 
     public void setPaidAmount(Double paidAmount) {
-	if (paid)
+	if (wasPaidBefore)
 	    throw MyExceptions.illegalStateFormat("Already paid");
 	this.paidAmount = paidAmount;
     }
@@ -77,7 +70,7 @@ public class TransactionCompleteCDIBean implements Serializable {
     }
 
     public void setPaidInstant(Instant paidInstant) {
-	if (paid)
+	if (wasPaidBefore)
 	    throw MyExceptions.illegalStateFormat("Already paid");
 	this.paidInstant = paidInstant;
     }
@@ -92,7 +85,7 @@ public class TransactionCompleteCDIBean implements Serializable {
     }
 
     public void setPaidReference(String paidReference) {
-	if (paid)
+	if (wasPaidBefore)
 	    throw MyExceptions.illegalStateFormat("Already paid");
 	this.paidReference = paidReference;
     }
@@ -107,7 +100,7 @@ public class TransactionCompleteCDIBean implements Serializable {
     }
 
     public void setPaidCurrency(Currency paidCurrency) {
-	if (paid)
+	if (wasPaidBefore)
 	    throw MyExceptions.illegalStateFormat("Already paid");
 	this.paidCurrency = paidCurrency;
     }
@@ -145,9 +138,8 @@ public class TransactionCompleteCDIBean implements Serializable {
 	final RequestRow<?> rr = requestHolder.getValue();
 	if (rr != null) {
 	    this.paidable = rr.getPayment() != null;
-	    this.paid = paidable && rr.getPaymentInstant() != null;
-
-	    if (paid) {
+	    this.wasPaidBefore = paidable && rr.getPaymentInstant() != null;
+	    if (wasPaidBefore) {
 		this.paidInstant = rr.getPaymentInstant();
 		this.paidAmount = rr.getPaymentAmount();
 		this.paidCurrency = rr.getPaymentCurrency();
@@ -171,63 +163,30 @@ public class TransactionCompleteCDIBean implements Serializable {
 
     // EJBs
 
-    // insurance-dao (remote)
+    // insurance-facade (remote)
 
     @EJB
-    private RequestDAORemote requestDAO;
-
-    // epayment-facade (remote)
-
-    @EJB
-    private EpaymentFacadeRemote epayments;
+    private RequestCompletionFacadeRemote completions;
 
     public String doComplete() throws FacesException, IllegalStateException, IllegalArgumentException {
 
 	final Request r = requestHolder.getValue().getEntity();
 
-	MyObjects.requireNonNull(r, "request");
-	if (r.getProgressStatus() == ProgressStatus.FINISHED)
-	    throw MyExceptions.format(IllegalStateException::new, "Progress status is invalid %1$s",
-		    r.getProgressStatus());
-
-	final Instant now = Instant.now();
-
-	r.setUpdated(now);
-	r.setCompleted(now);
-	r.setCompletedBy(currentUser.getValue());
-	r.setNote(note);
-	r.setProgressStatus(ProgressStatus.FINISHED);
-
-	if (MyObjects.isA(r, InsuranceRequest.class)) {
-	    final InsuranceRequest ir = MyObjects.requireA(r, InsuranceRequest.class);
-	    ir.setTransactionStatus(TransactionStatus.COMPLETED);
-	    ir.getPayment().setStatus(PaymentStatus.DONE);
-	    ir.setTransactionProblem(null);
-	    ir.setAgreementNumber(agreementNumber);
-	}
-
-	final Request saved;
+	final Request result;
 	try {
-	    saved = requestDAO.save(r);
-	} catch (IllegalArgument e) {
-	    // it should not happen
-	    throw new FacesException(e);
+	    result = (paidable && !wasPaidBefore)
+		    ? completions.transactionCompleteWithPayment(r, currentUser.getValue(), note, agreementNumber, paidAmount,
+			    paidCurrency, paidInstant, paidReference)
+		    : completions.transactionComplete(r, currentUser.getValue(), note, agreementNumber);
+	} catch (IllegalState e1) {
+	    throw e1.getRuntime();
+	} catch (IllegalArgument e1) {
+	    throw e1.getRuntime();
 	}
 
-	if (MyObjects.isA(r, InsuranceRequest.class) && paidable && !paid) {
-	    final InsuranceRequest ir = MyObjects.requireA(saved, InsuranceRequest.class);
-	    final String invoiceNumber = ir.getPayment().getInvoiceNumber();
-	    try {
-		epayments.completeWithUnknownPayment(invoiceNumber, paidAmount, paidCurrency, paidInstant,
-			paidReference);
-	    } catch (IllegalArgument | IllegalState | InvoiceNotFound e) {
-		// it should not happen
-		throw new FacesException(e);
-	    }
-	}
-
-	requestHolder.setValue(RequestRow.from(r));
+	requestHolder.setValue(RequestRow.from(result));
 
 	return null;
+
     }
 }

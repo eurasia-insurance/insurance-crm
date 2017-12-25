@@ -30,9 +30,6 @@
 			<f:facet name="header">
 				<h:outputText value="Сведения о застрахованных водителях" />
 			</f:facet>
-			<p:column width="16">
-				<p:rowToggler />
-			</p:column>
 			<p:column headerText="ИИН">
 				<h:outputText value="#{driver.idNumber}" />
 			</p:column>
@@ -48,12 +45,6 @@
 				<h:outputText
 					value="#{localized.few(driver.ageClass)}" />
 			</p:column>
-			<p:rowExpansion>
-				<crm:outputScanImage value="#{driver.driverLicenseData.frontside}" />
-				<crm:outputScanImage value="#{driver.driverLicenseData.backside}" />
-				<crm:outputScanImage value="#{driver.identityCardData.frontside}" />
-				<crm:outputScanImage value="#{driver.identityCardData.backside}" />
-			</p:rowExpansion>
 		</p:dataTable>
 
 
@@ -62,9 +53,6 @@
 				<h:outputText
 					value="Сведения о застрахованных транспортных средствах" />
 			</f:facet>
-			<p:column width="16">
-				<p:rowToggler />
-			</p:column>
 			<p:column headerText="Временный въезд">
 				<crm:outputYesNo value="#{vehicle.temporaryEntry}" />
 			</p:column>
@@ -84,10 +72,6 @@
 				<h:outputText
 					value="#{localized.few(vehicle.vehicleClass)}" />
 			</p:column>
-			<p:rowExpansion>
-				<crm:outputScanImage value="#{vehicle.certificateData.frontside}" />
-				<crm:outputScanImage value="#{vehicle.certificateData.backside}" />
-			</p:rowExpansion>
 		</p:dataTable>
 	</p:tab>
 

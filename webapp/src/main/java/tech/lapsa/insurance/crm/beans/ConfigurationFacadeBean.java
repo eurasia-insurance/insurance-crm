@@ -1,7 +1,5 @@
 package tech.lapsa.insurance.crm.beans;
 
-import static tech.lapsa.insurance.crm.beans.ParameterConstants.*;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -15,21 +13,6 @@ import tech.lapsa.insurance.crm.beans.i.ConfigurationFacade;
 @Named("configurationFacade")
 @ApplicationScoped
 public class ConfigurationFacadeBean implements ConfigurationFacade {
-
-    @Override
-    public long getMaximumImagefileSize() {
-	return MAXIMUM_IMAGE_UPLOAD_FILE_SIZE;
-    }
-
-    @Override
-    public int getImageThumbnailWidth() {
-	return IMAGE_THUMBNAIL_FIXED_WIDTH;
-    }
-
-    @Override
-    public int getImageThumbnailHeight() {
-	return IMAGE_THUMBNAIL_FIXED_HEIGHT;
-    }
 
     @Override
     public SelectItem getAnySI() {

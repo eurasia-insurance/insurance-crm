@@ -110,19 +110,10 @@
 			<f:facet name="header">
 				<h:outputText value="Сведения о водителях допущенных к управлению" />
 			</f:facet>
-			<p:column width="16">
-				<p:rowToggler />
-			</p:column>
 			<p:column headerText="Допущенные к управлению">
 				<p:outputLabel
 					value="Удостоверение личности водителя #{rowIndex + 1}" />
 			</p:column>
-			<p:rowExpansion>
-				<crm:outputScanImage value="#{driver.driverLicenseData.frontside}" />
-				<crm:outputScanImage value="#{driver.driverLicenseData.backside}" />
-				<crm:outputScanImage value="#{driver.identityCardData.frontside}" />
-				<crm:outputScanImage value="#{driver.identityCardData.backside}" />
-			</p:rowExpansion>
 		</p:dataTable>
 		<!-- << insuredDrivers dataTable -->
 
@@ -132,20 +123,9 @@
 			<f:facet name="header">
 			Сведения об авто
 			</f:facet>
-			<p:column width="16">
-				<p:rowToggler />
-			</p:column>
 			<p:column headerText="Авто">
 				<p:outputLabel value="Фотографии документов и ТС" />
 			</p:column>
-			<p:rowExpansion>
-				<crm:outputScanImage value="#{vehicle.certificateData.frontside}" />
-				<crm:outputScanImage value="#{vehicle.certificateData.backside}" />
-				<crm:outputScanImage value="#{vehicle.view1}" />
-				<crm:outputScanImage value="#{vehicle.view2}" />
-				<crm:outputScanImage value="#{vehicle.view3}" />
-				<crm:outputScanImage value="#{vehicle.view4}" />
-			</p:rowExpansion>
 		</p:dataTable>
 		<!-- << cascoVehicles dataTable -->
 

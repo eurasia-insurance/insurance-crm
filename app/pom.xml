@@ -10,7 +10,7 @@
 	<artifactId>insurance-crm-app</artifactId>
 	<packaging>ear</packaging>
 
-	<name>Insurance Lib : CRM : EE Application</name>
+	<name>Insurance Lib : CRM : EAR</name>
 
 	<dependencies>
 		<dependency>

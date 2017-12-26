@@ -128,6 +128,8 @@ public interface RequestRow<T extends Request> {
 
     String getRequesterIdNumber();
 
+    // utm
+
     String getUTMSource();
 
     String getUTMMedium();
@@ -139,6 +141,8 @@ public interface RequestRow<T extends Request> {
     String getUTMTerm();
 
     UTMData getUtm();
+
+    // other
 
     String getAgreementNumber();
 

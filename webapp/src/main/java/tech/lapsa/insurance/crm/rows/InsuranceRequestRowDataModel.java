@@ -137,7 +137,7 @@ public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> e
     @Override
     public String getPaymentReference() {
 	try {
-	    return entity.getPayment().getPaymentReference();
+	    return entity.getPayment().getReference();
 	} catch (NullPointerException e) {
 	    return null;
 	}
@@ -155,7 +155,7 @@ public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> e
     @Override
     public Instant getPaymentInstant() {
 	try {
-	    return entity.getPayment().getPaymentInstant();
+	    return entity.getPayment().getInstant();
 	} catch (NullPointerException e) {
 	    return null;
 	}

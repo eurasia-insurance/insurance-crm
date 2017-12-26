@@ -16,23 +16,17 @@
 		<p:panel>
 			<p:panelGrid>
 
-				<crm:outputRowText label="ФИО" value="#{rqr.name}" />
+				<crm:outputRowText label="ФИО" value="#{rr.requesterName}" />
 
-				<crm:outputRowText label="Телефон" value="#{rqr.phone.formatted}"
-					rendered="#{not empty rqr.phone and showPhoneNumber}" />
+				<crm:outputRowText label="Телефон" value="#{rr.requesterPhone}"
+					rendered="#{not empty rr.requesterPhone and showPhoneNumber}" />
 
-				<crm:outputRowText label="E-mail" value="#{rqr.email}" />
+				<crm:outputRowText label="E-mail" value="#{rr.requesterEmail}" />
 
-				<crm:outputRowText label="ИИН" value="#{rqr.idNumber}" />
+				<crm:outputRowText label="ИИН" value="#{rr.requesterIdNumber}" />
 
 				<crm:outputRowText label="Предпочитаемый язык"
-					value="#{localized.regular(rqr.preferLanguage)}" />
-
-				<crm:outputRowYesNo value="#{rqr.allowSpam}"
-					label="Согласие на получение рассылок и уведомлений" />
-
-				<crm:outputRowYesNo value="#{rqr.allowProcessPersonalData}"
-					label="Cогласие на сбор, обработку и хранение персональных данных" />
+					value="#{localized.regular(rr.requesterLanguage)}" />
 
 			</p:panelGrid>
 		</p:panel>

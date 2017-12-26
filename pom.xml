@@ -27,7 +27,7 @@
 		<font-awesome-lib.version>4.7.0</font-awesome-lib.version>
 		<!-- validation -->
 		<javax-validation-commons.version>1.1</javax-validation-commons.version>
-		<payara-hibernate-validation.version>1.1</payara-hibernate-validation.version>
+		<payara-hibernate-validation.version>1.1.1</payara-hibernate-validation.version>
 		<!-- ejbs -->
 		<insurance-dao.version>1.1</insurance-dao.version>
 		<insurance-facade.version>1.1</insurance-facade.version>

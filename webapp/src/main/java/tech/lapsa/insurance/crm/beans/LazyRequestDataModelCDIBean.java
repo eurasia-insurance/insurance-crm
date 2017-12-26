@@ -51,16 +51,12 @@ public class LazyRequestDataModelCDIBean extends LazyDataModel<RequestRow<?>> im
 	try {
 	    return RequestRow.from(requestDAO.getById(Integer.parseInt(rowKey)));
 	} catch (NumberFormatException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
+	    throw new FacesException(e);
 	} catch (IllegalArgument e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
+	    throw new FacesException(e);
 	} catch (NotFound e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
+	    throw new FacesException(e);
 	}
-	return null;
     }
 
     @Override

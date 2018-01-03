@@ -34,7 +34,7 @@
 		<epayment-facade.version>1.1</epayment-facade.version>
 		<insurance-domain.version>2.4</insurance-domain.version>
 		<!-- oldies -->
-		<kz-lib.version>3.2</kz-lib.version>
+		<kz-lib.version>3.2.1</kz-lib.version>
 		<international-lib.version>3.3</international-lib.version>
 		<lapsa-lib.version>2.3</lapsa-lib.version>
 		<reports-lib.version>1.1</reports-lib.version>

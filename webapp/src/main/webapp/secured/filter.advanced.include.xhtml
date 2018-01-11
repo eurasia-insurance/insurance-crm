@@ -195,11 +195,11 @@
 										value="#{settings.requestFilter.transactionStatus}">
 										<p:ajax process="@this" update="@form" />
 										<f:selectItem value="#{configurationFacade.anySI}" />
-										<f:selectItems value=" #{si.array.few(TransactionStatus.all)}" />
+										<f:selectItems value="#{si.array.few(TransactionStatus.all)}" />
 									</p:selectOneMenu>
 								</p:column>
 								<p:column>
-									<p:outputLabel value="Причина:" for="transactionProblem" />
+									<p:outputLabel value="Причина отмены сделки:" for="transactionProblem" />
 								</p:column>
 								<p:column>
 									<p:selectOneMenu id="transactionProblem"

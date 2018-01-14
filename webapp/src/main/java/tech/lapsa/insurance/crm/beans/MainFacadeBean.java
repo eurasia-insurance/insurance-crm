@@ -7,7 +7,6 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoField;
-import java.time.temporal.ChronoUnit;
 import java.time.temporal.WeekFields;
 import java.util.List;
 import java.util.function.Consumer;
@@ -59,45 +58,59 @@ public class MainFacadeBean implements MainFacade, Serializable {
 	return null;
     }
 
-    @Override
     public String doFilterCreatedToday() {
 	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
-	filterCreatedToday();
+	final RequestFilter f = settingsHolder.getRequestFilter();
+	setToday(f::setCreatedAfter, f::setCreatedBefore);
 	return null;
     }
 
-    @Override
     public String doFilterCreatedYesterday() {
 	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
-	filterCreatedYesterday();
+	final RequestFilter f = settingsHolder.getRequestFilter();
+	setYesterday(f::setCreatedAfter, f::setCreatedBefore);
 	return null;
     }
 
-    @Override
     public String doFilterCreatedThisWeek() {
 	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
-	filterCreatedThisWeek();
+	final RequestFilter f = settingsHolder.getRequestFilter();
+	setThisWeek(f::setCreatedAfter, f::setCreatedBefore);
 	return null;
     }
 
-    @Override
     public String doFilterCreatedLastWeek() {
 	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
-	filterCreatedLastWeek();
+	final RequestFilter f = settingsHolder.getRequestFilter();
+	setLastWeek(f::setCreatedAfter, f::setCreatedBefore);
 	return null;
     }
 
-    @Override
     public String doFilterCreatedThisMonth() {
 	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
-	filterCreatedThisMonth();
+	final RequestFilter f = settingsHolder.getRequestFilter();
+	setThisMonth(f::setCreatedAfter, f::setCreatedBefore);
 	return null;
     }
 
-    @Override
     public String doFilterCreatedLastMonth() {
 	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
-	filterCreatedLastMonth();
+	final RequestFilter f = settingsHolder.getRequestFilter();
+	setLastMonth(f::setCreatedAfter, f::setCreatedBefore);
+	return null;
+    }
+
+    public String doFilterCreatedThisYear() {
+	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
+	final RequestFilter f = settingsHolder.getRequestFilter();
+	setThisYear(f::setCreatedAfter, f::setCreatedBefore);
+	return null;
+    }
+
+    public String doFilterCreatedLastYear() {
+	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
+	final RequestFilter f = settingsHolder.getRequestFilter();
+	setLastYear(f::setCreatedAfter, f::setCreatedBefore);
 	return null;
     }
 
@@ -149,68 +162,59 @@ public class MainFacadeBean implements MainFacade, Serializable {
 	return null;
     }
 
-    private void modifyCreated(final UnaryOperator<LocalDateTime> modifier) {
-	final RequestFilter f = settingsHolder.getRequestFilter();
-	modifyDates(modifier, f::getCreatedAfter, f::setCreatedAfter, f::getCreatedBefore, f::setCreatedBefore);
-    }
-
-    private void modifyCompleted(final UnaryOperator<LocalDateTime> modifier) {
-	final RequestFilter f = settingsHolder.getRequestFilter();
-	modifyDates(modifier, f::getCompletedAfter, f::setCompletedAfter, f::getCompletedBefore, f::setCompletedBefore);
-    }
-
-    private void modifyDates(final UnaryOperator<LocalDateTime> modifier,
-	    final Supplier<LocalDateTime> afterGet,
-	    final Consumer<LocalDateTime> afterSet,
-	    final Supplier<LocalDateTime> beforeGet,
-	    final Consumer<LocalDateTime> beforeSet) {
-	MyOptionals.of(afterGet.get())
-		.map(modifier)
-		.ifPresent(afterSet);
-	MyOptionals.of(beforeGet.get())
-		.map(modifier)
-		.ifPresent(beforeSet);
-    }
-
-    @Override
     public String doFilterCompletedToday() {
 	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
-	filterCompletedToday();
+	final RequestFilter f = settingsHolder.getRequestFilter();
+	setToday(f::setCompletedAfter, f::setCompletedBefore);
 	return null;
     }
 
-    @Override
     public String doFilterCompletedYesterday() {
 	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
-	filterCompletedYesterday();
+	final RequestFilter f = settingsHolder.getRequestFilter();
+	setYesterday(f::setCompletedAfter, f::setCompletedBefore);
 	return null;
     }
 
-    @Override
     public String doFilterCompletedThisWeek() {
 	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
-	filterCompletedThisWeek();
+	final RequestFilter f = settingsHolder.getRequestFilter();
+	setThisWeek(f::setCompletedAfter, f::setCompletedBefore);
 	return null;
     }
 
-    @Override
     public String doFilterCompletedLastWeek() {
 	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
-	filterCompletedLastWeek();
+	final RequestFilter f = settingsHolder.getRequestFilter();
+	setLastWeek(f::setCompletedAfter, f::setCompletedBefore);
 	return null;
     }
 
-    @Override
     public String doFilterCompletedThisMonth() {
 	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
-	filterCompletedThisMonth();
+	final RequestFilter f = settingsHolder.getRequestFilter();
+	setThisMonth(f::setCompletedAfter, f::setCompletedBefore);
 	return null;
     }
 
-    @Override
     public String doFilterCompletedLastMonth() {
 	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
-	filterCompletedLastMonth();
+	final RequestFilter f = settingsHolder.getRequestFilter();
+	setLastMonth(f::setCompletedAfter, f::setCompletedBefore);
+	return null;
+    }
+
+    public String doFilterCompletedThisYear() {
+	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
+	final RequestFilter f = settingsHolder.getRequestFilter();
+	setThisYear(f::setCompletedAfter, f::setCompletedBefore);
+	return null;
+    }
+
+    public String doFilterCompletedLastYear() {
+	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
+	final RequestFilter f = settingsHolder.getRequestFilter();
+	setLastYear(f::setCompletedAfter, f::setCompletedBefore);
 	return null;
     }
 
@@ -392,119 +396,125 @@ public class MainFacadeBean implements MainFacade, Serializable {
 	request.setProgressStatus(ProgressStatus.ON_HOLD);
     }
 
-    private void filterCreatedToday() {
-	LocalDateTime after = LocalDate.now().atStartOfDay();
 
-	RequestFilter filter = settingsHolder.getRequestFilter();
-	filter.setCreatedAfter(after);
-	filter.setCreatedBefore(null);
+    private void modifyCreated(final UnaryOperator<LocalDateTime> modifier) {
+	final RequestFilter f = settingsHolder.getRequestFilter();
+	modifyDates(modifier, f::getCreatedAfter, f::setCreatedAfter, f::getCreatedBefore, f::setCreatedBefore);
     }
 
-    private void filterCreatedYesterday() {
-	LocalDateTime after = LocalDate.now().minusDays(1).atStartOfDay();
-	LocalDateTime before = LocalDate.now().atStartOfDay()
-		.minus(1, ChronoUnit.SECONDS);
-
-	RequestFilter filter = settingsHolder.getRequestFilter();
-	filter.setCreatedAfter(after);
-	filter.setCreatedBefore(before);
+    private void modifyCompleted(final UnaryOperator<LocalDateTime> modifier) {
+	final RequestFilter f = settingsHolder.getRequestFilter();
+	modifyDates(modifier, f::getCompletedAfter, f::setCompletedAfter, f::getCompletedBefore, f::setCompletedBefore);
     }
 
-    private void filterCreatedThisWeek() {
-	LocalDateTime after = LocalDate.now()
-		.with(ChronoField.DAY_OF_WEEK, WeekFields.ISO.getFirstDayOfWeek().getValue()).atStartOfDay();
-
-	RequestFilter filter = settingsHolder.getRequestFilter();
-	filter.setCreatedAfter(after);
-	filter.setCreatedBefore(null);
-    }
-
-    private void filterCreatedLastWeek() {
-	LocalDateTime after = LocalDate.now()
-		.with(ChronoField.DAY_OF_WEEK, WeekFields.ISO.getFirstDayOfWeek().getValue()).minusWeeks(1)
+    private void setToday(final Consumer<LocalDateTime> afterSet,
+	    final Consumer<LocalDateTime> beforeSet) {
+	final LocalDateTime after = LocalDate.now()
 		.atStartOfDay();
-	LocalDateTime before = LocalDate.now()
-		.with(ChronoField.DAY_OF_WEEK, WeekFields.ISO.getFirstDayOfWeek().getValue()).atStartOfDay().minus(1,
-			ChronoUnit.SECONDS);
-
-	RequestFilter filter = settingsHolder.getRequestFilter();
-	filter.setCreatedAfter(after);
-	filter.setCreatedBefore(before);
+	final LocalDateTime before = after
+		.plusDays(1)
+		.minusSeconds(1);
+	afterSet.accept(after);
+	beforeSet.accept(before);
     }
 
-    private void filterCreatedThisMonth() {
-	LocalDateTime after = LocalDate.now().withDayOfMonth(1).atStartOfDay();
-
-	RequestFilter filter = settingsHolder.getRequestFilter();
-	filter.setCreatedAfter(after);
-	filter.setCreatedBefore(null);
+    private void setYesterday(final Consumer<LocalDateTime> afterSet,
+	    final Consumer<LocalDateTime> beforeSet) {
+	final LocalDateTime after = LocalDate.now()
+		.atStartOfDay()
+		.minusDays(1);
+	final LocalDateTime before = after
+		.plusDays(1)
+		.minusSeconds(1);
+	afterSet.accept(after);
+	beforeSet.accept(before);
     }
 
-    private void filterCreatedLastMonth() {
-	LocalDateTime after = LocalDate.now().withDayOfMonth(1).minusMonths(1).atStartOfDay();
-	LocalDateTime before = LocalDate.now().withDayOfMonth(1).atStartOfDay().minus(1,
-		ChronoUnit.SECONDS);
-
-	RequestFilter filter = settingsHolder.getRequestFilter();
-	filter.setCreatedAfter(after);
-	filter.setCreatedBefore(before);
-    }
-
-    private void filterCompletedToday() {
-	LocalDateTime after = LocalDate.now().atStartOfDay();
-
-	RequestFilter filter = settingsHolder.getRequestFilter();
-	filter.setCompletedAfter(after);
-	filter.setCompletedBefore(null);
-    }
-
-    private void filterCompletedYesterday() {
-	LocalDateTime after = LocalDate.now().minusDays(1).atStartOfDay();
-	LocalDateTime before = LocalDate.now().atStartOfDay()
-		.minus(1, ChronoUnit.SECONDS);
-
-	RequestFilter filter = settingsHolder.getRequestFilter();
-	filter.setCompletedAfter(after);
-	filter.setCompletedBefore(before);
-    }
-
-    private void filterCompletedThisWeek() {
-	LocalDateTime after = LocalDate.now()
-		.with(ChronoField.DAY_OF_WEEK, WeekFields.ISO.getFirstDayOfWeek().getValue()).atStartOfDay();
-
-	RequestFilter filter = settingsHolder.getRequestFilter();
-	filter.setCompletedAfter(after);
-	filter.setCompletedBefore(null);
-    }
-
-    private void filterCompletedLastWeek() {
-	LocalDateTime after = LocalDate.now()
-		.with(ChronoField.DAY_OF_WEEK, WeekFields.ISO.getFirstDayOfWeek().getValue()).minusWeeks(1)
+    private void setThisWeek(final Consumer<LocalDateTime> afterSet,
+	    final Consumer<LocalDateTime> beforeSet) {
+	final LocalDateTime after = LocalDate.now()
+		.with(ChronoField.DAY_OF_WEEK, WeekFields.ISO.getFirstDayOfWeek().getValue())
 		.atStartOfDay();
-	LocalDateTime before = LocalDate.now()
-		.with(ChronoField.DAY_OF_WEEK, WeekFields.ISO.getFirstDayOfWeek().getValue()).atStartOfDay().minus(1,
-			ChronoUnit.SECONDS);
-
-	RequestFilter filter = settingsHolder.getRequestFilter();
-	filter.setCompletedAfter(after);
-	filter.setCompletedBefore(before);
+	final LocalDateTime before = after
+		.plusWeeks(1)
+		.minusSeconds(1);
+	afterSet.accept(after);
+	beforeSet.accept(before);
     }
 
-    private void filterCompletedThisMonth() {
-	LocalDateTime after = LocalDate.now().withDayOfMonth(1).atStartOfDay();
-
-	RequestFilter filter = settingsHolder.getRequestFilter();
-	filter.setCompletedAfter(after);
-	filter.setCompletedBefore(null);
+    private void setLastWeek(final Consumer<LocalDateTime> afterSet,
+	    final Consumer<LocalDateTime> beforeSet) {
+	final LocalDateTime after = LocalDate.now()
+		.with(ChronoField.DAY_OF_WEEK, WeekFields.ISO.getFirstDayOfWeek().getValue())
+		.atStartOfDay()
+		.minusWeeks(1);
+	final LocalDateTime before = after
+		.plusWeeks(1)
+		.minusSeconds(1);
+	afterSet.accept(after);
+	beforeSet.accept(before);
     }
 
-    private void filterCompletedLastMonth() {
-	LocalDateTime after = LocalDate.now().withDayOfMonth(1).minusMonths(1).atStartOfDay();
-	LocalDateTime before = LocalDate.now().withDayOfMonth(1).atStartOfDay().minus(1,
-		ChronoUnit.SECONDS);
+    private void setThisMonth(final Consumer<LocalDateTime> afterSet,
+	    final Consumer<LocalDateTime> beforeSet) {
+	final LocalDateTime after = LocalDate.now()
+		.withDayOfMonth(1)
+		.atStartOfDay();
+	final LocalDateTime before = after
+		.plusMonths(1)
+		.minusSeconds(1);
+	afterSet.accept(after);
+	beforeSet.accept(before);
+    }
 
-	RequestFilter filter = settingsHolder.getRequestFilter();
-	filter.setCompletedAfter(after);
-	filter.setCompletedBefore(before);
+    private void setLastMonth(final Consumer<LocalDateTime> afterSet,
+	    final Consumer<LocalDateTime> beforeSet) {
+	final LocalDateTime after = LocalDate.now()
+		.withDayOfMonth(1)
+		.atStartOfDay()
+		.minusMonths(1);
+	final LocalDateTime before = after
+		.plusMonths(1)
+		.minusSeconds(1);
+	afterSet.accept(after);
+	beforeSet.accept(before);
+    }
+
+    private void setThisYear(final Consumer<LocalDateTime> afterSet,
+	    final Consumer<LocalDateTime> beforeSet) {
+	final LocalDateTime after = LocalDate.now()
+		.atStartOfDay()
+		.withDayOfYear(1);
+	final LocalDateTime before = after
+		.plusYears(1)
+		.minusSeconds(1);
+	afterSet.accept(after);
+	beforeSet.accept(before);
+    }
+
+    private void setLastYear(final Consumer<LocalDateTime> afterSet,
+	    final Consumer<LocalDateTime> beforeSet) {
+	final LocalDateTime after = LocalDate.now()
+		.atStartOfDay()
+		.withDayOfYear(1)
+		.minusYears(1);
+	final LocalDateTime before = after
+		.plusYears(1)
+		.minusSeconds(1);
+	afterSet.accept(after);
+	beforeSet.accept(before);
+    }
+
+    private void modifyDates(final UnaryOperator<LocalDateTime> modifier,
+	    final Supplier<LocalDateTime> afterGet,
+	    final Consumer<LocalDateTime> afterSet,
+	    final Supplier<LocalDateTime> beforeGet,
+	    final Consumer<LocalDateTime> beforeSet) {
+	MyOptionals.of(afterGet.get())
+		.map(modifier)
+		.ifPresent(afterSet);
+	MyOptionals.of(beforeGet.get())
+		.map(modifier)
+		.ifPresent(beforeSet);
     }
 }

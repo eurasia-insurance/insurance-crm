@@ -10,6 +10,9 @@ import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.WeekFields;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
+import java.util.function.UnaryOperator;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -33,6 +36,7 @@ import tech.lapsa.insurance.crm.rows.RequestRow;
 import tech.lapsa.insurance.dao.RequestDAO.RequestDAORemote;
 import tech.lapsa.insurance.dao.RequestFilter;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
+import tech.lapsa.java.commons.function.MyOptionals;
 import tech.lapsa.patterns.dao.NotFound;
 
 @Named("mainFacade")
@@ -97,6 +101,77 @@ public class MainFacadeBean implements MainFacade, Serializable {
 	return null;
     }
 
+    public String doFilterCreatedMinusDay() {
+	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
+	modifyCreated(c -> c.minusDays(1));
+	return null;
+    }
+
+    public String doFilterCreatedMinusWeek() {
+	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
+	modifyCreated(c -> c.minusWeeks(1));
+	return null;
+    }
+
+    public String doFilterCreatedMinusMonth() {
+	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
+	modifyCreated(c -> c.minusMonths(1));
+	return null;
+    }
+
+    public String doFilterCreatedMinusYear() {
+	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
+	modifyCreated(c -> c.minusYears(1));
+	return null;
+    }
+
+    public String doFilterCreatedPlusDay() {
+	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
+	modifyCreated(c -> c.plusDays(1));
+	return null;
+    }
+
+    public String doFilterCreatedPlusWeek() {
+	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
+	modifyCreated(c -> c.plusWeeks(1));
+	return null;
+    }
+
+    public String doFilterCreatedPlusMonth() {
+	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
+	modifyCreated(c -> c.plusMonths(1));
+	return null;
+    }
+
+    public String doFilterCreatedPlusYear() {
+	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
+	modifyCreated(c -> c.plusYears(1));
+	return null;
+    }
+
+    private void modifyCreated(final UnaryOperator<LocalDateTime> modifier) {
+	final RequestFilter f = settingsHolder.getRequestFilter();
+	modifyDates(modifier, f::getCreatedAfter, f::setCreatedAfter, f::getCreatedBefore, f::setCreatedBefore);
+    }
+
+    private void modifyCompleted(final UnaryOperator<LocalDateTime> modifier) {
+	final RequestFilter f = settingsHolder.getRequestFilter();
+	modifyDates(modifier, f::getCompletedAfter, f::setCompletedAfter, f::getCompletedBefore, f::setCompletedBefore);
+    }
+
+    private void modifyDates(final UnaryOperator<LocalDateTime> modifier,
+	    final Supplier<LocalDateTime> afterGet,
+	    final Consumer<LocalDateTime> afterSet,
+	    final Supplier<LocalDateTime> beforeGet,
+	    final Consumer<LocalDateTime> beforeSet) {
+	MyOptionals.of(afterGet.get())
+		.map(modifier)
+		.ifPresent(afterSet);
+	MyOptionals.of(beforeGet.get())
+		.map(modifier)
+		.ifPresent(beforeSet);
+    }
+
     @Override
     public String doFilterCompletedToday() {
 	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
@@ -136,6 +211,54 @@ public class MainFacadeBean implements MainFacade, Serializable {
     public String doFilterCompletedLastMonth() {
 	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
 	filterCompletedLastMonth();
+	return null;
+    }
+
+    public String doFilterCompletedMinusDay() {
+	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
+	modifyCompleted(c -> c.minusDays(1));
+	return null;
+    }
+
+    public String doFilterCompletedMinusWeek() {
+	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
+	modifyCompleted(c -> c.minusWeeks(1));
+	return null;
+    }
+
+    public String doFilterCompletedMinusMonth() {
+	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
+	modifyCompleted(c -> c.minusMonths(1));
+	return null;
+    }
+
+    public String doFilterCompletedMinusYear() {
+	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
+	modifyCompleted(c -> c.minusYears(1));
+	return null;
+    }
+
+    public String doFilterCompletedPlusDay() {
+	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
+	modifyCompleted(c -> c.plusDays(1));
+	return null;
+    }
+
+    public String doFilterCompletedPlusWeek() {
+	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
+	modifyCompleted(c -> c.plusWeeks(1));
+	return null;
+    }
+
+    public String doFilterCompletedPlusMonth() {
+	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
+	modifyCompleted(c -> c.plusMonths(1));
+	return null;
+    }
+
+    public String doFilterCompletedPlusYear() {
+	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
+	modifyCompleted(c -> c.plusYears(1));
 	return null;
     }
 

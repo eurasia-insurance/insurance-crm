@@ -73,6 +73,52 @@
 						</p:column>
 					</p:row>
 				</p:panelGrid>
+				<p:panelGrid>
+					<p:row>
+						<p:column>
+							<p:commandButton value="- день"
+								action="#{mainFacade.doFilterCreatedMinusDay}" process="@this"
+								update="@form" />
+						</p:column>
+						<p:column>
+							<p:commandButton value="- неделя"
+								action="#{mainFacade.doFilterCreatedMinusWeek}" process="@this"
+								update="@form" />
+						</p:column>
+						<p:column>
+							<p:commandButton value="- месяц"
+								action="#{mainFacade.doFilterCreatedMinusMonth}" process="@this"
+								update="@form" />
+						</p:column>
+						<p:column>
+							<p:commandButton value="- год"
+								action="#{mainFacade.doFilterCreatedMinusYear}" process="@this"
+								update="@form" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<p:commandButton value="+ день"
+								action="#{mainFacade.doFilterCreatedPlusDay}" process="@this"
+								update="@form" />
+						</p:column>
+						<p:column>
+							<p:commandButton value="+ неделя"
+								action="#{mainFacade.doFilterCreatedPlusWeek}" process="@this"
+								update="@form" />
+						</p:column>
+						<p:column>
+							<p:commandButton value="+ месяц"
+								action="#{mainFacade.doFilterCreatedPlusMonth}" process="@this"
+								update="@form" />
+						</p:column>
+						<p:column>
+							<p:commandButton value="+ год"
+								action="#{mainFacade.doFilterCreatedPlusYear}" process="@this"
+								update="@form" />
+						</p:column>
+					</p:row>
+				</p:panelGrid>
 			</p:panel>
 			<!-- << created -->
 
@@ -132,6 +178,52 @@
 							<p:commandButton value="За прошлый месяц"
 								action="#{mainFacade.doFilterCompletedLastMonth}"
 								process="@this" update="@form" />
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+				<p:panelGrid>
+					<p:row>
+						<p:column>
+							<p:commandButton value="- день"
+								action="#{mainFacade.doFilterCompletedMinusDay}" process="@this"
+								update="@form" />
+						</p:column>
+						<p:column>
+							<p:commandButton value="- неделя"
+								action="#{mainFacade.doFilterCompletedMinusWeek}" process="@this"
+								update="@form" />
+						</p:column>
+						<p:column>
+							<p:commandButton value="- месяц"
+								action="#{mainFacade.doFilterCompletedMinusMonth}" process="@this"
+								update="@form" />
+						</p:column>
+						<p:column>
+							<p:commandButton value="- год"
+								action="#{mainFacade.doFilterCompletedMinusYear}" process="@this"
+								update="@form" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<p:commandButton value="+ день"
+								action="#{mainFacade.doFilterCompletedPlusDay}" process="@this"
+								update="@form" />
+						</p:column>
+						<p:column>
+							<p:commandButton value="+ неделя"
+								action="#{mainFacade.doFilterCompletedPlusWeek}" process="@this"
+								update="@form" />
+						</p:column>
+						<p:column>
+							<p:commandButton value="+ месяц"
+								action="#{mainFacade.doFilterCompletedPlusMonth}" process="@this"
+								update="@form" />
+						</p:column>
+						<p:column>
+							<p:commandButton value="+ год"
+								action="#{mainFacade.doFilterCompletedPlusYear}" process="@this"
+								update="@form" />
 						</p:column>
 					</p:row>
 				</p:panelGrid>

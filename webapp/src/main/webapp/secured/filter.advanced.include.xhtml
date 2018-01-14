@@ -199,7 +199,8 @@
 									</p:selectOneMenu>
 								</p:column>
 								<p:column>
-									<p:outputLabel value="Причина отмены сделки:" for="transactionProblem" />
+									<p:outputLabel value="Причина отмены сделки:"
+										for="transactionProblem" />
 								</p:column>
 								<p:column>
 									<p:selectOneMenu id="transactionProblem"
@@ -262,6 +263,19 @@
 								<p:column>
 									<p:inputText id="paymentInvoiceNumber"
 										value="#{settings.requestFilter.paymentInvoiceNumber}">
+										<p:ajax event="keyup" delay="700" process="@this"
+											update="@form" />
+									</p:inputText>
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column>
+									<p:outputLabel value="Платежный референс: "
+										for="paymentReference" />
+								</p:column>
+								<p:column>
+									<p:inputText id="paymentReference"
+										value="#{settings.requestFilter.paymentReference}">
 										<p:ajax event="keyup" delay="700" process="@this"
 											update="@form" />
 									</p:inputText>

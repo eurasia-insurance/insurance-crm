@@ -10,4 +10,5 @@ public interface CurrentUserHolder extends WritableValueHolder<User> {
 
     boolean isCanClose();
 
+    boolean isCanDelete();
 }

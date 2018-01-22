@@ -79,6 +79,15 @@
 
 				</h:panelGroup>
 
+				<h:panelGroup rendered="#{canDelete}">
+					<p:commandButton value="Удалить..." icon="fa fa-ban"
+						disabled="#{rr.transactionStatus ne 'NOT_COMPLETED'}" process="@this"
+						update="@form:deleteRequestDialog"
+						oncomplete="PF('deleteRequestDialogWV').show(); return false;">
+						<p:resetInput target="@form:deleteRequestDialog" />
+					</p:commandButton>
+				</h:panelGroup>
+
 			</f:facet>
 
 			<f:facet name="right">

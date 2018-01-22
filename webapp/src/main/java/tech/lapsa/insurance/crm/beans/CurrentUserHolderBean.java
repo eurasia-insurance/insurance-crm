@@ -69,4 +69,8 @@ public class CurrentUserHolderBean extends AWritableValueHolder<User> implements
 	return SecurityUtils.isInRole(InsuranceRoleGroup.CLOSERS);
     }
 
+    @Override
+    public boolean isCanDelete() {
+	return SecurityUtils.isInRole(InsuranceRoleGroup.DELETERS);
+    }
 }

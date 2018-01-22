@@ -10,6 +10,8 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 
+	<o:importConstants type="tech.lapsa.insurance.crm.beans.i.RequestType" />
+
 	<f:subview>
 
 		<!-- >> toolbar -->
@@ -81,8 +83,8 @@
 
 				<h:panelGroup rendered="#{canDelete}">
 					<p:commandButton value="Удалить..." icon="fa fa-ban"
-						disabled="#{rr.transactionStatus ne 'NOT_COMPLETED'}" process="@this"
-						update="@form:deleteRequestDialog"
+						disabled="#{not ((rr.transactionStatus eq 'NOT_COMPLETED') or rts.isTypeA(rr.type, RequestType.CALLBACK_REQUEST))}"
+						process="@this" update="@form:deleteRequestDialog"
 						oncomplete="PF('deleteRequestDialogWV').show(); return false;">
 						<p:resetInput target="@form:deleteRequestDialog" />
 					</p:commandButton>

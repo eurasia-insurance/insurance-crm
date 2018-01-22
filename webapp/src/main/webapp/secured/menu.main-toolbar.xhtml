@@ -71,8 +71,8 @@
 					</p:commandButton>
 
 					<p:commandButton value="Договор не заключен..." icon="fa fa-ban"
-						disabled="#{rr.progressStatus eq 'FINISHED' or rr.paymentStatus eq 'DONE'}" process="@this"
-						update="@form:transactionUncompleteDialog"
+						disabled="#{rr.progressStatus eq 'FINISHED' or rr.paymentStatus eq 'DONE'}"
+						process="@this" update="@form:transactionUncompleteDialog"
 						oncomplete="PF('transactionUncompleteDialogWV').show(); return false;">
 						<p:resetInput target="@form:transactionUncompleteDialog" />
 					</p:commandButton>

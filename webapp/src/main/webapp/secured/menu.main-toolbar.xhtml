@@ -83,7 +83,7 @@
 
 				<h:panelGroup rendered="#{canDelete}">
 					<p:commandButton value="Удалить..." icon="fa fa-ban"
-						disabled="#{not ((rr.transactionStatus eq 'NOT_COMPLETED') or rts.isTypeA(rr.type, RequestType.CALLBACK_REQUEST))}"
+						disabled="#{rr.transactionStatus ne 'NOT_COMPLETED'}"
 						process="@this" update="@form:deleteRequestDialog"
 						oncomplete="PF('deleteRequestDialogWV').show(); return false;">
 						<p:resetInput target="@form:deleteRequestDialog" />

@@ -251,19 +251,6 @@
 				<p:panelGrid>
 					<p:row>
 						<p:column>
-							<p:outputLabel value="Источник:" for="source" />
-						</p:column>
-						<p:column>
-							<p:selectOneMenu id="source"
-								value="#{settings.requestFilter.requestSource}">
-								<p:ajax process="@this" update="@form" />
-								<f:selectItem value="#{configurationFacade.anySI}" />
-								<f:selectItems value="#{si.array.few(RequestSource.all)}" />
-							</p:selectOneMenu>
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column>
 							<p:outputLabel value="Виды заявок:" for="requestClass" />
 						</p:column>
 						<p:column>

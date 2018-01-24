@@ -13,8 +13,11 @@
 			rendered="#{rts.isRowA(rr, RequestType.CALLBACK_REQUEST)}"
 			styleClass="fa fa-volume-control-phone" />
 		<h:panelGroup
-			rendered="#{rts.isRowA(rr, RequestType.INSURANCE_REQUEST)}"
+			rendered="#{rts.isRowA(rr, RequestType.POLICY_REQUEST)}"
 			styleClass="fa fa-calculator" />
+		<h:panelGroup
+			rendered="#{rts.isRowA(rr, RequestType.CASCO_REQUEST)}"
+			styleClass="fa fa-car" />
 	</h:panelGroup>
 
 </ui:composition>

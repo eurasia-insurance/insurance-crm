@@ -12,7 +12,7 @@
 		<p:panel>
 			<p:panelGrid>
 
-				<crm:outputRow label="Номер счета">
+				<crm:outputRow label="Номер счета" rendered="#{not empty rr.paymentInvoiceNumber}">
 					<h:outputText value="#{rr.paymentInvoiceNumber}" />
 					[
 					<h:outputLink

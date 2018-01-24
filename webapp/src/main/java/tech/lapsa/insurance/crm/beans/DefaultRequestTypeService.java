@@ -61,6 +61,7 @@ public class DefaultRequestTypeService implements RequestTypeService {
 	    switch (sourceType) {
 	    case POLICY_REQUEST:
 	    case CASCO_REQUEST:
+	    case CALLBACK_REQUEST:
 	    case INSURANCE_REQUEST:
 		return true;
 	    default:

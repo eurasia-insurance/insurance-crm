@@ -26,18 +26,32 @@
 
 				<!-- >> wrapper -->
 				<h:panelGroup id="content">
-					<h:panelGroup
-						rendered="#{rts.isRowA(rr, RequestType.POLICY_REQUEST)}">
-						<ui:decorate template="dialog.request.info.policy.include.xhtml" />
-					</h:panelGroup>
-					<h:panelGroup
-						rendered="#{rts.isRowA(rr, RequestType.CASCO_REQUEST)}">
-						<ui:decorate template="dialog.request.info.casco.include.xhtml" />
-					</h:panelGroup>
-					<h:panelGroup
-						rendered="#{rts.isRowA(rr, RequestType.CALLBACK_REQUEST)}">
-						<ui:decorate template="dialog.request.info.callback.include.xhtml" />
-					</h:panelGroup>
+					<p:tabView dynamic="true" cache="true">
+						<ui:include src="dialog.request.info.tab.general.include.xhtml">
+							<ui:param name="rendered" value="#{true}" />
+						</ui:include>
+						<ui:include src="dialog.request.info.tab.requester.include.xhtml">
+							<ui:param name="rendered" value="#{not empty rr.requester}" />
+							<ui:param name="showPhoneNumber"
+								value="#{rr.progressStatus ne 'NEW'}" />
+						</ui:include>
+						<ui:include
+							src="dialog.request.info.tab.product.policy.include.xhtml">
+							<ui:param name="rendered" value="#{not empty rr.policy}" />
+							<ui:param name="policy" value="#{rr.policy}" />
+						</ui:include>
+						<ui:include
+							src="dialog.request.info.tab.product.casco.include.xhtml">
+							<ui:param name="rendered" value="#{not empty rr.casco}" />
+							<ui:param name="casco" value="#{rr.casco}" />
+						</ui:include>
+						<ui:include src="dialog.request.info.tab.payment.include.xhtml">
+							<ui:param name="rendered" value="#{not empty rr.payment}" />
+						</ui:include>
+						<ui:include src="dialog.request.info.tab.utm.include.xhtml">
+							<ui:param name="rendered" value="#{not empty rr.utm}" />
+						</ui:include>
+					</p:tabView>
 				</h:panelGroup>
 				<!-- << wrapper -->
 

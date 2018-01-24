@@ -7,7 +7,6 @@ import com.lapsa.insurance.domain.RequesterData;
 import com.lapsa.insurance.domain.crm.UTMData;
 import com.lapsa.insurance.domain.crm.User;
 import com.lapsa.insurance.elements.ProgressStatus;
-import com.lapsa.insurance.elements.RequestSource;
 import com.lapsa.insurance.elements.RequestStatus;
 import com.lapsa.international.localization.LocalizationLanguage;
 
@@ -37,15 +36,6 @@ public abstract class RequestRowDataModel<T extends Request> implements RequestR
     public RequestStatus getRequestStatus() {
 	try {
 	    return entity.getStatus();
-	} catch (NullPointerException e) {
-	    return null;
-	}
-    }
-
-    @Override
-    public RequestSource getRequestSource() {
-	try {
-	    return entity.getSource();
 	} catch (NullPointerException e) {
 	    return null;
 	}

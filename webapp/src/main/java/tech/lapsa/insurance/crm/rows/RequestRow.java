@@ -19,7 +19,6 @@ import com.lapsa.insurance.elements.InsuranceProductType;
 import com.lapsa.insurance.elements.InsuranceRequestType;
 import com.lapsa.insurance.elements.PaymentStatus;
 import com.lapsa.insurance.elements.ProgressStatus;
-import com.lapsa.insurance.elements.RequestSource;
 import com.lapsa.insurance.elements.RequestStatus;
 import com.lapsa.insurance.elements.TransactionProblem;
 import com.lapsa.insurance.elements.TransactionStatus;
@@ -57,8 +56,6 @@ public interface RequestRow<T extends Request> {
     Integer getId();
 
     RequestStatus getRequestStatus();
-
-    RequestSource getRequestSource();
 
     ProgressStatus getProgressStatus();
 

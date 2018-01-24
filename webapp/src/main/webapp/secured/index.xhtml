@@ -132,9 +132,6 @@
 					style="text-align: center">
 					<ui:include src="output.request-payment-icon.include.xhtml" />
 				</p:column>
-				<p:column headerText="Источник" width="50">
-					<h:outputText value="#{localized.few(rr.requestSource)}" />
-				</p:column>
 				<p:column headerText="Тип" width="100"
 					styleClass="#{not empty rr.insuranceRequestType ? ('col-request-' += rr.insuranceRequestType) : ''}">
 					<h:outputText value="#{localized.few(rr.insuranceRequestType)}" />

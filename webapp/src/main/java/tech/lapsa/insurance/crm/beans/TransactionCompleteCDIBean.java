@@ -175,8 +175,15 @@ public class TransactionCompleteCDIBean implements Serializable {
 	final Request result;
 	try {
 	    result = (paidable && !wasPaidBefore)
-		    ? completions.transactionCompleteWithPayment(r, currentUser.getValue(), note, agreementNumber, paidAmount,
-			    paidCurrency, paidInstant, paidReference)
+		    ? completions.transactionCompleteWithPayment(r,
+			    currentUser.getValue(),
+			    note,
+			    agreementNumber,
+			    "Введено вручную",
+			    paidAmount,
+			    paidCurrency, 
+			    paidInstant, 
+			    paidReference)
 		    : completions.transactionComplete(r, currentUser.getValue(), note, agreementNumber);
 	} catch (IllegalState e1) {
 	    throw e1.getRuntime();

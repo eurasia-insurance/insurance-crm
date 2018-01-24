@@ -187,4 +187,9 @@ public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> e
 	    return null;
 	}
     }
+
+    @Override
+    public String getComments() {
+	return null;
+    }
 }

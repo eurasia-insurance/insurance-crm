@@ -27,4 +27,9 @@ public class CallbackRequestRowDataModel extends InsuranceRequestRowDataModel<Ca
     public Casco getCasco() {
 	return null;
     }
+
+    @Override
+    public String getComments() {
+	return entity.getComments();
+    }
 }

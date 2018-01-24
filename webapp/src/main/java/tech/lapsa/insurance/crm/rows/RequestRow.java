@@ -88,6 +88,8 @@ public interface RequestRow<T extends Request> {
     Double getAmount();
 
     Currency getCurrency();
+    
+    String getComments();
 
     // calculated
 

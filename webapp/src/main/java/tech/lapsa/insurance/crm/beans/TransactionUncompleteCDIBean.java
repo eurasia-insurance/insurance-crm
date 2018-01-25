@@ -6,8 +6,16 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.FacesException;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
+import javax.faces.context.FacesContext;
+import javax.faces.validator.FacesValidator;
+import javax.faces.validator.Validator;
+import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.omnifaces.util.Messages;
 
 import com.lapsa.insurance.domain.Request;
 import com.lapsa.insurance.elements.TransactionProblem;
@@ -18,6 +26,7 @@ import tech.lapsa.insurance.crm.rows.RequestRow;
 import tech.lapsa.insurance.facade.RequestCompletionFacade.RequestCompletionFacadeRemote;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.exceptions.IllegalState;
+import tech.lapsa.java.commons.function.MyStrings;
 import tech.lapsa.javax.validation.NotNullValue;
 
 @Named("transactionUncomplete")
@@ -65,6 +74,18 @@ public class TransactionUncompleteCDIBean implements Serializable {
 
     public void setNote(String note) {
 	this.note = note;
+    }
+
+    @FacesValidator("transactionUncomplete.noteValidator")
+    public static class NoteValidator implements Validator {
+
+	@Override
+	public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+	    final TransactionProblem problem = (TransactionProblem) ((UIInput) component.getAttributes()
+		    .get("problemComp")).getValue();
+	    if (problem == TransactionProblem.OTHER && (value == null || MyStrings.empty(value.toString())))
+		throw new ValidatorException(Messages.createError("Укажите причину"));
+	}
     }
 
     // controls

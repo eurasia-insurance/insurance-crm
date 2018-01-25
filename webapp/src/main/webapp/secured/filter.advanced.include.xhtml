@@ -35,6 +35,11 @@
 								value="#{settings.requestFilter.createdBefore}" process="@this"
 								update="@form" />
 						</p:column>
+						<p:column>
+							<p:commandButton value="Очистить"
+								action="#{mainFacade.doFilterCreatedClear}" process="@this"
+								update="@form" />
+						</p:column>
 					</p:row>
 				</p:panelGrid>
 				<p:panelGrid>
@@ -150,6 +155,11 @@
 							<lpf:inputLocalDateTime id="completedBefore"
 								value="#{settings.requestFilter.completedBefore}"
 								process="@this" update="@form" />
+						</p:column>
+						<p:column>
+							<p:commandButton value="Очистить"
+								action="#{mainFacade.doFilterCompletedClear}" process="@this"
+								update="@form" />
 						</p:column>
 					</p:row>
 				</p:panelGrid>

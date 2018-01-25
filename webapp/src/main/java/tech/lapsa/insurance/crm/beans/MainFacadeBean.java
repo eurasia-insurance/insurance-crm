@@ -58,6 +58,13 @@ public class MainFacadeBean implements MainFacade, Serializable {
 	return null;
     }
 
+    public String doFilterCreatedClear() {
+	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
+	final RequestFilter f = settingsHolder.getRequestFilter();
+	setClear(f::setCreatedAfter, f::setCreatedBefore);
+	return null;
+    }
+
     public String doFilterCreatedToday() {
 	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
 	final RequestFilter f = settingsHolder.getRequestFilter();
@@ -161,6 +168,14 @@ public class MainFacadeBean implements MainFacade, Serializable {
 	modifyCreated(c -> c.plusYears(1));
 	return null;
     }
+
+    public String doFilterCompletedClear() {
+	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
+	final RequestFilter f = settingsHolder.getRequestFilter();
+	setClear(f::setCompletedAfter, f::setCompletedBefore);
+	return null;
+    }
+
 
     public String doFilterCompletedToday() {
 	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
@@ -396,7 +411,6 @@ public class MainFacadeBean implements MainFacade, Serializable {
 	request.setProgressStatus(ProgressStatus.ON_HOLD);
     }
 
-
     private void modifyCreated(final UnaryOperator<LocalDateTime> modifier) {
 	final RequestFilter f = settingsHolder.getRequestFilter();
 	modifyDates(modifier, f::getCreatedAfter, f::setCreatedAfter, f::getCreatedBefore, f::setCreatedBefore);
@@ -416,6 +430,12 @@ public class MainFacadeBean implements MainFacade, Serializable {
 		.minusSeconds(1);
 	afterSet.accept(after);
 	beforeSet.accept(before);
+    }
+
+    private void setClear(final Consumer<LocalDateTime> afterSet,
+	    final Consumer<LocalDateTime> beforeSet) {
+	afterSet.accept(null);
+	beforeSet.accept(null);
     }
 
     private void setYesterday(final Consumer<LocalDateTime> afterSet,

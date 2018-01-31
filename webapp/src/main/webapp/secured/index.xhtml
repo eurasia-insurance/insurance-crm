@@ -27,7 +27,8 @@
 
 		<c:set var="canClose" value="#{currentUser.canClose}" scope="request" />
 
-		<c:set var="canDelete" value="#{currentUser.canDelete}" scope="request" />
+		<c:set var="canDelete" value="#{currentUser.canDelete}"
+			scope="request" />
 
 		<o:importConstants type="tech.lapsa.insurance.crm.beans.i.RequestType" />
 
@@ -70,8 +71,7 @@
 			</h:panelGroup>
 
 			<h:panelGroup id="deleteRequestDialog">
-				<ui:include
-					src="dialog.request.delete.include.xhtml">
+				<ui:include src="dialog.request.delete.include.xhtml">
 					<ui:param name="dialogWV" value="deleteRequestDialogWV" />
 					<ui:param name="rr" value="#{rqst.value}" />
 					<ui:param name="update"
@@ -183,20 +183,8 @@
 				</p:column>
 				<p:column width="10">
 					<h:panelGroup rendered="#{not empty rr.UTMSource}">
-						<h:panelGroup id="source">
-							<h:panelGroup styleClass="fa fa-google"
-								rendered="#{rr.UTMSource eq 'google'}" />
-							<h:panelGroup styleClass="fa fa-home"
-								rendered="#{rr.UTMSource eq 'theeurasia'}" />
-							<h:panelGroup styleClass="fa fa-y-combinator"
-								rendered="#{rr.UTMSource eq 'yandex'}" />
-							<h:panelGroup styleClass="fa fa-facebook"
-								rendered="#{rr.UTMSource eq 'facebook'}" />
-							<h:panelGroup styleClass="fa fa-instagram"
-								rendered="#{rr.UTMSource eq 'instagram'}" />
-							<h:panelGroup styleClass="fa fa-youtube"
-								rendered="#{rr.UTMSource eq 'youtube'}" />
-						</h:panelGroup>
+						<h:panelGroup id="source"
+							styleClass="#{global.iconStyleClassByUTMSource(rr.UTMSource)}" />
 						<p:tooltip for="source" trackMouse="true">
 							<h:outputText value="Источник: #{rr.UTMSource}" />
 							<br />

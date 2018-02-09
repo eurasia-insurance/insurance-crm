@@ -15,12 +15,7 @@
 
 				<crm:outputRow label="Номер счета"
 					rendered="#{not empty rr.paymentInvoiceNumber}">
-					<p:inputText readonly="true" size="35"
-						value="#{rr.paymentInvoiceNumber}" onfocus="this.select()" />
-					<p:button id="numberCopy" icon="fa fa-copy" href="#"
-						title="Скопирвать номер в буфер обмена" />
-					<pe:clipboard trigger="numberCopy" action="copy"
-						text="#{rr.paymentInvoiceNumber}" />
+					<h:outputText value="#{rr.paymentInvoiceNumber}" />
 				</crm:outputRow>
 
 				<crm:outputRow label="Ссыла на оплату"
@@ -32,7 +27,7 @@
 					<p:button id="pageCopy" icon="fa fa-fw fa-copy" href="#"
 						title="Скопирвать ссылку в буфер обмена" />
 					<p:button href="#{url}" icon="fa fa-fw fa-external-link"
-						target="_blank" title="Отркыть страницу оплаты" value="Go!" />
+						target="_blank" title="Перейти на страницу оплаты" value="Go!" />
 					<pe:clipboard trigger="pageCopy" action="copy" text="#{url}" />
 				</crm:outputRow>
 

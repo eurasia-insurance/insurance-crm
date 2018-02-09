@@ -4,6 +4,7 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:jfc="http://lapsa.tech/javax/faces-commons"
 	xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
 
@@ -12,14 +13,27 @@
 		<p:panel>
 			<p:panelGrid>
 
-				<crm:outputRow label="Номер счета" rendered="#{not empty rr.paymentInvoiceNumber}">
-					<h:outputText value="#{rr.paymentInvoiceNumber}" />
-					[
-					<h:outputLink
-						value="#{functionFacade.paymentUrl(rr.paymentInvoiceNumber)}"
-						target="_blank">страница счета
-					</h:outputLink>
-					]
+				<crm:outputRow label="Номер счета"
+					rendered="#{not empty rr.paymentInvoiceNumber}">
+					<p:inputText readonly="true" size="35"
+						value="#{rr.paymentInvoiceNumber}" onfocus="this.select()" />
+					<p:button id="numberCopy" icon="fa fa-copy" href="#"
+						title="Скопирвать номер в буфер обмена" />
+					<pe:clipboard trigger="numberCopy" action="copy"
+						text="#{rr.paymentInvoiceNumber}" />
+				</crm:outputRow>
+
+				<crm:outputRow label="Ссыла на оплату"
+					rendered="#{not empty rr.paymentInvoiceNumber}">
+					<ui:param name="url"
+						value="#{functionFacade.paymentUrl(rr.paymentInvoiceNumber)}" />
+					<p:inputText readonly="true" value="#{url}" onfocus="this.select()"
+						size="45" />
+					<p:button id="pageCopy" icon="fa fa-fw fa-copy" href="#"
+						title="Скопирвать ссылку в буфер обмена" />
+					<p:button href="#{url}" icon="fa fa-fw fa-external-link"
+						target="_blank" title="Отркыть страницу оплаты" value="Go!" />
+					<pe:clipboard trigger="pageCopy" action="copy" text="#{url}" />
 				</crm:outputRow>
 
 				<crm:outputRowText label="Статус оплаты"

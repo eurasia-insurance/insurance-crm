@@ -129,12 +129,6 @@
 			<scope>runtime</scope>
 			<optional>false</optional>
 		</dependency>
-		<dependency>
-			<groupId>com.lapsa.font-awesome-lib</groupId>
-			<artifactId>font-awesome</artifactId>
-			<scope>runtime</scope>
-			<optional>false</optional>
-		</dependency>
 		<!-- external -->
 		<dependency>
 			<groupId>org.primefaces</groupId>

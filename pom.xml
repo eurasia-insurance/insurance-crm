@@ -41,9 +41,9 @@
 		<javax-faces-commons.version>1.1</javax-faces-commons.version>
 		<lapsa-primefaces.version>1.1</lapsa-primefaces.version>
 		<insurance-faces.version>3.1.1</insurance-faces.version>
-		<primefaces.version>5.3.16</primefaces.version>
+		<primefaces.version>6.1.13</primefaces.version>
 		<primefaces-themes.version>1.0.10</primefaces-themes.version>
-		<primefaces-extensions.version>4.0.0</primefaces-extensions.version>
+		<primefaces-extensions.version>6.1.1</primefaces-extensions.version>
 		<omnifaces.version>2.5.1</omnifaces.version>
 	</properties>
 

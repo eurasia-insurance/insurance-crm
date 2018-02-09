@@ -121,55 +121,42 @@
 							value="#{instant.now}" useVerbal="false" /></div>
 				</f:facet>
 
-				<p:column width="25" sortBy="#{rr.progressStatus}"
-					style="text-align: center">
+				<p:column sortBy="#{rr.progressStatus}" style="text-align: center;"
+					width="15">
 					<ui:include src="output.request-progress-icon.include.xhtml" />
 				</p:column>
-				<p:column width="25" sortBy="#{req.type}" style="text-align: center">
+				<p:column sortBy="#{req.type}" style="text-align: center" width="15">
 					<ui:include src="output.request-type-icon.include.xhtml" />
 				</p:column>
-				<p:column width="25" sortable="#{req.paymentMethodName}"
-					style="text-align: center">
+				<p:column sortable="#{req.paymentMethodName}"
+					style="text-align: center; white-space: nowrap;" width="15">
 					<ui:include src="output.request-payment-icon.include.xhtml" />
 				</p:column>
-				<p:column headerText="Тип" width="100"
-					styleClass="#{not empty rr.insuranceRequestType ? ('col-request-' += rr.insuranceRequestType) : ''}">
-					<h:outputText value="#{localized.few(rr.insuranceRequestType)}" />
-				</p:column>
-				<p:column headerText="Продукт" width="60">
-					<h:outputText value="#{localized.few(rr.insuranceProductType)}" />
-				</p:column>
-				<p:column headerText="Номер" sortBy="#{rr.id}" width="50">
+				<p:column headerText="Номер" sortBy="#{rr.id}"
+					style="white-space: nowrap;" width="35">
 					<h:outputText value="#{rr.id}" />
 				</p:column>
-				<p:column headerText="Дата создания" width="150"
-					sortBy="#{rr.created}">
-					<jfc:outputInstant value="#{rr.created}" />
-				</p:column>
-				<p:column headerText="Создано" width="70">
-					<h:outputText rendered="#{not empty rr.createdBy}"
-						value="#{rr.createdBy.name}" />
-				</p:column>
-				<p:column headerText="Дата обновления" width="150"
-					sortBy="#{rr.updated}">
-					<jfc:outputInstant value="#{rr.updated}" />
-				</p:column>
-				<p:column headerText="Сумма" width="100" style="text-align: right">
+				<p:column headerText="Сумма"
+					style="text-align: right; white-space: nowrap;" width="60">
 					<jfc:outputCurrencyAmount value="#{rr.amount}"
 						currency="#{rr.currency}" outputZeroes="#{false}" />
 				</p:column>
-				<p:column headerText="Имя заявителя" width="300"
-					sortBy="#{rr.requesterName}">
-					<h:outputText value="#{rr.requesterName}" />
+				<p:column headerText="Имя заявителя" sortBy="#{rr.requesterName}"
+					style="white-space: nowrap;">
+					<h:outputText id="requesterName" value="#{rr.requesterName}" />
+					<p:tooltip for="requesterName" trackMouse="true">
+						<h:outputText value="#{rr.requesterName}" />
+					</p:tooltip>
 				</p:column>
-				<p:column headerText="Яз." width="20">
+				<p:column headerText="Яз." style="white-space: nowrap;" width="25">
 					<h:outputText value="#{localized.few(rr.requesterLanguage)}" />
 				</p:column>
-				<p:column headerText="Телефон заявителя" width="130"
-					sortBy="#{rr.requesterPhone}">
+				<p:column headerText="Телефон заявителя"
+					sortBy="#{rr.requesterPhone}" style="white-space: nowrap;"
+					width="100">
 					<p:commandButton
 						rendered="#{rr.progressStatus eq 'NEW' and canChange}"
-						value="Показать" icon="fa fa-hand-o-right" 
+						value="Показать" icon="fa fa-hand-o-right"
 						action="#{mainFacade.doAcceptRequestOnce}" process="@this"
 						update="@form:requestsTable @form:mainToolbar @form:summaryPanel">
 						<f:setPropertyActionListener value="#{rr}" target="#{rqst.value}" />
@@ -177,12 +164,25 @@
 					<h:outputText value="#{rr.requesterPhone}"
 						rendered="#{rr.progressStatus ne 'NEW'}" />
 				</p:column>
-				<p:column headerText="ИИН заявителя" width="100"
-					sortBy="#{rr.requesterIdNumber}">
-					<h:outputText value="#{rr.requesterIdNumber}" />
+				<p:column headerText="Поступило" sortBy="#{rr.created}"
+					style="white-space: nowrap;" width="100">
+					<jfc:outputInstant value="#{rr.created}" />
 				</p:column>
-				<p:column width="10">
-					<h:panelGroup rendered="#{not empty rr.UTMSource}" styleClass="request-icon">
+				<p:column headerText="Автор" style="white-space: nowrap;">
+					<h:outputText rendered="#{not empty rr.createdBy}"
+						value="#{rr.createdBy.name}" />
+				</p:column>
+				<p:column headerText="Принято" style="white-space: nowrap;"
+					width="100">
+					<jfc:outputInstant value="#{rr.accepted}" />
+				</p:column>
+				<p:column headerText="Ответственный" style="white-space: nowrap;">
+					<h:outputText rendered="#{not empty rr.acceptedBy}"
+						value="#{rr.acceptedBy.name}" />
+				</p:column>
+				<p:column style="white-space: nowrap;" width="15">
+					<h:panelGroup rendered="#{not empty rr.UTMSource}"
+						styleClass="request-icon">
 						<h:panelGroup id="source"
 							styleClass="#{global.iconStyleClassByUTMSource(rr.UTMSource)}" />
 						<p:tooltip for="source" trackMouse="true">
@@ -196,10 +196,16 @@
 						</p:tooltip>
 					</h:panelGroup>
 				</p:column>
-				<p:column headerText="Доп информация" sortable="false">
-					<h:panelGroup rendered="#{rr.insuranceProductType eq 'POLICY'}"
-						style="white-space: nowrap">
-						Авто: #{localized.few(rr.entity.policy.insuredVehicles[0].area)}, #{localized.few(rr.entity.policy.insuredVehicles[0].city)}<br />
+				<p:column headerText="Доп информация" sortable="false"
+					style="white-space: nowrap;">
+					<h:panelGroup rendered="#{rr.insuranceProductType eq 'POLICY'}">
+						<h:outputText id="additionalInfo"
+							value="#{localized.few(rr.entity.policy.insuredVehicles[0].area)}" />
+						<p:tooltip for="additionalInfo" trackMouse="true">
+							<ui:repeat var="veh" value="#{rr.entity.policy.insuredVehicles}">
+								<li>#{localized.few(veh.area)}</li>
+							</ui:repeat>
+						</p:tooltip>
 					</h:panelGroup>
 				</p:column>
 			</p:dataTable>

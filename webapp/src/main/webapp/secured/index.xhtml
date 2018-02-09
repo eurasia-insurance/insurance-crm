@@ -164,6 +164,18 @@
 					<h:outputText value="#{rr.requesterPhone}"
 						rendered="#{rr.progressStatus ne 'NEW'}" />
 				</p:column>
+				<p:column headerText="Доп.информаця" sortable="false"
+					style="white-space: nowrap;">
+					<h:panelGroup rendered="#{rr.insuranceProductType eq 'POLICY'}">
+						<h:outputText id="additionalInfo"
+							value="#{localized.few(rr.entity.policy.insuredVehicles[0].area)}" />
+						<p:tooltip for="additionalInfo" trackMouse="true">
+							<ui:repeat var="veh" value="#{rr.entity.policy.insuredVehicles}">
+								<li>#{localized.few(veh.area)}</li>
+							</ui:repeat>
+						</p:tooltip>
+					</h:panelGroup>
+				</p:column>
 				<p:column headerText="Поступило" sortBy="#{rr.created}"
 					style="white-space: nowrap;" width="100">
 					<jfc:outputInstant value="#{rr.created}" />
@@ -193,18 +205,6 @@
 							<h:outputText value="Кампания: #{rr.UTMCampaign}" />
 							<br />
 							<h:outputText value="Ключевые слова: #{rr.UTMTerm}" />
-						</p:tooltip>
-					</h:panelGroup>
-				</p:column>
-				<p:column headerText="Доп информация" sortable="false"
-					style="white-space: nowrap;">
-					<h:panelGroup rendered="#{rr.insuranceProductType eq 'POLICY'}">
-						<h:outputText id="additionalInfo"
-							value="#{localized.few(rr.entity.policy.insuredVehicles[0].area)}" />
-						<p:tooltip for="additionalInfo" trackMouse="true">
-							<ui:repeat var="veh" value="#{rr.entity.policy.insuredVehicles}">
-								<li>#{localized.few(veh.area)}</li>
-							</ui:repeat>
 						</p:tooltip>
 					</h:panelGroup>
 				</p:column>

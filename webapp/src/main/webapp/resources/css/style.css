@@ -3,11 +3,6 @@
 	
 }
 
-.ui-panel, .ui-datatable, .ui-panelgrid {
-	margin-bottom: .5em;
-	margin-top: .5em;
-}
-
 .ui-panelgrid, .ui-panelgrid .ui-panelgrid-cell {
 	border-style: hidden;
 	/* 	 10px solid black; */
@@ -31,8 +26,7 @@
 }
 
 .request-icon .fa {
-	font-size: 1.8em;
-	text-shadow: none;
+	font-size: 18px;
 }
 
 .icon-request-type {

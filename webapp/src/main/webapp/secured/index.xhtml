@@ -146,7 +146,7 @@
 					sortBy="#{rr.created}">
 					<jfc:outputInstant value="#{rr.created}" />
 				</p:column>
-				<p:column headerText="Создано" width="50">
+				<p:column headerText="Создано" width="70">
 					<h:outputText rendered="#{not empty rr.createdBy}"
 						value="#{rr.createdBy.name}" />
 				</p:column>
@@ -169,7 +169,7 @@
 					sortBy="#{rr.requesterPhone}">
 					<p:commandButton
 						rendered="#{rr.progressStatus eq 'NEW' and canChange}"
-						value="Показать" icon="fa fa-hand-o-right"
+						value="Показать" icon="fa fa-hand-o-right" 
 						action="#{mainFacade.doAcceptRequestOnce}" process="@this"
 						update="@form:requestsTable @form:mainToolbar @form:summaryPanel">
 						<f:setPropertyActionListener value="#{rr}" target="#{rqst.value}" />
@@ -182,7 +182,7 @@
 					<h:outputText value="#{rr.requesterIdNumber}" />
 				</p:column>
 				<p:column width="10">
-					<h:panelGroup rendered="#{not empty rr.UTMSource}">
+					<h:panelGroup rendered="#{not empty rr.UTMSource}" styleClass="request-icon">
 						<h:panelGroup id="source"
 							styleClass="#{global.iconStyleClassByUTMSource(rr.UTMSource)}" />
 						<p:tooltip for="source" trackMouse="true">

@@ -1,28 +1,15 @@
-.ui-panelgrid {
-	/* 	width: 100%; */
-	
-}
-
 .ui-panelgrid, .ui-panelgrid .ui-panelgrid-cell {
 	border-style: hidden;
-	/* 	 10px solid black; */
 	vertical-align: middle;
 }
 
-.col-request-UNCOMPLETE {
-	
+.ui-widget {
+	margin-top: .25em;
+	margin-bottom: .25em;
 }
 
 .row-closed TD {
 	color: #DDDDDD;
-}
-
-.col-request-EXPRESS {
-	background: #f5fed8;
-}
-
-.col-request-ONLINE {
-	background: #d8fee0;
 }
 
 .request-icon .fa {

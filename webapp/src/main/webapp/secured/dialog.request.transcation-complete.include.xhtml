@@ -38,50 +38,55 @@
 							</p:row>
 							<p:row>
 								<p:column>
-									<p:outputLabel value="Фактически оплачено" />
+									<p:outputLabel value="Фактически оплачено" for="paidAmount" />
 								</p:column>
 								<p:column>
-									<jfc:outputMoneyAmount rendered="#{transactionComplete.wasPaidBefore}"
+									<jfc:outputMoneyAmount
+										rendered="#{transactionComplete.wasPaidBefore}"
 										value="#{transactionComplete.paidAmount}"
 										currency="#{transactionComplete.paidCurrency}" />
-									<p:inputNumber rendered="#{!transactionComplete.wasPaidBefore}"
+									<p:inputNumber id="paidAmount"
+										rendered="#{!transactionComplete.wasPaidBefore}"
 										value="#{transactionComplete.paidAmount}" symbol=" &#8376;"
 										symbolPosition="e" decimalSeparator="," decimalPlaces="2"
-										thousandSeparator=" " minValue="1" onfocus="select()">
+										thousandSeparator=" " onfocus="select()">
 										<p:ajax process="@this" update="@this" />
 									</p:inputNumber>
 								</p:column>
 							</p:row>
 							<p:row>
 								<p:column>
-									<p:outputLabel value="Дата и время оплаты" />
+									<p:outputLabel value="Дата и время оплаты" for="paidInstant" />
 								</p:column>
 								<p:column>
-									<jfc:outputInstant rendered="#{transactionComplete.wasPaidBefore}"
+									<jfc:outputInstant
+										rendered="#{transactionComplete.wasPaidBefore}"
 										value="#{transactionComplete.paidInstant}" />
-									<lpf:inputInstant rendered="#{!transactionComplete.wasPaidBefore}"
+									<lpf:inputInstant id="paidInstant"
+										rendered="#{!transactionComplete.wasPaidBefore}"
 										value="#{transactionComplete.paidInstant}" process="@this"
 										update="@this" />
 								</p:column>
 							</p:row>
 							<p:row>
 								<p:column>
-									<p:outputLabel value="Номер договора" />
+									<p:outputLabel value="Номер договора" for="agreementNumber" />
 								</p:column>
 								<p:column>
-									<p:inputText value="#{transactionComplete.agreementNumber}">
+									<p:inputText id="agreementNumber"
+										value="#{transactionComplete.agreementNumber}">
 										<p:ajax process="@this" update="@this" />
 									</p:inputText>
 								</p:column>
 							</p:row>
 							<p:row>
 								<p:column>
-									<p:outputLabel value="Примечание" />
+									<p:outputLabel value="Примечание" for="note" />
 								</p:column>
 							</p:row>
 							<p:row>
 								<p:column colspan="2">
-									<p:inputTextarea rows="7" cols="60"
+									<p:inputTextarea rows="7" cols="60" id="note"
 										value="#{transactionComplete.note}">
 										<p:ajax process="@this" update="@this" />
 									</p:inputTextarea>

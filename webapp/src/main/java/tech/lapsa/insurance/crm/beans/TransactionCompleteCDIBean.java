@@ -10,6 +10,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.FacesException;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.validation.constraints.Min;
 
 import com.lapsa.insurance.domain.Request;
 
@@ -47,7 +48,8 @@ public class TransactionCompleteCDIBean implements Serializable {
 
     // paidAmount
 
-    @NotNullValue
+    @NotNullValue(message = "Укажите сумму оплаченной премии")
+    @Min(value = 1, message = "Укажите сумму оплаченной премии")
     private Double paidAmount;
 
     public Double getPaidAmount() {
@@ -62,7 +64,7 @@ public class TransactionCompleteCDIBean implements Serializable {
 
     // paidInstant
 
-    @NotNullValue
+    @NotNullValue(message = "Укажите дату и время оплаты")
     private Instant paidInstant;
 
     public Instant getPaidInstant() {
@@ -77,7 +79,7 @@ public class TransactionCompleteCDIBean implements Serializable {
 
     // paidReference
 
-    @NotNullValue
+    @NotNullValue(message = "Укажите платежный референс")
     private String paidReference;
 
     public String getPaidReference() {
@@ -92,7 +94,7 @@ public class TransactionCompleteCDIBean implements Serializable {
 
     // paidCurrency
 
-    @NotNullValue
+    @NotNullValue(message = "Укажите валюту платежа")
     private Currency paidCurrency;
 
     public Currency getPaidCurrency() {
@@ -181,8 +183,8 @@ public class TransactionCompleteCDIBean implements Serializable {
 			    agreementNumber,
 			    "Введено вручную",
 			    paidAmount,
-			    paidCurrency, 
-			    paidInstant, 
+			    paidCurrency,
+			    paidInstant,
 			    paidReference)
 		    : completions.transactionComplete(r, currentUser.getValue(), note, agreementNumber);
 	} catch (IllegalState e1) {

@@ -10,6 +10,8 @@
 		<!-- >> wrapper -->
 		<h:panelGroup id="content">
 
+			<ui:param name="ajaxDelay" value="700" />
+
 			<p:panelGrid>
 				<p:row>
 					<p:column>
@@ -147,10 +149,10 @@
 							<p:outputLabel value="Номер заявки:" for="id" />
 						</p:column>
 						<p:column>
-							<p:inputNumber id="id" value="#{settings.requestFilter.id}"
-								decimalPlaces="0" minValue="0" size="5">
-								<p:ajax event="keyup" delay="700" process="@this" update="@form" />
-							</p:inputNumber>
+							<p:inputText id="id" value="#{settings.requestFilter.id}">
+								<p:ajax event="change" process="@this" update="@form"
+									delay="#{ajaxDelay}" />
+							</p:inputText>
 						</p:column>
 						<p:column>
 							<p:outputLabel value="Имя заявителя:" for="requesterNameMask" />
@@ -158,7 +160,8 @@
 						<p:column>
 							<p:inputText id="requesterNameMask"
 								value="#{settings.requestFilter.requesterNameMask}">
-								<p:ajax event="keyup" delay="700" process="@this" update="@form" />
+								<p:ajax event="change" delay="#{ajaxDelay}" process="@this"
+									update="@form" />
 							</p:inputText>
 						</p:column>
 						<p:column>
@@ -168,7 +171,8 @@
 						<p:column>
 							<p:inputText id="requesterTaxpayerNumber"
 								value="#{settings.requestFilter.requesterTaxpayerNumber}">
-								<p:ajax event="keyup" delay="700" process="@this" update="@form" />
+								<p:ajax event="change" delay="#{ajaxDelay}" process="@this"
+									update="@form" />
 							</p:inputText>
 						</p:column>
 					</p:row>

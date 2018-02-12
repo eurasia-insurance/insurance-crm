@@ -109,8 +109,8 @@ public class TransactionCompleteCDIBean implements Serializable {
 
     // agreementNumber
 
-    @NotNullValue
-    @NotEmptyString
+    @NotNullValue(message = "Укажите номер договора")
+    @NotEmptyString(message = "Укажите номер договора")
     private String agreementNumber;
 
     public String getAgreementNumber() {

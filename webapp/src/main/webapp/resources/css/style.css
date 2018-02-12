@@ -3,9 +3,9 @@
 	vertical-align: middle;
 }
 
-.ui-widget {
-	margin-top: .25em;
-	margin-bottom: .25em;
+.ui-panel, .ui-datatable {
+	margin-top: .35em;
+	margin-bottom: 0.35em;
 }
 
 .row-closed TD {

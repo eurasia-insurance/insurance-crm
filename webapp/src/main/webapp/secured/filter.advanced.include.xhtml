@@ -25,7 +25,7 @@
 						<p:column>
 							<lpf:inputLocalDateTime id="createdAfter"
 								value="#{settings.requestFilter.createdAfter}" process="@this"
-								update="@form" />
+								update="@form" ajaxDelay="#{filterChangedAjaxDelay}" />
 						</p:column>
 						<p:column>
 							<p:outputLabel value="Поступило по:" for="createdBefore" />
@@ -33,7 +33,7 @@
 						<p:column>
 							<lpf:inputLocalDateTime id="createdBefore"
 								value="#{settings.requestFilter.createdBefore}" process="@this"
-								update="@form" />
+								update="@form" ajaxDelay="#{filterChangedAjaxDelay}" />
 						</p:column>
 						<p:column>
 							<p:commandButton value="Очистить"
@@ -146,7 +146,7 @@
 						<p:column>
 							<lpf:inputLocalDateTime id="completedAfter"
 								value="#{settings.requestFilter.completedAfter}" process="@this"
-								update="@form" />
+								update="@form" ajaxDelay="#{filterChangedAjaxDelay}" />
 						</p:column>
 						<p:column>
 							<p:outputLabel value="Завершено по:" for="completedBefore" />
@@ -154,7 +154,8 @@
 						<p:column>
 							<lpf:inputLocalDateTime id="completedBefore"
 								value="#{settings.requestFilter.completedBefore}"
-								process="@this" update="@form" />
+								process="@this" update="@form"
+								ajaxDelay="#{filterChangedAjaxDelay}" />
 						</p:column>
 						<p:column>
 							<p:commandButton value="Очистить"
@@ -276,7 +277,8 @@
 									itemLabel="Запросы на КАСКО" />
 								<f:selectItem itemValue="#{RequestType.CALLBACK_REQUEST}"
 									itemLabel="Запросы на обратный звонок" />
-								<p:ajax process="@this" update="@form" />
+								<p:ajax process="@this" update="@form"
+									delay="#{filterChangedAjaxDelay}" />
 							</p:selectOneMenu>
 						</p:column>
 					</p:row>
@@ -298,7 +300,8 @@
 								<p:column>
 									<p:selectOneMenu id="transactionStatus"
 										value="#{settings.requestFilter.transactionStatus}">
-										<p:ajax process="@this" update="@form" />
+										<p:ajax process="@this" update="@form"
+											delay="#{filterChangedAjaxDelay}" />
 										<f:selectItem value="#{configurationFacade.anySI}" />
 										<f:selectItems value="#{si.array.few(TransactionStatus.all)}" />
 									</p:selectOneMenu>
@@ -310,7 +313,8 @@
 								<p:column>
 									<p:selectOneMenu id="transactionProblem"
 										value="#{settings.requestFilter.transactionProblem}">
-										<p:ajax process="@this" update="@form" />
+										<p:ajax process="@this" update="@form"
+											delay="#{filterChangedAjaxDelay}" />
 										<f:selectItem value="#{configurationFacade.anySI}" />
 										<f:selectItems value="#{si.array.few(TransactionProblem.all)}" />
 									</p:selectOneMenu>
@@ -324,7 +328,8 @@
 								<p:column>
 									<p:selectOneMenu id="requestType"
 										value="#{settings.requestFilter.requestType}">
-										<p:ajax process="@this" update="@form" />
+										<p:ajax process="@this" update="@form"
+											delay="#{filterChangedAjaxDelay}" />
 										<f:selectItem value="#{configurationFacade.anySI}" />
 										<f:selectItems
 											value="#{si.array.few(InsuranceRequestType.all)}" />
@@ -337,8 +342,8 @@
 								<p:column>
 									<p:inputText id="agreementNumberMask"
 										value="#{settings.requestFilter.agreementNumberMask}">
-										<p:ajax event="keyup" delay="700" process="@this"
-											update="@form" />
+										<p:ajax event="change" process="@this" update="@form"
+											delay="#{filterChangedAjaxDelay}" />
 									</p:inputText>
 								</p:column>
 							</p:row>
@@ -356,7 +361,8 @@
 								<p:column>
 									<p:selectOneMenu id="paymentStatus"
 										value="#{settings.requestFilter.paymentStatus}">
-										<p:ajax process="@this" update="@form" />
+										<p:ajax process="@this" update="@form"
+											delay="#{filterChangedAjaxDelay}" />
 										<f:selectItem value="#{configurationFacade.anySI}" />
 										<f:selectItems value="#{si.array.few(PaymentStatus.all)}" />
 									</p:selectOneMenu>
@@ -368,8 +374,8 @@
 								<p:column>
 									<p:inputText id="paymentInvoiceNumber"
 										value="#{settings.requestFilter.paymentInvoiceNumber}">
-										<p:ajax event="keyup" delay="700" process="@this"
-											update="@form" />
+										<p:ajax event="change" process="@this" update="@form"
+											delay="#{filterChangedAjaxDelay}" />
 									</p:inputText>
 								</p:column>
 							</p:row>
@@ -381,8 +387,8 @@
 								<p:column>
 									<p:inputText id="paymentReference"
 										value="#{settings.requestFilter.paymentReference}">
-										<p:ajax event="keyup" delay="700" process="@this"
-											update="@form" />
+										<p:ajax event="change" process="@this" update="@form"
+											delay="#{filterChangedAjaxDelay}" />
 									</p:inputText>
 								</p:column>
 							</p:row>

@@ -39,7 +39,7 @@
 		<reports-lib.version>1.1</reports-lib.version>
 		<!-- faces -->
 		<javax-faces-commons.version>1.1</javax-faces-commons.version>
-		<lapsa-primefaces.version>1.1</lapsa-primefaces.version>
+		<lapsa-primefaces.version>1.1.2</lapsa-primefaces.version>
 		<insurance-faces.version>3.1.1</insurance-faces.version>
 		<primefaces.version>6.1.13</primefaces.version>
 		<primefaces-themes.version>1.0.10</primefaces-themes.version>

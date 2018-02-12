@@ -53,7 +53,7 @@ public class TransactionUncompleteCDIBean implements Serializable {
 
     // problem
 
-    @NotNullValue
+    @NotNullValue(message = "Укажите причину")
     private TransactionProblem problem;
 
     public TransactionProblem getProblem() {
@@ -84,7 +84,7 @@ public class TransactionUncompleteCDIBean implements Serializable {
 	    final TransactionProblem problem = (TransactionProblem) ((UIInput) component.getAttributes()
 		    .get("problemComp")).getValue();
 	    if (problem == TransactionProblem.OTHER && (value == null || MyStrings.empty(value.toString())))
-		throw new ValidatorException(Messages.createError("Укажите причину"));
+		throw new ValidatorException(Messages.createError("Опишите причину в разделе примечание"));
 	}
     }
 

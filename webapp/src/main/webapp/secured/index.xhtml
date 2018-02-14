@@ -132,6 +132,12 @@
 					style="text-align: center; white-space: nowrap;" width="15">
 					<ui:include src="output.request-payment-icon.include.xhtml" />
 				</p:column>
+				<p:column width="15">
+					<h:panelGroup styleClass="request-icon">
+						<h:panelGroup
+							styleClass="#{global.iconStyleClassByPaymentCard(rr.paymentCard)}" />
+					</h:panelGroup>
+				</p:column>
 				<p:column headerText="Номер" sortBy="#{rr.id}"
 					style="white-space: nowrap;" width="35">
 					<h:outputText value="#{rr.id}" />

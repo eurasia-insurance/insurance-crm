@@ -109,6 +109,8 @@ public interface RequestRow<T extends Request> {
 
     String getPaymentReference();
 
+    String getPaymentCard();
+
     String getPaymentMethodName();
 
     Instant getPaymentInstant();

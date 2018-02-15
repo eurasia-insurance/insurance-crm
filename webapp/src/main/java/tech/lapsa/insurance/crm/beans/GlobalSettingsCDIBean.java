@@ -27,4 +27,15 @@ public class GlobalSettingsCDIBean implements Serializable {
 	return settings.getProperty("icon-class.utm-source." + utmSource, "") //
 		.replaceAll("____", " ");
     }
+
+    public String iconStyleClassByPaymentCard(final String paymentCard) {
+	if (MyStrings.empty(paymentCard))
+	    return "";
+	final String bin = paymentCard.substring(0, 6);
+	final String bank = settings.getProperty("bank.bin." + bin, "");
+	if (MyStrings.empty(bank))
+	    return "";
+	return settings.getProperty("icon-class.bank." + bank, "") //
+		.replaceAll("____", " ");
+    }
 }

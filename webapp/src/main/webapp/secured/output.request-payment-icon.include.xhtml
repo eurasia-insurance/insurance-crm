@@ -18,9 +18,12 @@
 	</h:panelGroup>
 
 	<p:tooltip for="paymentIconWrapper" trackMouse="true">
-		<h:outputText value="#{localized.few(rr.paymentStatus)}" />
-		<h:outputText value=": #{rr.paymentMethodName}"
-			rendered="#{rr.paymentStatus eq 'DONE'}" />
+		<li><h:outputText value="#{localized.few(rr.paymentStatus)}" />
+			<h:outputText value=": #{rr.paymentMethodName}"
+				rendered="#{rr.paymentStatus eq 'DONE'}" /></li>
+		<h:panelGroup rendered="#{not empty rr.paymentCard}">
+			<li>Номер карты: #{rr.paymentCard}</li>
+		</h:panelGroup>
 	</p:tooltip>
 
 </ui:composition>

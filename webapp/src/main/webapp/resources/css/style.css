@@ -1,28 +1,15 @@
-.ui-panelgrid {
-	/* 	width: 100%; */
-	
-}
-
 .ui-panelgrid, .ui-panelgrid .ui-panelgrid-cell {
 	border-style: hidden;
-	/* 	 10px solid black; */
 	vertical-align: middle;
 }
 
-.col-request-UNCOMPLETE {
-	
+.ui-panel, .ui-datatable {
+	margin-top: .35em;
+	margin-bottom: 0.35em;
 }
 
 .row-closed TD {
 	color: #DDDDDD;
-}
-
-.col-request-EXPRESS {
-	background: #f5fed8;
-}
-
-.col-request-ONLINE {
-	background: #d8fee0;
 }
 
 .request-icon .fa {
@@ -31,6 +18,10 @@
 
 .icon-request-type {
 	color: #CCCCCC;
+}
+
+.icon-attention {
+	color: #f78818;
 }
 
 .icon-success {

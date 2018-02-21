@@ -3,7 +3,6 @@ package tech.lapsa.insurance.crm.beans;
 import static com.lapsa.utils.security.SecurityUtils.*;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoField;
@@ -19,15 +18,11 @@ import javax.faces.FacesException;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.primefaces.event.SelectEvent;
-
 import com.lapsa.insurance.domain.Request;
-import com.lapsa.insurance.elements.ProgressStatus;
 import com.lapsa.insurance.elements.RequestStatus;
 
 import tech.lapsa.epayment.facade.EpaymentFacade.EpaymentFacadeRemote;
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
-import tech.lapsa.insurance.crm.beans.i.CurrentUserHolder;
 import tech.lapsa.insurance.crm.beans.i.MainFacade;
 import tech.lapsa.insurance.crm.beans.i.RequestHolder;
 import tech.lapsa.insurance.crm.beans.i.SettingsHolder;
@@ -176,7 +171,6 @@ public class MainFacadeBean implements MainFacade, Serializable {
 	return null;
     }
 
-
     public String doFilterCompletedToday() {
 	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
 	final RequestFilter f = settingsHolder.getRequestFilter();
@@ -282,36 +276,6 @@ public class MainFacadeBean implements MainFacade, Serializable {
     }
 
     @Override
-    public String doAcceptRequestOnce() {
-	checkRoleGranted(InsuranceRoleGroup.CHANGERS);
-	acceptRequestOnce();
-	saveRequest();
-	return null;
-    }
-
-    @Override
-    public void onDatatableDblSelect(SelectEvent event) {
-	acceptRequestOnce();
-	saveRequest();
-    }
-
-    @Override
-    public String doPauseRequest() {
-	checkRoleGranted(InsuranceRoleGroup.CHANGERS);
-	pauseRequest();
-	saveRequest();
-	return null;
-    }
-
-    @Override
-    public String doResumeRequest() {
-	checkRoleGranted(InsuranceRoleGroup.CHANGERS);
-	resumeRequest();
-	saveRequest();
-	return null;
-    }
-
-    @Override
     public String doCancelEditRequest() {
 	checkRoleGranted(InsuranceRoleGroup.CHANGERS);
 	resetRequest();
@@ -342,9 +306,6 @@ public class MainFacadeBean implements MainFacade, Serializable {
     @Inject
     private RequestHolder requestHolder;
 
-    @Inject
-    private CurrentUserHolder currentUser;
-
     private void initFilter() {
 	resetFilter();
 	settingsHolder.getRequestFilter().setRequestStatus(RequestStatus.OPEN);
@@ -361,18 +322,6 @@ public class MainFacadeBean implements MainFacade, Serializable {
 	List<? extends Request> find() throws IllegalArgument;
     }
 
-    private void saveRequest() {
-	Request request = requestHolder.getValue().getEntity();
-	request.setUpdated(Instant.now());
-	final Request insuranceRequestSaved;
-	try {
-	    insuranceRequestSaved = requestDAO.save(request);
-	} catch (IllegalArgument e) {
-	    throw new FacesException(e);
-	}
-	requestHolder.setValue(RequestRow.from(insuranceRequestSaved));
-    }
-
     private void resetRequest() {
 	final Request request = requestHolder.getValue().getEntity();
 	try {
@@ -386,29 +335,6 @@ public class MainFacadeBean implements MainFacade, Serializable {
 	} catch (NotFound e) {
 	    throw new IllegalStateException(e);
 	}
-    }
-
-    private void acceptRequestOnce() {
-	Request request = requestHolder.getValue().getEntity();
-	if (request.getAccepted() == null)
-	    acceptRequest();
-    }
-
-    private void acceptRequest() {
-	Request request = requestHolder.getValue().getEntity();
-	request.setProgressStatus(ProgressStatus.ON_PROCESS);
-	request.setAccepted(Instant.now());
-	request.setAcceptedBy(currentUser.getValue());
-    }
-
-    private void resumeRequest() {
-	Request request = requestHolder.getValue().getEntity();
-	request.setProgressStatus(ProgressStatus.ON_PROCESS);
-    }
-
-    private void pauseRequest() {
-	Request request = requestHolder.getValue().getEntity();
-	request.setProgressStatus(ProgressStatus.ON_HOLD);
     }
 
     private void modifyCreated(final UnaryOperator<LocalDateTime> modifier) {

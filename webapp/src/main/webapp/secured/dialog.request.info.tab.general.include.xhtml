@@ -93,7 +93,7 @@
 							</crm:outputRow>
 
 							<crm:outputRow rendered="#{not empty rr.closed}"
-								label="Заявка закрыта">
+								label="Помещена в архив">
 								<jfc:outputInstant value="#{rr.closed}" />
 								<h:outputText rendered="#{not empty rr.closedBy}"
 									value="&amp;nbsp;(#{rr.closedBy.name})"

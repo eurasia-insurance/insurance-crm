@@ -198,6 +198,10 @@
 					<h:outputText rendered="#{not empty rr.acceptedBy}"
 						value="#{rr.acceptedBy.name}" />
 				</p:column>
+				<p:column headerText="Обновлено" sortBy="#{rr.updated}"
+					style="white-space: nowrap;" width="100">
+					<jfc:outputInstant value="#{rr.updated}" />
+				</p:column>
 				<p:column style="white-space: nowrap;" width="15">
 					<h:panelGroup rendered="#{not empty rr.UTMSource}"
 						styleClass="request-icon">

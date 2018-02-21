@@ -82,6 +82,13 @@
 
 				</h:panelGroup>
 
+				<h:panelGroup rendered="#{canClose}">
+					<p:commandButton value="В архив" icon="fa fa-archive"
+						disabled="#{rr.progressStatus ne 'FINISHED' or rr.requestStatus ne 'OPEN'}"
+						action="#{closeRequest.doClose}" process="@this"
+						update="requestToolbar #{update}" />
+				</h:panelGroup>
+
 				<h:panelGroup rendered="#{canDelete}">
 					<p:commandButton value="Удалить..." icon="fa fa-ban"
 						disabled="#{rr.transactionStatus ne 'NOT_COMPLETED'}"

@@ -163,7 +163,7 @@
 					<p:commandButton
 						rendered="#{rr.progressStatus eq 'NEW' and canChange}"
 						value="Показать" icon="fa fa-hand-o-right"
-						action="#{mainFacade.doAcceptRequestOnce}" process="@this"
+						action="#{acceptRequest.doAccept}" process="@this"
 						update="@form:requestsTable @form:mainToolbar @form:summaryPanel">
 						<f:setPropertyActionListener value="#{rr}" target="#{rqst.value}" />
 					</p:commandButton>

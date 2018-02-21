@@ -48,21 +48,22 @@
 						<h:panelGroup class="ui-icon ui-icon-grip-dotted-vertical" />
 					</h:panelGroup>
 
-					<p:commandButton value="Начать обработку" icon="fa fa-play-circle-o"
+					<p:commandButton value="Начать обработку"
+						icon="fa fa-play-circle-o"
 						disabled="#{rr.progressStatus ne 'NEW'}"
-						action="#{mainFacade.doAcceptRequestOnce}" process="@this"
+						action="#{acceptRequest.doAccept}" process="@this"
 						update="requestToolbar #{update}" />
 
 					<p:commandButton value="Приостановить" icon="fa fa-pause-circle-o"
 						disabled="#{rr.progressStatus ne 'ON_PROCESS'}"
 						rendered="#{rr.progressStatus ne 'ON_HOLD'}"
-						action="#{mainFacade.doPauseRequest}" process="@this"
+						action="#{pauseRequest.doPause}" process="@this"
 						update="requestToolbar #{update}" />
 
 					<p:commandButton value="Возобновить" icon="fa fa-play-circle-o"
 						disabled="#{rr.progressStatus ne 'ON_HOLD'}"
 						rendered="#{rr.progressStatus eq 'ON_HOLD'}"
-						action="#{mainFacade.doResumeRequest}" process="@this"
+						action="#{resumeRequest.doResume}" process="@this"
 						update="requestToolbar #{update}" />
 
 					<p:commandButton value="Договор заключен..." icon="fa fa-check"
@@ -79,6 +80,13 @@
 						<p:resetInput target="@form:transactionUncompleteDialog" />
 					</p:commandButton>
 
+				</h:panelGroup>
+
+				<h:panelGroup rendered="#{canClose}">
+					<p:commandButton value="В архив" icon="fa fa-archive"
+						disabled="#{rr.progressStatus ne 'FINISHED' or rr.requestStatus ne 'OPEN'}"
+						action="#{closeRequest.doClose}" process="@this"
+						update="requestToolbar #{update}" />
 				</h:panelGroup>
 
 				<h:panelGroup rendered="#{canDelete}">

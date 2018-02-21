@@ -19,14 +19,14 @@
 						<p:panelGrid>
 							<p:row>
 								<p:column>
-									<p:commandLink process="@this" update="@form" value="Открытые"
+									<p:commandLink process="@this" update="@form" value="Входящие"
 										style="#{settings.requestFilter.requestStatus == 'OPEN' ? 'font-weight: bold' : ''}">
 										<f:setPropertyActionListener
 											target="#{settings.requestFilter.requestStatus}" value="OPEN" />
 									</p:commandLink>
 								</p:column>
 								<p:column>
-									<p:commandLink process="@this" update="@form" value="Закрытые"
+									<p:commandLink process="@this" update="@form" value="Архив"
 										style="#{settings.requestFilter.requestStatus == 'CLOSED' ? 'font-weight: bold' : ''}">
 										<f:setPropertyActionListener
 											target="#{settings.requestFilter.requestStatus}"

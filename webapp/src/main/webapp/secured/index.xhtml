@@ -163,7 +163,7 @@
 					<p:commandButton
 						rendered="#{rr.progressStatus eq 'NEW' and canChange}"
 						value="Показать" icon="fa fa-hand-o-right"
-						action="#{mainFacade.doAcceptRequestOnce}" process="@this"
+						action="#{acceptRequest.doAccept}" process="@this"
 						update="@form:requestsTable @form:mainToolbar @form:summaryPanel">
 						<f:setPropertyActionListener value="#{rr}" target="#{rqst.value}" />
 					</p:commandButton>
@@ -197,6 +197,10 @@
 				<p:column headerText="Ответственный" style="white-space: nowrap;">
 					<h:outputText rendered="#{not empty rr.acceptedBy}"
 						value="#{rr.acceptedBy.name}" />
+				</p:column>
+				<p:column headerText="Обновлено" sortBy="#{rr.updated}"
+					style="white-space: nowrap;" width="100">
+					<jfc:outputInstant value="#{rr.updated}" />
 				</p:column>
 				<p:column style="white-space: nowrap;" width="15">
 					<h:panelGroup rendered="#{not empty rr.UTMSource}"

@@ -60,9 +60,8 @@
 				<h:outputText rendered="#{not vehicle.temporaryEntry}"
 					value="#{localized.few(vehicle.area)}" />
 			</p:column>
-			<p:column headerText="Город">
-				<h:outputText rendered="#{not vehicle.temporaryEntry}"
-					value="#{localized.few(vehicle.city)}" />
+			<p:column headerText="Город регионального значения">
+				<crm:outputYesNo value="#{vehicle.forcedMajorCity}" />
 			</p:column>
 			<p:column headerText="Возраст авто">
 				<h:outputText

@@ -81,6 +81,17 @@
 							</p:row>
 							<p:row>
 								<p:column>
+									<p:outputLabel value="Плательщик" for="note" />
+								</p:column>
+								<p:column>
+									<p:inputText id="payerName"
+										value="#{transactionComplete.payerName}">
+										<p:ajax process="@this" update="@this" />
+									</p:inputText>
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column>
 									<p:outputLabel value="Примечание" for="note" />
 								</p:column>
 							</p:row>

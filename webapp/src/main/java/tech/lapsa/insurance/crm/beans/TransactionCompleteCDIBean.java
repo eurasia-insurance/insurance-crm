@@ -133,6 +133,18 @@ public class TransactionCompleteCDIBean implements Serializable {
 	this.note = note;
     }
 
+    // payerName
+
+    private String payerName;
+
+    public String getPayerName() {
+	return payerName;
+    }
+
+    public void setPayerName(String payerName) {
+	this.payerName = payerName;
+    }
+
     // controls
 
     @PostConstruct
@@ -141,6 +153,7 @@ public class TransactionCompleteCDIBean implements Serializable {
 	if (rr != null) {
 	    this.paidable = rr.getPayment() != null;
 	    this.wasPaidBefore = paidable && rr.getPaymentInstant() != null;
+	    this.payerName = rr.getRequesterName();
 	    if (wasPaidBefore) {
 		this.paidInstant = rr.getPaymentInstant();
 		this.paidAmount = rr.getPaymentAmount();
@@ -185,7 +198,8 @@ public class TransactionCompleteCDIBean implements Serializable {
 			    paidAmount,
 			    paidCurrency,
 			    paidInstant,
-			    paidReference)
+			    paidReference,
+			    payerName)
 		    : completions.transactionComplete(r, currentUser.getValue(), note, agreementNumber);
 	} catch (IllegalState e1) {
 	    throw e1.getRuntime();

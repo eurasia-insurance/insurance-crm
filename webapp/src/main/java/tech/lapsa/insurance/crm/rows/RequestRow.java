@@ -114,6 +114,8 @@ public interface RequestRow<T extends Request> {
     String getPaymentMethodName();
 
     Instant getPaymentInstant();
+    
+    String getPaymentPayerName();
 
     // requester
 

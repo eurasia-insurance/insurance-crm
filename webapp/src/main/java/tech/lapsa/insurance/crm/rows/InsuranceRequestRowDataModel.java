@@ -171,6 +171,15 @@ public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> e
     }
 
     @Override
+    public String getPaymentPayerName() {
+	try {
+	    return entity.getPayment().getPayerName();
+	} catch (NullPointerException e) {
+	    return null;
+	}
+    }
+
+    @Override
     public String getAgreementNumber() {
 	try {
 	    return entity.getAgreementNumber();

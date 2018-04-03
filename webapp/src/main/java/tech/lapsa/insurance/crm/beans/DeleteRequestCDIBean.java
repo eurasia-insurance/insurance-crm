@@ -21,9 +21,9 @@ import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.function.MyExceptions;
 import tech.lapsa.patterns.dao.NotFound;
 
-@Named("requestDelete")
+@Named("deleteRequest")
 @RequestScoped
-public class RequestDeleteCDIBean implements Serializable {
+public class DeleteRequestCDIBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

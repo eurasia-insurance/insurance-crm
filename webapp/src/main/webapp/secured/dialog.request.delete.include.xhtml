@@ -32,7 +32,7 @@
 					<p:toolbar>
 						<f:facet name="right">
 							<p:commandButton value="Да"
-								action="#{requestDelete.doDelete}" process="content"
+								action="#{deleteRequest.doDelete}" process="content"
 								update="content #{update}"
 								oncomplete="hideIfValidated(PF('#{dialogWV}'), args)" />
 							<p:commandButton value="Нет"

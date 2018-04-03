@@ -62,12 +62,10 @@
 					<p:toolbar>
 						<f:facet name="right">
 							<p:commandButton value="OK"
-								action="#{transactionUncomplete.doComplete}" process="content"
+								action="#{transactionUncomplete.doUncomplete}" process="content"
 								update="content #{update}"
 								oncomplete="hideIfValidated(PF('#{dialogWV}'), args)" />
-							<p:commandButton value="Отмена"
-								action="#{mainFacade.doCancelEditRequest}" process="@this"
-								update="content #{update}" oncomplete="PF('#{dialogWV}').hide()" />
+							<p:button value="Отмена" oncomplete="PF('#{dialogWV}').hide()" />
 						</f:facet>
 					</p:toolbar>
 				</h:panelGroup>

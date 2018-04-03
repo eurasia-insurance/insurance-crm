@@ -1,11 +1,15 @@
 package tech.lapsa.insurance.crm.beans;
 
+import static com.lapsa.utils.security.SecurityUtils.*;
+
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Currency;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.FacesException;
 import javax.inject.Inject;
@@ -13,13 +17,16 @@ import javax.inject.Named;
 import javax.validation.constraints.Min;
 
 import com.lapsa.insurance.domain.Request;
+import com.lapsa.insurance.elements.ProgressStatus;
 
+import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
 import tech.lapsa.insurance.crm.beans.i.CurrentUserHolder;
 import tech.lapsa.insurance.crm.beans.i.RequestHolder;
 import tech.lapsa.insurance.crm.rows.RequestRow;
 import tech.lapsa.insurance.facade.RequestCompletionFacade.RequestCompletionFacadeRemote;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.exceptions.IllegalState;
+import tech.lapsa.java.commons.function.MyCollections;
 import tech.lapsa.java.commons.function.MyExceptions;
 import tech.lapsa.javax.validation.NotEmptyString;
 import tech.lapsa.javax.validation.NotNullValue;
@@ -29,6 +36,44 @@ import tech.lapsa.javax.validation.NotNullValue;
 public class TransactionCompleteCDIBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    @Named("transactionCompleteCheck")
+    @Dependent
+    public static class TransactionCompleteCheckCDIBean implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	// allowed
+
+	private boolean allowed = false;
+
+	public boolean isAllowed() {
+	    return allowed;
+	}
+
+	// signle
+
+	private RequestRow<?> single = null;
+
+	// CDIs
+
+	// local
+
+	@Inject
+	private RequestHolder requestHolder;
+
+	@PostConstruct
+	public void init() {
+	    final List<RequestRow<?>> list = MyCollections.orEmptyList(requestHolder.getValue());
+	    allowed = isInRole(InsuranceRoleGroup.CHANGERS) //
+		    && list.size() == 1 //
+	    ;
+	    if (!allowed)
+		return;
+	    single = list.get(0);
+	    allowed = !single.getProgressStatus().equals(ProgressStatus.FINISHED);
+	}
+    }
 
     // paidable
 
@@ -145,36 +190,15 @@ public class TransactionCompleteCDIBean implements Serializable {
 	this.payerName = payerName;
     }
 
-    // controls
-
-    @PostConstruct
-    public void init() { // default values
-	final RequestRow<?> rr = requestHolder.getValue();
-	if (rr != null) {
-	    this.paidable = rr.getPayment() != null;
-	    this.wasPaidBefore = paidable && rr.getPaymentInstant() != null;
-	    this.payerName = rr.getRequesterName();
-	    if (wasPaidBefore) {
-		this.paidInstant = rr.getPaymentInstant();
-		this.paidAmount = rr.getPaymentAmount();
-		this.paidCurrency = rr.getPaymentCurrency();
-	    } else {
-		this.paidInstant = Instant.now();
-		this.paidAmount = requestHolder.getValue().getCalculatedAmount();
-		this.paidCurrency = Currency.getInstance("KZT");
-	    }
-	}
-    }
-
     // CDIs
 
     // local
 
     @Inject
-    private RequestHolder requestHolder;
+    private CurrentUserHolder currentUser;
 
     @Inject
-    private CurrentUserHolder currentUser;
+    private TransactionCompleteCheckCDIBean check;
 
     // EJBs
 
@@ -184,30 +208,32 @@ public class TransactionCompleteCDIBean implements Serializable {
     private RequestCompletionFacadeRemote completions;
 
     public String doComplete() throws FacesException, IllegalStateException, IllegalArgumentException {
+	checkRoleGranted(InsuranceRoleGroup.CHANGERS);
 
-	final Request r = requestHolder.getValue().getEntity();
+	if (!check.isAllowed())
+	    throw MyExceptions.format(FacesException::new, "Is invalid for unconmpleting transactions");
 
-	final Request result;
+	final Request r = check.single.getEntity();
+
 	try {
-	    result = (paidable && !wasPaidBefore)
-		    ? completions.transactionCompleteWithPayment(r,
-			    currentUser.getValue(),
-			    note,
-			    agreementNumber,
-			    "Введено вручную",
-			    paidAmount,
-			    paidCurrency,
-			    paidInstant,
-			    paidReference,
-			    payerName)
-		    : completions.transactionComplete(r, currentUser.getValue(), note, agreementNumber);
+	    if (paidable && !wasPaidBefore)
+		completions.transactionCompleteWithPayment(r,
+			currentUser.getValue(),
+			note,
+			agreementNumber,
+			"Введено вручную",
+			paidAmount,
+			paidCurrency,
+			paidInstant,
+			paidReference,
+			payerName);
+	    else
+		completions.transactionComplete(r, currentUser.getValue(), note, agreementNumber);
 	} catch (IllegalState e1) {
 	    throw e1.getRuntime();
 	} catch (IllegalArgument e1) {
 	    throw e1.getRuntime();
 	}
-
-	requestHolder.setValue(RequestRow.from(result));
 
 	return null;
 

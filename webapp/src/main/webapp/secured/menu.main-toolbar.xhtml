@@ -34,7 +34,7 @@
 					</h:panelGroup>
 
 					<p:commandButton value="Открыть..."
-						disabled="#{empty rr.progressStatus}" process="@this"
+						disabled="#{not viewRequestCheck.allowed}" process="@this"
 						update="@form:requestDialog"
 						oncomplete="PF('requestDialogWV').show(); return false;">
 						<p:resetInput target="@form:requestDialog" />
@@ -42,39 +42,37 @@
 
 				</h:panelGroup>
 
-				<h:panelGroup rendered="#{canChange}">
+				<h:panelGroup styleClass="ui-separator">
+					<h:panelGroup class="ui-icon ui-icon-grip-dotted-vertical" />
+				</h:panelGroup>
 
-					<h:panelGroup styleClass="ui-separator">
-						<h:panelGroup class="ui-icon ui-icon-grip-dotted-vertical" />
-					</h:panelGroup>
+				<h:panelGroup rendered="#{canChange}">
 
 					<p:commandButton value="Начать обработку"
 						icon="fa fa-play-circle-o"
-						disabled="#{rr.progressStatus ne 'NEW'}"
+						disabled="#{not acceptRequestCheck.allowed}"
 						action="#{acceptRequest.doAccept}" process="@this"
 						update="requestToolbar #{update}" />
 
 					<p:commandButton value="Приостановить" icon="fa fa-pause-circle-o"
-						disabled="#{rr.progressStatus ne 'ON_PROCESS'}"
-						rendered="#{rr.progressStatus ne 'ON_HOLD'}"
+						disabled="#{not pauseRequestCheck.allowed}"
 						action="#{pauseRequest.doPause}" process="@this"
 						update="requestToolbar #{update}" />
 
 					<p:commandButton value="Возобновить" icon="fa fa-play-circle-o"
-						disabled="#{rr.progressStatus ne 'ON_HOLD'}"
-						rendered="#{rr.progressStatus eq 'ON_HOLD'}"
+						disabled="#{not resumeRequestCheck.allowed}"
 						action="#{resumeRequest.doResume}" process="@this"
 						update="requestToolbar #{update}" />
 
 					<p:commandButton value="Договор заключен..." icon="fa fa-check"
-						disabled="#{rr.progressStatus eq 'FINISHED'}" process="@this"
+						disabled="#{not transactionCompleteCheck.allowed}" process="@this"
 						update="@form:transactionCompleteDialog"
 						oncomplete="PF('transactionCompleteDialogWV').show(); return false;">
 						<p:resetInput target="@form:transactionCompleteDialog" />
 					</p:commandButton>
 
 					<p:commandButton value="Договор не заключен..." icon="fa fa-ban"
-						disabled="#{rr.progressStatus eq 'FINISHED' or rr.paymentStatus eq 'DONE'}"
+						disabled="#{not transactionUncompleteCheck.allowed}"
 						process="@this" update="@form:transactionUncompleteDialog"
 						oncomplete="PF('transactionUncompleteDialogWV').show(); return false;">
 						<p:resetInput target="@form:transactionUncompleteDialog" />
@@ -82,21 +80,18 @@
 
 				</h:panelGroup>
 
-				<h:panelGroup rendered="#{canClose}">
-					<p:commandButton value="В архив" icon="fa fa-archive"
-						disabled="#{rr.progressStatus ne 'FINISHED' or rr.requestStatus ne 'OPEN'}"
-						action="#{closeRequest.doClose}" process="@this"
-						update="requestToolbar #{update}" />
-				</h:panelGroup>
+				<p:commandButton value="В архив" icon="fa fa-archive"
+					rendered="#{canClose}" disabled="#{not closeRequestCheck.allowed}"
+					action="#{closeRequest.doClose}" process="@this"
+					update="requestToolbar #{update}" />
 
-				<h:panelGroup rendered="#{canDelete}">
-					<p:commandButton value="Удалить..." icon="fa fa-ban"
-						disabled="#{rr.transactionStatus ne 'NOT_COMPLETED'}"
-						process="@this" update="@form:deleteRequestDialog"
-						oncomplete="PF('deleteRequestDialogWV').show(); return false;">
-						<p:resetInput target="@form:deleteRequestDialog" />
-					</p:commandButton>
-				</h:panelGroup>
+				<p:commandButton value="Удалить..." icon="fa fa-ban"
+					rendered="#{canDelete}"
+					disabled="#{not deleteRequestCheck.allowed}" process="@this"
+					update="@form:deleteRequestDialog"
+					oncomplete="PF('deleteRequestDialogWV').show(); return false;">
+					<p:resetInput target="@form:deleteRequestDialog" />
+				</p:commandButton>
 
 			</f:facet>
 

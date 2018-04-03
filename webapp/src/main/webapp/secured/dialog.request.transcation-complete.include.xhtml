@@ -112,9 +112,7 @@
 								action="#{transactionComplete.doComplete}" process="content"
 								update="content #{update}"
 								oncomplete="hideIfValidated(PF('#{dialogWV}'), args)" />
-							<p:commandButton value="Отмена"
-								action="#{mainFacade.doCancelEditRequest}" process="@this"
-								update="content #{update}" oncomplete="PF('#{dialogWV}').hide()" />
+							<p:button value="Отмена" oncomplete="PF('#{dialogWV}').hide()" />
 						</f:facet>
 					</p:toolbar>
 				</h:panelGroup>

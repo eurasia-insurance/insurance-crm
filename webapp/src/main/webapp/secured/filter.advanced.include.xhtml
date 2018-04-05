@@ -391,6 +391,18 @@
 											delay="#{filterChangedAjaxDelay}" />
 									</p:inputText>
 								</p:column>
+								<p:column>
+									<p:outputLabel value="Способ оплаты: " for="paymentMethodName" />
+								</p:column>
+								<p:column>
+									<p:selectOneMenu id="paymentMethodName"
+										value="#{settings.requestFilter.paymentMethodNameMask}">
+										<p:ajax process="@this" update="@form"
+											delay="#{filterChangedAjaxDelay}" />
+										<f:selectItem itemValue="" itemLabel="Любые" />
+										<f:selectItem itemValue="Казком EPAY" itemLabel="Казком EPAY" />
+									</p:selectOneMenu>
+								</p:column>
 							</p:row>
 						</p:panelGrid>
 					</p:panel>

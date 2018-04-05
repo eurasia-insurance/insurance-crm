@@ -44,17 +44,23 @@
 				<f:viewAction action="#{mainFacade.doInitialize}" />
 			</f:metadata>
 
+			<h:panelGroup id="mainToolbar">
+				<ui:include src="menu.main-toolbar.xhtml">
+					<ui:param name="rr" value="#{rqst.value[0]}" />
+					<ui:param name="update"
+						value="@form:requestsTable @form:mainToolbar @form:summaryPanel" />
+				</ui:include>
+			</h:panelGroup>
+
 			<h:panelGroup id="requestDialog">
 				<ui:include src="dialog.request.info.include.xhtml">
 					<ui:param name="dialogWV" value="requestDialogWV" />
-					<ui:param name="rr" value="#{rqst.value}" />
 				</ui:include>
 			</h:panelGroup>
 
 			<h:panelGroup id="transactionCompleteDialog">
 				<ui:include src="dialog.request.transcation-complete.include.xhtml">
 					<ui:param name="dialogWV" value="transactionCompleteDialogWV" />
-					<ui:param name="rr" value="#{rqst.value}" />
 					<ui:param name="update"
 						value="@form:requestsTable @form:summaryPanel @form:mainToolbar @form:requestDialog" />
 				</ui:include>
@@ -64,7 +70,6 @@
 				<ui:include
 					src="dialog.request.transcation-uncomplete.include.xhtml">
 					<ui:param name="dialogWV" value="transactionUncompleteDialogWV" />
-					<ui:param name="rr" value="#{rqst.value}" />
 					<ui:param name="update"
 						value="@form:requestsTable @form:summaryPanel @form:mainToolbar @form:requestDialog" />
 				</ui:include>
@@ -73,17 +78,9 @@
 			<h:panelGroup id="deleteRequestDialog">
 				<ui:include src="dialog.request.delete.include.xhtml">
 					<ui:param name="dialogWV" value="deleteRequestDialogWV" />
-					<ui:param name="rr" value="#{rqst.value}" />
+					<ui:param name="rrs" value="#{rqst.value}" />
 					<ui:param name="update"
 						value="@form:requestsTable @form:summaryPanel @form:mainToolbar @form:requestDialog" />
-				</ui:include>
-			</h:panelGroup>
-
-			<h:panelGroup id="mainToolbar">
-				<ui:include src="menu.main-toolbar.xhtml">
-					<ui:param name="rr" value="#{rqst.value}" />
-					<ui:param name="update"
-						value="@form:requestsTable @form:mainToolbar @form:summaryPanel" />
 				</ui:include>
 			</h:panelGroup>
 
@@ -99,8 +96,8 @@
 			</h:panelGroup>
 
 			<p:dataTable id="requestsTable" widgetVar="requestsTableWV" var="rr"
-				value="#{requests}" selectionMode="single" selection="#{rqst.value}"
-				rows="20" paginator="true" lazy="true"
+				value="#{requests}" selectionMode="multiple"
+				selection="#{rqst.value}" rows="20" paginator="true" lazy="true"
 				paginatorAlwaysVisible="false"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="20,50,100" sortMode="multipe"
@@ -108,7 +105,10 @@
 				emptyMessage="Нет заявок удовлетворяющих критериям поиска"
 				rowStyleClass="#{rr.requestStatus eq 'CLOSED' ? 'row-closed': ''}">
 
-				<p:ajax event="rowSelect" process="@this" update="@form:mainToolbar" />
+				<p:ajax event="rowSelect" process="@this" async="true"
+					update="@form:mainToolbar" />
+				<p:ajax event="rowUnselect" process="@this"
+					update="@form:mainToolbar" />
 
 				<p:ajax event="rowDblselect" process="@this"
 					update="@form:requestDialog"

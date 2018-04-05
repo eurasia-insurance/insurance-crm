@@ -15,29 +15,25 @@
 	<f:subview>
 
 		<!-- >> rendered -->
-		<h:panelGroup rendered="#{not empty rr}">
+		<h:panelGroup rendered="#{deleteRequestCheck.allowed}">
 
 			<!-- >> dialog -->
-			<p:dialog widgetVar="#{dialogWV}"
-				header="Удалить заявку от '#{rr.requesterName}'?"
+			<p:dialog widgetVar="#{dialogWV}" header="Удаление заявок"
 				closeOnEscape="false" modal="true" closable="false"
 				resizable="false" position="center top" width="400" height="150">
 
 				<!-- >> wrapper -->
 				<h:panelGroup id="content">
 					<p:panel>
-					Удалить заявку # #{rr.id} от #{rr.requesterName}?
+					Удалить заявки?
 					</p:panel>
 
 					<p:toolbar>
 						<f:facet name="right">
-							<p:commandButton value="Да"
-								action="#{requestDelete.doDelete}" process="content"
-								update="content #{update}"
+							<p:commandButton value="Да" action="#{deleteRequest.doDelete}"
+								process="content" update="content #{update}"
 								oncomplete="hideIfValidated(PF('#{dialogWV}'), args)" />
-							<p:commandButton value="Нет"
-								action="#{mainFacade.doCancelEditRequest}" process="@this"
-								update="content #{update}" oncomplete="PF('#{dialogWV}').hide()" />
+							<p:button value="Нет" oncomplete="PF('#{dialogWV}').hide()" />
 						</f:facet>
 					</p:toolbar>
 				</h:panelGroup>

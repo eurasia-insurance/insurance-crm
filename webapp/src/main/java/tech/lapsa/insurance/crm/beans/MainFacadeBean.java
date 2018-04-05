@@ -14,7 +14,6 @@ import java.util.function.UnaryOperator;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.FacesException;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -24,14 +23,11 @@ import com.lapsa.insurance.elements.RequestStatus;
 import tech.lapsa.epayment.facade.EpaymentFacade.EpaymentFacadeRemote;
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
 import tech.lapsa.insurance.crm.beans.i.MainFacade;
-import tech.lapsa.insurance.crm.beans.i.RequestHolder;
 import tech.lapsa.insurance.crm.beans.i.SettingsHolder;
-import tech.lapsa.insurance.crm.rows.RequestRow;
 import tech.lapsa.insurance.dao.RequestDAO.RequestDAORemote;
 import tech.lapsa.insurance.dao.RequestFilter;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.function.MyOptionals;
-import tech.lapsa.patterns.dao.NotFound;
 
 @Named("mainFacade")
 @RequestScoped
@@ -275,13 +271,6 @@ public class MainFacadeBean implements MainFacade, Serializable {
 	return null;
     }
 
-    @Override
-    public String doCancelEditRequest() {
-	checkRoleGranted(InsuranceRoleGroup.CHANGERS);
-	resetRequest();
-	return null;
-    }
-
     // PRIVATE
 
     // EJBs
@@ -303,9 +292,6 @@ public class MainFacadeBean implements MainFacade, Serializable {
     @Inject
     private SettingsHolder settingsHolder;
 
-    @Inject
-    private RequestHolder requestHolder;
-
     private void initFilter() {
 	resetFilter();
 	settingsHolder.getRequestFilter().setRequestStatus(RequestStatus.OPEN);
@@ -320,21 +306,6 @@ public class MainFacadeBean implements MainFacade, Serializable {
     @FunctionalInterface
     interface RequestsFinder {
 	List<? extends Request> find() throws IllegalArgument;
-    }
-
-    private void resetRequest() {
-	final Request request = requestHolder.getValue().getEntity();
-	try {
-	    final Request insuranceRequestSaved;
-	    try {
-		insuranceRequestSaved = requestDAO.restore(request);
-	    } catch (IllegalArgument e) {
-		throw new FacesException(e);
-	    }
-	    requestHolder.setValue(RequestRow.from(insuranceRequestSaved));
-	} catch (NotFound e) {
-	    throw new IllegalStateException(e);
-	}
     }
 
     private void modifyCreated(final UnaryOperator<LocalDateTime> modifier) {

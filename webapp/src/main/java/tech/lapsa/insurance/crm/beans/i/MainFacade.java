@@ -5,6 +5,4 @@ public interface MainFacade {
     String doInitialize();
 
     String doResetFilter();
-
-    String doCancelEditRequest();
 }

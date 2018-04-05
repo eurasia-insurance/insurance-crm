@@ -15,7 +15,9 @@
 	<f:subview>
 
 		<!-- >> rendered -->
-		<h:panelGroup rendered="#{not empty rr}">
+		<h:panelGroup rendered="#{viewRequestCheck.allowed}">
+
+			<ui:param name="rr" value="#{viewRequest.row}" />
 
 			<!-- >> dialog -->
 			<p:dialog widgetVar="#{dialogWV}"

@@ -24,6 +24,9 @@
 		<h:panelGroup rendered="#{not empty rr.paymentCard}">
 			<li>Номер карты: #{rr.paymentCard}</li>
 		</h:panelGroup>
+		<h:panelGroup rendered="#{not empty rr.paymentPayerName}">
+			<li>Плательщик: #{rr.paymentPayerName}</li>
+		</h:panelGroup>
 	</p:tooltip>
 
 </ui:composition>

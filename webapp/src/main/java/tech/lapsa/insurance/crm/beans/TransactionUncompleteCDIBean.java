@@ -1,9 +1,13 @@
 package tech.lapsa.insurance.crm.beans;
 
+import static com.lapsa.utils.security.SecurityUtils.*;
+
 import java.io.Serializable;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.FacesException;
 import javax.faces.component.UIComponent;
@@ -17,15 +21,19 @@ import javax.inject.Named;
 
 import org.omnifaces.util.Messages;
 
-import com.lapsa.insurance.domain.Request;
+import com.lapsa.insurance.elements.PaymentStatus;
+import com.lapsa.insurance.elements.ProgressStatus;
 import com.lapsa.insurance.elements.TransactionProblem;
 
+import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
 import tech.lapsa.insurance.crm.beans.i.CurrentUserHolder;
 import tech.lapsa.insurance.crm.beans.i.RequestHolder;
 import tech.lapsa.insurance.crm.rows.RequestRow;
 import tech.lapsa.insurance.facade.RequestCompletionFacade.RequestCompletionFacadeRemote;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.exceptions.IllegalState;
+import tech.lapsa.java.commons.function.MyCollections;
+import tech.lapsa.java.commons.function.MyExceptions;
 import tech.lapsa.java.commons.function.MyStrings;
 import tech.lapsa.javax.validation.NotNullValue;
 
@@ -35,20 +43,56 @@ public class TransactionUncompleteCDIBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    // paidable
+    @Named("transactionUncompleteCheck")
+    @Dependent
+    public static class TransactionUncompleteCheckCDIBean implements Serializable {
 
-    private boolean paidable = false;
+	private static final long serialVersionUID = 1L;
 
-    public boolean isPaidable() {
-	return paidable;
+	// list
+
+	private List<RequestRow<?>> list;
+
+	// allowed
+
+	private boolean allowed = false;
+
+	public boolean isAllowed() {
+	    return allowed;
+	}
+
+	// CDIs
+
+	// local
+
+	@Inject
+	private RequestHolder requestHolder;
+
+	// controls
+
+	@PostConstruct
+	public void init() {
+	    list = MyCollections.orEmptyList(requestHolder.getValue());
+	    allowed = isInRole(InsuranceRoleGroup.CHANGERS)
+		    && !list.isEmpty() //
+		    && list.stream() //
+			    .allMatch(r -> !r.getProgressStatus().equals(ProgressStatus.FINISHED)
+				    && !r.getPaymentStatus().equals(PaymentStatus.DONE)) //
+	    ;
+	}
+
     }
 
-    // wasPaidBefore
+    @FacesValidator("transactionUncomplete.noteValidator")
+    public static class NoteValidator implements Validator {
 
-    private boolean wasPaidBefore;
-
-    public boolean isWasPaidBefore() {
-	return wasPaidBefore;
+	@Override
+	public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+	    final TransactionProblem problem = (TransactionProblem) ((UIInput) component.getAttributes()
+		    .get("problemComp")).getValue();
+	    if (problem == TransactionProblem.OTHER && (value == null || MyStrings.empty(value.toString())))
+		throw new ValidatorException(Messages.createError("Опишите причину в разделе примечание"));
+	}
     }
 
     // problem
@@ -76,38 +120,15 @@ public class TransactionUncompleteCDIBean implements Serializable {
 	this.note = note;
     }
 
-    @FacesValidator("transactionUncomplete.noteValidator")
-    public static class NoteValidator implements Validator {
-
-	@Override
-	public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
-	    final TransactionProblem problem = (TransactionProblem) ((UIInput) component.getAttributes()
-		    .get("problemComp")).getValue();
-	    if (problem == TransactionProblem.OTHER && (value == null || MyStrings.empty(value.toString())))
-		throw new ValidatorException(Messages.createError("Опишите причину в разделе примечание"));
-	}
-    }
-
-    // controls
-
-    @PostConstruct
-    public void init() { // default values
-	final RequestRow<?> rr = requestHolder.getValue();
-	if (rr != null) {
-	    this.paidable = rr.getPayment() != null;
-	    this.wasPaidBefore = paidable && rr.getPaymentInstant() != null;
-	}
-    }
-
     // CDIs
 
     // local
 
     @Inject
-    private RequestHolder requestHolder;
+    private CurrentUserHolder currentUser;
 
     @Inject
-    private CurrentUserHolder currentUser;
+    private TransactionUncompleteCheckCDIBean check;
 
     // EJBs
 
@@ -116,21 +137,24 @@ public class TransactionUncompleteCDIBean implements Serializable {
     @EJB
     private RequestCompletionFacadeRemote completions;
 
-    public String doComplete() throws FacesException, IllegalStateException, IllegalArgumentException {
+    public String doUncomplete() throws FacesException, IllegalStateException, IllegalArgumentException {
+	checkRoleGranted(InsuranceRoleGroup.CHANGERS);
 
-	final Request r = requestHolder.getValue().getEntity();
+	if (!check.isAllowed())
+	    throw MyExceptions.format(FacesException::new, "Is invalid for unconmpleting transactions");
 
-	final Request result;
-	try {
-	    result = completions.transactionUncomplete(r, currentUser.getValue(), note, problem, paidable);
-	} catch (IllegalState e1) {
-	    throw e1.getRuntime();
-	} catch (IllegalArgument e1) {
-	    throw e1.getRuntime();
-	}
-
-	requestHolder.setValue(RequestRow.from(result));
-
+	check.list.stream() //
+		.forEach(rr -> {
+		    try {
+			final boolean paidable = rr.getPayment() != null;
+			completions.transactionUncomplete(rr.getEntity(), currentUser.getValue(), note, problem,
+				paidable);
+		    } catch (IllegalState e) {
+			throw new FacesException(e.getRuntime());
+		    } catch (IllegalArgument e) {
+			throw new FacesException(e.getRuntime());
+		    }
+		});
 	return null;
     }
 }

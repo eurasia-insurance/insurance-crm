@@ -1,6 +1,7 @@
 package tech.lapsa.insurance.crm.beans;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.inject.Named;
 
@@ -11,7 +12,7 @@ import tech.lapsa.insurance.crm.rows.RequestRow;
 
 @Named("rqst")
 @ViewScoped
-public class RequestHolderBean extends AWritableValueHolder<RequestRow<?>>
+public class RequestHolderBean extends AWritableValueHolder<List<RequestRow<?>>>
 	implements Serializable, RequestHolder {
 
     private static final long serialVersionUID = 1L;

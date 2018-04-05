@@ -45,6 +45,9 @@
 				<h:outputText
 					value="#{localized.few(driver.ageClass)}" />
 			</p:column>
+			<p:column headerText="Льготник">
+				<crm:outputYesNo value="#{driver.hasAnyPrivilege}" />
+			</p:column>
 		</p:dataTable>
 
 

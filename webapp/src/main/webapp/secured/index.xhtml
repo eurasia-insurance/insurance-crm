@@ -105,16 +105,15 @@
 				emptyMessage="Нет заявок удовлетворяющих критериям поиска"
 				rowStyleClass="#{rr.requestStatus eq 'CLOSED' ? 'row-closed': ''}">
 
-				<p:ajax event="rowSelect" process="@this" async="true"
+				<p:ajax event="rowSelect" process="@this"
 					update="@form:mainToolbar" />
 				<p:ajax event="rowUnselect" process="@this"
 					update="@form:mainToolbar" />
 
 				<p:ajax event="rowDblselect" process="@this"
-					update="@form:requestDialog"
-					oncomplete="PF('requestDialogWV').show(); return false;">
-					<p:resetInput target="@form:requestDialog" />
-				</p:ajax>
+					disabled="#{not canView}"
+					update="@form:mainToolbar @form:requestDialog"
+					oncomplete="PF('requestDialogWV').show(); return false;" />
 
 				<f:facet name="header">
 					<div style="text-align: right;">на <jfc:outputInstant
@@ -160,12 +159,12 @@
 				<p:column headerText="Телефон заявителя"
 					sortBy="#{rr.requesterPhone}" style="white-space: nowrap;"
 					width="100">
-					<p:commandButton
-						rendered="#{rr.canAccept and canChange}"
+					<p:commandButton rendered="#{rr.canAccept and canChange}"
 						value="Показать" icon="fa fa-hand-o-right"
 						action="#{acceptRequest.doAccept}" process="@this"
 						update="@form:requestsTable @form:mainToolbar @form:summaryPanel">
-						<f:setPropertyActionListener value="#{rr}" target="#{rqst.singleRow}" />
+						<f:setPropertyActionListener value="#{rr}"
+							target="#{rqst.singleRow}" />
 					</p:commandButton>
 					<h:outputText value="#{rr.requesterPhone}"
 						rendered="#{rr.progressStatus ne 'NEW'}" />

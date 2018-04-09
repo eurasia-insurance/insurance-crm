@@ -247,4 +247,44 @@ public abstract class RequestRowDataModel<T extends Request> implements RequestR
 	    return null;
 	}
     }
+
+    @Override
+    public boolean isCanView() {
+	return RequestRow.super.isCanView();
+    }
+
+    @Override
+    public boolean isCanAccept() {
+	return RequestRow.super.isCanAccept();
+    }
+
+    @Override
+    public boolean isCanPause() {
+	return RequestRow.super.isCanPause();
+    }
+
+    @Override
+    public boolean isCanResume() {
+	return RequestRow.super.isCanResume();
+    }
+
+    @Override
+    public boolean isCanComplete() {
+	return RequestRow.super.isCanComplete();
+    }
+
+    @Override
+    public boolean isCanUncomplete() {
+	return RequestRow.super.isCanUncomplete();
+    }
+
+    @Override
+    public boolean isCanClose() {
+	return RequestRow.super.isCanClose();
+    }
+
+    @Override
+    public boolean isCanDelete() {
+	return RequestRow.super.isCanDelete();
+    }
 }

@@ -195,4 +195,8 @@ public interface RequestRow<T extends Request> {
 	return RequestStatus.OPEN.equals(getRequestStatus())
 		&& ProgressStatus.FINISHED.equals(getProgressStatus());
     }
+
+    default boolean isCanDelete() {
+	return !TransactionStatus.COMPLETED.equals(getTransactionStatus());
+    }
 }

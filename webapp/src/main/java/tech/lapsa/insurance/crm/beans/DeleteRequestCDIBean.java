@@ -13,7 +13,6 @@ import javax.faces.FacesException;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.lapsa.insurance.domain.InsuranceRequest;
 import com.lapsa.insurance.domain.Request;
 import com.lapsa.insurance.elements.TransactionStatus;
 import com.lapsa.utils.security.SecurityUtils;
@@ -62,13 +61,7 @@ public class DeleteRequestCDIBean implements Serializable {
 	    allowed = isInRole(InsuranceRoleGroup.DELETERS) //
 		    && !list.isEmpty() //
 		    && list.stream() //
-			    .map(RequestRow::getEntity) //
-			    .allMatch(r -> {
-				if (!(r instanceof InsuranceRequest))
-				    return true;
-				final TransactionStatus s = ((InsuranceRequest) r).getTransactionStatus();
-				return s != null && s.equals(TransactionStatus.NOT_COMPLETED);
-			    }) //
+			    .allMatch(RequestRow::isCanDelete) //
 	    ;
 	}
     }

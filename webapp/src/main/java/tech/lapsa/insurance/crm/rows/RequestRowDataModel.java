@@ -282,4 +282,9 @@ public abstract class RequestRowDataModel<T extends Request> implements RequestR
     public boolean isCanClose() {
 	return RequestRow.super.isCanClose();
     }
+
+    @Override
+    public boolean isCanDelete() {
+	return RequestRow.super.isCanDelete();
+    }
 }

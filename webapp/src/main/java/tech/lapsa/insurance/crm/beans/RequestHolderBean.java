@@ -1,6 +1,7 @@
 package tech.lapsa.insurance.crm.beans;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Named;
@@ -20,5 +21,9 @@ public class RequestHolderBean extends AWritableValueHolder<List<RequestRow<?>>>
     @Override
     public void reset() {
 	this.value = null;
+    }
+
+    public void setSingleRow(RequestRow<?> row) {
+	this.value = Arrays.asList(row);
     }
 }

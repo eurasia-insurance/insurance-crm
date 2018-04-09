@@ -46,8 +46,14 @@
 					<jfc:outputInstant value="#{rr.paymentInstant}" />
 				</crm:outputRow>
 
-				<crm:outputRowText label="Референс оплаты"
-					value="#{rr.paymentReference}" />
+				<crm:outputRow label="Референс оплаты">
+					<p:inputText readonly="true" value="#{rr.paymentReference}"
+						onfocus="this.select()" size="15" />
+					<p:button id="referenceCopy" icon="fa fa-fw fa-copy" href="#"
+						title="Скопирвать в буфер обмена" />
+					<pe:clipboard trigger="referenceCopy" action="copy"
+						text="#{rr.paymentReference}" />
+				</crm:outputRow>
 
 				<crm:outputRowText label="Плательщик" value="#{rr.paymentPayerName}" />
 

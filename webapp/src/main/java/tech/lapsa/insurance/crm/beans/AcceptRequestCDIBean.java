@@ -29,7 +29,7 @@ import tech.lapsa.java.commons.function.MyExceptions;
 
 @Named("acceptRequest")
 @RequestScoped
-public class AccepdRequestCDIBean implements Serializable {
+public class AcceptRequestCDIBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

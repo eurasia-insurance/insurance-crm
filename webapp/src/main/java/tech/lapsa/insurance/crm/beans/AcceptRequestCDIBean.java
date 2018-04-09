@@ -14,7 +14,6 @@ import javax.faces.FacesException;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.lapsa.insurance.domain.Request;
 import com.lapsa.insurance.elements.ProgressStatus;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
@@ -64,9 +63,7 @@ public class AcceptRequestCDIBean implements Serializable {
 	    allowed = isInRole(InsuranceRoleGroup.CHANGERS)
 		    && !list.isEmpty() //
 		    && list.stream() //
-			    .map(RequestRow::getEntity) //
-			    .map(Request::getProgressStatus)
-			    .allMatch(ProgressStatus.NEW::equals) //
+			    .allMatch(RequestRow::isCanAccept) //
 	    ;
 	}
 

@@ -64,11 +64,7 @@ public class CloseRequestCDIBean implements Serializable {
 	    allowed = isInRole(InsuranceRoleGroup.CLOSERS)
 		    && !list.isEmpty() //
 		    && list.stream() //
-			    .map(RequestRow::getEntity) //
-			    .allMatch(request -> {
-				return request.getStatus() == RequestStatus.OPEN
-					&& request.getProgressStatus() == ProgressStatus.FINISHED;
-			    }) //
+			    .allMatch(RequestRow::isCanClose) //
 	    ;
 	}
 

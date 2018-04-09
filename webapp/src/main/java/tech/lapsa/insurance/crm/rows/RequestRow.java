@@ -88,7 +88,7 @@ public interface RequestRow<T extends Request> {
     Double getAmount();
 
     Currency getCurrency();
-    
+
     String getComments();
 
     // calculated
@@ -114,7 +114,7 @@ public interface RequestRow<T extends Request> {
     String getPaymentMethodName();
 
     Instant getPaymentInstant();
-    
+
     String getPaymentPayerName();
 
     // requester
@@ -158,4 +158,41 @@ public interface RequestRow<T extends Request> {
     Policy getPolicy();
 
     Casco getCasco();
+
+    // checkers
+
+    default boolean isCanView() {
+	return true;
+    }
+
+    default boolean isCanAccept() {
+	return RequestStatus.OPEN.equals(getRequestStatus())
+		&& ProgressStatus.NEW.equals(getProgressStatus());
+    }
+
+    default boolean isCanPause() {
+	return RequestStatus.OPEN.equals(getRequestStatus())
+		&& ProgressStatus.ON_PROCESS.equals(getProgressStatus());
+    }
+
+    default boolean isCanResume() {
+	return RequestStatus.OPEN.equals(getRequestStatus())
+		&& ProgressStatus.ON_HOLD.equals(getProgressStatus());
+    }
+
+    default boolean isCanComplete() {
+	return RequestStatus.OPEN.equals(getRequestStatus())
+		&& !ProgressStatus.FINISHED.equals(getProgressStatus());
+    }
+
+    default boolean isCanUncomplete() {
+	return RequestStatus.OPEN.equals(getRequestStatus())
+		&& !ProgressStatus.FINISHED.equals(getProgressStatus())
+		&& !PaymentStatus.DONE.equals(getPaymentStatus());
+    }
+
+    default boolean isCanClose() {
+	return RequestStatus.OPEN.equals(getRequestStatus())
+		&& ProgressStatus.FINISHED.equals(getProgressStatus());
+    }
 }

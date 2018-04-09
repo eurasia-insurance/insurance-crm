@@ -161,7 +161,7 @@
 					sortBy="#{rr.requesterPhone}" style="white-space: nowrap;"
 					width="100">
 					<p:commandButton
-						rendered="#{rr.progressStatus eq 'NEW' and canChange}"
+						rendered="#{rr.canAccept and canChange}"
 						value="Показать" icon="fa fa-hand-o-right"
 						action="#{acceptRequest.doAccept}" process="@this"
 						update="@form:requestsTable @form:mainToolbar @form:summaryPanel">

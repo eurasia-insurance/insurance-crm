@@ -21,8 +21,6 @@ import javax.inject.Named;
 
 import org.omnifaces.util.Messages;
 
-import com.lapsa.insurance.elements.PaymentStatus;
-import com.lapsa.insurance.elements.ProgressStatus;
 import com.lapsa.insurance.elements.TransactionProblem;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
@@ -76,8 +74,7 @@ public class TransactionUncompleteCDIBean implements Serializable {
 	    allowed = isInRole(InsuranceRoleGroup.CHANGERS)
 		    && !list.isEmpty() //
 		    && list.stream() //
-			    .allMatch(r -> !r.getProgressStatus().equals(ProgressStatus.FINISHED)
-				    && !r.getPaymentStatus().equals(PaymentStatus.DONE)) //
+			    .allMatch(RequestRow::isCanUncomplete) //
 	    ;
 	}
 

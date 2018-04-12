@@ -41,21 +41,6 @@
 									</p:selectOneMenu>
 								</p:column>
 							</p:row>
-							<p:row>
-								<p:column>
-									<p:outputLabel value="Примечание" for="note" />
-								</p:column>
-							</p:row>
-							<p:row>
-								<p:column colspan="2">
-									<p:inputTextarea rows="7" cols="60"
-										value="#{transactionUncomplete.note}" id="note">
-										<p:ajax process="@this,problem" update="@this" />
-										<f:validator validatorId="transactionUncomplete.noteValidator" />
-										<f:attribute name="problemComp" value="#{problemComp}" />
-									</p:inputTextarea>
-								</p:column>
-							</p:row>
 						</p:panelGrid>
 					</p:panel>
 

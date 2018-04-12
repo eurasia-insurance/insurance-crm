@@ -10,16 +10,8 @@ import javax.ejb.EJB;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.FacesException;
-import javax.faces.component.UIComponent;
-import javax.faces.component.UIInput;
-import javax.faces.context.FacesContext;
-import javax.faces.validator.FacesValidator;
-import javax.faces.validator.Validator;
-import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import org.omnifaces.util.Messages;
 
 import com.lapsa.insurance.elements.TransactionProblem;
 
@@ -32,7 +24,6 @@ import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.exceptions.IllegalState;
 import tech.lapsa.java.commons.function.MyCollections;
 import tech.lapsa.java.commons.function.MyExceptions;
-import tech.lapsa.java.commons.function.MyStrings;
 import tech.lapsa.javax.validation.NotNullValue;
 
 @Named("transactionUncomplete")
@@ -80,18 +71,6 @@ public class TransactionUncompleteCDIBean implements Serializable {
 
     }
 
-    @FacesValidator("transactionUncomplete.noteValidator")
-    public static class NoteValidator implements Validator {
-
-	@Override
-	public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
-	    final TransactionProblem problem = (TransactionProblem) ((UIInput) component.getAttributes()
-		    .get("problemComp")).getValue();
-	    if (problem == TransactionProblem.OTHER && (value == null || MyStrings.empty(value.toString())))
-		throw new ValidatorException(Messages.createError("Опишите причину в разделе примечание"));
-	}
-    }
-
     // problem
 
     @NotNullValue(message = "Укажите причину")
@@ -103,18 +82,6 @@ public class TransactionUncompleteCDIBean implements Serializable {
 
     public void setProblem(TransactionProblem problem) {
 	this.problem = problem;
-    }
-
-    // note
-
-    private String note;
-
-    public String getNote() {
-	return note;
-    }
-
-    public void setNote(String note) {
-	this.note = note;
     }
 
     // CDIs
@@ -144,7 +111,7 @@ public class TransactionUncompleteCDIBean implements Serializable {
 		.forEach(rr -> {
 		    try {
 			final boolean paidable = rr.getPayment() != null;
-			completions.transactionUncomplete(rr.getEntity(), currentUser.getValue(), note, problem,
+			completions.transactionUncomplete(rr.getEntity(), currentUser.getValue(), problem,
 				paidable);
 		    } catch (IllegalState e) {
 			throw new FacesException(e.getRuntime());

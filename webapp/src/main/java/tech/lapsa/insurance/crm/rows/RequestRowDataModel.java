@@ -259,6 +259,11 @@ public abstract class RequestRowDataModel<T extends Request> implements RequestR
     }
 
     @Override
+    public boolean isCanComment() {
+	return RequestRow.super.isCanComment();
+    }
+
+    @Override
     public boolean isCanPause() {
 	return RequestRow.super.isCanPause();
     }

@@ -165,18 +165,6 @@ public class TransactionCompleteCDIBean implements Serializable {
 	this.agreementNumber = agreementNumber;
     }
 
-    // note
-
-    private String note;
-
-    public String getNote() {
-	return note;
-    }
-
-    public void setNote(String note) {
-	this.note = note;
-    }
-
     // payerName
 
     private String payerName;
@@ -218,7 +206,6 @@ public class TransactionCompleteCDIBean implements Serializable {
 	    if (paidable && !wasPaidBefore)
 		completions.transactionCompleteWithPayment(r,
 			currentUser.getValue(),
-			note,
 			agreementNumber,
 			"Введено вручную",
 			paidAmount,
@@ -227,7 +214,7 @@ public class TransactionCompleteCDIBean implements Serializable {
 			paidReference,
 			payerName);
 	    else
-		completions.transactionComplete(r, currentUser.getValue(), note, agreementNumber);
+		completions.transactionComplete(r, currentUser.getValue(), agreementNumber);
 	} catch (IllegalState e1) {
 	    throw e1.getRuntime();
 	} catch (IllegalArgument e1) {

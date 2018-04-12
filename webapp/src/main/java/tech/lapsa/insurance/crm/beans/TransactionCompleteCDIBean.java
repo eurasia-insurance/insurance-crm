@@ -224,4 +224,23 @@ public class TransactionCompleteCDIBean implements Serializable {
 	return null;
 
     }
+
+    @PostConstruct
+    public void init() { // default values
+	final RequestRow<?> rr = check.single;
+	if (rr != null) {
+	    this.paidable = rr.getPayment() != null;
+	    this.wasPaidBefore = paidable && rr.getPaymentInstant() != null;
+	    this.payerName = rr.getRequesterName();
+	    if (wasPaidBefore) {
+		this.paidInstant = rr.getPaymentInstant();
+		this.paidAmount = rr.getPaymentAmount();
+		this.paidCurrency = rr.getPaymentCurrency();
+	    } else {
+		this.paidInstant = Instant.now();
+		this.paidAmount = rr.getCalculatedAmount();
+		this.paidCurrency = Currency.getInstance("KZT");
+	    }
+	}
+    }
 }

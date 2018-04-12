@@ -43,3 +43,15 @@
 A.request-icon, A.request-icon:hover {
 	text-decoration: none;
 }
+
+.icon-note-has {
+	color: #fade38;
+}
+
+.icon-note-no {
+	color: #CCCCCC;
+}
+
+.preformatted {
+    white-space: pre-wrap;
+}

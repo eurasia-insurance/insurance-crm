@@ -47,12 +47,14 @@
 				</crm:outputRow>
 
 				<crm:outputRow label="Референс оплаты">
-					<p:inputText readonly="true" value="#{rr.paymentReference}"
-						onfocus="this.select()" size="15" />
-					<p:button id="referenceCopy" icon="fa fa-fw fa-copy" href="#"
-						title="Скопирвать в буфер обмена" />
-					<pe:clipboard trigger="referenceCopy" action="copy"
-						text="#{rr.paymentReference}" />
+					<h:panelGroup rendered="#{not empty rr.paymentReference}">
+						<p:inputText readonly="true" value="#{rr.paymentReference}"
+							onfocus="this.select()" size="15" />
+						<p:button id="referenceCopy" icon="fa fa-fw fa-copy" href="#"
+							title="Скопирвать в буфер обмена" />
+						<pe:clipboard trigger="referenceCopy" action="copy"
+							text="#{rr.paymentReference}" />
+					</h:panelGroup>
 				</crm:outputRow>
 
 				<crm:outputRowText label="Плательщик" value="#{rr.paymentPayerName}" />

@@ -15,7 +15,7 @@
 	<f:subview>
 
 		<!-- >> rendered -->
-		<h:panelGroup rendered="#{not empty rr}">
+		<h:panelGroup rendered="#{transactionUncompleteCheck.allowed}">
 
 			<!-- >> dialog -->
 			<p:dialog widgetVar="#{dialogWV}"

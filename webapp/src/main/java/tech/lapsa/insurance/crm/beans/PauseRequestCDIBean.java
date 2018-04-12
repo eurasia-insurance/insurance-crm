@@ -14,7 +14,6 @@ import javax.faces.FacesException;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.lapsa.insurance.domain.Request;
 import com.lapsa.insurance.elements.ProgressStatus;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
@@ -62,9 +61,7 @@ public class PauseRequestCDIBean implements Serializable {
 	    allowed = isInRole(InsuranceRoleGroup.CHANGERS) //
 		    && !list.isEmpty()
 		    && list.stream() //
-			    .map(RequestRow::getEntity) //
-			    .map(Request::getProgressStatus)
-			    .allMatch(ProgressStatus.ON_PROCESS::equals) //
+			    .allMatch(RequestRow::isCanPause) //
 	    ;
 	}
     }

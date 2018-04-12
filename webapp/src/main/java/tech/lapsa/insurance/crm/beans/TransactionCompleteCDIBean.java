@@ -17,7 +17,6 @@ import javax.inject.Named;
 import javax.validation.constraints.Min;
 
 import com.lapsa.insurance.domain.Request;
-import com.lapsa.insurance.elements.ProgressStatus;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
 import tech.lapsa.insurance.crm.beans.i.CurrentUserHolder;
@@ -71,7 +70,7 @@ public class TransactionCompleteCDIBean implements Serializable {
 	    if (!allowed)
 		return;
 	    single = list.get(0);
-	    allowed = !single.getProgressStatus().equals(ProgressStatus.FINISHED);
+	    allowed = single.isCanComplete();
 	}
     }
 

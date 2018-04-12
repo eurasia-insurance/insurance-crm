@@ -24,4 +24,12 @@ public class UserFacadeBean implements Serializable {
 	return delegate.getWhoEverCreatedRequests();
     }
 
+    public List<User> getWhoEverAcceptedRequests() {
+	return delegate.getWhoEverAcceptedRequests();
+    }
+
+    public List<User> getWhoEverCompletedRequests() {
+	return delegate.getWhoEverCompletedRequests();
+    }
+
 }

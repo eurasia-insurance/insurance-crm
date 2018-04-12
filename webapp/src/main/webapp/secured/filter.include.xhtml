@@ -70,6 +70,15 @@
 											target="#{settings.requestFilter.acceptedBy}" value="#{null}" />
 									</p:commandLink>
 								</p:column>
+								<p:column>
+									<p:selectOneMenu id="acceptedBy"
+										value="#{settings.requestFilter.acceptedBy}">
+										<p:ajax process="@this" update="@form"
+											delay="#{filterChangedAjaxDelay}" />
+										<f:selectItems
+											value="#{si.list.few(userFacade.whoEverAcceptedRequests)}" />
+									</p:selectOneMenu>
+								</p:column>
 							</p:row>
 						</p:panelGrid>
 					</p:column>
@@ -99,6 +108,15 @@
 											value="#{null}" />
 									</p:commandLink>
 								</p:column>
+								<p:column>
+									<p:selectOneMenu id="completedBy"
+										value="#{settings.requestFilter.completedBy}">
+										<p:ajax process="@this" update="@form"
+											delay="#{filterChangedAjaxDelay}" />
+										<f:selectItems
+											value="#{si.list.few(userFacade.whoEverCompletedRequests)}" />
+									</p:selectOneMenu>
+								</p:column>
 							</p:row>
 						</p:panelGrid>
 					</p:column>
@@ -116,7 +134,8 @@
 								<p:column>
 									<p:selectOneMenu id="createdBy"
 										value="#{settings.requestFilter.createdBy}">
-										<p:ajax process="@this" update="@form" delay="#{filterChangedAjaxDelay}" />
+										<p:ajax process="@this" update="@form"
+											delay="#{filterChangedAjaxDelay}" />
 										<f:selectItem value="#{configurationFacade.anySI}" />
 										<f:selectItems
 											value="#{si.list.few(userFacade.whoEverCreatedRequests)}" />
@@ -140,7 +159,8 @@
 						<p:column>
 							<p:selectOneMenu id="progressStatus"
 								value="#{settings.requestFilter.progressStatus}">
-								<p:ajax process="@this" update="@form" delay="#{filterChangedAjaxDelay}" />
+								<p:ajax process="@this" update="@form"
+									delay="#{filterChangedAjaxDelay}" />
 								<f:selectItem value="#{configurationFacade.anySI}" />
 								<f:selectItems value="#{si.array.regular(ProgressStatus.all)}" />
 							</p:selectOneMenu>

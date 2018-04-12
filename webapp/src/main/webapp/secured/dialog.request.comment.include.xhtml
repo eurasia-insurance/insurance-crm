@@ -10,49 +10,46 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:jfc="http://lapsa.tech/javax/faces-commons"
-	xmlns:lpf="http://lapsa.tech/primefaces">
+	xmlns:lpf="http://lapsa.tech/primefaces"
+	xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
 
 	<f:subview>
 
 		<!-- >> rendered -->
-		<h:panelGroup rendered="#{transactionUncompleteCheck.allowed}">
+		<h:panelGroup rendered="#{commentRequestCheck.allowed}">
 
 			<!-- >> dialog -->
-			<p:dialog widgetVar="#{dialogWV}"
-				header="Договор не заключен с '#{rr.requesterName}'?"
+			<p:dialog widgetVar="#{dialogWV}" header="Добавить комментарий"
 				closeOnEscape="false" modal="true" closable="false"
-				resizable="false" position="center top" width="740" height="480">
+				resizable="false" position="center top" width="600" height="400">
 
 				<!-- >> wrapper -->
 				<h:panelGroup id="content">
 					<p:panel>
 						<p:panelGrid>
-							<p:row>
-								<p:column>
-									<p:outputLabel value="Укажите причину" for="problem" />
-								</p:column>
-								<p:column>
-									<p:selectOneMenu value="#{transactionUncomplete.problem}"
-										id="problem" binding="#{problemComp}">
-										<f:selectItem value="#{configurationFacade.mustSelectSI}" />
-										<f:selectItems
-											value="#{si.array.regular(TransactionProblem.selectable)}" />
-										<p:ajax process="@this" update="@this" />
-									</p:selectOneMenu>
-								</p:column>
-							</p:row>
+							<crm:outputRow label="Новое сообщение:">
+								<p:inputTextarea value="#{commentRequest.message}" rows="3"
+									cols="50" autoResize="false" />
+							</crm:outputRow>
+							<crm:outputRow label="История сообщений:">
+								<p:inputTextarea value="#{commentRequest.messages}"
+									placeholder="Нет сообщений" style="border: none"
+									readonly="true" cols="50" rows="10" autoResize="false" />
+							</crm:outputRow>
 						</p:panelGrid>
 					</p:panel>
 
 					<p:toolbar>
 						<f:facet name="right">
-							<p:commandButton value="OK"
-								action="#{transactionUncomplete.doUncomplete}" process="content"
+							<p:commandButton value="Добавить"
+								action="#{commentRequest.doComment}" process="content"
 								update="content #{update}"
 								oncomplete="hideIfValidated(PF('#{dialogWV}'), args)" />
-							<p:commandButton process="@none" update="@none" value="Отмена" oncomplete="PF('#{dialogWV}').hide()" />
+							<p:commandButton process="@none" update="@none" value="Отмена"
+								oncomplete="PF('#{dialogWV}').hide()" />
 						</f:facet>
 					</p:toolbar>
+
 				</h:panelGroup>
 				<!-- << wrapper -->
 

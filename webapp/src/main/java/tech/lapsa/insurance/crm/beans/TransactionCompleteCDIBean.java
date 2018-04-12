@@ -165,18 +165,6 @@ public class TransactionCompleteCDIBean implements Serializable {
 	this.agreementNumber = agreementNumber;
     }
 
-    // note
-
-    private String note;
-
-    public String getNote() {
-	return note;
-    }
-
-    public void setNote(String note) {
-	this.note = note;
-    }
-
     // payerName
 
     private String payerName;
@@ -218,7 +206,6 @@ public class TransactionCompleteCDIBean implements Serializable {
 	    if (paidable && !wasPaidBefore)
 		completions.transactionCompleteWithPayment(r,
 			currentUser.getValue(),
-			note,
 			agreementNumber,
 			"Введено вручную",
 			paidAmount,
@@ -227,7 +214,7 @@ public class TransactionCompleteCDIBean implements Serializable {
 			paidReference,
 			payerName);
 	    else
-		completions.transactionComplete(r, currentUser.getValue(), note, agreementNumber);
+		completions.transactionComplete(r, currentUser.getValue(), agreementNumber);
 	} catch (IllegalState e1) {
 	    throw e1.getRuntime();
 	} catch (IllegalArgument e1) {
@@ -236,5 +223,24 @@ public class TransactionCompleteCDIBean implements Serializable {
 
 	return null;
 
+    }
+
+    @PostConstruct
+    public void init() { // default values
+	final RequestRow<?> rr = check.single;
+	if (rr != null) {
+	    this.paidable = rr.getPayment() != null;
+	    this.wasPaidBefore = paidable && rr.getPaymentInstant() != null;
+	    this.payerName = rr.getRequesterName();
+	    if (wasPaidBefore) {
+		this.paidInstant = rr.getPaymentInstant();
+		this.paidAmount = rr.getPaymentAmount();
+		this.paidCurrency = rr.getPaymentCurrency();
+	    } else {
+		this.paidInstant = Instant.now();
+		this.paidAmount = rr.getCalculatedAmount();
+		this.paidCurrency = Currency.getInstance("KZT");
+	    }
+	}
     }
 }

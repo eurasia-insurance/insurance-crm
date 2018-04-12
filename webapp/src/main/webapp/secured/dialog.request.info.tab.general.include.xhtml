@@ -4,6 +4,7 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:jfc="http://lapsa.tech/javax/faces-commons"
 	xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
 
@@ -11,6 +12,14 @@
 
 		<p:panel>
 			<p:panelGrid>
+
+				<crm:outputRow label="Номер">
+					<p:inputText readonly="true" value="#{rr.id}"
+						onfocus="this.select()" size="10" />
+					<p:button id="idCopy" icon="fa fa-fw fa-copy" href="#"
+						title="Скопирвать в буфер обмена" />
+					<pe:clipboard trigger="idCopy" action="copy" text="#{rr.id}" />
+				</crm:outputRow>
 
 				<crm:outputRowText label="Статус заявки"
 					value="#{localized.few(rr.requestStatus)}" />
@@ -35,14 +44,12 @@
 							</h:panelGroup>
 						</c:when>
 					</c:choose>
-					<h:outputText
-						value="#{localized.few(rr.transactionStatus)}" />
+					<h:outputText value="#{localized.few(rr.transactionStatus)}" />
 				</crm:outputRow>
 
 				<crm:outputRowText
 					rendered="#{rr.progressStatus eq 'FINISHED' and rr.transactionStatus eq 'NOT_COMPLETED'}"
-					label="Причина"
-					value="#{localized.few(rr.transactionProblem)}" />
+					label="Причина" value="#{localized.few(rr.transactionProblem)}" />
 
 				<crm:outputRowText
 					rendered="#{rr.progressStatus eq 'FINISHED' and rr.transactionStatus eq 'COMPLETED'}"
@@ -62,8 +69,7 @@
 							<crm:outputRow label="Заявка поступила">
 								<jfc:outputInstant value="#{rr.created}" />
 								<h:outputText rendered="#{not empty rr.createdBy}"
-									value="&amp;nbsp;(#{rr.createdBy.name})"
-									escape="false" />
+									value="&amp;nbsp;(#{rr.createdBy.name})" escape="false" />
 							</crm:outputRow>
 
 							<crm:outputRow label="Обновлена">
@@ -80,24 +86,21 @@
 								label="Принята в обработку">
 								<jfc:outputInstant value="#{rr.accepted}" />
 								<h:outputText rendered="#{not empty rr.acceptedBy}"
-									value="&amp;nbsp;(#{rr.acceptedBy.name})"
-									escape="false" />
+									value="&amp;nbsp;(#{rr.acceptedBy.name})" escape="false" />
 							</crm:outputRow>
 
 							<crm:outputRow rendered="#{not empty rr.completed}"
 								label="Обработка завершена">
 								<jfc:outputInstant value="#{rr.completed}" />
 								<h:outputText rendered="#{not empty rr.completedBy}"
-									value="&amp;nbsp;(#{rr.completedBy.name})"
-									escape="false" />
+									value="&amp;nbsp;(#{rr.completedBy.name})" escape="false" />
 							</crm:outputRow>
 
 							<crm:outputRow rendered="#{not empty rr.closed}"
 								label="Помещена в архив">
 								<jfc:outputInstant value="#{rr.closed}" />
 								<h:outputText rendered="#{not empty rr.closedBy}"
-									value="&amp;nbsp;(#{rr.closedBy.name})"
-									escape="false" />
+									value="&amp;nbsp;(#{rr.closedBy.name})" escape="false" />
 							</crm:outputRow>
 
 						</p:panelGrid>
@@ -110,7 +113,9 @@
 
 		<p:panel>
 			<p:panelGrid>
-				<crm:outputRowText label="Примечание" value="#{rr.note}" />
+				<crm:outputRow label="Примечание">
+					<h:outputText value="#{rr.note}" styleClass="preformatted" />
+				</crm:outputRow>
 			</p:panelGrid>
 		</p:panel>
 

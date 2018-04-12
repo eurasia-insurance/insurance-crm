@@ -81,26 +81,13 @@
 							</p:row>
 							<p:row>
 								<p:column>
-									<p:outputLabel value="Плательщик" for="note" />
+									<p:outputLabel value="Плательщик" for="payerName" />
 								</p:column>
 								<p:column>
 									<p:inputText id="payerName"
 										value="#{transactionComplete.payerName}">
 										<p:ajax process="@this" update="@this" />
 									</p:inputText>
-								</p:column>
-							</p:row>
-							<p:row>
-								<p:column>
-									<p:outputLabel value="Примечание" for="note" />
-								</p:column>
-							</p:row>
-							<p:row>
-								<p:column colspan="2">
-									<p:inputTextarea rows="7" cols="60" id="note"
-										value="#{transactionComplete.note}">
-										<p:ajax process="@this" update="@this" />
-									</p:inputTextarea>
 								</p:column>
 							</p:row>
 						</p:panelGrid>
@@ -112,7 +99,7 @@
 								action="#{transactionComplete.doComplete}" process="content"
 								update="content #{update}"
 								oncomplete="hideIfValidated(PF('#{dialogWV}'), args)" />
-							<p:button value="Отмена" oncomplete="PF('#{dialogWV}').hide()" />
+							<p:commandButton process="@none" update="@none" value="Отмена" oncomplete="PF('#{dialogWV}').hide()" />
 						</f:facet>
 					</p:toolbar>
 				</h:panelGroup>

@@ -185,6 +185,10 @@ public interface RequestRow<T extends Request> {
 		&& !ProgressStatus.FINISHED.equals(getProgressStatus());
     }
 
+    default boolean isCanComment() {
+	return true;
+    }
+
     default boolean isCanUncomplete() {
 	return RequestStatus.OPEN.equals(getRequestStatus())
 		&& !ProgressStatus.FINISHED.equals(getProgressStatus())

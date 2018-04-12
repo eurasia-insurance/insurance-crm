@@ -12,8 +12,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.FacesException;
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import com.lapsa.insurance.elements.TransactionProblem;
+import javax.validation.constraints.Size;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
 import tech.lapsa.insurance.crm.beans.i.CurrentUserHolder;
@@ -24,23 +23,20 @@ import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.exceptions.IllegalState;
 import tech.lapsa.java.commons.function.MyCollections;
 import tech.lapsa.java.commons.function.MyExceptions;
+import tech.lapsa.javax.validation.NotEmptyString;
 import tech.lapsa.javax.validation.NotNullValue;
 
-@Named("transactionUncomplete")
+@Named("commentRequest")
 @RequestScoped
-public class TransactionUncompleteCDIBean implements Serializable {
+public class CommentRequestCDIBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Named("transactionUncompleteCheck")
+    @Named("commentRequestCheck")
     @Dependent
-    public static class TransactionUncompleteCheckCDIBean implements Serializable {
+    public static class CommentRequestCheckCDIBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
-	// list
-
-	private List<RequestRow<?>> list;
 
 	// allowed
 
@@ -50,6 +46,10 @@ public class TransactionUncompleteCDIBean implements Serializable {
 	    return allowed;
 	}
 
+	// signle
+
+	private RequestRow<?> single = null;
+
 	// CDIs
 
 	// local
@@ -57,31 +57,40 @@ public class TransactionUncompleteCDIBean implements Serializable {
 	@Inject
 	private RequestHolder requestHolder;
 
-	// controls
-
 	@PostConstruct
 	public void init() {
-	    list = MyCollections.orEmptyList(requestHolder.getValue());
-	    allowed = isInRole(InsuranceRoleGroup.CHANGERS)
-		    && !list.isEmpty() //
-		    && list.stream() //
-			    .allMatch(RequestRow::isCanUncomplete) //
+	    final List<RequestRow<?>> list = MyCollections.orEmptyList(requestHolder.getValue());
+	    allowed = isInRole(InsuranceRoleGroup.CHANGERS) //
+		    && list.size() == 1 //
 	    ;
+	    if (!allowed)
+		return;
+	    single = list.get(0);
+	    allowed = single.isCanComment();
 	}
-
     }
 
-    // problem
+    // message
 
-    @NotNullValue(message = "Укажите причину")
-    private TransactionProblem problem;
+    @NotNullValue(message = "Введите комментарий")
+    @NotEmptyString(message = "Введите комментарий")
+    @Size(max = 200, message = "Макс 200 символов")
+    private String message;
 
-    public TransactionProblem getProblem() {
-	return problem;
+    public String getMessage() {
+	return message;
     }
 
-    public void setProblem(TransactionProblem problem) {
-	this.problem = problem;
+    public void setMessage(String message) {
+	this.message = message;
+    }
+
+    // messages
+
+    private String messages;
+
+    public String getMessages() {
+	return messages;
     }
 
     // CDIs
@@ -92,7 +101,7 @@ public class TransactionUncompleteCDIBean implements Serializable {
     private CurrentUserHolder currentUser;
 
     @Inject
-    private TransactionUncompleteCheckCDIBean check;
+    private CommentRequestCheckCDIBean check;
 
     // EJBs
 
@@ -101,24 +110,26 @@ public class TransactionUncompleteCDIBean implements Serializable {
     @EJB
     private RequestCompletionFacadeRemote completions;
 
-    public String doUncomplete() throws FacesException, IllegalStateException, IllegalArgumentException {
+    public String doComment() {
 	checkRoleGranted(InsuranceRoleGroup.CHANGERS);
 
 	if (!check.isAllowed())
-	    throw MyExceptions.format(FacesException::new, "Is invalid for unconmpleting transactions");
+	    throw MyExceptions.format(FacesException::new, "Commenting is unavailable");
 
-	check.list.stream() //
-		.forEach(rr -> {
-		    try {
-			final boolean paidable = rr.getPayment() != null;
-			completions.transactionUncomplete(rr.getEntity(), currentUser.getValue(), problem,
-				paidable);
-		    } catch (IllegalState e) {
-			throw new FacesException(e.getRuntime());
-		    } catch (IllegalArgument e) {
-			throw new FacesException(e.getRuntime());
-		    }
-		});
+	try {
+	    completions.commentRequest(check.single.getEntity(), currentUser.getValue(), message);
+	} catch (IllegalState e1) {
+	    throw e1.getRuntime();
+	} catch (IllegalArgument e1) {
+	    throw e1.getRuntime();
+	}
+
 	return null;
+    }
+
+    @PostConstruct
+    public void init() {
+	final String oldNote = check.single.getEntity().getNote();
+	this.messages = oldNote == null ? "" : oldNote;
     }
 }

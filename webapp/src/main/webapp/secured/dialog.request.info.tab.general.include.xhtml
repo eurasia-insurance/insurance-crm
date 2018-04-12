@@ -113,7 +113,9 @@
 
 		<p:panel>
 			<p:panelGrid>
-				<crm:outputRowText label="Примечание" value="#{rr.note}" />
+				<crm:outputRow label="Примечание">
+					<h:outputText value="#{rr.note}" styleClass="preformatted" />
+				</crm:outputRow>
 			</p:panelGrid>
 		</p:panel>
 

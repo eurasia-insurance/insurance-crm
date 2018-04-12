@@ -65,7 +65,7 @@
 								action="#{transactionUncomplete.doUncomplete}" process="content"
 								update="content #{update}"
 								oncomplete="hideIfValidated(PF('#{dialogWV}'), args)" />
-							<p:button value="Отмена" oncomplete="PF('#{dialogWV}').hide()" />
+							<p:commandButton process="@none" update="@none" value="Отмена" oncomplete="PF('#{dialogWV}').hide()" />
 						</f:facet>
 					</p:toolbar>
 				</h:panelGroup>

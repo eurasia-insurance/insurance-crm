@@ -84,6 +84,14 @@
 				</ui:include>
 			</h:panelGroup>
 
+			<h:panelGroup id="commentRequestDialog">
+				<ui:include src="dialog.request.comment.include.xhtml">
+					<ui:param name="dialogWV" value="commentRequestDialogWV" />
+					<ui:param name="update"
+						value="@form:requestsTable @form:summaryPanel @form:mainToolbar @form:requestDialog" />
+				</ui:include>
+			</h:panelGroup>
+
 			<h:panelGroup id="filterPanel">
 				<ui:include src="filter.include.xhtml" />
 			</h:panelGroup>
@@ -136,6 +144,9 @@
 						<h:panelGroup
 							styleClass="#{global.iconStyleClassByPaymentCard(rr.paymentCard)}" />
 					</h:panelGroup>
+				</p:column>
+				<p:column width="15">
+					<ui:include src="output.request-comment-icon.include.xhtml" />
 				</p:column>
 				<p:column headerText="Номер" sortBy="#{rr.id}"
 					style="white-space: nowrap;" width="35">

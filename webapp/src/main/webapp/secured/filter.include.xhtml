@@ -55,26 +55,17 @@
 						<p:panelGrid>
 							<p:row>
 								<p:column>
-									<p:commandLink process="@this" update="@form"
-										value="Приняты мной"
-										style="#{settings.requestFilter.acceptedBy == currentUser.value ? 'font-weight: bold' : ''}">
-										<f:setPropertyActionListener
-											target="#{settings.requestFilter.acceptedBy}"
-											value="#{currentUser.value}" />
-									</p:commandLink>
-								</p:column>
-								<p:column>
-									<p:commandLink process="@this" update="@form" value="Любые"
-										style="#{settings.requestFilter.acceptedBy == null ? 'font-weight: bold' : ''}">
-										<f:setPropertyActionListener
-											target="#{settings.requestFilter.acceptedBy}" value="#{null}" />
-									</p:commandLink>
+									<p:outputLabel value="Приняты:" for="acceptedBy" />
 								</p:column>
 								<p:column>
 									<p:selectOneMenu id="acceptedBy"
 										value="#{settings.requestFilter.acceptedBy}">
 										<p:ajax process="@this" update="@form"
 											delay="#{filterChangedAjaxDelay}" />
+										<f:selectItem itemLabel="Любым пользователем"
+											itemValue="{null}" />
+										<f:selectItem itemLabel="Мной"
+											itemValue="#{currentUser.value}" />
 										<f:selectItems
 											value="#{si.list.few(userFacade.whoEverAcceptedRequests)}" />
 									</p:selectOneMenu>
@@ -92,27 +83,17 @@
 						<p:panelGrid>
 							<p:row>
 								<p:column>
-									<p:commandLink process="@this" update="@form"
-										value="Завершены мной"
-										style="#{settings.requestFilter.completedBy == currentUser.value ? 'font-weight: bold' : ''}">
-										<f:setPropertyActionListener
-											target="#{settings.requestFilter.completedBy}"
-											value="#{currentUser.value}" />
-									</p:commandLink>
-								</p:column>
-								<p:column>
-									<p:commandLink process="@this" update="@form" value="Любые"
-										style="#{settings.requestFilter.completedBy == null ? 'font-weight: bold' : ''}">
-										<f:setPropertyActionListener
-											target="#{settings.requestFilter.completedBy}"
-											value="#{null}" />
-									</p:commandLink>
+									<p:outputLabel value="Завершены:" for="completedBy" />
 								</p:column>
 								<p:column>
 									<p:selectOneMenu id="completedBy"
 										value="#{settings.requestFilter.completedBy}">
 										<p:ajax process="@this" update="@form"
 											delay="#{filterChangedAjaxDelay}" />
+										<f:selectItem itemLabel="Любым пользователем"
+											itemValue="{null}" />
+										<f:selectItem itemLabel="Мной"
+											itemValue="#{currentUser.value}" />
 										<f:selectItems
 											value="#{si.list.few(userFacade.whoEverCompletedRequests)}" />
 									</p:selectOneMenu>
@@ -136,7 +117,9 @@
 										value="#{settings.requestFilter.createdBy}">
 										<p:ajax process="@this" update="@form"
 											delay="#{filterChangedAjaxDelay}" />
-										<f:selectItem value="#{configurationFacade.anySI}" />
+										<f:selectItem itemLabel="Любой пользователь"
+											itemValue="{null}" />
+										<f:selectItem itemLabel="Я" itemValue="#{currentUser.value}" />
 										<f:selectItems
 											value="#{si.list.few(userFacade.whoEverCreatedRequests)}" />
 									</p:selectOneMenu>

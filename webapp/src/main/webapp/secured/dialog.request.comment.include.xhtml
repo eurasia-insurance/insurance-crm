@@ -27,21 +27,22 @@
 				<h:panelGroup id="content">
 					<p:panel>
 						<p:panelGrid>
-							<crm:outputRow label="Новое сообщение:">
+							<crm:outputRow label="Новый комментарий:">
 								<p:inputTextarea value="#{commentRequest.message}" rows="3"
 									cols="50" autoResize="false" />
 							</crm:outputRow>
-							<crm:outputRow label="История сообщений:">
+							<crm:outputRow label="Комментарии:">
 								<p:inputTextarea value="#{commentRequest.messages}"
-									placeholder="Нет сообщений" style="border: none"
-									readonly="true" cols="50" rows="10" autoResize="false" />
+									placeholder="Нет комментариев" style="border: none"
+									readonly="true" cols="50" rows="10" autoResize="false"
+									disabled="true" />
 							</crm:outputRow>
 						</p:panelGrid>
 					</p:panel>
 
 					<p:toolbar>
 						<f:facet name="right">
-							<p:commandButton value="Добавить"
+							<p:commandButton value="Комментировать"
 								action="#{commentRequest.doComment}" process="content"
 								update="content #{update}"
 								oncomplete="hideIfValidated(PF('#{dialogWV}'), args)" />

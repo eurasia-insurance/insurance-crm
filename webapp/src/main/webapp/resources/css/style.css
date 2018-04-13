@@ -52,6 +52,6 @@ A.request-icon, A.request-icon:hover {
 	color: #CCCCCC;
 }
 
-.preformatted {
-    white-space: pre-wrap;
+.add-comment-message {
+	font-style: italic;
 }

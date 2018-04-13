@@ -113,8 +113,10 @@
 
 		<p:panel>
 			<p:panelGrid>
-				<crm:outputRow label="Примечание">
-					<h:outputText value="#{rr.note}" styleClass="preformatted" />
+				<crm:outputRow label="Комментарии">
+					<p:inputTextarea value="#{rr.note}" placeholder="Нет комментариев"
+						style="border: none" readonly="true" cols="70" rows="7"
+						autoResize="false" disabled="true" />
 				</crm:outputRow>
 			</p:panelGrid>
 		</p:panel>

@@ -13,9 +13,9 @@ import com.lapsa.insurance.domain.crm.User;
 import tech.lapsa.insurance.facade.UserFacade.UserFacadeRemote;
 import tech.lapsa.java.commons.function.MyCollections;
 
-@Named("userFacade")
+@Named("userList")
 @SessionScoped
-public class UserFacadeBean implements Serializable {
+public class UserListCDIBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

@@ -67,7 +67,7 @@
 										<f:selectItem itemLabel="Мной"
 											itemValue="#{currentUser.value}" />
 										<f:selectItems
-											value="#{si.list.few(userFacade.whoEverAcceptedRequests)}" />
+											value="#{si.list.few(userList.whoEverAcceptedRequests)}" />
 									</p:selectOneMenu>
 								</p:column>
 							</p:row>
@@ -95,7 +95,7 @@
 										<f:selectItem itemLabel="Мной"
 											itemValue="#{currentUser.value}" />
 										<f:selectItems
-											value="#{si.list.few(userFacade.whoEverCompletedRequests)}" />
+											value="#{si.list.few(userList.whoEverCompletedRequests)}" />
 									</p:selectOneMenu>
 								</p:column>
 							</p:row>
@@ -121,7 +121,7 @@
 											itemValue="{null}" />
 										<f:selectItem itemLabel="Я" itemValue="#{currentUser.value}" />
 										<f:selectItems
-											value="#{si.list.few(userFacade.whoEverCreatedRequests)}" />
+											value="#{si.list.few(userList.whoEverCreatedRequests)}" />
 									</p:selectOneMenu>
 								</p:column>
 							</p:row>

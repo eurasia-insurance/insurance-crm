@@ -15,6 +15,26 @@
 				<ui:param name="update" value="@form" />
 			</ui:include>
 
+			<p:panel>
+				<p:panelGrid>
+					<p:row>
+						<p:column>
+							<p:commandLink process="@this" update="@form:filterDialog"
+								value="изменить &gt;&gt;"
+								oncomplete="PF('filterDialogWV').show(); return false;" />
+						</p:column>
+						<p:column>
+							<p:commandLink value="очистить"
+								action="#{mainFacade.doResetFilter}" process="@this"
+								update="@form" />
+						</p:column>
+						<p:column>
+							<ui:include src="filter.description.include.xhtml" />
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+			</p:panel>
+
 		</h:panelGroup>
 		<!-- << wrapper -->
 

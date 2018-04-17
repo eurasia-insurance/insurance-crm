@@ -101,20 +101,6 @@
 
 			<h:panelGroup id="filterPanel">
 				<ui:include src="panel.filter.include.xhtml" />
-				<p:panelGrid>
-					<p:row>
-						<p:column>
-							<p:commandLink process="@this" update="@form:filterDialog"
-								value="дополнительно &gt;&gt;"
-								oncomplete="PF('filterDialogWV').show(); return false;" />
-						</p:column>
-						<p:column>
-							<p:commandLink value="очистить"
-								action="#{mainFacade.doResetFilter}" process="@this"
-								update="@form" />
-						</p:column>
-					</p:row>
-				</p:panelGrid>
 			</h:panelGroup>
 
 			<h:panelGroup id="autoRefreshPoll">

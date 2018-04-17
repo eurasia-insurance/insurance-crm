@@ -11,40 +11,38 @@
 
 	<f:subview>
 
-
-		<p:panelGrid id="requestStatusButtonsWrapper">
-			<p:row>
-				<p:column>
-					<p:commandLink process="@this"
-						update="#{update} requestStatusButtonsWrapper" value="Входящие"
-						style="#{settings.requestFilter.requestStatus == 'OPEN' ? 'font-weight: bold' : ''}">
-						<f:setPropertyActionListener
-							target="#{settings.requestFilter.requestStatus}" value="OPEN" />
-					</p:commandLink>
-				</p:column>
-				<p:column>
-					<p:commandLink process="@this"
-						update="#{update} requestStatusButtonsWrapper" value="Архив"
-						style="#{settings.requestFilter.requestStatus == 'CLOSED' ? 'font-weight: bold' : ''}">
-						<f:setPropertyActionListener
-							target="#{settings.requestFilter.requestStatus}" value="CLOSED" />
-					</p:commandLink>
-				</p:column>
-				<p:column>
-					<p:commandLink process="@this"
-						update="#{update} requestStatusButtonsWrapper" value="Все"
-						style="#{settings.requestFilter.requestStatus == null ? 'font-weight: bold' : ''}">
-						<f:setPropertyActionListener
-							target="#{settings.requestFilter.requestStatus}" value="#{null}" />
-					</p:commandLink>
-				</p:column>
-			</p:row>
-		</p:panelGrid>
-
-		<p:panel header="Отбор">
-
-			<p:panelGrid>
+		<p:panel>
+			<p:panelGrid id="requestStatusButtonsWrapper">
 				<p:row>
+					<p:column>
+						<p:commandLink process="@this"
+							update="#{update} requestStatusButtonsWrapper" value="Входящие"
+							style="#{settings.requestFilter.requestStatus == 'OPEN' ? 'font-weight: bold' : ''}">
+							<f:setPropertyActionListener
+								target="#{settings.requestFilter.requestStatus}" value="OPEN" />
+						</p:commandLink>
+					</p:column>
+					<p:column>
+						<p:commandLink process="@this"
+							update="#{update} requestStatusButtonsWrapper" value="Архив"
+							style="#{settings.requestFilter.requestStatus == 'CLOSED' ? 'font-weight: bold' : ''}">
+							<f:setPropertyActionListener
+								target="#{settings.requestFilter.requestStatus}" value="CLOSED" />
+						</p:commandLink>
+					</p:column>
+					<p:column>
+						<p:commandLink process="@this"
+							update="#{update} requestStatusButtonsWrapper" value="Все"
+							style="#{settings.requestFilter.requestStatus == null ? 'font-weight: bold' : ''}">
+							<f:setPropertyActionListener
+								target="#{settings.requestFilter.requestStatus}" value="#{null}" />
+						</p:commandLink>
+					</p:column>
+					<p:column>
+						<h:panelGroup styleClass="ui-separator">
+							<h:panelGroup class="ui-icon ui-icon-grip-dotted-vertical" />
+						</h:panelGroup>
+					</p:column>
 					<p:column>
 						<p:outputLabel value="Стадия:" for="progressStatus" />
 					</p:column>
@@ -78,7 +76,6 @@
 					</p:column>
 				</p:row>
 			</p:panelGrid>
-
 		</p:panel>
 
 	</f:subview>

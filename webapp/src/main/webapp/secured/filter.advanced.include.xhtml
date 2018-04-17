@@ -11,253 +11,303 @@
 
 	<f:subview>
 
-		<!-- >> rendered -->
-		<h:panelGroup rendered="#{settings.advanced}">
+		<!-- >> users -->
+		<p:panel header="По пользователям">
+
+			<p:panelGrid>
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Приняты:" for="acceptedBy" />
+					</p:column>
+					<p:column>
+						<p:selectOneMenu id="acceptedBy"
+							value="#{settings.requestFilter.acceptedBy}">
+							<p:ajax process="@this" update="#{update}"
+								delay="#{filterChangedAjaxDelay}" />
+							<f:selectItem itemLabel="Любым пользователем" itemValue="{null}" />
+							<f:selectItem itemLabel="Мной" itemValue="#{currentUser.value}" />
+							<f:selectItems
+								value="#{si.list.few(userList.whoEverAcceptedRequests)}" />
+						</p:selectOneMenu>
+					</p:column>
+					<p:column>
+						<p:outputLabel value="Завершены:" for="completedBy" />
+					</p:column>
+					<p:column>
+						<p:selectOneMenu id="completedBy"
+							value="#{settings.requestFilter.completedBy}">
+							<p:ajax process="@this" update="#{update}"
+								delay="#{filterChangedAjaxDelay}" />
+							<f:selectItem itemLabel="Любым пользователем" itemValue="{null}" />
+							<f:selectItem itemLabel="Мной" itemValue="#{currentUser.value}" />
+							<f:selectItems
+								value="#{si.list.few(userList.whoEverCompletedRequests)}" />
+						</p:selectOneMenu>
+					</p:column>
+					<p:column>
+						<p:outputLabel value="Автор:" for="createdBy" />
+					</p:column>
+					<p:column>
+						<p:selectOneMenu id="createdBy"
+							value="#{settings.requestFilter.createdBy}">
+							<p:ajax process="@this" update="#{update}"
+								delay="#{filterChangedAjaxDelay}" />
+							<f:selectItem itemLabel="Любой пользователь" itemValue="{null}" />
+							<f:selectItem itemLabel="Я" itemValue="#{currentUser.value}" />
+							<f:selectItems
+								value="#{si.list.few(userList.whoEverCreatedRequests)}" />
+						</p:selectOneMenu>
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+
+		</p:panel>
 
 
-			<!-- >> created -->
-			<p:panel header="Поступило">
-				<p:panelGrid>
-					<p:row>
-						<p:column>
-							<p:outputLabel value="Поступило с:" for="createdAfter" />
-						</p:column>
-						<p:column>
-							<lpf:inputLocalDateTime id="createdAfter"
-								value="#{settings.requestFilter.createdAfter}" process="@this"
-								update="@form" ajaxDelay="#{filterChangedAjaxDelay}" />
-						</p:column>
-						<p:column>
-							<p:outputLabel value="Поступило по:" for="createdBefore" />
-						</p:column>
-						<p:column>
-							<lpf:inputLocalDateTime id="createdBefore"
-								value="#{settings.requestFilter.createdBefore}" process="@this"
-								update="@form" ajaxDelay="#{filterChangedAjaxDelay}" />
-						</p:column>
-						<p:column>
-							<p:commandButton value="Очистить"
-								action="#{mainFacade.doFilterCreatedClear}" process="@this"
-								update="@form" />
-						</p:column>
-					</p:row>
-				</p:panelGrid>
-				<p:panelGrid>
-					<p:row>
-						<p:column>
-							<p:commandButton value="За сегодня"
-								action="#{mainFacade.doFilterCreatedToday}" process="@this"
-								update="@form" />
-						</p:column>
-						<p:column>
-							<p:commandButton value="За эту неделю"
-								action="#{mainFacade.doFilterCreatedThisWeek}" process="@this"
-								update="@form" />
-						</p:column>
-						<p:column>
-							<p:commandButton value="За этот месяц"
-								action="#{mainFacade.doFilterCreatedThisMonth}" process="@this"
-								update="@form" />
-						</p:column>
-						<p:column>
-							<p:commandButton value="За этот год"
-								action="#{mainFacade.doFilterCreatedThisYear}" process="@this"
-								update="@form" />
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column>
-							<p:commandButton value="За вчера"
-								action="#{mainFacade.doFilterCreatedYesterday}" process="@this"
-								update="@form" />
-						</p:column>
-						<p:column>
-							<p:commandButton value="За прошлую неделю"
-								action="#{mainFacade.doFilterCreatedLastWeek}" process="@this"
-								update="@form" />
-						</p:column>
-						<p:column>
-							<p:commandButton value="За прошлый месяц"
-								action="#{mainFacade.doFilterCreatedLastMonth}" process="@this"
-								update="@form" />
-						</p:column>
-						<p:column>
-							<p:commandButton value="За прошлый год"
-								action="#{mainFacade.doFilterCreatedLastYear}" process="@this"
-								update="@form" />
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column>
-							<p:commandButton value="- день"
-								action="#{mainFacade.doFilterCreatedMinusDay}" process="@this"
-								update="@form" />
-						</p:column>
-						<p:column>
-							<p:commandButton value="- неделя"
-								action="#{mainFacade.doFilterCreatedMinusWeek}" process="@this"
-								update="@form" />
-						</p:column>
-						<p:column>
-							<p:commandButton value="- месяц"
-								action="#{mainFacade.doFilterCreatedMinusMonth}" process="@this"
-								update="@form" />
-						</p:column>
-						<p:column>
-							<p:commandButton value="- год"
-								action="#{mainFacade.doFilterCreatedMinusYear}" process="@this"
-								update="@form" />
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column>
-							<p:commandButton value="+ день"
-								action="#{mainFacade.doFilterCreatedPlusDay}" process="@this"
-								update="@form" />
-						</p:column>
-						<p:column>
-							<p:commandButton value="+ неделя"
-								action="#{mainFacade.doFilterCreatedPlusWeek}" process="@this"
-								update="@form" />
-						</p:column>
-						<p:column>
-							<p:commandButton value="+ месяц"
-								action="#{mainFacade.doFilterCreatedPlusMonth}" process="@this"
-								update="@form" />
-						</p:column>
-						<p:column>
-							<p:commandButton value="+ год"
-								action="#{mainFacade.doFilterCreatedPlusYear}" process="@this"
-								update="@form" />
-						</p:column>
-					</p:row>
-				</p:panelGrid>
-			</p:panel>
-			<!-- << created -->
+		<!-- >> created -->
+		<p:panel header="По поступлению">
+			<p:panelGrid id="createdWrapper">
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Поступило с:" for="createdAfter" />
+					</p:column>
+					<p:column>
+						<lpf:inputLocalDateTime id="createdAfter"
+							value="#{settings.requestFilter.createdAfter}" process="@this"
+							update="#{update}" ajaxDelay="#{filterChangedAjaxDelay}" />
+					</p:column>
+					<p:column>
+						<p:outputLabel value="Поступило по:" for="createdBefore" />
+					</p:column>
+					<p:column>
+						<lpf:inputLocalDateTime id="createdBefore"
+							value="#{settings.requestFilter.createdBefore}" process="@this"
+							update="#{update}" ajaxDelay="#{filterChangedAjaxDelay}" />
+					</p:column>
+					<p:column>
+						<p:commandButton value="Очистить"
+							action="#{mainFacade.doFilterCreatedClear}" process="@this"
+							update="#{update} createdWrapper" />
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+			<p:panelGrid>
+				<p:row>
+					<p:column>
+						<p:commandButton value="За сегодня"
+							action="#{mainFacade.doFilterCreatedToday}" process="@this"
+							update="#{update} createdWrapper" />
+					</p:column>
+					<p:column>
+						<p:commandButton value="За эту неделю"
+							action="#{mainFacade.doFilterCreatedThisWeek}" process="@this"
+							update="#{update} createdWrapper" />
+					</p:column>
+					<p:column>
+						<p:commandButton value="За этот месяц"
+							action="#{mainFacade.doFilterCreatedThisMonth}" process="@this"
+							update="#{update} createdWrapper" />
+					</p:column>
+					<p:column>
+						<p:commandButton value="За этот год"
+							action="#{mainFacade.doFilterCreatedThisYear}" process="@this"
+							update="#{update} createdWrapper" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:commandButton value="За вчера"
+							action="#{mainFacade.doFilterCreatedYesterday}" process="@this"
+							update="#{update} createdWrapper" />
+					</p:column>
+					<p:column>
+						<p:commandButton value="За прошлую неделю"
+							action="#{mainFacade.doFilterCreatedLastWeek}" process="@this"
+							update="#{update} createdWrapper" />
+					</p:column>
+					<p:column>
+						<p:commandButton value="За прошлый месяц"
+							action="#{mainFacade.doFilterCreatedLastMonth}" process="@this"
+							update="#{update} createdWrapper" />
+					</p:column>
+					<p:column>
+						<p:commandButton value="За прошлый год"
+							action="#{mainFacade.doFilterCreatedLastYear}" process="@this"
+							update="#{update} createdWrapper" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:commandButton value="- день"
+							action="#{mainFacade.doFilterCreatedMinusDay}" process="@this"
+							update="#{update} createdWrapper" />
+					</p:column>
+					<p:column>
+						<p:commandButton value="- неделя"
+							action="#{mainFacade.doFilterCreatedMinusWeek}" process="@this"
+							update="#{update} createdWrapper" />
+					</p:column>
+					<p:column>
+						<p:commandButton value="- месяц"
+							action="#{mainFacade.doFilterCreatedMinusMonth}" process="@this"
+							update="#{update} createdWrapper" />
+					</p:column>
+					<p:column>
+						<p:commandButton value="- год"
+							action="#{mainFacade.doFilterCreatedMinusYear}" process="@this"
+							update="#{update} createdWrapper" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:commandButton value="+ день"
+							action="#{mainFacade.doFilterCreatedPlusDay}" process="@this"
+							update="#{update} createdWrapper" />
+					</p:column>
+					<p:column>
+						<p:commandButton value="+ неделя"
+							action="#{mainFacade.doFilterCreatedPlusWeek}" process="@this"
+							update="#{update} createdWrapper" />
+					</p:column>
+					<p:column>
+						<p:commandButton value="+ месяц"
+							action="#{mainFacade.doFilterCreatedPlusMonth}" process="@this"
+							update="#{update} createdWrapper" />
+					</p:column>
+					<p:column>
+						<p:commandButton value="+ год"
+							action="#{mainFacade.doFilterCreatedPlusYear}" process="@this"
+							update="#{update} createdWrapper" />
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+		</p:panel>
+		<!-- << created -->
 
 
-			<!-- >> completed -->
-			<p:panel header="Завершено">
-				<p:panelGrid>
-					<p:row>
-						<p:column>
-							<p:outputLabel value="Завершено с:" for="completedAfter" />
-						</p:column>
-						<p:column>
-							<lpf:inputLocalDateTime id="completedAfter"
-								value="#{settings.requestFilter.completedAfter}" process="@this"
-								update="@form" ajaxDelay="#{filterChangedAjaxDelay}" />
-						</p:column>
-						<p:column>
-							<p:outputLabel value="Завершено по:" for="completedBefore" />
-						</p:column>
-						<p:column>
-							<lpf:inputLocalDateTime id="completedBefore"
-								value="#{settings.requestFilter.completedBefore}"
-								process="@this" update="@form"
-								ajaxDelay="#{filterChangedAjaxDelay}" />
-						</p:column>
-						<p:column>
-							<p:commandButton value="Очистить"
-								action="#{mainFacade.doFilterCompletedClear}" process="@this"
-								update="@form" />
-						</p:column>
-					</p:row>
-				</p:panelGrid>
-				<p:panelGrid>
-					<p:row>
-						<p:column>
-							<p:commandButton value="За сегодня"
-								action="#{mainFacade.doFilterCompletedToday}" process="@this"
-								update="@form" />
-						</p:column>
-						<p:column>
-							<p:commandButton value="За эту неделю"
-								action="#{mainFacade.doFilterCompletedThisWeek}" process="@this"
-								update="@form" />
-						</p:column>
-						<p:column>
-							<p:commandButton value="За этот месяц"
-								action="#{mainFacade.doFilterCompletedThisMonth}"
-								process="@this" update="@form" />
-						</p:column>
-						<p:column>
-							<p:commandButton value="За этот год"
-								action="#{mainFacade.doFilterCompletedThisYear}" process="@this"
-								update="@form" />
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column>
-							<p:commandButton value="За вчера"
-								action="#{mainFacade.doFilterCompletedYesterday}"
-								process="@this" update="@form" />
-						</p:column>
-						<p:column>
-							<p:commandButton value="За прошлую неделю"
-								action="#{mainFacade.doFilterCompletedLastWeek}" process="@this"
-								update="@form" />
-						</p:column>
-						<p:column>
-							<p:commandButton value="За прошлый месяц"
-								action="#{mainFacade.doFilterCompletedLastMonth}"
-								process="@this" update="@form" />
-						</p:column>
-						<p:column>
-							<p:commandButton value="За прошлый год"
-								action="#{mainFacade.doFilterCompletedLastYear}" process="@this"
-								update="@form" />
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column>
-							<p:commandButton value="- день"
-								action="#{mainFacade.doFilterCompletedMinusDay}" process="@this"
-								update="@form" />
-						</p:column>
-						<p:column>
-							<p:commandButton value="- неделя"
-								action="#{mainFacade.doFilterCompletedMinusWeek}"
-								process="@this" update="@form" />
-						</p:column>
-						<p:column>
-							<p:commandButton value="- месяц"
-								action="#{mainFacade.doFilterCompletedMinusMonth}"
-								process="@this" update="@form" />
-						</p:column>
-						<p:column>
-							<p:commandButton value="- год"
-								action="#{mainFacade.doFilterCompletedMinusYear}"
-								process="@this" update="@form" />
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column>
-							<p:commandButton value="+ день"
-								action="#{mainFacade.doFilterCompletedPlusDay}" process="@this"
-								update="@form" />
-						</p:column>
-						<p:column>
-							<p:commandButton value="+ неделя"
-								action="#{mainFacade.doFilterCompletedPlusWeek}" process="@this"
-								update="@form" />
-						</p:column>
-						<p:column>
-							<p:commandButton value="+ месяц"
-								action="#{mainFacade.doFilterCompletedPlusMonth}"
-								process="@this" update="@form" />
-						</p:column>
-						<p:column>
-							<p:commandButton value="+ год"
-								action="#{mainFacade.doFilterCompletedPlusYear}" process="@this"
-								update="@form" />
-						</p:column>
-					</p:row>
-				</p:panelGrid>
-			</p:panel>
-			<!-- << completed -->
+		<!-- >> completed -->
+		<p:panel header="По завершению">
+			<p:panelGrid id="completedWrapper">
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Завершено с:" for="completedAfter" />
+					</p:column>
+					<p:column>
+						<lpf:inputLocalDateTime id="completedAfter"
+							value="#{settings.requestFilter.completedAfter}" process="@this"
+							update="#{update}" ajaxDelay="#{filterChangedAjaxDelay}" />
+					</p:column>
+					<p:column>
+						<p:outputLabel value="Завершено по:" for="completedBefore" />
+					</p:column>
+					<p:column>
+						<lpf:inputLocalDateTime id="completedBefore"
+							value="#{settings.requestFilter.completedBefore}" process="@this"
+							update="#{update}" ajaxDelay="#{filterChangedAjaxDelay}" />
+					</p:column>
+					<p:column>
+						<p:commandButton value="Очистить"
+							action="#{mainFacade.doFilterCompletedClear}" process="@this"
+							update="#{update} completedWrapper" />
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+			<p:panelGrid>
+				<p:row>
+					<p:column>
+						<p:commandButton value="За сегодня"
+							action="#{mainFacade.doFilterCompletedToday}" process="@this"
+							update="#{update} completedWrapper" />
+					</p:column>
+					<p:column>
+						<p:commandButton value="За эту неделю"
+							action="#{mainFacade.doFilterCompletedThisWeek}" process="@this"
+							update="#{update} completedWrapper" />
+					</p:column>
+					<p:column>
+						<p:commandButton value="За этот месяц"
+							action="#{mainFacade.doFilterCompletedThisMonth}" process="@this"
+							update="#{update} completedWrapper" />
+					</p:column>
+					<p:column>
+						<p:commandButton value="За этот год"
+							action="#{mainFacade.doFilterCompletedThisYear}" process="@this"
+							update="#{update} completedWrapper" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:commandButton value="За вчера"
+							action="#{mainFacade.doFilterCompletedYesterday}" process="@this"
+							update="#{update} completedWrapper" />
+					</p:column>
+					<p:column>
+						<p:commandButton value="За прошлую неделю"
+							action="#{mainFacade.doFilterCompletedLastWeek}" process="@this"
+							update="#{update} completedWrapper" />
+					</p:column>
+					<p:column>
+						<p:commandButton value="За прошлый месяц"
+							action="#{mainFacade.doFilterCompletedLastMonth}" process="@this"
+							update="#{update} completedWrapper" />
+					</p:column>
+					<p:column>
+						<p:commandButton value="За прошлый год"
+							action="#{mainFacade.doFilterCompletedLastYear}" process="@this"
+							update="#{update} completedWrapper" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:commandButton value="- день"
+							action="#{mainFacade.doFilterCompletedMinusDay}" process="@this"
+							update="#{update} completedWrapper" />
+					</p:column>
+					<p:column>
+						<p:commandButton value="- неделя"
+							action="#{mainFacade.doFilterCompletedMinusWeek}" process="@this"
+							update="#{update} completedWrapper" />
+					</p:column>
+					<p:column>
+						<p:commandButton value="- месяц"
+							action="#{mainFacade.doFilterCompletedMinusMonth}"
+							process="@this" update="#{update} completedWrapper" />
+					</p:column>
+					<p:column>
+						<p:commandButton value="- год"
+							action="#{mainFacade.doFilterCompletedMinusYear}" process="@this"
+							update="#{update} completedWrapper" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:commandButton value="+ день"
+							action="#{mainFacade.doFilterCompletedPlusDay}" process="@this"
+							update="#{update} completedWrapper" />
+					</p:column>
+					<p:column>
+						<p:commandButton value="+ неделя"
+							action="#{mainFacade.doFilterCompletedPlusWeek}" process="@this"
+							update="#{update} completedWrapper" />
+					</p:column>
+					<p:column>
+						<p:commandButton value="+ месяц"
+							action="#{mainFacade.doFilterCompletedPlusMonth}" process="@this"
+							update="#{update} completedWrapper" />
+					</p:column>
+					<p:column>
+						<p:commandButton value="+ год"
+							action="#{mainFacade.doFilterCompletedPlusYear}" process="@this"
+							update="#{update} completedWrapper" />
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+		</p:panel>
+		<!-- << completed -->
 
-			<p:panel header="Показывать">
+		<p:panel header="По типу заявок">
+
+			<h:panelGroup id="requestClassWrapper">
 
 				<p:panelGrid>
 					<p:row>
@@ -277,7 +327,7 @@
 									itemLabel="Запросы на КАСКО" />
 								<f:selectItem itemValue="#{RequestType.CALLBACK_REQUEST}"
 									itemLabel="Запросы на обратный звонок" />
-								<p:ajax process="@this" update="@form"
+								<p:ajax process="@this" update="#{update} requestClassWrapper"
 									delay="#{filterChangedAjaxDelay}" />
 							</p:selectOneMenu>
 						</p:column>
@@ -300,7 +350,7 @@
 								<p:column>
 									<p:selectOneMenu id="transactionStatus"
 										value="#{settings.requestFilter.transactionStatus}">
-										<p:ajax process="@this" update="@form"
+										<p:ajax process="@this" update="#{update}"
 											delay="#{filterChangedAjaxDelay}" />
 										<f:selectItem value="#{configurationFacade.anySI}" />
 										<f:selectItems value="#{si.array.few(TransactionStatus.all)}" />
@@ -313,7 +363,7 @@
 								<p:column>
 									<p:selectOneMenu id="transactionProblem"
 										value="#{settings.requestFilter.transactionProblem}">
-										<p:ajax process="@this" update="@form"
+										<p:ajax process="@this" update="#{update}"
 											delay="#{filterChangedAjaxDelay}" />
 										<f:selectItem value="#{configurationFacade.anySI}" />
 										<f:selectItems value="#{si.array.few(TransactionProblem.all)}" />
@@ -328,7 +378,7 @@
 								<p:column>
 									<p:selectOneMenu id="requestType"
 										value="#{settings.requestFilter.requestType}">
-										<p:ajax process="@this" update="@form"
+										<p:ajax process="@this" update="#{update}"
 											delay="#{filterChangedAjaxDelay}" />
 										<f:selectItem value="#{configurationFacade.anySI}" />
 										<f:selectItems
@@ -342,7 +392,7 @@
 								<p:column>
 									<p:inputText id="agreementNumberMask"
 										value="#{settings.requestFilter.agreementNumberMask}">
-										<p:ajax event="change" process="@this" update="@form"
+										<p:ajax event="change" process="@this" update="#{update}"
 											delay="#{filterChangedAjaxDelay}" />
 									</p:inputText>
 								</p:column>
@@ -361,7 +411,7 @@
 								<p:column>
 									<p:selectOneMenu id="paymentStatus"
 										value="#{settings.requestFilter.paymentStatus}">
-										<p:ajax process="@this" update="@form"
+										<p:ajax process="@this" update="#{update}"
 											delay="#{filterChangedAjaxDelay}" />
 										<f:selectItem value="#{configurationFacade.anySI}" />
 										<f:selectItems value="#{si.array.few(PaymentStatus.all)}" />
@@ -374,7 +424,7 @@
 								<p:column>
 									<p:inputText id="paymentInvoiceNumber"
 										value="#{settings.requestFilter.paymentInvoiceNumber}">
-										<p:ajax event="change" process="@this" update="@form"
+										<p:ajax event="change" process="@this" update="#{update}"
 											delay="#{filterChangedAjaxDelay}" />
 									</p:inputText>
 								</p:column>
@@ -387,7 +437,7 @@
 								<p:column>
 									<p:inputText id="paymentReference"
 										value="#{settings.requestFilter.paymentReference}">
-										<p:ajax event="change" process="@this" update="@form"
+										<p:ajax event="change" process="@this" update="#{update}"
 											delay="#{filterChangedAjaxDelay}" />
 									</p:inputText>
 								</p:column>
@@ -397,7 +447,7 @@
 								<p:column>
 									<p:selectOneMenu id="paymentMethodName"
 										value="#{settings.requestFilter.paymentMethodNameMask}">
-										<p:ajax process="@this" update="@form"
+										<p:ajax process="@this" update="#{update}"
 											delay="#{filterChangedAjaxDelay}" />
 										<f:selectItem itemValue="" itemLabel="Любые" />
 										<f:selectItem itemValue="Казком EPAY" itemLabel="Казком EPAY" />
@@ -411,11 +461,9 @@
 				</h:panelGroup>
 				<!-- << insuranceRequestSettings -->
 
-			</p:panel>
+			</h:panelGroup>
 
-		</h:panelGroup>
-		<!-- << rendered -->
-
+		</p:panel>
 
 	</f:subview>
 

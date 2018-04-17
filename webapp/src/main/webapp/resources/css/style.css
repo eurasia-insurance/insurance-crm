@@ -55,3 +55,7 @@ A.request-icon, A.request-icon:hover {
 .add-comment-message {
 	font-style: italic;
 }
+
+.filter-description-value {
+	font-weight: bold;
+}

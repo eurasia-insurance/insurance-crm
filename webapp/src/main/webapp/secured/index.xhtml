@@ -92,8 +92,15 @@
 				</ui:include>
 			</h:panelGroup>
 
+			<h:panelGroup id="filterDialog">
+				<ui:include src="dialog.filter.include.xhtml">
+					<ui:param name="dialogWV" value="filterDialogWV" />
+					<ui:param name="update" value="@form" />
+				</ui:include>
+			</h:panelGroup>
+
 			<h:panelGroup id="filterPanel">
-				<ui:include src="filter.include.xhtml" />
+				<ui:include src="panel.filter.include.xhtml" />
 			</h:panelGroup>
 
 			<h:panelGroup id="autoRefreshPoll">
@@ -113,8 +120,7 @@
 				emptyMessage="Нет заявок удовлетворяющих критериям поиска"
 				rowStyleClass="#{rr.requestStatus eq 'CLOSED' ? 'row-closed': ''}">
 
-				<p:ajax event="rowSelect" process="@this"
-					update="@form:mainToolbar" />
+				<p:ajax event="rowSelect" process="@this" update="@form:mainToolbar" />
 				<p:ajax event="rowUnselect" process="@this"
 					update="@form:mainToolbar" />
 

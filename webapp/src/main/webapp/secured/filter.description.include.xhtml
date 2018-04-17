@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui" xmlns:p="http://primefaces.org/ui"
+	xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
+	xmlns:jfc="http://lapsa.tech/javax/faces-commons"
+	xmlns:lpf="http://lapsa.tech/primefaces">
+
+	<o:importConstants type="tech.lapsa.insurance.crm.beans.i.RequestType" />
+
+	<h:panelGroup rendered="#{not empty settings.requestFilter.id}">
+		<h:outputText value=" Номер: " />
+		<h:outputText value="#{settings.requestFilter.id}"
+			styleClass="filter-description-value" />
+	</h:panelGroup>
+
+	<h:panelGroup
+		rendered="#{not empty settings.requestFilter.progressStatus}">
+		<h:outputText value=" Стадия: " />
+		<h:outputText
+			value="#{localized.few(settings.requestFilter.progressStatus)}"
+			styleClass="filter-description-value" />
+	</h:panelGroup>
+
+	<h:panelGroup
+		rendered="#{not empty settings.requestFilter.requesterNameMask}">
+		<h:outputText value=" Имя заявителя: " />
+		<h:outputText value="#{settings.requestFilter.requesterNameMask}"
+			styleClass="filter-description-value" />
+	</h:panelGroup>
+
+	<h:panelGroup rendered="#{not empty settings.requestFilter.acceptedBy}">
+		<h:outputText value=" Кем принято: " />
+		<h:outputText value="#{settings.requestFilter.acceptedBy.name}"
+			styleClass="filter-description-value" />
+	</h:panelGroup>
+
+	<h:panelGroup
+		rendered="#{not empty settings.requestFilter.completedBy}">
+		<h:outputText value=" Кем завершено: " />
+		<h:outputText value="#{settings.requestFilter.completedBy.name}"
+			styleClass="filter-description-value" />
+	</h:panelGroup>
+
+	<h:panelGroup rendered="#{not empty settings.requestFilter.createdBy}">
+		<h:outputText value=" Кто автор: " />
+		<h:outputText value="#{settings.requestFilter.createdBy.name}"
+			styleClass="filter-description-value" />
+	</h:panelGroup>
+
+	<h:panelGroup
+		rendered="#{not empty settings.requestFilter.createdAfter or not empty settings.requestFilter.createdBefore}">
+		<h:outputText value=" Поступило " />
+		<h:panelGroup
+			rendered="#{not empty settings.requestFilter.createdAfter}"
+			styleClass="filter-description-value">
+			<h:outputText value=" с: " />
+			<jfc:outputLocalDateTime
+				value="#{settings.requestFilter.createdAfter}" />
+		</h:panelGroup>
+		<h:panelGroup
+			rendered="#{not empty settings.requestFilter.createdBefore}"
+			styleClass="filter-description-value">
+			<h:outputText value=" по: " />
+			<jfc:outputLocalDateTime
+				value="#{settings.requestFilter.createdBefore}" />
+		</h:panelGroup>
+	</h:panelGroup>
+
+	<h:panelGroup
+		rendered="#{not empty settings.requestFilter.completedAfter or not empty settings.requestFilter.completedBefore}">
+		<h:outputText value=" Завершено: " />
+		<h:panelGroup
+			rendered="#{not empty settings.requestFilter.completedAfter}"
+			styleClass="filter-description-value">
+			<h:outputText value=" с " />
+			<jfc:outputLocalDateTime
+				value="#{settings.requestFilter.completedAfter}" />
+		</h:panelGroup>
+		<h:panelGroup
+			rendered="#{not empty settings.requestFilter.completedBefore}"
+			styleClass="filter-description-value">
+			<h:outputText value=" по " />
+			<jfc:outputLocalDateTime
+				value="#{settings.requestFilter.completedBefore}" />
+		</h:panelGroup>
+	</h:panelGroup>
+
+	<h:panelGroup rendered="#{settings.requestType ne RequestType.REQUEST}">
+		<h:outputText value=" Показывать " />
+		<h:outputText value="#{localized.few(settings.requestType)}"
+			styleClass="filter-description-value" />
+	</h:panelGroup>
+
+	<h:panelGroup
+		rendered="#{not empty settings.requestFilter.transactionStatus}">
+		<h:outputText value=" Результат " />
+		<h:outputText
+			value="#{localized.few(settings.requestFilter.transactionStatus)}"
+			styleClass="filter-description-value" />
+	</h:panelGroup>
+
+	<h:panelGroup
+		rendered="#{not empty settings.requestFilter.transactionProblem}">
+		<h:outputText value=" Причина отмены сделки " />
+		<h:outputText
+			value="#{localized.few(settings.requestFilter.transactionProblem)}"
+			styleClass="filter-description-value" />
+	</h:panelGroup>
+
+	<h:panelGroup
+		rendered="#{not empty settings.requestFilter.agreementNumberMask}">
+		<h:outputText value=" Номер договора " />
+		<h:outputText value="#{settings.requestFilter.agreementNumberMask}"
+			styleClass="filter-description-value" />
+	</h:panelGroup>
+
+	<h:panelGroup
+		rendered="#{not empty settings.requestFilter.paymentStatus}">
+		<h:outputText value=" Статус оплаты " />
+		<h:outputText
+			value="#{localized.few(settings.requestFilter.paymentStatus)}"
+			styleClass="filter-description-value" />
+	</h:panelGroup>
+
+	<h:panelGroup
+		rendered="#{not empty settings.requestFilter.paymentInvoiceNumber}">
+		<h:outputText value=" Инвойс " />
+		<h:outputText value="#{settings.requestFilter.paymentInvoiceNumber}"
+			styleClass="filter-description-value" />
+	</h:panelGroup>
+
+	<h:panelGroup
+		rendered="#{not empty settings.requestFilter.paymentReference}">
+		<h:outputText value=" Платежный референс " />
+		<h:outputText value="#{settings.requestFilter.paymentReference}"
+			styleClass="filter-description-value" />
+	</h:panelGroup>
+
+</ui:composition>

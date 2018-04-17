@@ -242,7 +242,7 @@ public abstract class RequestRowDataModel<T extends Request> implements RequestR
     @Override
     public String getNote() {
 	try {
-	    return entity.getNote();
+	    return entity.getNote().trim();
 	} catch (NullPointerException e) {
 	    return null;
 	}

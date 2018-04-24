@@ -16,12 +16,10 @@ import javax.validation.constraints.Size;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
 import tech.lapsa.insurance.crm.beans.i.CurrentUserHolder;
-import tech.lapsa.insurance.crm.beans.i.RequestHolder;
 import tech.lapsa.insurance.crm.rows.RequestRow;
 import tech.lapsa.insurance.facade.RequestCompletionFacade.RequestCompletionFacadeRemote;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.exceptions.IllegalState;
-import tech.lapsa.java.commons.function.MyCollections;
 import tech.lapsa.java.commons.function.MyExceptions;
 import tech.lapsa.javax.validation.NotEmptyString;
 import tech.lapsa.javax.validation.NotNullValue;
@@ -34,7 +32,9 @@ public class CommentRequestCDIBean implements Serializable {
 
     @Named("commentRequestCheck")
     @Dependent
-    public static class CommentRequestCheckCDIBean implements Serializable {
+    public static class CommentRequestCheckCDIBean
+	    extends ASelectingChecker
+	    implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -50,16 +50,9 @@ public class CommentRequestCDIBean implements Serializable {
 
 	private RequestRow<?> single = null;
 
-	// CDIs
-
-	// local
-
-	@Inject
-	private RequestHolder requestHolder;
-
 	@PostConstruct
 	public void init() {
-	    final List<RequestRow<?>> list = MyCollections.orEmptyList(requestHolder.getValue());
+	    final List<RequestRow<?>> list = getSelected();
 	    allowed = isInRole(InsuranceRoleGroup.CHANGERS) //
 		    && list.size() == 1 //
 	    ;
@@ -67,10 +60,6 @@ public class CommentRequestCDIBean implements Serializable {
 		return;
 	    single = list.get(0);
 	    allowed = single.isCanComment();
-	}
-
-	public void clearList() {
-	    requestHolder.reset();
 	}
     }
 
@@ -127,7 +116,7 @@ public class CommentRequestCDIBean implements Serializable {
 	} catch (IllegalArgument e1) {
 	    throw e1.getRuntime();
 	} finally {
-	    check.clearList();
+	    check.clearSelected();
 	}
 
 	return null;

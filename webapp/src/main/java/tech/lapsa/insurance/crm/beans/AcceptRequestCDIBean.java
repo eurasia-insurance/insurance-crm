@@ -18,11 +18,9 @@ import com.lapsa.insurance.elements.ProgressStatus;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
 import tech.lapsa.insurance.crm.beans.i.CurrentUserHolder;
-import tech.lapsa.insurance.crm.beans.i.RequestHolder;
 import tech.lapsa.insurance.crm.rows.RequestRow;
 import tech.lapsa.insurance.dao.RequestDAO.RequestDAORemote;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
-import tech.lapsa.java.commons.function.MyCollections;
 import tech.lapsa.java.commons.function.MyCollectors;
 import tech.lapsa.java.commons.function.MyExceptions;
 
@@ -34,7 +32,9 @@ public class AcceptRequestCDIBean implements Serializable {
 
     @Named("acceptRequestCheck")
     @Dependent
-    public static class AccepdRequestCheckCDIBean implements Serializable {
+    public static class AccepdRequestCheckCDIBean
+	    extends ASelectingChecker
+	    implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -50,25 +50,14 @@ public class AcceptRequestCDIBean implements Serializable {
 	    return allowed;
 	}
 
-	// CDIs
-
-	// local
-
-	@Inject
-	private RequestHolder requestHolder;
-
 	@PostConstruct
 	public void init() {
-	    list = MyCollections.orEmptyList(requestHolder.getValue());
+	    list = getSelected();
 	    allowed = isInRole(InsuranceRoleGroup.CHANGERS)
 		    && !list.isEmpty() //
 		    && list.stream() //
 			    .allMatch(RequestRow::isCanAccept) //
 	    ;
-	}
-
-	public void clearList() {
-	    requestHolder.reset();
 	}
     }
 
@@ -109,7 +98,7 @@ public class AcceptRequestCDIBean implements Serializable {
 	} catch (IllegalArgument e) {
 	    throw new FacesException(e);
 	} finally {
-	    check.clearList();
+	    check.clearSelected();
 	}
 	return null;
     }

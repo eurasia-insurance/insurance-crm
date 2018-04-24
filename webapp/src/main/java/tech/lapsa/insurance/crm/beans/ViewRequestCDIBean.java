@@ -12,9 +12,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
-import tech.lapsa.insurance.crm.beans.i.RequestHolder;
 import tech.lapsa.insurance.crm.rows.RequestRow;
-import tech.lapsa.java.commons.function.MyCollections;
 
 @Named("viewRequest")
 @RequestScoped
@@ -24,7 +22,9 @@ public class ViewRequestCDIBean implements Serializable {
 
     @Named("viewRequestCheck")
     @Dependent
-    public static class TransactionCompleteCheckCDIBean implements Serializable {
+    public static class TransactionCompleteCheckCDIBean
+	    extends ASelectingChecker
+	    implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -40,16 +40,9 @@ public class ViewRequestCDIBean implements Serializable {
 
 	private RequestRow<?> single = null;
 
-	// CDIs
-
-	// local
-
-	@Inject
-	private RequestHolder requestHolder;
-
 	@PostConstruct
 	public void init() {
-	    final List<RequestRow<?>> list = MyCollections.orEmptyList(requestHolder.getValue());
+	    final List<RequestRow<?>> list = getSelected();
 	    allowed = isInRole(InsuranceRoleGroup.VIEWERS) //
 		    && list.size() == 1 //
 	    ;

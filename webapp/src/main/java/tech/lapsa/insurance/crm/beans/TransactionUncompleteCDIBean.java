@@ -17,12 +17,10 @@ import com.lapsa.insurance.elements.TransactionProblem;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
 import tech.lapsa.insurance.crm.beans.i.CurrentUserHolder;
-import tech.lapsa.insurance.crm.beans.i.RequestHolder;
 import tech.lapsa.insurance.crm.rows.RequestRow;
 import tech.lapsa.insurance.facade.RequestCompletionFacade.RequestCompletionFacadeRemote;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.exceptions.IllegalState;
-import tech.lapsa.java.commons.function.MyCollections;
 import tech.lapsa.java.commons.function.MyExceptions;
 import tech.lapsa.javax.validation.NotNullValue;
 
@@ -34,7 +32,9 @@ public class TransactionUncompleteCDIBean implements Serializable {
 
     @Named("transactionUncompleteCheck")
     @Dependent
-    public static class TransactionUncompleteCheckCDIBean implements Serializable {
+    public static class TransactionUncompleteCheckCDIBean
+	    extends ASelectingChecker
+	    implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -50,27 +50,16 @@ public class TransactionUncompleteCDIBean implements Serializable {
 	    return allowed;
 	}
 
-	// CDIs
-
-	// local
-
-	@Inject
-	private RequestHolder requestHolder;
-
 	// controls
 
 	@PostConstruct
 	public void init() {
-	    list = MyCollections.orEmptyList(requestHolder.getValue());
+	    list = getSelected();
 	    allowed = isInRole(InsuranceRoleGroup.CHANGERS)
 		    && !list.isEmpty() //
 		    && list.stream() //
 			    .allMatch(RequestRow::isCanUncomplete) //
 	    ;
-	}
-
-	public void clearList() {
-	    requestHolder.reset();
 	}
     }
 
@@ -124,7 +113,7 @@ public class TransactionUncompleteCDIBean implements Serializable {
 			}
 		    });
 	} finally {
-	    check.clearList();
+	    check.clearSelected();
 	}
 	return null;
     }

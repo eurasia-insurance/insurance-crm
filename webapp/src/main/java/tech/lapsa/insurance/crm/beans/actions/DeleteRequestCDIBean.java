@@ -1,4 +1,4 @@
-package tech.lapsa.insurance.crm.beans;
+package tech.lapsa.insurance.crm.beans.actions;
 
 import static com.lapsa.utils.security.SecurityUtils.*;
 
@@ -64,6 +64,10 @@ public class DeleteRequestCDIBean implements Serializable {
 			    .allMatch(RequestRow::isCanDelete) //
 	    ;
 	}
+
+	public void clearList() {
+	    requestHolder.reset();
+	}
     }
 
     // CDIs
@@ -84,15 +88,19 @@ public class DeleteRequestCDIBean implements Serializable {
 		    "Transaction status is invalid for deletion. Deletion is possible on '%1$s' only.",
 		    TransactionStatus.NOT_COMPLETED);
 
-	check.list.stream().map(RequestRow::getEntity).map(Request::getId).forEach(id -> {
-	    try {
-		requestDAO.deleteById(id);
-	    } catch (IllegalArgument e1) {
-		throw new FacesException(e1.getRuntime());
-	    } catch (NotFound e) {
-		throw new FacesException(e);
-	    }
-	});
+	try {
+	    check.list.stream().map(RequestRow::getEntity).map(Request::getId).forEach(id -> {
+		try {
+		    requestDAO.deleteById(id);
+		} catch (IllegalArgument e1) {
+		    throw new FacesException(e1.getRuntime());
+		} catch (NotFound e) {
+		    throw new FacesException(e);
+		}
+	    });
+	} finally {
+	    check.clearList();
+	}
 	return null;
     }
 }

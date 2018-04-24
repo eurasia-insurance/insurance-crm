@@ -1,4 +1,4 @@
-package tech.lapsa.insurance.crm.beans;
+package tech.lapsa.insurance.crm.beans.actions;
 
 import static com.lapsa.utils.security.SecurityUtils.*;
 
@@ -20,12 +20,10 @@ import com.lapsa.insurance.domain.Request;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
 import tech.lapsa.insurance.crm.beans.i.CurrentUserHolder;
-import tech.lapsa.insurance.crm.beans.i.RequestHolder;
 import tech.lapsa.insurance.crm.rows.RequestRow;
 import tech.lapsa.insurance.facade.RequestCompletionFacade.RequestCompletionFacadeRemote;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.exceptions.IllegalState;
-import tech.lapsa.java.commons.function.MyCollections;
 import tech.lapsa.java.commons.function.MyExceptions;
 import tech.lapsa.javax.validation.NotEmptyString;
 import tech.lapsa.javax.validation.NotNullValue;
@@ -38,7 +36,9 @@ public class TransactionCompleteCDIBean implements Serializable {
 
     @Named("transactionCompleteCheck")
     @Dependent
-    public static class TransactionCompleteCheckCDIBean implements Serializable {
+    public static class TransactionCompleteCheckCDIBean
+	    extends AActionChecker
+	    implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -54,16 +54,9 @@ public class TransactionCompleteCDIBean implements Serializable {
 
 	private RequestRow<?> single = null;
 
-	// CDIs
-
-	// local
-
-	@Inject
-	private RequestHolder requestHolder;
-
 	@PostConstruct
 	public void init() {
-	    final List<RequestRow<?>> list = MyCollections.orEmptyList(requestHolder.getValue());
+	    final List<RequestRow<?>> list = getSelected();
 	    allowed = isInRole(InsuranceRoleGroup.CHANGERS) //
 		    && list.size() == 1 //
 	    ;
@@ -219,10 +212,10 @@ public class TransactionCompleteCDIBean implements Serializable {
 	    throw e1.getRuntime();
 	} catch (IllegalArgument e1) {
 	    throw e1.getRuntime();
+	} finally {
+	    check.clearSelected();
 	}
-
 	return null;
-
     }
 
     @PostConstruct

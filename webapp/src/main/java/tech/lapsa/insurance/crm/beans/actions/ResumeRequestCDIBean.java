@@ -1,4 +1,4 @@
-package tech.lapsa.insurance.crm.beans;
+package tech.lapsa.insurance.crm.beans.actions;
 
 import static com.lapsa.utils.security.SecurityUtils.*;
 
@@ -16,25 +16,29 @@ import javax.inject.Named;
 import com.lapsa.insurance.elements.ProgressStatus;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
-import tech.lapsa.insurance.crm.beans.i.RequestHolder;
 import tech.lapsa.insurance.crm.rows.RequestRow;
 import tech.lapsa.insurance.dao.RequestDAO.RequestDAORemote;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
-import tech.lapsa.java.commons.function.MyCollections;
 import tech.lapsa.java.commons.function.MyCollectors;
 import tech.lapsa.java.commons.function.MyExceptions;
 
-@Named("pauseRequest")
+@Named("resumeRequest")
 @RequestScoped
-public class PauseRequestCDIBean implements Serializable {
+public class ResumeRequestCDIBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Named("pauseRequestCheck")
+    @Named("resumeRequestCheck")
     @Dependent
-    public static class PauseRequestCheckCDIBean implements Serializable {
+    public static class ResumeRequestCheckCDIBean
+	    extends AActionChecker
+	    implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+
+	// list
+
+	private List<RequestRow<?>> list;
 
 	// allowed
 
@@ -44,23 +48,17 @@ public class PauseRequestCDIBean implements Serializable {
 	    return allowed;
 	}
 
-	// list
-
-	private List<RequestRow<?>> list;
-
 	// CDIs
 
-	@Inject
-	private RequestHolder requestHolder;
+	// local
 
 	@PostConstruct
 	public void init() {
-	    checkRoleGranted(InsuranceRoleGroup.CHANGERS);
-	    list = MyCollections.orEmptyList(requestHolder.getValue());
+	    list = getSelected();
 	    allowed = isInRole(InsuranceRoleGroup.CHANGERS) //
-		    && !list.isEmpty()
+		    && !list.isEmpty() //
 		    && list.stream() //
-			    .allMatch(RequestRow::isCanPause) //
+			    .allMatch(RequestRow::isCanResume) //
 	    ;
 	}
     }
@@ -70,7 +68,7 @@ public class PauseRequestCDIBean implements Serializable {
     // local
 
     @Inject
-    private PauseRequestCheckCDIBean check;
+    private ResumeRequestCheckCDIBean check;
 
     // EJBs
 
@@ -79,22 +77,24 @@ public class PauseRequestCDIBean implements Serializable {
     @EJB
     private RequestDAORemote requestDAO;
 
-    public String doPause() {
+    public String doResume() {
 	checkRoleGranted(InsuranceRoleGroup.CHANGERS);
 
 	if (!check.isAllowed())
 	    throw MyExceptions.format(FacesException::new,
-		    "Progress status is invalid for pausing. Pausing is posible at '%1$s' only.",
-		    ProgressStatus.ON_PROCESS);
+		    "Progress status is invalid for resuming. Resuming is posible at '%1$s' only.",
+		    ProgressStatus.ON_HOLD);
 
 	try {
 	    requestDAO.saveAll(
 		    check.list.stream() //
 			    .map(RequestRow::getEntity) //
-			    .peek(r -> r.setProgressStatus(ProgressStatus.ON_HOLD))
+			    .peek(r -> r.setProgressStatus(ProgressStatus.ON_PROCESS))
 			    .collect(MyCollectors.unmodifiableList()));
 	} catch (IllegalArgument e) {
 	    throw new FacesException(e);
+	} finally {
+	    check.clearSelected();
 	}
 	return null;
     }

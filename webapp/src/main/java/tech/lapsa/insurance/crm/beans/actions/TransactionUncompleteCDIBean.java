@@ -1,4 +1,4 @@
-package tech.lapsa.insurance.crm.beans;
+package tech.lapsa.insurance.crm.beans.actions;
 
 import static com.lapsa.utils.security.SecurityUtils.*;
 
@@ -17,12 +17,10 @@ import com.lapsa.insurance.elements.TransactionProblem;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
 import tech.lapsa.insurance.crm.beans.i.CurrentUserHolder;
-import tech.lapsa.insurance.crm.beans.i.RequestHolder;
 import tech.lapsa.insurance.crm.rows.RequestRow;
 import tech.lapsa.insurance.facade.RequestCompletionFacade.RequestCompletionFacadeRemote;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.exceptions.IllegalState;
-import tech.lapsa.java.commons.function.MyCollections;
 import tech.lapsa.java.commons.function.MyExceptions;
 import tech.lapsa.javax.validation.NotNullValue;
 
@@ -34,7 +32,9 @@ public class TransactionUncompleteCDIBean implements Serializable {
 
     @Named("transactionUncompleteCheck")
     @Dependent
-    public static class TransactionUncompleteCheckCDIBean implements Serializable {
+    public static class TransactionUncompleteCheckCDIBean
+	    extends AActionChecker
+	    implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -50,25 +50,17 @@ public class TransactionUncompleteCDIBean implements Serializable {
 	    return allowed;
 	}
 
-	// CDIs
-
-	// local
-
-	@Inject
-	private RequestHolder requestHolder;
-
 	// controls
 
 	@PostConstruct
 	public void init() {
-	    list = MyCollections.orEmptyList(requestHolder.getValue());
+	    list = getSelected();
 	    allowed = isInRole(InsuranceRoleGroup.CHANGERS)
 		    && !list.isEmpty() //
 		    && list.stream() //
 			    .allMatch(RequestRow::isCanUncomplete) //
 	    ;
 	}
-
     }
 
     // problem
@@ -107,18 +99,22 @@ public class TransactionUncompleteCDIBean implements Serializable {
 	if (!check.isAllowed())
 	    throw MyExceptions.format(FacesException::new, "Is invalid for unconmpleting transactions");
 
-	check.list.stream() //
-		.forEach(rr -> {
-		    try {
-			final boolean paidable = rr.getPayment() != null;
-			completions.transactionUncomplete(rr.getEntity(), currentUser.getValue(), problem,
-				paidable);
-		    } catch (IllegalState e) {
-			throw new FacesException(e.getRuntime());
-		    } catch (IllegalArgument e) {
-			throw new FacesException(e.getRuntime());
-		    }
-		});
+	try {
+	    check.list.stream() //
+		    .forEach(rr -> {
+			try {
+			    final boolean paidable = rr.getPayment() != null;
+			    completions.transactionUncomplete(rr.getEntity(), currentUser.getValue(), problem,
+				    paidable);
+			} catch (IllegalState e) {
+			    throw new FacesException(e.getRuntime());
+			} catch (IllegalArgument e) {
+			    throw new FacesException(e.getRuntime());
+			}
+		    });
+	} finally {
+	    check.clearSelected();
+	}
 	return null;
     }
 }

@@ -1,8 +1,9 @@
-package tech.lapsa.insurance.crm.beans;
+package tech.lapsa.insurance.crm.beans.actions;
 
 import static com.lapsa.utils.security.SecurityUtils.*;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -16,23 +17,24 @@ import javax.inject.Named;
 import com.lapsa.insurance.elements.ProgressStatus;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
-import tech.lapsa.insurance.crm.beans.i.RequestHolder;
+import tech.lapsa.insurance.crm.beans.i.CurrentUserHolder;
 import tech.lapsa.insurance.crm.rows.RequestRow;
 import tech.lapsa.insurance.dao.RequestDAO.RequestDAORemote;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
-import tech.lapsa.java.commons.function.MyCollections;
 import tech.lapsa.java.commons.function.MyCollectors;
 import tech.lapsa.java.commons.function.MyExceptions;
 
-@Named("resumeRequest")
+@Named("acceptRequest")
 @RequestScoped
-public class ResumeRequestCDIBean implements Serializable {
+public class AcceptRequestCDIBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Named("resumeRequestCheck")
+    @Named("acceptRequestCheck")
     @Dependent
-    public static class ResumeRequestCheckCDIBean implements Serializable {
+    public static class AccepdRequestCheckCDIBean
+	    extends AActionChecker
+	    implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -48,23 +50,15 @@ public class ResumeRequestCDIBean implements Serializable {
 	    return allowed;
 	}
 
-	// CDIs
-
-	// local
-
-	@Inject
-	private RequestHolder requestHolder;
-
 	@PostConstruct
 	public void init() {
-	    list = MyCollections.orEmptyList(requestHolder.getValue());
-	    allowed = isInRole(InsuranceRoleGroup.CHANGERS) //
+	    list = getSelected();
+	    allowed = isInRole(InsuranceRoleGroup.CHANGERS)
 		    && !list.isEmpty() //
 		    && list.stream() //
-			    .allMatch(RequestRow::isCanResume) //
+			    .allMatch(RequestRow::isCanAccept) //
 	    ;
 	}
-
     }
 
     // CDIs
@@ -72,7 +66,10 @@ public class ResumeRequestCDIBean implements Serializable {
     // local
 
     @Inject
-    private ResumeRequestCheckCDIBean check;
+    private AccepdRequestCheckCDIBean check;
+
+    @Inject
+    private CurrentUserHolder currentUser;
 
     // EJBs
 
@@ -81,22 +78,27 @@ public class ResumeRequestCDIBean implements Serializable {
     @EJB
     private RequestDAORemote requestDAO;
 
-    public String doResume() {
+    public String doAccept() {
 	checkRoleGranted(InsuranceRoleGroup.CHANGERS);
 
 	if (!check.isAllowed())
 	    throw MyExceptions.format(FacesException::new,
-		    "Progress status is invalid for resuming. Resuming is posible at '%1$s' only.",
-		    ProgressStatus.ON_HOLD);
+		    "Progress status is invalid for accepting. Accepting is posible at '%1$s' only.",
+		    ProgressStatus.NEW);
 
+	final Instant now = Instant.now();
 	try {
 	    requestDAO.saveAll(
 		    check.list.stream() //
 			    .map(RequestRow::getEntity) //
 			    .peek(r -> r.setProgressStatus(ProgressStatus.ON_PROCESS))
+			    .peek(r -> r.setAccepted(now))
+			    .peek(r -> r.setAcceptedBy(currentUser.getValue()))
 			    .collect(MyCollectors.unmodifiableList()));
 	} catch (IllegalArgument e) {
 	    throw new FacesException(e);
+	} finally {
+	    check.clearSelected();
 	}
 	return null;
     }

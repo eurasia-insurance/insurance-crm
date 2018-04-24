@@ -3,7 +3,6 @@ package tech.lapsa.insurance.crm.beans;
 import static com.lapsa.utils.security.SecurityUtils.*;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -93,7 +92,6 @@ public class PauseRequestCDIBean implements Serializable {
 		    check.list.stream() //
 			    .map(RequestRow::getEntity) //
 			    .peek(r -> r.setProgressStatus(ProgressStatus.ON_HOLD))
-			    .peek(r -> r.setUpdated(Instant.now()))
 			    .collect(MyCollectors.unmodifiableList()));
 	} catch (IllegalArgument e) {
 	    throw new FacesException(e);

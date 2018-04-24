@@ -102,7 +102,6 @@ public class AcceptRequestCDIBean implements Serializable {
 			    .peek(r -> r.setProgressStatus(ProgressStatus.ON_PROCESS))
 			    .peek(r -> r.setAccepted(now))
 			    .peek(r -> r.setAcceptedBy(currentUser.getValue()))
-			    .peek(r -> r.setUpdated(now))
 			    .collect(MyCollectors.unmodifiableList()));
 	} catch (IllegalArgument e) {
 	    throw new FacesException(e);

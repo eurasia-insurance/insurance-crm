@@ -99,7 +99,6 @@ public class CloseRequestCDIBean implements Serializable {
 			    .peek(r -> r.setStatus(RequestStatus.CLOSED))
 			    .peek(r -> r.setClosed(now))
 			    .peek(r -> r.setClosedBy(currentUser.getValue()))
-			    .peek(r -> r.setUpdated(now))
 			    .collect(MyCollectors.unmodifiableList()));
 	} catch (IllegalArgument e) {
 	    throw new FacesException(e);

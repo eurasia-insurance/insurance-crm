@@ -68,6 +68,10 @@ public class CommentRequestCDIBean implements Serializable {
 	    single = list.get(0);
 	    allowed = single.isCanComment();
 	}
+
+	public void clearList() {
+	    requestHolder.reset();
+	}
     }
 
     // message
@@ -122,6 +126,8 @@ public class CommentRequestCDIBean implements Serializable {
 	    throw e1.getRuntime();
 	} catch (IllegalArgument e1) {
 	    throw e1.getRuntime();
+	} finally {
+	    check.clearList();
 	}
 
 	return null;

@@ -69,6 +69,9 @@ public class TransactionUncompleteCDIBean implements Serializable {
 	    ;
 	}
 
+	public void clearList() {
+	    requestHolder.reset();
+	}
     }
 
     // problem
@@ -107,18 +110,22 @@ public class TransactionUncompleteCDIBean implements Serializable {
 	if (!check.isAllowed())
 	    throw MyExceptions.format(FacesException::new, "Is invalid for unconmpleting transactions");
 
-	check.list.stream() //
-		.forEach(rr -> {
-		    try {
-			final boolean paidable = rr.getPayment() != null;
-			completions.transactionUncomplete(rr.getEntity(), currentUser.getValue(), problem,
-				paidable);
-		    } catch (IllegalState e) {
-			throw new FacesException(e.getRuntime());
-		    } catch (IllegalArgument e) {
-			throw new FacesException(e.getRuntime());
-		    }
-		});
+	try {
+	    check.list.stream() //
+		    .forEach(rr -> {
+			try {
+			    final boolean paidable = rr.getPayment() != null;
+			    completions.transactionUncomplete(rr.getEntity(), currentUser.getValue(), problem,
+				    paidable);
+			} catch (IllegalState e) {
+			    throw new FacesException(e.getRuntime());
+			} catch (IllegalArgument e) {
+			    throw new FacesException(e.getRuntime());
+			}
+		    });
+	} finally {
+	    check.clearList();
+	}
 	return null;
     }
 }

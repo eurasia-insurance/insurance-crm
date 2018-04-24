@@ -65,6 +65,10 @@ public class ResumeRequestCDIBean implements Serializable {
 	    ;
 	}
 
+	public void clearList() {
+	    requestHolder.reset();
+	}
+
     }
 
     // CDIs
@@ -97,6 +101,8 @@ public class ResumeRequestCDIBean implements Serializable {
 			    .collect(MyCollectors.unmodifiableList()));
 	} catch (IllegalArgument e) {
 	    throw new FacesException(e);
+	} finally {
+	    check.clearList();
 	}
 	return null;
     }

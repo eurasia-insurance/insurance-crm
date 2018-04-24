@@ -72,6 +72,10 @@ public class TransactionCompleteCDIBean implements Serializable {
 	    single = list.get(0);
 	    allowed = single.isCanComplete();
 	}
+
+	public void clearList() {
+	    requestHolder.reset();
+	}
     }
 
     // paidable
@@ -219,10 +223,10 @@ public class TransactionCompleteCDIBean implements Serializable {
 	    throw e1.getRuntime();
 	} catch (IllegalArgument e1) {
 	    throw e1.getRuntime();
+	} finally {
+	    check.clearList();
 	}
-
 	return null;
-
     }
 
     @PostConstruct

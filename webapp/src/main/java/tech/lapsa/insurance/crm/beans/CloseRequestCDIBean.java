@@ -68,6 +68,10 @@ public class CloseRequestCDIBean implements Serializable {
 	    ;
 	}
 
+	public void clearList() {
+	    requestHolder.reset();
+	}
+
     }
 
     @Inject
@@ -102,7 +106,10 @@ public class CloseRequestCDIBean implements Serializable {
 			    .collect(MyCollectors.unmodifiableList()));
 	} catch (IllegalArgument e) {
 	    throw new FacesException(e);
+	} finally {
+	    check.clearList();
 	}
+
 	return null;
     }
 }

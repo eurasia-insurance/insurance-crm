@@ -63,6 +63,11 @@ public class PauseRequestCDIBean implements Serializable {
 			    .allMatch(RequestRow::isCanPause) //
 	    ;
 	}
+
+	public void clearList() {
+	    requestHolder.reset();
+	}
+
     }
 
     // CDIs
@@ -95,6 +100,8 @@ public class PauseRequestCDIBean implements Serializable {
 			    .collect(MyCollectors.unmodifiableList()));
 	} catch (IllegalArgument e) {
 	    throw new FacesException(e);
+	} finally {
+	    check.clearList();
 	}
 	return null;
     }

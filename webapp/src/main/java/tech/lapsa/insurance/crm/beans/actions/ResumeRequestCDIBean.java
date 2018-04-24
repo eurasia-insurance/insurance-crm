@@ -1,4 +1,4 @@
-package tech.lapsa.insurance.crm.beans;
+package tech.lapsa.insurance.crm.beans.actions;
 
 import static com.lapsa.utils.security.SecurityUtils.*;
 
@@ -31,7 +31,7 @@ public class ResumeRequestCDIBean implements Serializable {
     @Named("resumeRequestCheck")
     @Dependent
     public static class ResumeRequestCheckCDIBean
-	    extends ASelectingChecker
+	    extends AActionChecker
 	    implements Serializable {
 
 	private static final long serialVersionUID = 1L;

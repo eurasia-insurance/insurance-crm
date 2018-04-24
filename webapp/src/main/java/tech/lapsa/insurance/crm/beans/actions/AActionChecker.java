@@ -1,4 +1,4 @@
-package tech.lapsa.insurance.crm.beans;
+package tech.lapsa.insurance.crm.beans.actions;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -11,7 +11,7 @@ import tech.lapsa.insurance.crm.rows.RequestRow;
 import tech.lapsa.java.commons.function.MyCollections;
 import tech.lapsa.java.commons.function.MyObjects;
 
-public abstract class ASelectingChecker implements Serializable {
+public abstract class AActionChecker implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

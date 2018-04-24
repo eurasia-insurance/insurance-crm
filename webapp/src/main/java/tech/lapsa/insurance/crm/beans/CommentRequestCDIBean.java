@@ -15,6 +15,7 @@ import javax.inject.Named;
 import javax.validation.constraints.Size;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
+import tech.lapsa.insurance.crm.beans.actions.AActionChecker;
 import tech.lapsa.insurance.crm.beans.i.CurrentUserHolder;
 import tech.lapsa.insurance.crm.rows.RequestRow;
 import tech.lapsa.insurance.facade.RequestCompletionFacade.RequestCompletionFacadeRemote;
@@ -33,7 +34,7 @@ public class CommentRequestCDIBean implements Serializable {
     @Named("commentRequestCheck")
     @Dependent
     public static class CommentRequestCheckCDIBean
-	    extends ASelectingChecker
+	    extends AActionChecker
 	    implements Serializable {
 
 	private static final long serialVersionUID = 1L;

@@ -1,4 +1,4 @@
-package tech.lapsa.insurance.crm.beans;
+package tech.lapsa.insurance.crm.beans.actions;
 
 import static com.lapsa.utils.security.SecurityUtils.*;
 

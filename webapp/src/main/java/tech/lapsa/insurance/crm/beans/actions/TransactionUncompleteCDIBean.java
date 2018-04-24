@@ -1,4 +1,4 @@
-package tech.lapsa.insurance.crm.beans;
+package tech.lapsa.insurance.crm.beans.actions;
 
 import static com.lapsa.utils.security.SecurityUtils.*;
 
@@ -33,7 +33,7 @@ public class TransactionUncompleteCDIBean implements Serializable {
     @Named("transactionUncompleteCheck")
     @Dependent
     public static class TransactionUncompleteCheckCDIBean
-	    extends ASelectingChecker
+	    extends AActionChecker
 	    implements Serializable {
 
 	private static final long serialVersionUID = 1L;

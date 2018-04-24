@@ -1,4 +1,4 @@
-package tech.lapsa.insurance.crm.beans;
+package tech.lapsa.insurance.crm.beans.actions;
 
 import static com.lapsa.utils.security.SecurityUtils.*;
 
@@ -31,7 +31,7 @@ public class PauseRequestCDIBean implements Serializable {
     @Named("pauseRequestCheck")
     @Dependent
     public static class PauseRequestCheckCDIBean
-	    extends ASelectingChecker
+	    extends AActionChecker
 	    implements Serializable {
 
 	private static final long serialVersionUID = 1L;

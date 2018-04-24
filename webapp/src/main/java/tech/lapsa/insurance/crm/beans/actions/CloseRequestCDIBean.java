@@ -1,4 +1,4 @@
-package tech.lapsa.insurance.crm.beans;
+package tech.lapsa.insurance.crm.beans.actions;
 
 import static com.lapsa.utils.security.SecurityUtils.*;
 
@@ -34,7 +34,7 @@ public class CloseRequestCDIBean implements Serializable {
     @Named("closeRequestCheck")
     @Dependent
     public static class CloseRequestCheckCDIBean
-	    extends ASelectingChecker
+	    extends AActionChecker
 	    implements Serializable {
 
 	private static final long serialVersionUID = 1L;

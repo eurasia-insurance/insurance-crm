@@ -120,13 +120,14 @@
 				emptyMessage="Нет заявок удовлетворяющих критериям поиска"
 				rowStyleClass="#{rr.requestStatus eq 'CLOSED' ? 'row-closed': ''}">
 
-				<p:ajax event="rowSelect" process="@this" update="@form:mainToolbar" />
+				<p:ajax event="rowSelect" process="@this"
+					update="@form:mainToolbar @form:summaryPanel" />
 				<p:ajax event="rowUnselect" process="@this"
-					update="@form:mainToolbar" />
+					update="@form:mainToolbar @form:summaryPanel" />
 
 				<p:ajax event="rowDblselect" process="@this"
 					disabled="#{not canView}"
-					update="@form:mainToolbar @form:requestDialog"
+					update="@form:mainToolbar  @form:summaryPanel @form:requestDialog"
 					oncomplete="PF('requestDialogWV').show(); return false;" />
 
 				<f:facet name="header">
@@ -239,6 +240,7 @@
 			<h:panelGroup id="summaryPanel">
 				<ui:include src="panel.summary.include.xhtml">
 					<ui:param name="count" value="#{requests.rowCount}" />
+					<ui:param name="selectedCount" value="#{fn:length(rqst.value)}" />
 				</ui:include>
 			</h:panelGroup>
 

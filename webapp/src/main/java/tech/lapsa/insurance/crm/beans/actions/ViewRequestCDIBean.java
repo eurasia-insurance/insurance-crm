@@ -50,7 +50,7 @@ public class ViewRequestCDIBean implements Serializable {
 
     public RequestRow<?> getRow() {
 	if (!checkActionAllowed(rrs))
-	    return rrs.getSingleValue();
-	return null;
+	    return null;
+	return rrs.getSingleValue();
     }
 }

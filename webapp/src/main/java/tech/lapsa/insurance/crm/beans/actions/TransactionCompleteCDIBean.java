@@ -18,6 +18,7 @@ import javax.validation.constraints.Min;
 import com.lapsa.insurance.domain.Request;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
+import tech.lapsa.insurance.crm.beans.RequestsSelectionCDIBean;
 import tech.lapsa.insurance.crm.beans.i.CurrentUserHolder;
 import tech.lapsa.insurance.crm.rows.RequestRow;
 import tech.lapsa.insurance.facade.RequestCompletionFacade.RequestCompletionFacadeRemote;
@@ -39,14 +40,20 @@ public class TransactionCompleteCDIBean implements Serializable {
 	    extends AActionChecker
 	    implements Serializable {
 
+	public TransactionCompleteCheckCDIBean() {
+	    super(TransactionCompleteCDIBean::checkActionAllowed);
+	}
+
 	private static final long serialVersionUID = 1L;
 
-	@Override
-	protected boolean checkActionAllowed() {
-	    return isInRole(InsuranceRoleGroup.CHANGERS) //
-		    && getList().size() == 1 //
-		    && getSignle().isCanComplete();
-	}
+    }
+
+    static boolean checkActionAllowed(RequestsSelectionCDIBean rrs) {
+	return isInRole(InsuranceRoleGroup.CHANGERS) //
+		&& rrs != null
+		&& rrs.isSingleValue() //
+		&& rrs.getSingleValue().isCanComplete() //
+	;
     }
 
     // paidable
@@ -160,7 +167,7 @@ public class TransactionCompleteCDIBean implements Serializable {
     private CurrentUserHolder currentUser;
 
     @Inject
-    private TransactionCompleteCheckCDIBean checker;
+    private RequestsSelectionCDIBean rrs;
 
     // EJBs
 
@@ -172,12 +179,12 @@ public class TransactionCompleteCDIBean implements Serializable {
     public String doComplete() throws FacesException, IllegalStateException, IllegalArgumentException {
 	checkRoleGranted(InsuranceRoleGroup.CHANGERS);
 
-	checker.refreshList();
+	rrs.refresh();
 
-	if (!checker.isAllowed())
+	if (!checkActionAllowed(rrs))
 	    throw MyExceptions.format(FacesException::new, "Is invalid for unconmpleting transactions");
 
-	final Request r = checker.getSignle().getEntity();
+	final Request r = rrs.getSingleValue().getEntity();
 
 	try {
 	    final Request res;
@@ -193,20 +200,20 @@ public class TransactionCompleteCDIBean implements Serializable {
 			payerName);
 	    else
 		res = completions.transactionComplete(r, currentUser.getValue(), agreementNumber);
-	    checker.updateList(RequestRow.from(res));
+	    rrs.setSingleValue(RequestRow.from(res));
 	} catch (IllegalState e1) {
 	    throw e1.getRuntime();
 	} catch (IllegalArgument e1) {
 	    throw e1.getRuntime();
 	} finally {
-	    // checker.clearSelected();
+	    // rrs.reset();
 	}
 	return null;
     }
 
     @PostConstruct
     public void init() { // default values
-	final RequestRow<?> rr = checker.getSignle();
+	final RequestRow<?> rr = rrs.getSingleValue();
 	if (rr != null) {
 	    this.paidable = rr.getPayment() != null;
 	    this.wasPaidBefore = paidable && rr.getPaymentInstant() != null;

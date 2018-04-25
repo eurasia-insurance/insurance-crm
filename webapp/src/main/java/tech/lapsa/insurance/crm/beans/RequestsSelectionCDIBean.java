@@ -1,7 +1,11 @@
 package tech.lapsa.insurance.crm.beans;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -37,6 +41,26 @@ public class RequestsSelectionCDIBean implements Serializable {
 	return value;
     }
 
+    public boolean isSingleValue() {
+	return value != null && value.size() == 1;
+    }
+
+    public boolean notEmptyValue() {
+	return value != null && !value.isEmpty();
+    }
+
+    public Stream<RequestRow<?>> getValueAsStream() {
+	return MyStreams.orEmptyOf(value);
+    }
+
+    public RequestRow<?> getSingleValue() {
+	return MyStreams.orEmptyOf(value).findFirst().orElse(null);
+    }
+
+    public Optional<RequestRow<?>> optSingleValue() {
+	return MyStreams.orEmptyOf(value).findFirst();
+    }
+
     public void refresh() {
 	this.value = quickRefresh(value);
     }
@@ -45,8 +69,12 @@ public class RequestsSelectionCDIBean implements Serializable {
 	this.value = value;
     }
 
+    public void setSingleValue(RequestRow<?> value) {
+	this.value = Arrays.asList(value);
+    }
+
     public void reset() {
-	this.value = null;
+	this.value = Collections.emptyList();
     }
 
     // EJBs

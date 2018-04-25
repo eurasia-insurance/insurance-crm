@@ -17,6 +17,7 @@ import com.lapsa.insurance.elements.ProgressStatus;
 import com.lapsa.insurance.elements.RequestStatus;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
+import tech.lapsa.insurance.crm.beans.RequestsSelectionCDIBean;
 import tech.lapsa.insurance.crm.beans.i.CurrentUserHolder;
 import tech.lapsa.insurance.crm.rows.RequestRow;
 import tech.lapsa.insurance.dao.RequestDAO.RequestDAORemote;
@@ -38,14 +39,20 @@ public class CloseRequestCDIBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Override
-	protected boolean checkActionAllowed() {
-	    return isInRole(InsuranceRoleGroup.CLOSERS)
-		    && !getList().isEmpty() //
-		    && getListStream() //
-			    .allMatch(RequestRow::isCanClose) //
-	    ;
+	public CloseRequestCheckCDIBean() {
+	    super(CloseRequestCDIBean::actionAllowed);
 	}
+
+    }
+
+    static boolean actionAllowed(final RequestsSelectionCDIBean rrs) {
+	return isInRole(InsuranceRoleGroup.CLOSERS)
+		&& rrs != null
+		&& rrs.notEmptyValue() //
+		&& rrs.getValueAsStream() //
+			.allMatch(RequestRow::isCanClose) //
+	;
+
     }
 
     // CDIs
@@ -58,6 +65,9 @@ public class CloseRequestCDIBean implements Serializable {
     @Inject
     private CloseRequestCheckCDIBean checker;
 
+    @Inject
+    private RequestsSelectionCDIBean rrs;
+
     // EJBs
 
     // insurance-dao (remote)
@@ -68,7 +78,7 @@ public class CloseRequestCDIBean implements Serializable {
     public String doClose() {
 	checkRoleGranted(InsuranceRoleGroup.CLOSERS);
 
-	checker.refreshList();
+	rrs.refresh();
 
 	if (!checker.isAllowed())
 	    throw MyExceptions.format(FacesException::new,
@@ -77,7 +87,7 @@ public class CloseRequestCDIBean implements Serializable {
 
 	final Instant now = Instant.now();
 	try {
-	    final List<RequestRow<?>> res = checker.getListStream() //
+	    final List<RequestRow<?>> res = rrs.getValueAsStream() //
 		    .map(RequestRow::getEntity) //
 		    .peek(r -> r.setStatus(RequestStatus.CLOSED))
 		    .peek(r -> r.setClosed(now))
@@ -91,9 +101,9 @@ public class CloseRequestCDIBean implements Serializable {
 		    })
 		    .map(RequestRow::from)
 		    .collect(MyCollectors.unmodifiableList());
-	    checker.updateList(res);
+	    rrs.setValue(res);
 	} finally {
-	    // check.clearSelected();
+	    // rrs.reset();
 	}
 
 	return null;

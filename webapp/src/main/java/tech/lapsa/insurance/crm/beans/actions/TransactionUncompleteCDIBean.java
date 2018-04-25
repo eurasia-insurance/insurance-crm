@@ -15,6 +15,7 @@ import javax.inject.Named;
 import com.lapsa.insurance.elements.TransactionProblem;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
+import tech.lapsa.insurance.crm.beans.RequestsSelectionCDIBean;
 import tech.lapsa.insurance.crm.beans.i.CurrentUserHolder;
 import tech.lapsa.insurance.crm.rows.RequestRow;
 import tech.lapsa.insurance.facade.RequestCompletionFacade.RequestCompletionFacadeRemote;
@@ -38,14 +39,18 @@ public class TransactionUncompleteCDIBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Override
-	protected boolean checkActionAllowed() {
-	    return isInRole(InsuranceRoleGroup.CHANGERS)
-		    && !getList().isEmpty() //
-		    && getListStream() //
-			    .allMatch(RequestRow::isCanUncomplete) //
-	    ;
+	public TransactionUncompleteCheckCDIBean() {
+	    super(TransactionUncompleteCDIBean::checkActionAllowed);
 	}
+    }
+
+    static boolean checkActionAllowed(RequestsSelectionCDIBean rrs) {
+	return isInRole(InsuranceRoleGroup.CHANGERS)
+		&& rrs != null
+		&& rrs.notEmptyValue() //
+		&& rrs.getValueAsStream() //
+			.allMatch(RequestRow::isCanUncomplete) //
+	;
     }
 
     // problem
@@ -69,7 +74,7 @@ public class TransactionUncompleteCDIBean implements Serializable {
     private CurrentUserHolder currentUser;
 
     @Inject
-    private TransactionUncompleteCheckCDIBean checker;
+    private RequestsSelectionCDIBean rrs;
 
     // EJBs
 
@@ -81,13 +86,13 @@ public class TransactionUncompleteCDIBean implements Serializable {
     public String doUncomplete() throws FacesException, IllegalStateException, IllegalArgumentException {
 	checkRoleGranted(InsuranceRoleGroup.CHANGERS);
 
-	checker.refreshList();
+	rrs.refresh();
 
-	if (!checker.isAllowed())
+	if (!checkActionAllowed(rrs))
 	    throw MyExceptions.format(FacesException::new, "Is invalid for unconmpleting transactions");
 
 	try {
-	    final List<RequestRow<?>> res = checker.getListStream() //
+	    final List<RequestRow<?>> res = rrs.getValueAsStream() //
 		    .map(r -> {
 			try {
 			    final boolean paidable = r.getPayment() != null;
@@ -101,9 +106,9 @@ public class TransactionUncompleteCDIBean implements Serializable {
 		    })
 		    .map(RequestRow::from)
 		    .collect(MyCollectors.unmodifiableList());
-	    checker.updateList(res);
+	    rrs.setValue(res);
 	} finally {
-	    // check.clearSelected();
+	    // rrs.reset();
 	}
 	return null;
     }

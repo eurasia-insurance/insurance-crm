@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
+import tech.lapsa.insurance.crm.beans.RequestsSelectionCDIBean;
 import tech.lapsa.insurance.crm.rows.RequestRow;
 
 @Named("viewRequest")
@@ -24,15 +25,18 @@ public class ViewRequestCDIBean implements Serializable {
 	    extends AActionChecker
 	    implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-
-	@Override
-	protected boolean checkActionAllowed() {
-	    return isInRole(InsuranceRoleGroup.VIEWERS) //
-		    && getList().size() == 1 //
-		    && getSignle().isCanView() 
-	    ;
+	public ViewRequestCheckCDIBean() {
+	    super(ViewRequestCDIBean::checkActionAllowed);
 	}
+
+	private static final long serialVersionUID = 1L;
+    }
+
+    static boolean checkActionAllowed(RequestsSelectionCDIBean rrs) {
+	return isInRole(InsuranceRoleGroup.VIEWERS) //
+		&& rrs != null
+		&& rrs.isSingleValue()
+		&& rrs.getSingleValue().isCanView();
     }
 
     // CDIs
@@ -40,14 +44,13 @@ public class ViewRequestCDIBean implements Serializable {
     // local
 
     @Inject
-    private ViewRequestCheckCDIBean checker;
+    private RequestsSelectionCDIBean rrs;
 
     // row
 
     public RequestRow<?> getRow() {
-	if (checker.isAllowed())
-	    return checker.getSignle();
+	if (!checkActionAllowed(rrs))
+	    return rrs.getSingleValue();
 	return null;
     }
-
 }

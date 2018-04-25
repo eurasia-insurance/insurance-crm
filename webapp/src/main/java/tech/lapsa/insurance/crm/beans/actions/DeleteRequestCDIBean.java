@@ -16,6 +16,7 @@ import com.lapsa.insurance.elements.TransactionStatus;
 import com.lapsa.utils.security.SecurityUtils;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
+import tech.lapsa.insurance.crm.beans.RequestsSelectionCDIBean;
 import tech.lapsa.insurance.crm.rows.RequestRow;
 import tech.lapsa.insurance.dao.RequestDAO.RequestDAORemote;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
@@ -36,14 +37,18 @@ public class DeleteRequestCDIBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Override
-	protected boolean checkActionAllowed() {
-	    return isInRole(InsuranceRoleGroup.DELETERS) //
-		    && !getList().isEmpty() //
-		    && getListStream() //
-			    .allMatch(RequestRow::isCanDelete) //
-	    ;
+	public DeleteRequestCheckCDIBean() {
+	    super(DeleteRequestCDIBean::checkActionAllowed);
 	}
+    }
+
+    static boolean checkActionAllowed(final RequestsSelectionCDIBean rrs) {
+	return isInRole(InsuranceRoleGroup.DELETERS) //
+		&& rrs != null
+		&& rrs.notEmptyValue() //
+		&& rrs.getValueAsStream() //
+			.allMatch(RequestRow::isCanDelete) //
+	;
     }
 
     // CDIs
@@ -51,7 +56,11 @@ public class DeleteRequestCDIBean implements Serializable {
     // local
 
     @Inject
-    private DeleteRequestCheckCDIBean checker;
+    private RequestsSelectionCDIBean rrs;
+
+    // EJBs
+
+    // insurance-dao (remote)
 
     @EJB
     private RequestDAORemote requestDAO;
@@ -59,15 +68,15 @@ public class DeleteRequestCDIBean implements Serializable {
     public String doDelete() throws FacesException, IllegalStateException, IllegalArgumentException {
 	SecurityUtils.checkRoleGranted(InsuranceRoleGroup.DELETERS);
 
-	checker.refreshList();
+	rrs.refresh();
 
-	if (!checker.isAllowed())
+	if (!checkActionAllowed(rrs))
 	    throw MyExceptions.format(FacesException::new,
 		    "Transaction status is invalid for deletion. Deletion is possible on '%1$s' only.",
 		    TransactionStatus.NOT_COMPLETED);
 
 	try {
-	    checker.getListStream() //
+	    rrs.getValueAsStream() //
 		    .map(RequestRow::getEntity) //
 		    .map(Request::getId) //
 		    .forEach(id -> {
@@ -79,9 +88,9 @@ public class DeleteRequestCDIBean implements Serializable {
 			    throw new FacesException(e);
 			}
 		    });
-	    checker.clearList();
+	    rrs.reset();
 	} finally {
-	    // check.clearSelected();
+	    // rrs.reset();
 	}
 	return null;
     }

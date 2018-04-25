@@ -16,6 +16,7 @@ import javax.inject.Named;
 import com.lapsa.insurance.elements.ProgressStatus;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
+import tech.lapsa.insurance.crm.beans.RequestsSelectionCDIBean;
 import tech.lapsa.insurance.crm.beans.i.CurrentUserHolder;
 import tech.lapsa.insurance.crm.rows.RequestRow;
 import tech.lapsa.insurance.dao.RequestDAO.RequestDAORemote;
@@ -37,13 +38,17 @@ public class AcceptRequestCDIBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Override
-	protected boolean checkActionAllowed() {
-	    return isInRole(InsuranceRoleGroup.CHANGERS)
-		    && !getList().isEmpty() //
-		    && getListStream() //
-			    .allMatch(RequestRow::isCanAccept);
+	public AccepdRequestCheckCDIBean() {
+	    super(AcceptRequestCDIBean::actionAllowed);
 	}
+    }
+
+    static boolean actionAllowed(final RequestsSelectionCDIBean rrs) {
+	return isInRole(InsuranceRoleGroup.CHANGERS)
+		&& rrs != null
+		&& rrs.notEmptyValue() //
+		&& rrs.getValueAsStream() //
+			.allMatch(RequestRow::isCanAccept);
     }
 
     // CDIs
@@ -52,6 +57,9 @@ public class AcceptRequestCDIBean implements Serializable {
 
     @Inject
     private AccepdRequestCheckCDIBean checker;
+
+    @Inject
+    private RequestsSelectionCDIBean rrs;
 
     @Inject
     private CurrentUserHolder currentUser;
@@ -66,7 +74,7 @@ public class AcceptRequestCDIBean implements Serializable {
     public String doAccept() {
 	checkRoleGranted(InsuranceRoleGroup.CHANGERS);
 
-	checker.refreshList();
+	rrs.refresh();
 
 	if (!checker.isAllowed())
 	    throw MyExceptions.format(FacesException::new,
@@ -75,7 +83,7 @@ public class AcceptRequestCDIBean implements Serializable {
 
 	final Instant now = Instant.now();
 	try {
-	    final List<RequestRow<?>> res = checker.getListStream() //
+	    final List<RequestRow<?>> res = rrs.getValueAsStream() //
 		    .map(RequestRow::getEntity) //
 		    .peek(r -> r.setProgressStatus(ProgressStatus.ON_PROCESS))
 		    .peek(r -> r.setAccepted(now))
@@ -89,9 +97,9 @@ public class AcceptRequestCDIBean implements Serializable {
 		    })
 		    .map(RequestRow::from)
 		    .collect(MyCollectors.unmodifiableList());
-	    checker.updateList(res);
+	    rrs.setValue(res);
 	} finally {
-	    // check.clearSelected();
+	    // rrs.reset();
 	}
 	return null;
     }

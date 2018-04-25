@@ -5,7 +5,6 @@ import static com.lapsa.utils.security.SecurityUtils.*;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
@@ -16,6 +15,7 @@ import javax.inject.Named;
 import com.lapsa.insurance.elements.ProgressStatus;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
+import tech.lapsa.insurance.crm.beans.RequestsSelectionCDIBean;
 import tech.lapsa.insurance.crm.rows.RequestRow;
 import tech.lapsa.insurance.dao.RequestDAO.RequestDAORemote;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
@@ -36,31 +36,18 @@ public class ResumeRequestCDIBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	// list
-
-	private List<RequestRow<?>> list;
-
-	// allowed
-
-	private boolean allowed = false;
-
-	public boolean isAllowed() {
-	    return allowed;
+	public ResumeRequestCheckCDIBean() {
+	    super(ResumeRequestCDIBean::checkActionAllowed);
 	}
+    }
 
-	// CDIs
-
-	// local
-
-	@PostConstruct
-	public void init() {
-	    list = getSelected();
-	    allowed = isInRole(InsuranceRoleGroup.CHANGERS) //
-		    && !list.isEmpty() //
-		    && list.stream() //
-			    .allMatch(RequestRow::isCanResume) //
-	    ;
-	}
+    static boolean checkActionAllowed(final RequestsSelectionCDIBean rrs) {
+	return isInRole(InsuranceRoleGroup.CHANGERS) //
+		&& rrs != null
+		&& !rrs.notEmptyValue() //
+		&& rrs.getValueAsStream() //
+			.allMatch(RequestRow::isCanResume) //
+	;
     }
 
     // CDIs
@@ -68,7 +55,7 @@ public class ResumeRequestCDIBean implements Serializable {
     // local
 
     @Inject
-    private ResumeRequestCheckCDIBean check;
+    private RequestsSelectionCDIBean rrs;
 
     // EJBs
 
@@ -80,21 +67,29 @@ public class ResumeRequestCDIBean implements Serializable {
     public String doResume() {
 	checkRoleGranted(InsuranceRoleGroup.CHANGERS);
 
-	if (!check.isAllowed())
+	rrs.refresh();
+
+	if (!checkActionAllowed(rrs))
 	    throw MyExceptions.format(FacesException::new,
 		    "Progress status is invalid for resuming. Resuming is posible at '%1$s' only.",
 		    ProgressStatus.ON_HOLD);
 
 	try {
-	    requestDAO.saveAll(
-		    check.list.stream() //
-			    .map(RequestRow::getEntity) //
-			    .peek(r -> r.setProgressStatus(ProgressStatus.ON_PROCESS))
-			    .collect(MyCollectors.unmodifiableList()));
-	} catch (IllegalArgument e) {
-	    throw new FacesException(e);
+	    final List<RequestRow<?>> res = rrs.getValueAsStream() //
+		    .map(RequestRow::getEntity) //
+		    .peek(r -> r.setProgressStatus(ProgressStatus.ON_PROCESS))
+		    .map(r -> {
+			try {
+			    return requestDAO.save(r);
+			} catch (IllegalArgument e1) {
+			    throw new FacesException(e1.getRuntime());
+			}
+		    })
+		    .map(RequestRow::from)
+		    .collect(MyCollectors.unmodifiableList());
+	    rrs.setValue(res);
 	} finally {
-	    check.clearSelected();
+	    // rrs.reset();
 	}
 	return null;
     }

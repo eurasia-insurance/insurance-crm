@@ -3,7 +3,6 @@ package tech.lapsa.insurance.crm.beans.actions;
 import static com.lapsa.utils.security.SecurityUtils.*;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -14,7 +13,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.constraints.Size;
 
+import com.lapsa.insurance.domain.Request;
+
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
+import tech.lapsa.insurance.crm.beans.RequestsSelectionCDIBean;
 import tech.lapsa.insurance.crm.beans.i.CurrentUserHolder;
 import tech.lapsa.insurance.crm.rows.RequestRow;
 import tech.lapsa.insurance.facade.RequestCompletionFacade.RequestCompletionFacadeRemote;
@@ -36,31 +38,18 @@ public class CommentRequestCDIBean implements Serializable {
 	    extends AActionChecker
 	    implements Serializable {
 
+	public CommentRequestCheckCDIBean() {
+	    super(CommentRequestCDIBean::checkActionAllowed);
+	}
+
 	private static final long serialVersionUID = 1L;
+    }
 
-	// allowed
-
-	private boolean allowed = false;
-
-	public boolean isAllowed() {
-	    return allowed;
-	}
-
-	// signle
-
-	private RequestRow<?> single = null;
-
-	@PostConstruct
-	public void init() {
-	    final List<RequestRow<?>> list = getSelected();
-	    allowed = isInRole(InsuranceRoleGroup.CHANGERS) //
-		    && list.size() == 1 //
-	    ;
-	    if (!allowed)
-		return;
-	    single = list.get(0);
-	    allowed = single.isCanComment();
-	}
+    static boolean checkActionAllowed(final RequestsSelectionCDIBean rrs) {
+	return isInRole(InsuranceRoleGroup.CHANGERS) //
+		&& rrs != null
+		&& rrs.isSingleValue() //
+		&& rrs.getSingleValue().isCanComment();
     }
 
     // message
@@ -94,7 +83,7 @@ public class CommentRequestCDIBean implements Serializable {
     private CurrentUserHolder currentUser;
 
     @Inject
-    private CommentRequestCheckCDIBean check;
+    private RequestsSelectionCDIBean rrs;
 
     // EJBs
 
@@ -106,17 +95,21 @@ public class CommentRequestCDIBean implements Serializable {
     public String doComment() {
 	checkRoleGranted(InsuranceRoleGroup.CHANGERS);
 
-	if (!check.isAllowed())
+	rrs.refresh();
+
+	if (!checkActionAllowed(rrs))
 	    throw MyExceptions.format(FacesException::new, "Commenting is unavailable");
 
 	try {
-	    completions.commentRequest(check.single.getEntity(), currentUser.getValue(), message);
+	    final Request res = completions.commentRequest(rrs.getSingleValue().getEntity(), currentUser.getValue(),
+		    message);
+	    rrs.setSingleValue(RequestRow.from(res));
 	} catch (IllegalState e1) {
 	    throw e1.getRuntime();
 	} catch (IllegalArgument e1) {
 	    throw e1.getRuntime();
 	} finally {
-	    check.clearSelected();
+	    // rrs.reset();
 	}
 
 	return null;
@@ -124,7 +117,7 @@ public class CommentRequestCDIBean implements Serializable {
 
     @PostConstruct
     public void init() {
-	final String oldNote = check.single.getEntity().getNote();
+	final String oldNote = rrs.getSingleValue().getEntity().getNote();
 	this.messages = oldNote == null ? "" : oldNote;
     }
 }

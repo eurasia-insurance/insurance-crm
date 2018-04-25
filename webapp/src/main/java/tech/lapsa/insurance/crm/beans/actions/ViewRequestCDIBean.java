@@ -3,15 +3,14 @@ package tech.lapsa.insurance.crm.beans.actions;
 import static com.lapsa.utils.security.SecurityUtils.*;
 
 import java.io.Serializable;
-import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
+import tech.lapsa.insurance.crm.beans.RequestsSelectionCDIBean;
 import tech.lapsa.insurance.crm.rows.RequestRow;
 
 @Named("viewRequest")
@@ -22,44 +21,22 @@ public class ViewRequestCDIBean implements Serializable {
 
     @Named("viewRequestCheck")
     @Dependent
-    public static class TransactionCompleteCheckCDIBean
+    public static class ViewRequestCheckCDIBean
 	    extends AActionChecker
 	    implements Serializable {
 
+	public ViewRequestCheckCDIBean() {
+	    super(ViewRequestCDIBean::checkActionAllowed);
+	}
+
 	private static final long serialVersionUID = 1L;
-
-	// allowed
-
-	private boolean allowed = false;
-
-	public boolean isAllowed() {
-	    return allowed;
-	}
-
-	// signle
-
-	private RequestRow<?> single = null;
-
-	@PostConstruct
-	public void init() {
-	    final List<RequestRow<?>> list = getSelected();
-	    allowed = isInRole(InsuranceRoleGroup.VIEWERS) //
-		    && list.size() == 1 //
-	    ;
-	    if (!allowed)
-		return;
-	    single = list.get(0);
-	}
     }
 
-    // row
-
-    private RequestRow<?> row;
-
-    public RequestRow<?> getRow() {
-	if (check.isAllowed())
-	    return row;
-	return null;
+    static boolean checkActionAllowed(RequestsSelectionCDIBean rrs) {
+	return isInRole(InsuranceRoleGroup.VIEWERS) //
+		&& rrs != null
+		&& rrs.isSingleValue()
+		&& rrs.getSingleValue().isCanView();
     }
 
     // CDIs
@@ -67,14 +44,13 @@ public class ViewRequestCDIBean implements Serializable {
     // local
 
     @Inject
-    private TransactionCompleteCheckCDIBean check;
+    private RequestsSelectionCDIBean rrs;
 
-    @PostConstruct
-    public void init() {
-	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
-	row = check.isAllowed()
-		? check.single
-		: null;
+    // row
+
+    public RequestRow<?> getRow() {
+	if (!checkActionAllowed(rrs))
+	    return rrs.getSingleValue();
+	return null;
     }
-
 }

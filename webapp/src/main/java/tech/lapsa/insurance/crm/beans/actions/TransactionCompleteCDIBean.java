@@ -5,7 +5,6 @@ import static com.lapsa.utils.security.SecurityUtils.*;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Currency;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -19,6 +18,7 @@ import javax.validation.constraints.Min;
 import com.lapsa.insurance.domain.Request;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
+import tech.lapsa.insurance.crm.beans.RequestsSelectionCDIBean;
 import tech.lapsa.insurance.crm.beans.i.CurrentUserHolder;
 import tech.lapsa.insurance.crm.rows.RequestRow;
 import tech.lapsa.insurance.facade.RequestCompletionFacade.RequestCompletionFacadeRemote;
@@ -40,31 +40,20 @@ public class TransactionCompleteCDIBean implements Serializable {
 	    extends AActionChecker
 	    implements Serializable {
 
+	public TransactionCompleteCheckCDIBean() {
+	    super(TransactionCompleteCDIBean::checkActionAllowed);
+	}
+
 	private static final long serialVersionUID = 1L;
 
-	// allowed
+    }
 
-	private boolean allowed = false;
-
-	public boolean isAllowed() {
-	    return allowed;
-	}
-
-	// signle
-
-	private RequestRow<?> single = null;
-
-	@PostConstruct
-	public void init() {
-	    final List<RequestRow<?>> list = getSelected();
-	    allowed = isInRole(InsuranceRoleGroup.CHANGERS) //
-		    && list.size() == 1 //
-	    ;
-	    if (!allowed)
-		return;
-	    single = list.get(0);
-	    allowed = single.isCanComplete();
-	}
+    static boolean checkActionAllowed(RequestsSelectionCDIBean rrs) {
+	return isInRole(InsuranceRoleGroup.CHANGERS) //
+		&& rrs != null
+		&& rrs.isSingleValue() //
+		&& rrs.getSingleValue().isCanComplete() //
+	;
     }
 
     // paidable
@@ -178,7 +167,7 @@ public class TransactionCompleteCDIBean implements Serializable {
     private CurrentUserHolder currentUser;
 
     @Inject
-    private TransactionCompleteCheckCDIBean check;
+    private RequestsSelectionCDIBean rrs;
 
     // EJBs
 
@@ -190,14 +179,17 @@ public class TransactionCompleteCDIBean implements Serializable {
     public String doComplete() throws FacesException, IllegalStateException, IllegalArgumentException {
 	checkRoleGranted(InsuranceRoleGroup.CHANGERS);
 
-	if (!check.isAllowed())
+	rrs.refresh();
+
+	if (!checkActionAllowed(rrs))
 	    throw MyExceptions.format(FacesException::new, "Is invalid for unconmpleting transactions");
 
-	final Request r = check.single.getEntity();
+	final Request r = rrs.getSingleValue().getEntity();
 
 	try {
+	    final Request res;
 	    if (paidable && !wasPaidBefore)
-		completions.transactionCompleteWithPayment(r,
+		res = completions.transactionCompleteWithPayment(r,
 			currentUser.getValue(),
 			agreementNumber,
 			"Введено вручную",
@@ -207,20 +199,21 @@ public class TransactionCompleteCDIBean implements Serializable {
 			paidReference,
 			payerName);
 	    else
-		completions.transactionComplete(r, currentUser.getValue(), agreementNumber);
+		res = completions.transactionComplete(r, currentUser.getValue(), agreementNumber);
+	    rrs.setSingleValue(RequestRow.from(res));
 	} catch (IllegalState e1) {
 	    throw e1.getRuntime();
 	} catch (IllegalArgument e1) {
 	    throw e1.getRuntime();
 	} finally {
-	    check.clearSelected();
+	    // rrs.reset();
 	}
 	return null;
     }
 
     @PostConstruct
     public void init() { // default values
-	final RequestRow<?> rr = check.single;
+	final RequestRow<?> rr = rrs.getSingleValue();
 	if (rr != null) {
 	    this.paidable = rr.getPayment() != null;
 	    this.wasPaidBefore = paidable && rr.getPaymentInstant() != null;

@@ -2,14 +2,18 @@ package tech.lapsa.insurance.crm.beans.actions;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 import tech.lapsa.insurance.crm.beans.RequestsSelectionCDIBean;
 import tech.lapsa.insurance.crm.rows.RequestRow;
-import tech.lapsa.java.commons.function.MyCollections;
-import tech.lapsa.java.commons.function.MyObjects;
+import tech.lapsa.java.commons.function.MyCollectors;
+import tech.lapsa.java.commons.function.MyStreams;
 
 public abstract class AActionChecker implements Serializable {
 
@@ -22,21 +26,52 @@ public abstract class AActionChecker implements Serializable {
     @Inject
     private RequestsSelectionCDIBean requestHolder;
 
-    public List<RequestRow<?>> getSelected() {
-	return MyCollections.unmodifiableOrEmptyList(requestHolder.getValue());
+    // list
+
+    private List<RequestRow<?>> list = Collections.emptyList();
+
+    @PostConstruct
+    public void initList() {
+	list = MyStreams.orEmptyOf(requestHolder.getValue()) //
+		.collect(MyCollectors.unmodifiableList());
     }
 
-    public void setSelected(List<RequestRow<?>> selected) {
-	requestHolder.setValue(MyCollections.unmodifiableOrEmptyList(MyObjects.requireNonNull(selected)));
+    public List<RequestRow<?>> getList() {
+	return list;
     }
 
-    public void setSelected(RequestRow<?> selected) {
-	requestHolder
-		.setValue(MyCollections.unmodifiableOrEmptyList(Arrays.asList(MyObjects.requireNonNull(selected))));
+    public Stream<RequestRow<?>> getListStream() {
+	return MyStreams.orEmptyOf(list);
     }
 
-    public void clearSelected() {
-	requestHolder.setValue(null);
+    public RequestRow<?> getSignle() {
+	return MyStreams.orEmptyOf(list).findFirst().orElse(null);
     }
 
+    public Optional<RequestRow<?>> optSignle() {
+	return MyStreams.orEmptyOf(list).findFirst();
+    }
+
+    public void refreshList() {
+	requestHolder.refresh();
+	initList();
+    }
+
+    public void updateList(List<RequestRow<?>> list) {
+	requestHolder.setValue(list);
+    }
+
+    public void updateList(RequestRow<?> single) {
+	requestHolder.setValue(Arrays.asList(single));
+    }
+
+    public void clearList() {
+	this.list = Collections.emptyList();
+    }
+
+    public boolean isAllowed() {
+	return checkActionAllowed();
+    }
+
+    protected abstract boolean checkActionAllowed();
 }

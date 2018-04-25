@@ -6,7 +6,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import tech.lapsa.insurance.crm.beans.i.RequestHolder;
+import tech.lapsa.insurance.crm.beans.RequestsSelectionCDIBean;
 import tech.lapsa.insurance.crm.rows.RequestRow;
 import tech.lapsa.java.commons.function.MyCollections;
 import tech.lapsa.java.commons.function.MyObjects;
@@ -20,7 +20,7 @@ public abstract class AActionChecker implements Serializable {
     // local
 
     @Inject
-    private RequestHolder requestHolder;
+    private RequestsSelectionCDIBean requestHolder;
 
     public List<RequestRow<?>> getSelected() {
 	return MyCollections.unmodifiableOrEmptyList(requestHolder.getValue());

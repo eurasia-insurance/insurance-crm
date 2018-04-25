@@ -18,11 +18,9 @@ import com.lapsa.insurance.elements.TransactionStatus;
 import com.lapsa.utils.security.SecurityUtils;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
-import tech.lapsa.insurance.crm.beans.i.RequestHolder;
 import tech.lapsa.insurance.crm.rows.RequestRow;
 import tech.lapsa.insurance.dao.RequestDAO.RequestDAORemote;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
-import tech.lapsa.java.commons.function.MyCollections;
 import tech.lapsa.java.commons.function.MyExceptions;
 import tech.lapsa.patterns.dao.NotFound;
 
@@ -34,7 +32,9 @@ public class DeleteRequestCDIBean implements Serializable {
 
     @Named("deleteRequestCheck")
     @Dependent
-    public static class DeleteRequestCheckCDIBean implements Serializable {
+    public static class DeleteRequestCheckCDIBean
+	    extends AActionChecker
+	    implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -50,23 +50,14 @@ public class DeleteRequestCDIBean implements Serializable {
 	    return allowed;
 	}
 
-	// CDIs
-
-	@Inject
-	private RequestHolder requestHolder;
-
 	@PostConstruct
 	public void init() {
-	    list = MyCollections.orEmptyList(requestHolder.getValue());
+	    list = getSelected();
 	    allowed = isInRole(InsuranceRoleGroup.DELETERS) //
 		    && !list.isEmpty() //
 		    && list.stream() //
 			    .allMatch(RequestRow::isCanDelete) //
 	    ;
-	}
-
-	public void clearList() {
-	    requestHolder.reset();
 	}
     }
 
@@ -99,7 +90,7 @@ public class DeleteRequestCDIBean implements Serializable {
 		}
 	    });
 	} finally {
-	    check.clearList();
+	    check.clearSelected();
 	}
 	return null;
     }

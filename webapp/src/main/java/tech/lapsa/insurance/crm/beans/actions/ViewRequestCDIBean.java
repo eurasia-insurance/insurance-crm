@@ -3,9 +3,7 @@ package tech.lapsa.insurance.crm.beans.actions;
 import static com.lapsa.utils.security.SecurityUtils.*;
 
 import java.io.Serializable;
-import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -22,44 +20,19 @@ public class ViewRequestCDIBean implements Serializable {
 
     @Named("viewRequestCheck")
     @Dependent
-    public static class TransactionCompleteCheckCDIBean
+    public static class ViewRequestCheckCDIBean
 	    extends AActionChecker
 	    implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	// allowed
-
-	private boolean allowed = false;
-
-	public boolean isAllowed() {
-	    return allowed;
-	}
-
-	// signle
-
-	private RequestRow<?> single = null;
-
-	@PostConstruct
-	public void init() {
-	    final List<RequestRow<?>> list = getSelected();
-	    allowed = isInRole(InsuranceRoleGroup.VIEWERS) //
-		    && list.size() == 1 //
+	@Override
+	protected boolean checkActionAllowed() {
+	    return isInRole(InsuranceRoleGroup.VIEWERS) //
+		    && getList().size() == 1 //
+		    && getSignle().isCanView() 
 	    ;
-	    if (!allowed)
-		return;
-	    single = list.get(0);
 	}
-    }
-
-    // row
-
-    private RequestRow<?> row;
-
-    public RequestRow<?> getRow() {
-	if (check.isAllowed())
-	    return row;
-	return null;
     }
 
     // CDIs
@@ -67,14 +40,14 @@ public class ViewRequestCDIBean implements Serializable {
     // local
 
     @Inject
-    private TransactionCompleteCheckCDIBean check;
+    private ViewRequestCheckCDIBean checker;
 
-    @PostConstruct
-    public void init() {
-	checkRoleGranted(InsuranceRoleGroup.VIEWERS);
-	row = check.isAllowed()
-		? check.single
-		: null;
+    // row
+
+    public RequestRow<?> getRow() {
+	if (checker.isAllowed())
+	    return checker.getSignle();
+	return null;
     }
 
 }

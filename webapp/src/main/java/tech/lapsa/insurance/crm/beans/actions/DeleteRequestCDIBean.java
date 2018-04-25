@@ -3,9 +3,7 @@ package tech.lapsa.insurance.crm.beans.actions;
 import static com.lapsa.utils.security.SecurityUtils.*;
 
 import java.io.Serializable;
-import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
@@ -38,24 +36,11 @@ public class DeleteRequestCDIBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	// list
-
-	private List<RequestRow<?>> list;
-
-	// allowed
-
-	private boolean allowed = false;
-
-	public boolean isAllowed() {
-	    return allowed;
-	}
-
-	@PostConstruct
-	public void init() {
-	    list = getSelected();
-	    allowed = isInRole(InsuranceRoleGroup.DELETERS) //
-		    && !list.isEmpty() //
-		    && list.stream() //
+	@Override
+	protected boolean checkActionAllowed() {
+	    return isInRole(InsuranceRoleGroup.DELETERS) //
+		    && !getList().isEmpty() //
+		    && getListStream() //
 			    .allMatch(RequestRow::isCanDelete) //
 	    ;
 	}
@@ -66,7 +51,7 @@ public class DeleteRequestCDIBean implements Serializable {
     // local
 
     @Inject
-    private DeleteRequestCheckCDIBean check;
+    private DeleteRequestCheckCDIBean checker;
 
     @EJB
     private RequestDAORemote requestDAO;
@@ -74,23 +59,29 @@ public class DeleteRequestCDIBean implements Serializable {
     public String doDelete() throws FacesException, IllegalStateException, IllegalArgumentException {
 	SecurityUtils.checkRoleGranted(InsuranceRoleGroup.DELETERS);
 
-	if (!check.isAllowed())
+	checker.refreshList();
+
+	if (!checker.isAllowed())
 	    throw MyExceptions.format(FacesException::new,
 		    "Transaction status is invalid for deletion. Deletion is possible on '%1$s' only.",
 		    TransactionStatus.NOT_COMPLETED);
 
 	try {
-	    check.list.stream().map(RequestRow::getEntity).map(Request::getId).forEach(id -> {
-		try {
-		    requestDAO.deleteById(id);
-		} catch (IllegalArgument e1) {
-		    throw new FacesException(e1.getRuntime());
-		} catch (NotFound e) {
-		    throw new FacesException(e);
-		}
-	    });
+	    checker.getListStream() //
+		    .map(RequestRow::getEntity) //
+		    .map(Request::getId) //
+		    .forEach(id -> {
+			try {
+			    requestDAO.deleteById(id);
+			} catch (IllegalArgument e1) {
+			    throw new FacesException(e1.getRuntime());
+			} catch (NotFound e) {
+			    throw new FacesException(e);
+			}
+		    });
+	    checker.clearList();
 	} finally {
-	    check.clearSelected();
+	    // check.clearSelected();
 	}
 	return null;
     }

@@ -6,7 +6,6 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
@@ -38,26 +37,12 @@ public class AcceptRequestCDIBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	// list
-
-	private List<RequestRow<?>> list;
-
-	// allowed
-
-	private boolean allowed = false;
-
-	public boolean isAllowed() {
-	    return allowed;
-	}
-
-	@PostConstruct
-	public void init() {
-	    list = getSelected();
-	    allowed = isInRole(InsuranceRoleGroup.CHANGERS)
-		    && !list.isEmpty() //
-		    && list.stream() //
-			    .allMatch(RequestRow::isCanAccept) //
-	    ;
+	@Override
+	protected boolean checkActionAllowed() {
+	    return isInRole(InsuranceRoleGroup.CHANGERS)
+		    && !getList().isEmpty() //
+		    && getListStream() //
+			    .allMatch(RequestRow::isCanAccept);
 	}
     }
 
@@ -66,7 +51,7 @@ public class AcceptRequestCDIBean implements Serializable {
     // local
 
     @Inject
-    private AccepdRequestCheckCDIBean check;
+    private AccepdRequestCheckCDIBean checker;
 
     @Inject
     private CurrentUserHolder currentUser;
@@ -81,24 +66,32 @@ public class AcceptRequestCDIBean implements Serializable {
     public String doAccept() {
 	checkRoleGranted(InsuranceRoleGroup.CHANGERS);
 
-	if (!check.isAllowed())
+	checker.refreshList();
+
+	if (!checker.isAllowed())
 	    throw MyExceptions.format(FacesException::new,
 		    "Progress status is invalid for accepting. Accepting is posible at '%1$s' only.",
 		    ProgressStatus.NEW);
 
 	final Instant now = Instant.now();
 	try {
-	    requestDAO.saveAll(
-		    check.list.stream() //
-			    .map(RequestRow::getEntity) //
-			    .peek(r -> r.setProgressStatus(ProgressStatus.ON_PROCESS))
-			    .peek(r -> r.setAccepted(now))
-			    .peek(r -> r.setAcceptedBy(currentUser.getValue()))
-			    .collect(MyCollectors.unmodifiableList()));
-	} catch (IllegalArgument e) {
-	    throw new FacesException(e);
+	    final List<RequestRow<?>> res = checker.getListStream() //
+		    .map(RequestRow::getEntity) //
+		    .peek(r -> r.setProgressStatus(ProgressStatus.ON_PROCESS))
+		    .peek(r -> r.setAccepted(now))
+		    .peek(r -> r.setAcceptedBy(currentUser.getValue()))
+		    .map(r -> {
+			try {
+			    return requestDAO.save(r);
+			} catch (IllegalArgument e1) {
+			    throw new FacesException(e1.getRuntime());
+			}
+		    })
+		    .map(RequestRow::from)
+		    .collect(MyCollectors.unmodifiableList());
+	    checker.updateList(res);
 	} finally {
-	    check.clearSelected();
+	    // check.clearSelected();
 	}
 	return null;
     }

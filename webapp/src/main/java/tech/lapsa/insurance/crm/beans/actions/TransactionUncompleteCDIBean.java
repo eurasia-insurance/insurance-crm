@@ -5,7 +5,6 @@ import static com.lapsa.utils.security.SecurityUtils.*;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
@@ -21,6 +20,7 @@ import tech.lapsa.insurance.crm.rows.RequestRow;
 import tech.lapsa.insurance.facade.RequestCompletionFacade.RequestCompletionFacadeRemote;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.exceptions.IllegalState;
+import tech.lapsa.java.commons.function.MyCollectors;
 import tech.lapsa.java.commons.function.MyExceptions;
 import tech.lapsa.javax.validation.NotNullValue;
 
@@ -38,26 +38,11 @@ public class TransactionUncompleteCDIBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	// list
-
-	private List<RequestRow<?>> list;
-
-	// allowed
-
-	private boolean allowed = false;
-
-	public boolean isAllowed() {
-	    return allowed;
-	}
-
-	// controls
-
-	@PostConstruct
-	public void init() {
-	    list = getSelected();
-	    allowed = isInRole(InsuranceRoleGroup.CHANGERS)
-		    && !list.isEmpty() //
-		    && list.stream() //
+	@Override
+	protected boolean checkActionAllowed() {
+	    return isInRole(InsuranceRoleGroup.CHANGERS)
+		    && !getList().isEmpty() //
+		    && getListStream() //
 			    .allMatch(RequestRow::isCanUncomplete) //
 	    ;
 	}
@@ -84,7 +69,7 @@ public class TransactionUncompleteCDIBean implements Serializable {
     private CurrentUserHolder currentUser;
 
     @Inject
-    private TransactionUncompleteCheckCDIBean check;
+    private TransactionUncompleteCheckCDIBean checker;
 
     // EJBs
 
@@ -96,24 +81,29 @@ public class TransactionUncompleteCDIBean implements Serializable {
     public String doUncomplete() throws FacesException, IllegalStateException, IllegalArgumentException {
 	checkRoleGranted(InsuranceRoleGroup.CHANGERS);
 
-	if (!check.isAllowed())
+	checker.refreshList();
+
+	if (!checker.isAllowed())
 	    throw MyExceptions.format(FacesException::new, "Is invalid for unconmpleting transactions");
 
 	try {
-	    check.list.stream() //
-		    .forEach(rr -> {
+	    final List<RequestRow<?>> res = checker.getListStream() //
+		    .map(r -> {
 			try {
-			    final boolean paidable = rr.getPayment() != null;
-			    completions.transactionUncomplete(rr.getEntity(), currentUser.getValue(), problem,
+			    final boolean paidable = r.getPayment() != null;
+			    return completions.transactionUncomplete(r.getEntity(), currentUser.getValue(), problem,
 				    paidable);
 			} catch (IllegalState e) {
 			    throw new FacesException(e.getRuntime());
 			} catch (IllegalArgument e) {
 			    throw new FacesException(e.getRuntime());
 			}
-		    });
+		    })
+		    .map(RequestRow::from)
+		    .collect(MyCollectors.unmodifiableList());
+	    checker.updateList(res);
 	} finally {
-	    check.clearSelected();
+	    // check.clearSelected();
 	}
 	return null;
     }

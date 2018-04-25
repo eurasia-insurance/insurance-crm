@@ -5,7 +5,6 @@ import static com.lapsa.utils.security.SecurityUtils.*;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
@@ -36,28 +35,11 @@ public class ResumeRequestCDIBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	// list
-
-	private List<RequestRow<?>> list;
-
-	// allowed
-
-	private boolean allowed = false;
-
-	public boolean isAllowed() {
-	    return allowed;
-	}
-
-	// CDIs
-
-	// local
-
-	@PostConstruct
-	public void init() {
-	    list = getSelected();
-	    allowed = isInRole(InsuranceRoleGroup.CHANGERS) //
-		    && !list.isEmpty() //
-		    && list.stream() //
+	@Override
+	protected boolean checkActionAllowed() {
+	    return isInRole(InsuranceRoleGroup.CHANGERS) //
+		    && !getList().isEmpty() //
+		    && getListStream() //
 			    .allMatch(RequestRow::isCanResume) //
 	    ;
 	}
@@ -68,7 +50,7 @@ public class ResumeRequestCDIBean implements Serializable {
     // local
 
     @Inject
-    private ResumeRequestCheckCDIBean check;
+    private ResumeRequestCheckCDIBean checker;
 
     // EJBs
 
@@ -80,21 +62,29 @@ public class ResumeRequestCDIBean implements Serializable {
     public String doResume() {
 	checkRoleGranted(InsuranceRoleGroup.CHANGERS);
 
-	if (!check.isAllowed())
+	checker.refreshList();
+
+	if (!checker.isAllowed())
 	    throw MyExceptions.format(FacesException::new,
 		    "Progress status is invalid for resuming. Resuming is posible at '%1$s' only.",
 		    ProgressStatus.ON_HOLD);
 
 	try {
-	    requestDAO.saveAll(
-		    check.list.stream() //
-			    .map(RequestRow::getEntity) //
-			    .peek(r -> r.setProgressStatus(ProgressStatus.ON_PROCESS))
-			    .collect(MyCollectors.unmodifiableList()));
-	} catch (IllegalArgument e) {
-	    throw new FacesException(e);
+	    final List<RequestRow<?>> res = checker.getListStream() //
+		    .map(RequestRow::getEntity) //
+		    .peek(r -> r.setProgressStatus(ProgressStatus.ON_PROCESS))
+		    .map(r -> {
+			try {
+			    return requestDAO.save(r);
+			} catch (IllegalArgument e1) {
+			    throw new FacesException(e1.getRuntime());
+			}
+		    })
+		    .map(RequestRow::from)
+		    .collect(MyCollectors.unmodifiableList());
+	    checker.updateList(res);
 	} finally {
-	    check.clearSelected();
+	    // check.clearSelected();
 	}
 	return null;
     }

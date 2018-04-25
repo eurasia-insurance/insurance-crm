@@ -5,7 +5,6 @@ import static com.lapsa.utils.security.SecurityUtils.*;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Currency;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -42,28 +41,11 @@ public class TransactionCompleteCDIBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	// allowed
-
-	private boolean allowed = false;
-
-	public boolean isAllowed() {
-	    return allowed;
-	}
-
-	// signle
-
-	private RequestRow<?> single = null;
-
-	@PostConstruct
-	public void init() {
-	    final List<RequestRow<?>> list = getSelected();
-	    allowed = isInRole(InsuranceRoleGroup.CHANGERS) //
-		    && list.size() == 1 //
-	    ;
-	    if (!allowed)
-		return;
-	    single = list.get(0);
-	    allowed = single.isCanComplete();
+	@Override
+	protected boolean checkActionAllowed() {
+	    return isInRole(InsuranceRoleGroup.CHANGERS) //
+		    && getList().size() == 1 //
+		    && getSignle().isCanComplete();
 	}
     }
 
@@ -178,7 +160,7 @@ public class TransactionCompleteCDIBean implements Serializable {
     private CurrentUserHolder currentUser;
 
     @Inject
-    private TransactionCompleteCheckCDIBean check;
+    private TransactionCompleteCheckCDIBean checker;
 
     // EJBs
 
@@ -190,14 +172,17 @@ public class TransactionCompleteCDIBean implements Serializable {
     public String doComplete() throws FacesException, IllegalStateException, IllegalArgumentException {
 	checkRoleGranted(InsuranceRoleGroup.CHANGERS);
 
-	if (!check.isAllowed())
+	checker.refreshList();
+
+	if (!checker.isAllowed())
 	    throw MyExceptions.format(FacesException::new, "Is invalid for unconmpleting transactions");
 
-	final Request r = check.single.getEntity();
+	final Request r = checker.getSignle().getEntity();
 
 	try {
+	    final Request res;
 	    if (paidable && !wasPaidBefore)
-		completions.transactionCompleteWithPayment(r,
+		res = completions.transactionCompleteWithPayment(r,
 			currentUser.getValue(),
 			agreementNumber,
 			"Введено вручную",
@@ -207,20 +192,21 @@ public class TransactionCompleteCDIBean implements Serializable {
 			paidReference,
 			payerName);
 	    else
-		completions.transactionComplete(r, currentUser.getValue(), agreementNumber);
+		res = completions.transactionComplete(r, currentUser.getValue(), agreementNumber);
+	    checker.updateList(RequestRow.from(res));
 	} catch (IllegalState e1) {
 	    throw e1.getRuntime();
 	} catch (IllegalArgument e1) {
 	    throw e1.getRuntime();
 	} finally {
-	    check.clearSelected();
+	    // checker.clearSelected();
 	}
 	return null;
     }
 
     @PostConstruct
     public void init() { // default values
-	final RequestRow<?> rr = check.single;
+	final RequestRow<?> rr = checker.getSignle();
 	if (rr != null) {
 	    this.paidable = rr.getPayment() != null;
 	    this.wasPaidBefore = paidable && rr.getPaymentInstant() != null;

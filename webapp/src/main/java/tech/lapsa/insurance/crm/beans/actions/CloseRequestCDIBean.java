@@ -6,7 +6,6 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
@@ -39,34 +38,25 @@ public class CloseRequestCDIBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	// list
-
-	private List<RequestRow<?>> list;
-
-	// allowed
-
-	private boolean allowed = false;
-
-	public boolean isAllowed() {
-	    return allowed;
-	}
-
-	@PostConstruct
-	public void init() {
-	    list = getSelected();
-	    allowed = isInRole(InsuranceRoleGroup.CLOSERS)
-		    && !list.isEmpty() //
-		    && list.stream() //
+	@Override
+	protected boolean checkActionAllowed() {
+	    return isInRole(InsuranceRoleGroup.CLOSERS)
+		    && !getList().isEmpty() //
+		    && getListStream() //
 			    .allMatch(RequestRow::isCanClose) //
 	    ;
 	}
     }
 
+    // CDIs
+
+    // local
+
     @Inject
     private CurrentUserHolder currentUser;
 
     @Inject
-    private CloseRequestCheckCDIBean check;
+    private CloseRequestCheckCDIBean checker;
 
     // EJBs
 
@@ -78,24 +68,32 @@ public class CloseRequestCDIBean implements Serializable {
     public String doClose() {
 	checkRoleGranted(InsuranceRoleGroup.CLOSERS);
 
-	if (!check.isAllowed())
+	checker.refreshList();
+
+	if (!checker.isAllowed())
 	    throw MyExceptions.format(FacesException::new,
 		    "Status is invalid for archiving. Archiving is posible at '%1$s' and '%2$s' only.",
 		    RequestStatus.OPEN, ProgressStatus.FINISHED);
 
 	final Instant now = Instant.now();
 	try {
-	    requestDAO.saveAll(
-		    check.list.stream() //
-			    .map(RequestRow::getEntity) //
-			    .peek(r -> r.setStatus(RequestStatus.CLOSED))
-			    .peek(r -> r.setClosed(now))
-			    .peek(r -> r.setClosedBy(currentUser.getValue()))
-			    .collect(MyCollectors.unmodifiableList()));
-	} catch (IllegalArgument e) {
-	    throw new FacesException(e);
+	    final List<RequestRow<?>> res = checker.getListStream() //
+		    .map(RequestRow::getEntity) //
+		    .peek(r -> r.setStatus(RequestStatus.CLOSED))
+		    .peek(r -> r.setClosed(now))
+		    .peek(r -> r.setClosedBy(currentUser.getValue()))
+		    .map(r -> {
+			try {
+			    return requestDAO.save(r);
+			} catch (IllegalArgument e1) {
+			    throw new FacesException(e1.getRuntime());
+			}
+		    })
+		    .map(RequestRow::from)
+		    .collect(MyCollectors.unmodifiableList());
+	    checker.updateList(res);
 	} finally {
-	    check.clearSelected();
+	    // check.clearSelected();
 	}
 
 	return null;

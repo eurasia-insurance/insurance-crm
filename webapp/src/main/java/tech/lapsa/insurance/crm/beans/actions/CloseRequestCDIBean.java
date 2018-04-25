@@ -4,7 +4,6 @@ import static com.lapsa.utils.security.SecurityUtils.*;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.List;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.Dependent;
@@ -87,7 +86,8 @@ public class CloseRequestCDIBean implements Serializable {
 
 	final Instant now = Instant.now();
 	try {
-	    final List<RequestRow<?>> res = rrs.getValueAsStream() //
+	    // final List<RequestRow<?>> res =
+	    rrs.getValueAsStream() //
 		    .map(RequestRow::getEntity) //
 		    .peek(r -> r.setStatus(RequestStatus.CLOSED))
 		    .peek(r -> r.setClosed(now))
@@ -101,7 +101,8 @@ public class CloseRequestCDIBean implements Serializable {
 		    })
 		    .map(RequestRow::from)
 		    .collect(MyCollectors.unmodifiableList());
-	    rrs.setValue(res);
+	    // rrs.setValue(res);
+	    rrs.reset();
 	} finally {
 	    // rrs.reset();
 	}

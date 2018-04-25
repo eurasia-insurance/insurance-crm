@@ -1,7 +1,6 @@
 package tech.lapsa.insurance.crm.beans;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -16,6 +15,7 @@ import tech.lapsa.insurance.dao.RequestDAO.RequestDAORemote;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.function.MyCollectors;
 import tech.lapsa.java.commons.function.MyObjects;
+import tech.lapsa.java.commons.function.MyOptionals;
 import tech.lapsa.java.commons.function.MyStreams;
 import tech.lapsa.patterns.dao.NotFound;
 
@@ -25,14 +25,28 @@ public class RequestsSelectionCDIBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    public void init() {
+	reset();
+    }
+
+    // value
+
     protected List<RequestRow<?>> value;
 
     public List<RequestRow<?>> getValue() {
 	return value;
     }
 
-    public void init() {
-	reset();
+    public void refresh() {
+	this.value = quickRefresh(value);
+    }
+
+    public void setValue(List<RequestRow<?>> value) {
+	this.value = value;
+    }
+
+    public void reset() {
+	this.value = null;
     }
 
     // EJBs
@@ -42,9 +56,9 @@ public class RequestsSelectionCDIBean implements Serializable {
     @EJB
     private RequestDAORemote requestDAO;
 
-    private Request quickRefresh(Request r) {
+    private Request silentRestore(Request r) {
 	try {
-	    return requestDAO.restore(r);
+	    return requestDAO.getById(r.getId());
 	} catch (IllegalArgument e) {
 	    return null;
 	} catch (NotFound e) {
@@ -52,20 +66,18 @@ public class RequestsSelectionCDIBean implements Serializable {
 	}
     }
 
-    public void setValue(List<RequestRow<?>> value) {
-	this.value = MyStreams.orEmptyOf(value) //
-		.map(RequestRow::getEntity) //
-		.map(this::quickRefresh) //
-		.filter(MyObjects::nonNull)
+    private RequestRow<?> quickRefresh(RequestRow<?> r) {
+	return MyOptionals.of(r)
+		.map(RequestRow::getEntity)
+		.map(this::silentRestore)
 		.map(RequestRow::from)
+		.orElse(null);
+    }
+
+    private List<RequestRow<?>> quickRefresh(List<RequestRow<?>> rr) {
+	return MyStreams.orEmptyOf(rr)
+		.map(this::quickRefresh)
+		.filter(MyObjects::nonNull)
 		.collect(MyCollectors.unmodifiableList());
-    }
-
-    public void reset() {
-	this.value = null;
-    }
-
-    public void setSingleRow(RequestRow<?> row) {
-	setValue(Arrays.asList(row));
     }
 }

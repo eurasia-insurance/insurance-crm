@@ -51,8 +51,8 @@ public class TransactionCompleteCDIBean implements Serializable {
     static boolean checkActionAllowed(RequestsSelectionCDIBean rrs) {
 	return isInRole(InsuranceRoleGroup.CHANGERS) //
 		&& rrs != null
-		&& rrs.isSingleValue() //
-		&& rrs.getSingleValue().isCanComplete() //
+		&& rrs.isSingleSelected() //
+		&& rrs.getSingleRow().isCanComplete() //
 	;
     }
 
@@ -184,7 +184,7 @@ public class TransactionCompleteCDIBean implements Serializable {
 	if (!checkActionAllowed(rrs))
 	    throw MyExceptions.format(FacesException::new, "Is invalid for unconmpleting transactions");
 
-	final Request r = rrs.getSingleValue().getEntity();
+	final Request r = rrs.getSingleRow().getEntity();
 
 	try {
 	    final Request res;
@@ -200,7 +200,7 @@ public class TransactionCompleteCDIBean implements Serializable {
 			payerName);
 	    else
 		res = completions.transactionComplete(r, currentUser.getValue(), agreementNumber);
-	    rrs.setSingleValue(RequestRow.from(res));
+	    rrs.setSingleRow(RequestRow.from(res));
 	} catch (IllegalState e1) {
 	    throw e1.getRuntime();
 	} catch (IllegalArgument e1) {
@@ -213,7 +213,7 @@ public class TransactionCompleteCDIBean implements Serializable {
 
     @PostConstruct
     public void init() { // default values
-	final RequestRow<?> rr = rrs.getSingleValue();
+	final RequestRow<?> rr = rrs.getSingleRow();
 	if (rr != null) {
 	    this.paidable = rr.getPayment() != null;
 	    this.wasPaidBefore = paidable && rr.getPaymentInstant() != null;

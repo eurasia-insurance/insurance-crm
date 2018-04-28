@@ -35,8 +35,8 @@ public class ViewRequestCDIBean implements Serializable {
     static boolean checkActionAllowed(RequestsSelectionCDIBean rrs) {
 	return isInRole(InsuranceRoleGroup.VIEWERS) //
 		&& rrs != null
-		&& rrs.isSingleValue()
-		&& rrs.getSingleValue().isCanView();
+		&& rrs.isSingleSelected()
+		&& rrs.getSingleRow().isCanView();
     }
 
     // CDIs
@@ -51,6 +51,6 @@ public class ViewRequestCDIBean implements Serializable {
     public RequestRow<?> getRow() {
 	if (!checkActionAllowed(rrs))
 	    return null;
-	return rrs.getSingleValue();
+	return rrs.getSingleRow();
     }
 }

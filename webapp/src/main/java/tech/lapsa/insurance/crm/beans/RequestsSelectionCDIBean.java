@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 import javax.ejb.EJB;
@@ -41,40 +40,40 @@ public class RequestsSelectionCDIBean implements Serializable {
 	return value;
     }
 
-    public boolean isSingleValue() {
-	return value != null && value.size() == 1;
-    }
-
-    public boolean isMultipleValue() {
-	return value != null && value.size() > 1;
-    }
-
-    public boolean isValuePresent() {
-	return value != null && !value.isEmpty();
+    public void setValue(List<RequestRow<?>> value) {
+	this.value = value;
     }
 
     public Stream<RequestRow<?>> getValueAsStream() {
 	return MyStreams.orEmptyOf(value);
     }
 
-    public RequestRow<?> getSingleValue() {
+    //
+
+    public RequestRow<?> getSingleRow() {
 	return MyStreams.orEmptyOf(value).findFirst().orElse(null);
     }
 
-    public Optional<RequestRow<?>> optSingleValue() {
-	return MyStreams.orEmptyOf(value).findFirst();
+    public void setSingleRow(RequestRow<?> singleRow) {
+	this.value = Arrays.asList(singleRow);
+    }
+
+    //
+
+    public boolean isSingleSelected() {
+	return value != null && value.size() == 1;
+    }
+
+    public boolean isMultipleSelected() {
+	return value != null && value.size() > 1;
+    }
+
+    public boolean isAnySelected() {
+	return value != null && !value.isEmpty();
     }
 
     public void refresh() {
 	this.value = quickRefresh(value);
-    }
-
-    public void setValue(List<RequestRow<?>> value) {
-	this.value = value;
-    }
-
-    public void setSingleValue(RequestRow<?> value) {
-	this.value = Arrays.asList(value);
     }
 
     public void reset() {

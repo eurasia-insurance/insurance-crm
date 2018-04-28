@@ -110,6 +110,8 @@ public interface RequestRow<T extends Request> {
     String getPaymentReference();
 
     String getPaymentCard();
+    
+    String getPaymentCardBank();
 
     String getPaymentMethodName();
 

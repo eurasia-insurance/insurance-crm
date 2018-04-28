@@ -139,4 +139,18 @@
 			styleClass="filter-description-value" />
 	</h:panelGroup>
 
+	<h:panelGroup
+		rendered="#{not empty settings.requestFilter.paymentCard}">
+		<h:outputText value=" Платежная карта " />
+		<h:outputText value="#{settings.requestFilter.paymentCard}"
+			styleClass="filter-description-value" />
+	</h:panelGroup>
+
+	<h:panelGroup
+		rendered="#{not empty settings.requestFilter.paymentCardBank}">
+		<h:outputText value=" Банк платежной карты " />
+		<h:outputText value="#{settings.requestFilter.paymentCardBank}"
+			styleClass="filter-description-value" />
+	</h:panelGroup>
+
 </ui:composition>

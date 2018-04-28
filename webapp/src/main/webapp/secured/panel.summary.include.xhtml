@@ -12,31 +12,30 @@
 
 	<f:subview>
 
-		<!-- >> rendered -->
-		<h:panelGroup rendered="#{count gt 0}">
+		<p:panel>
 
-			<p:panel>
+			<p:panelGrid>
+				<p:row rendered="#{count gt 0}">
+					<p:column>
+						Отфильтровано <strong>#{count}</strong> заявок
+						<p:commandLink ajax="false" immediate="true"
+							style="text-decoration: none">
+							<i class="fa fa-download" aria-hidden="true" />
+							<i class="fa fa-file-excel-o" aria-hidden="true" />
+							<p:fileDownload value="#{excel.asExcel}"
+								contentDisposition="attachment" />
+						</p:commandLink>
+					</p:column>
+				</p:row>
+				<p:row rendered="#{selectedCount gt 0}">
+					<p:column>
+						Выбрано <strong>#{selectedCount}</strong> заявок
+					</p:column>
+				</p:row>
+			</p:panelGrid>
 
-				<p:panelGrid>
+		</p:panel>
 
-					<h:panelGroup>
-						<ui:include src="panel.summary.info.include.xhtml" />
-					</h:panelGroup>
-
-					<p:commandLink ajax="false" immediate="true"
-						style="text-decoration: none">
-						<i class="fa fa-download" aria-hidden="true" />
-						<i class="fa fa-file-excel-o" aria-hidden="true" />
-						<p:fileDownload value="#{excel.asExcel}"
-							contentDisposition="attachment" />
-					</p:commandLink>
-
-				</p:panelGrid>
-
-			</p:panel>
-
-		</h:panelGroup>
-		<!-- << rendered -->
 
 	</f:subview>
 

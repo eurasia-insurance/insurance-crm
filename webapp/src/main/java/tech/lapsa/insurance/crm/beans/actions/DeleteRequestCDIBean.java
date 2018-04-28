@@ -1,11 +1,9 @@
-package tech.lapsa.insurance.crm.beans;
+package tech.lapsa.insurance.crm.beans.actions;
 
 import static com.lapsa.utils.security.SecurityUtils.*;
 
 import java.io.Serializable;
-import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
@@ -18,11 +16,10 @@ import com.lapsa.insurance.elements.TransactionStatus;
 import com.lapsa.utils.security.SecurityUtils;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
-import tech.lapsa.insurance.crm.beans.i.RequestHolder;
+import tech.lapsa.insurance.crm.beans.RequestsSelectionCDIBean;
 import tech.lapsa.insurance.crm.rows.RequestRow;
 import tech.lapsa.insurance.dao.RequestDAO.RequestDAORemote;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
-import tech.lapsa.java.commons.function.MyCollections;
 import tech.lapsa.java.commons.function.MyExceptions;
 import tech.lapsa.patterns.dao.NotFound;
 
@@ -34,36 +31,24 @@ public class DeleteRequestCDIBean implements Serializable {
 
     @Named("deleteRequestCheck")
     @Dependent
-    public static class DeleteRequestCheckCDIBean implements Serializable {
+    public static class DeleteRequestCheckCDIBean
+	    extends AActionChecker
+	    implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	// list
-
-	private List<RequestRow<?>> list;
-
-	// allowed
-
-	private boolean allowed = false;
-
-	public boolean isAllowed() {
-	    return allowed;
+	public DeleteRequestCheckCDIBean() {
+	    super(DeleteRequestCDIBean::checkActionAllowed);
 	}
+    }
 
-	// CDIs
-
-	@Inject
-	private RequestHolder requestHolder;
-
-	@PostConstruct
-	public void init() {
-	    list = MyCollections.orEmptyList(requestHolder.getValue());
-	    allowed = isInRole(InsuranceRoleGroup.DELETERS) //
-		    && !list.isEmpty() //
-		    && list.stream() //
-			    .allMatch(RequestRow::isCanDelete) //
-	    ;
-	}
+    static boolean checkActionAllowed(final RequestsSelectionCDIBean rrs) {
+	return isInRole(InsuranceRoleGroup.DELETERS) //
+		&& rrs != null
+		&& rrs.isValuePresent() //
+		&& rrs.getValueAsStream() //
+			.allMatch(RequestRow::isCanDelete) //
+	;
     }
 
     // CDIs
@@ -71,7 +56,11 @@ public class DeleteRequestCDIBean implements Serializable {
     // local
 
     @Inject
-    private DeleteRequestCheckCDIBean check;
+    private RequestsSelectionCDIBean rrs;
+
+    // EJBs
+
+    // insurance-dao (remote)
 
     @EJB
     private RequestDAORemote requestDAO;
@@ -79,20 +68,30 @@ public class DeleteRequestCDIBean implements Serializable {
     public String doDelete() throws FacesException, IllegalStateException, IllegalArgumentException {
 	SecurityUtils.checkRoleGranted(InsuranceRoleGroup.DELETERS);
 
-	if (!check.isAllowed())
+	rrs.refresh();
+
+	if (!checkActionAllowed(rrs))
 	    throw MyExceptions.format(FacesException::new,
 		    "Transaction status is invalid for deletion. Deletion is possible on '%1$s' only.",
 		    TransactionStatus.NOT_COMPLETED);
 
-	check.list.stream().map(RequestRow::getEntity).map(Request::getId).forEach(id -> {
-	    try {
-		requestDAO.deleteById(id);
-	    } catch (IllegalArgument e1) {
-		throw new FacesException(e1.getRuntime());
-	    } catch (NotFound e) {
-		throw new FacesException(e);
-	    }
-	});
+	try {
+	    rrs.getValueAsStream() //
+		    .map(RequestRow::getEntity) //
+		    .map(Request::getId) //
+		    .forEach(id -> {
+			try {
+			    requestDAO.deleteById(id);
+			} catch (IllegalArgument e1) {
+			    throw new FacesException(e1.getRuntime());
+			} catch (NotFound e) {
+			    throw new FacesException(e);
+			}
+		    });
+	    rrs.reset();
+	} finally {
+	    // rrs.reset();
+	}
 	return null;
     }
 }

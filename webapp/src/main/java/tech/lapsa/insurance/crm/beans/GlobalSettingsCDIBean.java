@@ -38,4 +38,9 @@ public class GlobalSettingsCDIBean implements Serializable {
 	return settings.getProperty("icon-class.bank." + bank, "") //
 		.replaceAll("____", " ");
     }
+
+    public String iconStyleClassByPaymentCardBank(final String paymentCardbank) {
+	return settings.getProperty("icon-class.bank." + paymentCardbank, "") //
+		.replaceAll("____", " ");
+    }
 }

@@ -1,11 +1,10 @@
-package tech.lapsa.insurance.crm.beans;
+package tech.lapsa.insurance.crm.beans.actions;
 
 import static com.lapsa.utils.security.SecurityUtils.*;
 
 import java.io.Serializable;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
@@ -16,13 +15,13 @@ import javax.inject.Named;
 import com.lapsa.insurance.elements.TransactionProblem;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
+import tech.lapsa.insurance.crm.beans.RequestsSelectionCDIBean;
 import tech.lapsa.insurance.crm.beans.i.CurrentUserHolder;
-import tech.lapsa.insurance.crm.beans.i.RequestHolder;
 import tech.lapsa.insurance.crm.rows.RequestRow;
 import tech.lapsa.insurance.facade.RequestCompletionFacade.RequestCompletionFacadeRemote;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.exceptions.IllegalState;
-import tech.lapsa.java.commons.function.MyCollections;
+import tech.lapsa.java.commons.function.MyCollectors;
 import tech.lapsa.java.commons.function.MyExceptions;
 import tech.lapsa.javax.validation.NotNullValue;
 
@@ -34,41 +33,24 @@ public class TransactionUncompleteCDIBean implements Serializable {
 
     @Named("transactionUncompleteCheck")
     @Dependent
-    public static class TransactionUncompleteCheckCDIBean implements Serializable {
+    public static class TransactionUncompleteCheckCDIBean
+	    extends AActionChecker
+	    implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	// list
-
-	private List<RequestRow<?>> list;
-
-	// allowed
-
-	private boolean allowed = false;
-
-	public boolean isAllowed() {
-	    return allowed;
+	public TransactionUncompleteCheckCDIBean() {
+	    super(TransactionUncompleteCDIBean::checkActionAllowed);
 	}
+    }
 
-	// CDIs
-
-	// local
-
-	@Inject
-	private RequestHolder requestHolder;
-
-	// controls
-
-	@PostConstruct
-	public void init() {
-	    list = MyCollections.orEmptyList(requestHolder.getValue());
-	    allowed = isInRole(InsuranceRoleGroup.CHANGERS)
-		    && !list.isEmpty() //
-		    && list.stream() //
-			    .allMatch(RequestRow::isCanUncomplete) //
-	    ;
-	}
-
+    static boolean checkActionAllowed(RequestsSelectionCDIBean rrs) {
+	return isInRole(InsuranceRoleGroup.CHANGERS)
+		&& rrs != null
+		&& rrs.isValuePresent() //
+		&& rrs.getValueAsStream() //
+			.allMatch(RequestRow::isCanUncomplete) //
+	;
     }
 
     // problem
@@ -92,7 +74,7 @@ public class TransactionUncompleteCDIBean implements Serializable {
     private CurrentUserHolder currentUser;
 
     @Inject
-    private TransactionUncompleteCheckCDIBean check;
+    private RequestsSelectionCDIBean rrs;
 
     // EJBs
 
@@ -104,21 +86,30 @@ public class TransactionUncompleteCDIBean implements Serializable {
     public String doUncomplete() throws FacesException, IllegalStateException, IllegalArgumentException {
 	checkRoleGranted(InsuranceRoleGroup.CHANGERS);
 
-	if (!check.isAllowed())
+	rrs.refresh();
+
+	if (!checkActionAllowed(rrs))
 	    throw MyExceptions.format(FacesException::new, "Is invalid for unconmpleting transactions");
 
-	check.list.stream() //
-		.forEach(rr -> {
-		    try {
-			final boolean paidable = rr.getPayment() != null;
-			completions.transactionUncomplete(rr.getEntity(), currentUser.getValue(), problem,
-				paidable);
-		    } catch (IllegalState e) {
-			throw new FacesException(e.getRuntime());
-		    } catch (IllegalArgument e) {
-			throw new FacesException(e.getRuntime());
-		    }
-		});
+	try {
+	    final List<RequestRow<?>> res = rrs.getValueAsStream() //
+		    .map(r -> {
+			try {
+			    final boolean paidable = r.getPayment() != null;
+			    return completions.transactionUncomplete(r.getEntity(), currentUser.getValue(), problem,
+				    paidable);
+			} catch (IllegalState e) {
+			    throw new FacesException(e.getRuntime());
+			} catch (IllegalArgument e) {
+			    throw new FacesException(e.getRuntime());
+			}
+		    })
+		    .map(RequestRow::from)
+		    .collect(MyCollectors.unmodifiableList());
+	    rrs.setValue(res);
+	} finally {
+	    // rrs.reset();
+	}
 	return null;
     }
 }

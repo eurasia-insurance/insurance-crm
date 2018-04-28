@@ -454,6 +454,31 @@
 									</p:selectOneMenu>
 								</p:column>
 							</p:row>
+							<p:row>
+								<p:column>
+									<p:outputLabel value="Платежная карта:" for="paymentCard" />
+								</p:column>
+								<p:column>
+									<p:inputText id="paymentCard"
+										value="#{settings.requestFilter.paymentCard}">
+										<p:ajax event="change" process="@this" update="#{update}"
+											delay="#{filterChangedAjaxDelay}" />
+									</p:inputText>
+								</p:column>
+								<p:column>
+									<p:outputLabel value="Банк платежной карты:"
+										for="paymentCardBank" />
+								</p:column>
+								<p:column>
+									<p:selectOneMenu id="paymentCardBank"
+										value="#{settings.requestFilter.paymentCardBank}">
+										<p:ajax process="@this" update="#{update}"
+											delay="#{filterChangedAjaxDelay}" />
+										<f:selectItem itemValue="#{null}" itemLabel="Любые" />
+										<f:selectItem itemValue="EUBANK" itemLabel="Ервазийский банк" />
+									</p:selectOneMenu>
+								</p:column>
+							</p:row>
 						</p:panelGrid>
 					</p:panel>
 					<!-- << payment -->

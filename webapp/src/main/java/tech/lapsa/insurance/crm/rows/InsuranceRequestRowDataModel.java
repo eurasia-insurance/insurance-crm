@@ -153,6 +153,15 @@ public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> e
     }
 
     @Override
+    public String getPaymentCardBank() {
+	try {
+	    return entity.getPayment().getCardBank();
+	} catch (NullPointerException e) {
+	    return null;
+	}
+    }
+
+    @Override
     public String getPaymentMethodName() {
 	try {
 	    return entity.getPayment().getMethodName();

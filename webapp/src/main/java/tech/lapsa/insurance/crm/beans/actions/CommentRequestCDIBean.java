@@ -48,8 +48,8 @@ public class CommentRequestCDIBean implements Serializable {
     static boolean checkActionAllowed(final RequestsSelectionCDIBean rrs) {
 	return isInRole(InsuranceRoleGroup.CHANGERS) //
 		&& rrs != null
-		&& rrs.isSingleValue() //
-		&& rrs.getSingleValue().isCanComment();
+		&& rrs.isSingleSelected() //
+		&& rrs.getSingleRow().isCanComment();
     }
 
     // message
@@ -101,9 +101,9 @@ public class CommentRequestCDIBean implements Serializable {
 	    throw MyExceptions.format(FacesException::new, "Commenting is unavailable");
 
 	try {
-	    final Request res = completions.commentRequest(rrs.getSingleValue().getEntity(), currentUser.getValue(),
+	    final Request res = completions.commentRequest(rrs.getSingleRow().getEntity(), currentUser.getValue(),
 		    message);
-	    rrs.setSingleValue(RequestRow.from(res));
+	    rrs.setSingleRow(RequestRow.from(res));
 	} catch (IllegalState e1) {
 	    throw e1.getRuntime();
 	} catch (IllegalArgument e1) {
@@ -117,7 +117,7 @@ public class CommentRequestCDIBean implements Serializable {
 
     @PostConstruct
     public void init() {
-	final String oldNote = rrs.getSingleValue().getEntity().getNote();
+	final String oldNote = rrs.getSingleRow().getEntity().getNote();
 	this.messages = oldNote == null ? "" : oldNote;
     }
 }

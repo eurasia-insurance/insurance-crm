@@ -182,7 +182,7 @@
 						action="#{acceptRequest.doAccept}" process="@this"
 						update="@form:requestsTable @form:mainToolbar @form:summaryPanel">
 						<f:setPropertyActionListener value="#{rr}"
-							target="#{rqst.singleValue}" />
+							target="#{rqst.singleRow}" />
 					</p:commandButton>
 					<h:outputText value="#{rr.requesterPhone}"
 						rendered="#{rr.progressStatus ne 'NEW'}" />

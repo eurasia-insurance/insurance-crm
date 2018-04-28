@@ -47,7 +47,7 @@ public class TransactionUncompleteCDIBean implements Serializable {
     static boolean checkActionAllowed(RequestsSelectionCDIBean rrs) {
 	return isInRole(InsuranceRoleGroup.CHANGERS)
 		&& rrs != null
-		&& rrs.isValuePresent() //
+		&& rrs.isAnySelected() //
 		&& rrs.getValueAsStream() //
 			.allMatch(RequestRow::isCanUncomplete) //
 	;

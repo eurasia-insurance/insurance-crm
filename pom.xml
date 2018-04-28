@@ -9,7 +9,7 @@
 
 	<groupId>tech.lapsa.insurance</groupId>
 	<artifactId>insurance-crm-root</artifactId>
-	<version>3.2.15.2-SNAPSHOT</version>
+	<version>3.3-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>Insurance Lib : CRM</name>
@@ -24,23 +24,23 @@
 		<!-- BOMS -->
 		<java-commons.version>1.3</java-commons.version>
 		<!-- validation -->
-		<javax-validation-commons.version>1.1</javax-validation-commons.version>
-		<payara-hibernate-validation.version>1.1.1</payara-hibernate-validation.version>
+		<javax-validation-commons.version>1.2-SNAPSHOT</javax-validation-commons.version>
+		<payara-hibernate-validation.version>1.2-SNAPSHOT</payara-hibernate-validation.version>
 		<!-- tech -->
-		<insurance-domain.version>2.4.4</insurance-domain.version>
+		<insurance-domain.version>2.5-SNAPSHOT</insurance-domain.version>
 		<!-- EJB clients -->
-		<insurance-dao-client.version>1.2.6</insurance-dao-client.version>
-		<insurance-facade-client.version>1.3.7</insurance-facade-client.version>
-		<epayment-facade-client.version>1.2.3</epayment-facade-client.version>
+		<insurance-dao-client.version>1.3-SNAPSHOT</insurance-dao-client.version>
+		<insurance-facade-client.version>1.4-SNAPSHOT</insurance-facade-client.version>
+		<epayment-facade-client.version>1.3-SNAPSHOT</epayment-facade-client.version>
 		<!-- oldies -->
-		<kz-lib.version>3.2.1</kz-lib.version>
-		<international-lib.version>3.3</international-lib.version>
-		<lapsa-lib.version>2.3</lapsa-lib.version>
+		<kz-lib.version>3.3-SNAPSHOT</kz-lib.version>
+		<international-lib.version>3.4-SNAPSHOT</international-lib.version>
+		<lapsa-lib.version>2.4-SNAPSHOT</lapsa-lib.version>
 		<reports-lib.version>1.1</reports-lib.version>
 		<!-- faces -->
-		<javax-faces-commons.version>1.1</javax-faces-commons.version>
-		<lapsa-primefaces.version>1.1.2</lapsa-primefaces.version>
-		<insurance-faces.version>3.1.1</insurance-faces.version>
+		<javax-faces-commons.version>1.2-SNAPSHOT</javax-faces-commons.version>
+		<lapsa-primefaces.version>1.2-SNAPSHOT</lapsa-primefaces.version>
+		<insurance-faces.version>3.2-SNAPSHOT</insurance-faces.version>
 		<primefaces.version>6.1.13</primefaces.version>
 		<primefaces-themes.version>1.0.10</primefaces-themes.version>
 		<primefaces-extensions.version>6.1.1</primefaces-extensions.version>

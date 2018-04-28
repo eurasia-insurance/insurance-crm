@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>tech.lapsa.insurance</groupId>
 		<artifactId>insurance-crm-root</artifactId>
-		<version>3.2.15.2-SNAPSHOT</version>
+		<version>3.3-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>insurance-crm</artifactId>

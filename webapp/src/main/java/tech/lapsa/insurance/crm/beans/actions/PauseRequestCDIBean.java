@@ -44,7 +44,7 @@ public class PauseRequestCDIBean implements Serializable {
     static boolean checkActionAllowed(final RequestsSelectionCDIBean rrs) {
 	return isInRole(InsuranceRoleGroup.CHANGERS) //
 		&& rrs != null
-		&& !rrs.notEmptyValue()
+		&& rrs.isValuePresent()
 		&& rrs.getValueAsStream() //
 			.allMatch(RequestRow::isCanPause) //
 	;

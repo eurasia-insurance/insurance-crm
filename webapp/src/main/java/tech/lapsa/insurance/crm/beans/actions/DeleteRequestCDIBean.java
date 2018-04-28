@@ -45,7 +45,7 @@ public class DeleteRequestCDIBean implements Serializable {
     static boolean checkActionAllowed(final RequestsSelectionCDIBean rrs) {
 	return isInRole(InsuranceRoleGroup.DELETERS) //
 		&& rrs != null
-		&& rrs.notEmptyValue() //
+		&& rrs.isValuePresent() //
 		&& rrs.getValueAsStream() //
 			.allMatch(RequestRow::isCanDelete) //
 	;

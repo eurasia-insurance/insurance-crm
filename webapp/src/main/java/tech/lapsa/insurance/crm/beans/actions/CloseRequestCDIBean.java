@@ -47,7 +47,7 @@ public class CloseRequestCDIBean implements Serializable {
     static boolean actionAllowed(final RequestsSelectionCDIBean rrs) {
 	return isInRole(InsuranceRoleGroup.CLOSERS)
 		&& rrs != null
-		&& rrs.notEmptyValue() //
+		&& rrs.isValuePresent() //
 		&& rrs.getValueAsStream() //
 			.allMatch(RequestRow::isCanClose) //
 	;

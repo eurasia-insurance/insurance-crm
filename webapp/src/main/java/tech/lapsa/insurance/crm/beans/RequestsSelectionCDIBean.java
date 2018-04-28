@@ -45,7 +45,7 @@ public class RequestsSelectionCDIBean implements Serializable {
 	return value != null && value.size() == 1;
     }
 
-    public boolean notEmptyValue() {
+    public boolean isValuePresent() {
 	return value != null && !value.isEmpty();
     }
 

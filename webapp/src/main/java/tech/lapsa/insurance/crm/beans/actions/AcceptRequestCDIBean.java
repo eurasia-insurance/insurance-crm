@@ -46,7 +46,7 @@ public class AcceptRequestCDIBean implements Serializable {
     static boolean actionAllowed(final RequestsSelectionCDIBean rrs) {
 	return isInRole(InsuranceRoleGroup.CHANGERS)
 		&& rrs != null
-		&& rrs.notEmptyValue() //
+		&& rrs.isValuePresent() //
 		&& rrs.getValueAsStream() //
 			.allMatch(RequestRow::isCanAccept);
     }

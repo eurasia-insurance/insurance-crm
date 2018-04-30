@@ -21,13 +21,13 @@
 					</p:column>
 					<p:column>
 						<p:selectOneMenu id="acceptedBy"
-							value="#{settings.requestFilter.acceptedBy}">
+							value="#{settings.requestFilter.acceptedBy}" filter="true"
+							filterMatchMode="contains">
 							<p:ajax process="@this" update="#{update}"
 								delay="#{filterChangedAjaxDelay}" />
 							<f:selectItem itemLabel="Любым пользователем" itemValue="{null}" />
 							<f:selectItem itemLabel="Мной" itemValue="#{currentUser.value}" />
-							<f:selectItems
-								value="#{si.list.few(usersAll.list)}" />
+							<f:selectItems value="#{si.list.few(usersAll.list)}" />
 						</p:selectOneMenu>
 					</p:column>
 					<p:column>
@@ -35,13 +35,13 @@
 					</p:column>
 					<p:column>
 						<p:selectOneMenu id="completedBy"
-							value="#{settings.requestFilter.completedBy}" editable="true">
+							value="#{settings.requestFilter.completedBy}" filter="true"
+							filterMatchMode="contains">
 							<p:ajax process="@this" update="#{update}"
 								delay="#{filterChangedAjaxDelay}" />
 							<f:selectItem itemLabel="Любым пользователем" itemValue="{null}" />
 							<f:selectItem itemLabel="Мной" itemValue="#{currentUser.value}" />
-							<f:selectItems
-								value="#{si.list.few(usersAll.list)}" />
+							<f:selectItems value="#{si.list.few(usersAll.list)}" />
 						</p:selectOneMenu>
 					</p:column>
 					<p:column>
@@ -49,13 +49,13 @@
 					</p:column>
 					<p:column>
 						<p:selectOneMenu id="createdBy"
-							value="#{settings.requestFilter.createdBy}">
+							value="#{settings.requestFilter.createdBy}" filter="true"
+							filterMatchMode="contains">
 							<p:ajax process="@this" update="#{update}"
 								delay="#{filterChangedAjaxDelay}" />
 							<f:selectItem itemLabel="Любой пользователь" itemValue="{null}" />
 							<f:selectItem itemLabel="Я" itemValue="#{currentUser.value}" />
-							<f:selectItems
-								value="#{si.list.few(usersAll.list)}" />
+							<f:selectItems value="#{si.list.few(usersAll.list)}" />
 						</p:selectOneMenu>
 					</p:column>
 				</p:row>

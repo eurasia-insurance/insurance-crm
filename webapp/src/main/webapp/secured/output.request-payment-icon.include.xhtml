@@ -10,7 +10,7 @@
 		value="#{rr.paymentStatus eq 'DONE' ? 'icon-success' : (rr.paymentStatus eq 'CANCELED' ? 'icon-fail' : (rr.paymentStatus eq 'CANCELED' ? 'icon-fail' : 'icon-on-process'))}" />
 
 	<c:set var="iconClass"
-		value="#{rr.paymentMethodName.contains('Неизвестный способ') ? 'fa-question' : (rr.paymentMethodName.contains('EPAY')  ? 'fa-credit-card' : 'fa-question' )}" />
+		value="#{rr.paymentMethodName eq 'UNKNOWN' ? 'fa-question' : (rr.paymentMethodName eq 'QAZKOM'  ? 'fa-credit-card' : 'fa-question' )}" />
 
 	<h:panelGroup id="paymentIconWrapper"
 		styleClass="request-icon #{statusClass}">

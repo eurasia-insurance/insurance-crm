@@ -449,8 +449,9 @@
 										value="#{settings.requestFilter.paymentMethodNameMask}">
 										<p:ajax process="@this" update="#{update}"
 											delay="#{filterChangedAjaxDelay}" />
-										<f:selectItem itemValue="" itemLabel="Любые" />
-										<f:selectItem itemValue="Казком EPAY" itemLabel="Казком EPAY" />
+										<f:selectItem itemValue="#{null}" itemLabel="Любые" />
+										<f:selectItem itemValue="QAZKOM" itemLabel="Казком EPAY" />
+										<f:selectItem itemValue="UNKNOWN" itemLabel="Неизвестный способ" />
 									</p:selectOneMenu>
 								</p:column>
 							</p:row>

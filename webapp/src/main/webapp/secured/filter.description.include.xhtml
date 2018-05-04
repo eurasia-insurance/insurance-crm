@@ -126,6 +126,14 @@
 	</h:panelGroup>
 
 	<h:panelGroup
+		rendered="#{not empty settings.requestFilter.paymentMethodNameMask}">
+		<h:outputText value=" Способ оплаты " />
+		<h:outputText
+			value="#{settings.requestFilter.paymentMethodNameMask}"
+			styleClass="filter-description-value" />
+	</h:panelGroup>
+
+	<h:panelGroup
 		rendered="#{not empty settings.requestFilter.paymentInvoiceNumber}">
 		<h:outputText value=" Инвойс " />
 		<h:outputText value="#{settings.requestFilter.paymentInvoiceNumber}"

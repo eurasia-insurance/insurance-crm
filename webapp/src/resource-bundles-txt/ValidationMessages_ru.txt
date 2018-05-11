@@ -1,2 +1,3 @@
 tech.lapsa.insurance.crm.validation.ValidPolicyNumber.message = Некорректный номер полиса
 tech.lapsa.insurance.crm.validation.ValidPolicyAgreementByNumber.message = Полис с таким номером не зарегистрирован в системе
+tech.lapsa.insurance.crm.validation.UniqueAgreementNumber.message = Полис с таким номером уже был выпущен ранее

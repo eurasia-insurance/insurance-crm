@@ -1,39 +1,34 @@
 package tech.lapsa.insurance.crm.validation.constraint;
 
+import java.util.regex.Pattern;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import javax.validation.ValidationException;
 
-import tech.lapsa.insurance.crm.validation.ValidPolicyAgreementNumber;
-import tech.lapsa.insurance.facade.PolicyFacade.PolicyFacadeRemote;
-import tech.lapsa.insurance.facade.PolicyNotFound;
-import tech.lapsa.java.commons.exceptions.IllegalArgument;
-import tech.lapsa.java.commons.naming.MyNaming;
+import tech.lapsa.insurance.crm.validation.ValidPolicyNumber;
 
-public class ValidPolicyAgreementNumberConstraintValidator
-	implements ConstraintValidator<ValidPolicyAgreementNumber, String> {
+public class ValidPolicyNumberConstraintValidator
+	implements ConstraintValidator<ValidPolicyNumber, String> {
 
     @Override
-    public void initialize(final ValidPolicyAgreementNumber constraintAnnotation) {
+    public void initialize(final ValidPolicyNumber constraintAnnotation) {
     }
+
+    private static final Pattern NUMBER_PATTERN = Pattern.compile("^[A-Z0-9]+$");
 
     @Override
     public boolean isValid(final String value, final ConstraintValidatorContext context) {
 	if (value == null)
 	    return true;
 
-	final PolicyFacadeRemote policies = MyNaming.lookupEJB(ValidationException::new,
-		PolicyFacadeRemote.APPLICATION_NAME,
-		PolicyFacadeRemote.MODULE_NAME,
-		PolicyFacadeRemote.BEAN_NAME,
-		PolicyFacadeRemote.class);
-	try {
-	    policies.getByNumber(value);
-	    return true;
-	} catch (PolicyNotFound e) {
+	// 288 3Z9 161 03L
+	if (value.length() != 12)
 	    return false;
-	} catch (IllegalArgument e) {
+
+	if (!NUMBER_PATTERN.matcher(value).matches())
 	    return false;
-	}
+
+	return true;
+
     }
 }

@@ -1,0 +1,2 @@
+tech.lapsa.insurance.crm.validation.ValidPolicyNumber.message = ==ENG== Некорректный номер полиса
+tech.lapsa.insurance.crm.validation.ValidPolicyAgreementByNumber.message = ==ENG== Полис с таким номером не зарегистрирован в системе

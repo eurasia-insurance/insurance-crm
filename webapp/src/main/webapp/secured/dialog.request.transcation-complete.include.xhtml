@@ -38,6 +38,18 @@
 							</p:row>
 							<p:row>
 								<p:column>
+									<p:outputLabel value="Номер договора" for="agreementNumber" />
+								</p:column>
+								<p:column>
+									<p:inputText id="agreementNumber"
+										value="#{transactionComplete.agreementNumber}"
+										valueChangeListener="#{transactionComplete.agreementNumberChanged}">
+										<p:ajax process="@this" update="@this content" />
+									</p:inputText>
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column>
 									<p:outputLabel value="Фактически оплачено" for="paidAmount" />
 								</p:column>
 								<p:column>
@@ -53,6 +65,10 @@
 										<p:ajax process="@this" update="@this" />
 									</p:inputNumber>
 								</p:column>
+								<p:column>
+									<jfc:outputMoneyAmount
+										value="#{transactionComplete.fetchedPolicyAmount}" />
+								</p:column>
 							</p:row>
 							<p:row>
 								<p:column>
@@ -67,16 +83,9 @@
 										value="#{transactionComplete.paidInstant}" process="@this"
 										update="@this" />
 								</p:column>
-							</p:row>
-							<p:row>
 								<p:column>
-									<p:outputLabel value="Номер договора" for="agreementNumber" />
-								</p:column>
-								<p:column>
-									<p:inputText id="agreementNumber"
-										value="#{transactionComplete.agreementNumber}">
-										<p:ajax process="@this" update="@this" />
-									</p:inputText>
+									<jfc:outputLocalDate
+										value="#{transactionComplete.fetchedPolicyDate}" />
 								</p:column>
 							</p:row>
 							<p:row>
@@ -89,6 +98,10 @@
 										<p:ajax process="@this" update="@this" />
 									</p:inputText>
 								</p:column>
+								<p:column>
+									<h:outputText
+										value="#{transactionComplete.fetchedInsurantName}" />
+								</p:column>
 							</p:row>
 						</p:panelGrid>
 					</p:panel>
@@ -99,7 +112,8 @@
 								action="#{transactionComplete.doComplete}" process="content"
 								update="content #{update}"
 								oncomplete="hideIfValidated(PF('#{dialogWV}'), args)" />
-							<p:commandButton process="@none" update="@none" value="Отмена" oncomplete="PF('#{dialogWV}').hide()" />
+							<p:commandButton process="@none" update="@none" value="Отмена"
+								oncomplete="PF('#{dialogWV}').hide()" />
 						</f:facet>
 					</p:toolbar>
 				</h:panelGroup>

@@ -4,6 +4,7 @@ import static com.lapsa.utils.security.SecurityUtils.*;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Currency;
 
 import javax.annotation.PostConstruct;
@@ -11,16 +12,23 @@ import javax.ejb.EJB;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.FacesException;
+import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.constraints.Min;
 
 import com.lapsa.insurance.domain.Request;
+import com.lapsa.insurance.domain.policy.Policy;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
 import tech.lapsa.insurance.crm.beans.RequestsSelectionCDIBean;
 import tech.lapsa.insurance.crm.beans.i.CurrentUserHolder;
 import tech.lapsa.insurance.crm.rows.RequestRow;
+import tech.lapsa.insurance.crm.validation.UniqueAgreementNumber;
+import tech.lapsa.insurance.crm.validation.ValidPolicyAgreementByNumber;
+import tech.lapsa.insurance.crm.validation.ValidPolicyNumber;
+import tech.lapsa.insurance.facade.PolicyFacade.PolicyFacadeRemote;
+import tech.lapsa.insurance.facade.PolicyNotFound;
 import tech.lapsa.insurance.facade.RequestCompletionFacade.RequestCompletionFacadeRemote;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.exceptions.IllegalState;
@@ -137,6 +145,9 @@ public class TransactionCompleteCDIBean implements Serializable {
 
     @NotNullValue(message = "Укажите номер договора")
     @NotEmptyString(message = "Укажите номер договора")
+    @ValidPolicyNumber
+    @ValidPolicyAgreementByNumber
+    @UniqueAgreementNumber
     private String agreementNumber;
 
     public String getAgreementNumber() {
@@ -145,6 +156,46 @@ public class TransactionCompleteCDIBean implements Serializable {
 
     public void setAgreementNumber(String agreementNumber) {
 	this.agreementNumber = agreementNumber;
+    }
+
+    @EJB
+    private PolicyFacadeRemote policies;
+
+    public void agreementNumberChanged(ValueChangeEvent event) {
+	try {
+	    final Policy fetchedPolicy = policies.getByNumber((String) event.getNewValue());
+	    fetchedInsurantName = fetchedPolicy.getInsurant().getPersonal().getFullName();
+	    fetchedPolicyAmount = fetchedPolicy.getActual().getAmount();
+	    fetchedPolicyDate = fetchedPolicy.getDateOfIssue();
+	} catch (PolicyNotFound e) {
+	    throw new FacesException(e);
+	} catch (IllegalArgument e) {
+	    throw new FacesException(e);
+	}
+    }
+
+    // fetchedInsurantName
+
+    private String fetchedInsurantName;
+
+    public String getFetchedInsurantName() {
+	return fetchedInsurantName;
+    }
+
+    // fetchedPolicyAmount
+
+    private Double fetchedPolicyAmount;
+
+    public Double getFetchedPolicyAmount() {
+	return fetchedPolicyAmount;
+    }
+
+    // fetchedPolicyDate
+
+    private LocalDate fetchedPolicyDate;
+
+    public LocalDate getFetchedPolicyDate() {
+	return fetchedPolicyDate;
     }
 
     // payerName
@@ -184,12 +235,12 @@ public class TransactionCompleteCDIBean implements Serializable {
 	if (!checkActionAllowed(rrs))
 	    throw MyExceptions.format(FacesException::new, "Is invalid for unconmpleting transactions");
 
-	final Request r = rrs.getSingleRow().getEntity();
+	final Request r1 = rrs.getSingleRow().getEntity();
 
 	try {
 	    final Request res;
 	    if (paidable && !wasPaidBefore)
-		res = completions.transactionCompleteWithPayment(r,
+		res = completions.transactionCompleteWithPayment(r1,
 			currentUser.getValue(),
 			agreementNumber,
 			"Введено вручную",
@@ -199,7 +250,7 @@ public class TransactionCompleteCDIBean implements Serializable {
 			paidReference,
 			payerName);
 	    else
-		res = completions.transactionComplete(r, currentUser.getValue(), agreementNumber);
+		res = completions.transactionComplete(r1, currentUser.getValue(), agreementNumber);
 	    rrs.setSingleRow(RequestRow.from(res));
 	} catch (IllegalState e1) {
 	    throw e1.getRuntime();

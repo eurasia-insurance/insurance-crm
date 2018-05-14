@@ -9,7 +9,7 @@
 
 	<groupId>tech.lapsa.insurance</groupId>
 	<artifactId>insurance-crm-root</artifactId>
-	<version>3.3.4-SNAPSHOT</version>
+	<version>3.4-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>Insurance Lib : CRM</name>

@@ -73,9 +73,9 @@ public interface RequestRow<T extends Request> {
 
     Instant getUpdated();
 
-    Instant getAccepted();
+    Instant getPicked();
 
-    User getAcceptedBy();
+    User getPickedBy();
 
     Instant getCompleted();
 
@@ -167,7 +167,7 @@ public interface RequestRow<T extends Request> {
 	return true;
     }
 
-    default boolean isCanAccept() {
+    default boolean isCanPick() {
 	return RequestStatus.OPEN.equals(getRequestStatus())
 		&& ProgressStatus.NEW.equals(getProgressStatus());
     }

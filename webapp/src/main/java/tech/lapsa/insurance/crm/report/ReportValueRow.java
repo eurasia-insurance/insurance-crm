@@ -44,8 +44,8 @@ public class ReportValueRow implements ValueRow {
 	    new FieldDescriptor("Дата создания", row -> new DefaultDateTimeValueCell(row.getCreated())),
 	    new FieldDescriptor("Кем создана", row -> new DefaultTextValueCell(row.getCreatedBy().getName())),
 
-	    new FieldDescriptor("Дата принятия в работу", row -> new DefaultDateTimeValueCell(row.getAccepted())),
-	    new FieldDescriptor("Кем принято в работу", row -> new DefaultTextValueCell(row.getAcceptedBy().getName())),
+	    new FieldDescriptor("Дата принятия в работу", row -> new DefaultDateTimeValueCell(row.getPicked())),
+	    new FieldDescriptor("Кем принято в работу", row -> new DefaultTextValueCell(row.getPickedBy().getName())),
 
 	    new FieldDescriptor("Дата завершения", row -> new DefaultDateTimeValueCell(row.getCompleted())),
 	    new FieldDescriptor("Кем завершено", row -> new DefaultTextValueCell(row.getCompletedBy().getName())),

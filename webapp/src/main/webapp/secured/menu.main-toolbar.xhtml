@@ -50,8 +50,8 @@
 
 					<p:commandButton value="Начать обработку"
 						icon="fa fa-play-circle-o"
-						disabled="#{not acceptRequestCheck.allowed}"
-						action="#{acceptRequest.doAccept}" process="@this"
+						disabled="#{not pickRequestCheck.allowed}"
+						action="#{pickRequest.doPick}" process="@this"
 						update="requestToolbar #{update}" />
 
 					<p:commandButton value="Приостановить" icon="fa fa-pause-circle-o"

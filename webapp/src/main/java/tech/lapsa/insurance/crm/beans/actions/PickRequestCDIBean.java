@@ -24,22 +24,22 @@ import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.function.MyCollectors;
 import tech.lapsa.java.commons.function.MyExceptions;
 
-@Named("acceptRequest")
+@Named("pickRequest")
 @RequestScoped
-public class AcceptRequestCDIBean implements Serializable {
+public class PickRequestCDIBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Named("acceptRequestCheck")
+    @Named("pickRequestCheck")
     @Dependent
-    public static class AccepdRequestCheckCDIBean
+    public static class PickRequestCheckCDIBean
 	    extends AActionChecker
 	    implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public AccepdRequestCheckCDIBean() {
-	    super(AcceptRequestCDIBean::actionAllowed);
+	public PickRequestCheckCDIBean() {
+	    super(PickRequestCDIBean::actionAllowed);
 	}
     }
 
@@ -48,7 +48,7 @@ public class AcceptRequestCDIBean implements Serializable {
 		&& rrs != null
 		&& rrs.isAnySelected() //
 		&& rrs.getValueAsStream() //
-			.allMatch(RequestRow::isCanAccept);
+			.allMatch(RequestRow::isCanPick);
     }
 
     // CDIs
@@ -56,7 +56,7 @@ public class AcceptRequestCDIBean implements Serializable {
     // local
 
     @Inject
-    private AccepdRequestCheckCDIBean checker;
+    private PickRequestCheckCDIBean checker;
 
     @Inject
     private RequestsSelectionCDIBean rrs;
@@ -71,14 +71,14 @@ public class AcceptRequestCDIBean implements Serializable {
     @EJB
     private RequestDAORemote requestDAO;
 
-    public String doAccept() {
+    public String doPick() {
 	checkRoleGranted(InsuranceRoleGroup.CHANGERS);
 
 	rrs.refresh();
 
 	if (!checker.isAllowed())
 	    throw MyExceptions.format(FacesException::new,
-		    "Progress status is invalid for accepting. Accepting is posible at '%1$s' only.",
+		    "Progress status is invalid for picking request. Picking request is posible at '%1$s' only.",
 		    ProgressStatus.NEW);
 
 	final Instant now = Instant.now();
@@ -86,8 +86,8 @@ public class AcceptRequestCDIBean implements Serializable {
 	    final List<RequestRow<?>> res = rrs.getValueAsStream() //
 		    .map(RequestRow::getEntity) //
 		    .peek(r -> r.setProgressStatus(ProgressStatus.ON_PROCESS))
-		    .peek(r -> r.setAccepted(now))
-		    .peek(r -> r.setAcceptedBy(currentUser.getValue()))
+		    .peek(r -> r.setPicked(now))
+		    .peek(r -> r.setPickedBy(currentUser.getValue()))
 		    .map(r -> {
 			try {
 			    return requestDAO.save(r);

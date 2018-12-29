@@ -42,9 +42,9 @@ public interface UserListCDIBeans extends Serializable {
 	}
     }
 
-    @Named("usersWhoEverAcceptedRequests")
+    @Named("usersWhoEverPickedRequests")
     @SessionScoped
-    public static class UsersWhoEverAcceptedRequestsCDIBean implements Serializable, UserList {
+    public static class UsersWhoEverPickedRequestsCDIBean implements Serializable, UserList {
 
 	private static final long serialVersionUID = 1L;
 
@@ -52,7 +52,7 @@ public interface UserListCDIBeans extends Serializable {
 
 	@PostConstruct
 	public void init() {
-	    this.list = MyCollections.unmodifiableOrEmptyList(delegate.getWhoEverAcceptedRequests());
+	    this.list = MyCollections.unmodifiableOrEmptyList(delegate.getWhoEverPickedRequests());
 	}
 
 	@EJB

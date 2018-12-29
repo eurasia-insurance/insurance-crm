@@ -17,11 +17,11 @@
 			<p:panelGrid>
 				<p:row>
 					<p:column>
-						<p:outputLabel value="Приняты:" for="acceptedBy" />
+						<p:outputLabel value="Приняты:" for="pickedBy" />
 					</p:column>
 					<p:column>
-						<p:selectOneMenu id="acceptedBy"
-							value="#{settings.requestFilter.acceptedBy}" filter="true"
+						<p:selectOneMenu id="pickedBy"
+							value="#{settings.requestFilter.pickedBy}" filter="true"
 							filterMatchMode="contains">
 							<p:ajax process="@this" update="#{update}"
 								delay="#{filterChangedAjaxDelay}" />

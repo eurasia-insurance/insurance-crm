@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:o="http://omnifaces.org/ui"
+	xmlns:comp="http://xmlns.jcp.org/jsf/composite" xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:jfc="http://lapsa.tech/javax/faces-commons" xmlns:lpf="http://lapsa.tech/primefaces">
+
+	<f:subview>
+
+		<!-- >> rendered -->
+		<h:panelGroup rendered="#{acceptRequestCheck.allowed}">
+
+			<!-- >> dialog -->
+			<p:dialog widgetVar="#{dialogWV}" header="Счет на оплату" closeOnEscape="false" modal="true" closable="false" resizable="false" position="center top" width="740" height="480">
+
+				<!-- >> wrapper -->
+				<h:panelGroup id="content">
+
+					<p:panel>
+						<p:panelGrid>
+							<p:row>
+								<p:column>
+									<p:outputLabel value="Продукт или услуга" for="invoiceProductName" />
+								</p:column>
+								<p:column>
+									<p:inputTextarea id="invoiceProductName" value="#{acceptRequest.invoiceProductName}" cols="60" rows="3">
+										<p:ajax process="@this" update="@this" />
+									</p:inputTextarea>
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column>
+									<p:outputLabel value="Сумма к оплате" for="invoiceAmount" />
+								</p:column>
+								<p:column>
+									<p:inputNumber id="invoiceAmount" value="#{acceptRequest.invoiceAmount}" symbol=" &#8376;" symbolPosition="e" decimalSeparator="," decimalPlaces="2" thousandSeparator=" " onfocus="select()">
+										<p:ajax process="@this" update="@this" />
+									</p:inputNumber>
+									<h:outputText value=" Валюта: #{acceptRequest.invoiceCurrency}" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column>
+									<p:outputLabel value="Плательщик" for="invoicePayeeName" />
+								</p:column>
+								<p:column>
+									<p:inputText id="invoicePayeeName" value="#{acceptRequest.invoicePayeeName}" size="70">
+										<p:ajax process="@this" update="@this" />
+									</p:inputText>
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column>
+									<p:outputLabel value="Email плательщика" for="invoicePayeeEmail" />
+								</p:column>
+								<p:column>
+									<p:inputText id="invoicePayeeEmail" value="#{acceptRequest.invoicePayeeEmail}" size="70">
+										<p:ajax process="@this" update="@this" />
+									</p:inputText>
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column>
+									<p:outputLabel value="Номер телефона плательщика" for="invoicePayeePhone" />
+								</p:column>
+								<p:column>
+									<h:panelGroup id="invoicePayeePhonePanel">
+										<p:inputText id="invoicePayeePhone" value="#{acceptRequest.invoicePayeePhone}">
+											<p:ajax process="@this" update="invoicePayeePhonePanel" />
+										</p:inputText>
+										<h:outputText value=" Страна: #{acceptRequest.invoicePayeePhone.countryCode}" />
+									</h:panelGroup>
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column>
+									<p:outputLabel value="ИИН плательщика" for="invoicePayeeTaxpayerNumber" />
+								</p:column>
+								<p:column>
+									<p:inputText id="invoicePayeeTaxpayerNumber" value="#{acceptRequest.invoicePayeeTaxpayerNumber}">
+										<p:ajax process="@this" update="@this" />
+									</p:inputText>
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column>
+									<p:outputLabel value="Язык страницы оплаты" for="invoiceLanguage" />
+								</p:column>
+								<p:column>
+									<p:selectOneMenu value="#{acceptRequest.invoiceLanguage}" id="invoiceLanguage">
+										<f:selectItem value="#{configurationFacade.mustSelectSI}" />
+										<f:selectItem value="#{si.regular(LocalizationLanguage.byName('RUSSIAN'))}" />
+										<f:selectItem value="#{si.regular(LocalizationLanguage.byName('KAZAKH'))}" />
+										<p:ajax process="@this" update="@this" />
+									</p:selectOneMenu>
+								</p:column>
+							</p:row>
+						</p:panelGrid>
+					</p:panel>
+
+					<p:toolbar>
+						<f:facet name="right">
+							<p:commandButton value="OK" action="#{acceptRequest.doAccept}" process="content" update="content #{update}" oncomplete="hideIfValidated(PF('#{dialogWV}'), args)" />
+							<p:commandButton process="@none" update="@none" value="Отмена" oncomplete="PF('#{dialogWV}').hide()" />
+						</f:facet>
+					</p:toolbar>
+				</h:panelGroup>
+				<!-- << wrapper -->
+
+			</p:dialog>
+			<!-- << dialog -->
+
+		</h:panelGroup>
+		<!-- << rendered -->
+
+	</f:subview>
+
+</ui:composition>

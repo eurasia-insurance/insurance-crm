@@ -82,11 +82,11 @@
 					<p:column>
 						<p:panelGrid>
 
-							<crm:outputRow rendered="#{not empty rr.accepted}"
+							<crm:outputRow rendered="#{not empty rr.picked}"
 								label="Принята в обработку">
-								<jfc:outputInstant value="#{rr.accepted}" />
-								<h:outputText rendered="#{not empty rr.acceptedBy}"
-									value="&amp;nbsp;(#{rr.acceptedBy.name})" escape="false" />
+								<jfc:outputInstant value="#{rr.picked}" />
+								<h:outputText rendered="#{not empty rr.pickedBy}"
+									value="&amp;nbsp;(#{rr.pickedBy.name})" escape="false" />
 							</crm:outputRow>
 
 							<crm:outputRow rendered="#{not empty rr.completed}"

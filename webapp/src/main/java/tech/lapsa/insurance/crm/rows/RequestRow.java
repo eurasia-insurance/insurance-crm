@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.lapsa.insurance.domain.CalculationData;
 import com.lapsa.insurance.domain.CallbackRequest;
+import com.lapsa.insurance.domain.InsuranceRequest;
 import com.lapsa.insurance.domain.PaymentData;
 import com.lapsa.insurance.domain.Request;
 import com.lapsa.insurance.domain.RequesterData;
@@ -170,6 +171,13 @@ public interface RequestRow<T extends Request> {
     default boolean isCanPick() {
 	return RequestStatus.OPEN.equals(getRequestStatus())
 		&& ProgressStatus.NEW.equals(getProgressStatus());
+    }
+
+    default boolean isCanAccept() {
+	return RequestStatus.OPEN.equals(getRequestStatus())
+		&& ProgressStatus.ON_PROCESS.equals(getProgressStatus())
+		&& PaymentStatus.UNDEFINED.equals(getPaymentStatus())
+		&& getEntity() instanceof InsuranceRequest;
     }
 
     default boolean isCanPause() {

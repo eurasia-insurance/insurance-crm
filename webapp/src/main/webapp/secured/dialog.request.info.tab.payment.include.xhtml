@@ -14,14 +14,14 @@
 			<p:panelGrid>
 
 				<crm:outputRow label="Номер счета"
-					rendered="#{not empty rr.paymentInvoiceNumber}">
-					<h:outputText value="#{rr.paymentInvoiceNumber}" />
+					rendered="#{not empty rr.invoiceNumber}">
+					<h:outputText value="#{rr.invoiceNumber}" />
 				</crm:outputRow>
 
 				<crm:outputRow label="Ссыла на оплату"
-					rendered="#{not empty rr.paymentInvoiceNumber}">
+					rendered="#{not empty rr.invoiceNumber}">
 					<ui:param name="url"
-						value="#{functionFacade.paymentUrl(rr.paymentInvoiceNumber)}" />
+						value="#{functionFacade.paymentUrl(rr.invoiceNumber)}" />
 					<p:inputText readonly="true" value="#{url}" onfocus="this.select()"
 						size="45" />
 					<p:button id="pageCopy" icon="fa fa-fw fa-copy" href="#"

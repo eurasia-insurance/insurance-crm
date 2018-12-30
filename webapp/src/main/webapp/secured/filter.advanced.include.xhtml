@@ -419,11 +419,11 @@
 								</p:column>
 								<p:column>
 									<p:outputLabel value="Номер инвойса: "
-										for="paymentInvoiceNumber" />
+										for="invoiceNumber" />
 								</p:column>
 								<p:column>
-									<p:inputText id="paymentInvoiceNumber"
-										value="#{settings.requestFilter.paymentInvoiceNumber}">
+									<p:inputText id="invoiceNumber"
+										value="#{settings.requestFilter.invoiceNumber}">
 										<p:ajax event="change" process="@this" update="#{update}"
 											delay="#{filterChangedAjaxDelay}" />
 									</p:inputText>

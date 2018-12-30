@@ -102,7 +102,7 @@ public interface RequestRow<T extends Request> {
 
     PaymentStatus getPaymentStatus();
 
-    String getPaymentInvoiceNumber();
+    String getInvoiceNumber();
 
     Double getPaymentAmount();
 
@@ -120,6 +120,9 @@ public interface RequestRow<T extends Request> {
 
     String getPaymentPayerName();
 
+
+    
+    
     // requester
 
     String getRequesterName();

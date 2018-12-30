@@ -36,7 +36,11 @@
 	color: #FF0000;
 }
 
-.icon-on-process {
+.icon-pending {
+	color: #eae733;
+}
+
+.icon-on-process, .icon-unknown {
 	color: #CCCCCC;
 }
 

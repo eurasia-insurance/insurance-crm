@@ -3,8 +3,11 @@ package tech.lapsa.insurance.crm.rows;
 import com.lapsa.insurance.domain.casco.Casco;
 import com.lapsa.insurance.domain.policy.Policy;
 import com.lapsa.insurance.domain.policy.PolicyRequest;
+import com.lapsa.international.localization.LocalizationLanguage;
+import com.lapsa.international.phone.PhoneNumber;
 
 import tech.lapsa.insurance.crm.beans.i.RequestType;
+import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 
 public class PolicyRequestRowDataModel extends InsuranceRequestRowDataModel<PolicyRequest>
 	implements RequestRow<PolicyRequest> {
@@ -25,10 +28,5 @@ public class PolicyRequestRowDataModel extends InsuranceRequestRowDataModel<Poli
 	} catch (NullPointerException e) {
 	    return null;
 	}
-    }
-
-    @Override
-    public Casco getCasco() {
-	return null;
     }
 }

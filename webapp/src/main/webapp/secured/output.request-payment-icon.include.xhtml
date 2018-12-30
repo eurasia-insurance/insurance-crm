@@ -7,7 +7,7 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<c:set var="statusClass"
-		value="#{rr.paymentStatus eq 'DONE' ? 'icon-success' : (rr.paymentStatus eq 'CANCELED' ? 'icon-fail' : (rr.paymentStatus eq 'CANCELED' ? 'icon-fail' : 'icon-on-process'))}" />
+		value="#{rr.paymentStatus eq 'PENDING' ? 'icon-pending' : (rr.paymentStatus eq 'DONE' ? 'icon-success' : (rr.paymentStatus eq 'CANCELED' ? 'icon-fail' : 'icon-unknown'))}" />
 
 	<c:set var="iconClass"
 		value="#{rr.paymentMethodName eq 'UNKNOWN' ? 'fa-question' : (rr.paymentMethodName eq 'QAZKOM'  ? 'fa-credit-card' : 'fa-question' )}" />

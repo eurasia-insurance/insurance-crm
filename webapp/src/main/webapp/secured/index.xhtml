@@ -58,6 +58,14 @@
 				</ui:include>
 			</h:panelGroup>
 
+			<h:panelGroup id="acceptRequestDialog">
+				<ui:include src="dialog.request.accept-request.include.xhtml">
+					<ui:param name="dialogWV" value="acceptRequestDialogWV" />
+					<ui:param name="update"
+						value="@form:requestsTable @form:summaryPanel @form:mainToolbar @form:requestDialog" />
+				</ui:include>
+			</h:panelGroup>
+
 			<h:panelGroup id="transactionCompleteDialog">
 				<ui:include src="dialog.request.transcation-complete.include.xhtml">
 					<ui:param name="dialogWV" value="transactionCompleteDialogWV" />
@@ -177,9 +185,9 @@
 				<p:column headerText="Телефон заявителя"
 					sortBy="#{rr.requesterPhone}" style="white-space: nowrap;"
 					width="100">
-					<p:commandButton rendered="#{rr.canAccept and canChange}"
+					<p:commandButton rendered="#{rr.canPick and canChange}"
 						value="Показать" icon="fa fa-hand-o-right"
-						action="#{acceptRequest.doAccept}" process="@this"
+						action="#{pickRequest.doPick}" process="@this"
 						update="@form:requestsTable @form:mainToolbar @form:summaryPanel">
 						<f:setPropertyActionListener value="#{rr}"
 							target="#{rqst.singleRow}" />
@@ -209,11 +217,11 @@
 				</p:column>
 				<p:column headerText="Принято" style="white-space: nowrap;"
 					width="100">
-					<jfc:outputInstant value="#{rr.accepted}" />
+					<jfc:outputInstant value="#{rr.picked}" />
 				</p:column>
 				<p:column headerText="Ответственный" style="white-space: nowrap;">
-					<h:outputText rendered="#{not empty rr.acceptedBy}"
-						value="#{rr.acceptedBy.name}" />
+					<h:outputText rendered="#{not empty rr.pickedBy}"
+						value="#{rr.pickedBy.name}" />
 				</p:column>
 				<p:column headerText="Обновлено" sortBy="#{rr.updated}"
 					style="white-space: nowrap;" width="100">

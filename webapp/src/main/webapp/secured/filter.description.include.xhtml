@@ -31,9 +31,9 @@
 			styleClass="filter-description-value" />
 	</h:panelGroup>
 
-	<h:panelGroup rendered="#{not empty settings.requestFilter.acceptedBy}">
+	<h:panelGroup rendered="#{not empty settings.requestFilter.pickedBy}">
 		<h:outputText value=" Кем принято: " />
-		<h:outputText value="#{settings.requestFilter.acceptedBy.name}"
+		<h:outputText value="#{settings.requestFilter.pickedBy.name}"
 			styleClass="filter-description-value" />
 	</h:panelGroup>
 
@@ -134,9 +134,9 @@
 	</h:panelGroup>
 
 	<h:panelGroup
-		rendered="#{not empty settings.requestFilter.paymentInvoiceNumber}">
+		rendered="#{not empty settings.requestFilter.invoiceNumber}">
 		<h:outputText value=" Инвойс " />
-		<h:outputText value="#{settings.requestFilter.paymentInvoiceNumber}"
+		<h:outputText value="#{settings.requestFilter.invoiceNumber}"
 			styleClass="filter-description-value" />
 	</h:panelGroup>
 

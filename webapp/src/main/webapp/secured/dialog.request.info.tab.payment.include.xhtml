@@ -1,71 +1,67 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:pe="http://primefaces.org/ui/extensions"
-	xmlns:jfc="http://lapsa.tech/javax/faces-commons"
-	xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions" xmlns:jfc="http://lapsa.tech/javax/faces-commons" xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
+
+	<ui:param name="url" value="#{functionFacade.paymentUrl(rr.invoiceNumber)}" />
+	<pe:clipboard trigger="pageCopy" action="copy" text="#{url}" />
 
 	<p:tab title="Оплата" rendered="#{rendered}">
-
 		<p:panel>
-			<p:panelGrid>
+			<p:tabView dynamic="true" cache="true">
+				<p:tab title="Фактическая оплата" rendered="#{rr.paymentAmount ne null}">
+					<p:panelGrid>
+						<crm:outputRowText label="Номер счета" rendered="#{not empty rr.invoiceNumber}" value="#{rr.invoiceNumber}" />
+						<crm:outputRow label="Ссыла на оплату" rendered="#{not empty rr.invoiceNumber}">
+							<p:inputText readonly="true" value="#{url}" onfocus="this.select()" size="45" />
+							<p:button id="pageCopy" icon="fa fa-fw fa-copy" href="#" title="Скопирвать ссылку в буфер обмена" />
+							<p:button href="#{url}" icon="fa fa-fw fa-external-link" target="_blank" title="Перейти на страницу оплаты" value="Go!" />
+						</crm:outputRow>
+						<crm:outputRowText label="Статус оплаты" value="#{localized.few(rr.paymentStatus)}" />
 
-				<crm:outputRow label="Номер счета"
-					rendered="#{not empty rr.paymentInvoiceNumber}">
-					<h:outputText value="#{rr.paymentInvoiceNumber}" />
-				</crm:outputRow>
+						<crm:outputRowText label="Фактический метод оплаты" value="#{rr.paymentMethodName}" />
+						<crm:outputRow label="Фактически оплаченная сумма">
+							<jfc:outputMoneyAmount value="#{rr.paymentAmount}" currency="#{rr.paymentCurrency}" />
+						</crm:outputRow>
 
-				<crm:outputRow label="Ссыла на оплату"
-					rendered="#{not empty rr.paymentInvoiceNumber}">
-					<ui:param name="url"
-						value="#{functionFacade.paymentUrl(rr.paymentInvoiceNumber)}" />
-					<p:inputText readonly="true" value="#{url}" onfocus="this.select()"
-						size="45" />
-					<p:button id="pageCopy" icon="fa fa-fw fa-copy" href="#"
-						title="Скопирвать ссылку в буфер обмена" />
-					<p:button href="#{url}" icon="fa fa-fw fa-external-link"
-						target="_blank" title="Перейти на страницу оплаты" value="Go!" />
-					<pe:clipboard trigger="pageCopy" action="copy" text="#{url}" />
-				</crm:outputRow>
+						<crm:outputRow label="Время фактической оплаты">
+							<jfc:outputInstant value="#{rr.paymentInstant}" />
+						</crm:outputRow>
 
-				<crm:outputRowText label="Статус оплаты"
-					value="#{localized.few(rr.paymentStatus)}" />
+						<crm:outputRow label="Референс оплаты">
+							<h:panelGroup rendered="#{not empty rr.paymentReference}">
+								<p:inputText readonly="true" value="#{rr.paymentReference}" onfocus="this.select()" size="15" />
+								<p:button id="referenceCopy" icon="fa fa-fw fa-copy" href="#" title="Скопирвать в буфер обмена" />
+								<pe:clipboard trigger="referenceCopy" action="copy" text="#{rr.paymentReference}" />
+							</h:panelGroup>
+						</crm:outputRow>
 
-				<crm:outputRowText label="Фактический метод оплаты"
-					value="#{rr.paymentMethodName}" />
+						<crm:outputRowText label="Плательщик" value="#{rr.paymentPayerName}" />
 
-				<crm:outputRow label="Фактически оплаченная сумма">
-					<jfc:outputMoneyAmount value="#{rr.paymentAmount}"
-						currency="#{rr.paymentCurrency}" />
-				</crm:outputRow>
+						<crm:outputRowText label="Карта оплаты" value="#{rr.paymentCard}" />
 
-				<crm:outputRow label="Время фактической оплаты">
-					<jfc:outputInstant value="#{rr.paymentInstant}" />
-				</crm:outputRow>
+						<crm:outputRowText label="Банк карты оплаты" value="#{rr.paymentCardBank}" />
 
-				<crm:outputRow label="Референс оплаты">
-					<h:panelGroup rendered="#{not empty rr.paymentReference}">
-						<p:inputText readonly="true" value="#{rr.paymentReference}"
-							onfocus="this.select()" size="15" />
-						<p:button id="referenceCopy" icon="fa fa-fw fa-copy" href="#"
-							title="Скопирвать в буфер обмена" />
-						<pe:clipboard trigger="referenceCopy" action="copy"
-							text="#{rr.paymentReference}" />
-					</h:panelGroup>
-				</crm:outputRow>
+					</p:panelGrid>
+				</p:tab>
 
-				<crm:outputRowText label="Плательщик" value="#{rr.paymentPayerName}" />
-
-				<crm:outputRowText label="Карта оплаты" value="#{rr.paymentCard}" />
-
-				<crm:outputRowText label="Банк карты оплаты" value="#{rr.paymentCardBank}" />
-
-			</p:panelGrid>
+				<p:tab title="Счет на оплату" rendered="#{rr.invoiceNumber ne null}">
+					<p:panelGrid>
+						<crm:outputRowText label="Номер счета" rendered="#{not empty rr.invoiceNumber}" value="#{rr.invoiceNumber}" />
+						<crm:outputRow label="Ссыла на оплату" rendered="#{not empty rr.invoiceNumber}">
+							<p:inputText readonly="true" value="#{url}" onfocus="this.select()" size="45" />
+							<p:button id="pageCopy" icon="fa fa-fw fa-copy" href="#" title="Скопирвать ссылку в буфер обмена" />
+							<p:button href="#{url}" icon="fa fa-fw fa-external-link" target="_blank" title="Перейти на страницу оплаты" value="Go!" />
+						</crm:outputRow>
+						<crm:outputRowText label="Статус оплаты" value="#{localized.few(rr.paymentStatus)}" />
+						<crm:outputRowText label="Сумма к оплате" value="#{rr.invoiceAmount}" />
+						<crm:outputRowText label="Имя плательщика" value="#{rr.invoicePayeeName}" />
+						<crm:outputRowText label="Email плательщика" value="#{rr.invoicePayeeEmail}" />
+						<crm:outputRowText label="Телефон плательщика" value="#{rr.invoicePayeePhone}" />
+						<crm:outputRowText label="ИИН плательщика" value="#{rr.invoicePayeeTaxpayerNumber}" />
+						<crm:outputRowText label="Язык страницы оплаты" value="#{rr.invoiceLanguage}" />
+					</p:panelGrid>
+				</p:tab>
+			</p:tabView>
 		</p:panel>
-
 	</p:tab>
-
 </ui:composition>

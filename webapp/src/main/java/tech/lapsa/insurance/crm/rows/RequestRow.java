@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.lapsa.insurance.domain.CalculationData;
 import com.lapsa.insurance.domain.CallbackRequest;
+import com.lapsa.insurance.domain.InsuranceRequest;
 import com.lapsa.insurance.domain.PaymentData;
 import com.lapsa.insurance.domain.Request;
 import com.lapsa.insurance.domain.RequesterData;
@@ -23,10 +24,12 @@ import com.lapsa.insurance.elements.RequestStatus;
 import com.lapsa.insurance.elements.TransactionProblem;
 import com.lapsa.insurance.elements.TransactionStatus;
 import com.lapsa.international.localization.LocalizationLanguage;
+import com.lapsa.international.phone.PhoneNumber;
 
 import tech.lapsa.insurance.crm.beans.i.RequestType;
 import tech.lapsa.java.commons.function.MyCollectors;
 import tech.lapsa.java.commons.function.MyObjects;
+import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 
 public interface RequestRow<T extends Request> {
 
@@ -73,9 +76,9 @@ public interface RequestRow<T extends Request> {
 
     Instant getUpdated();
 
-    Instant getAccepted();
+    Instant getPicked();
 
-    User getAcceptedBy();
+    User getPickedBy();
 
     Instant getCompleted();
 
@@ -101,7 +104,7 @@ public interface RequestRow<T extends Request> {
 
     PaymentStatus getPaymentStatus();
 
-    String getPaymentInvoiceNumber();
+    String getInvoiceNumber();
 
     Double getPaymentAmount();
 
@@ -110,7 +113,7 @@ public interface RequestRow<T extends Request> {
     String getPaymentReference();
 
     String getPaymentCard();
-    
+
     String getPaymentCardBank();
 
     String getPaymentMethodName();
@@ -118,6 +121,18 @@ public interface RequestRow<T extends Request> {
     Instant getPaymentInstant();
 
     String getPaymentPayerName();
+
+    Double getInvoiceAmount();
+
+    String getInvoicePayeeName();
+
+    String getInvoicePayeeEmail();
+
+    PhoneNumber getInvoicePayeePhone();
+
+    TaxpayerNumber getInvoicePayeeTaxpayerNumber();
+
+    LocalizationLanguage getInvoiceLanguage();
 
     // requester
 
@@ -167,9 +182,16 @@ public interface RequestRow<T extends Request> {
 	return true;
     }
 
-    default boolean isCanAccept() {
+    default boolean isCanPick() {
 	return RequestStatus.OPEN.equals(getRequestStatus())
 		&& ProgressStatus.NEW.equals(getProgressStatus());
+    }
+
+    default boolean isCanAccept() {
+	return RequestStatus.OPEN.equals(getRequestStatus())
+		&& ProgressStatus.ON_PROCESS.equals(getProgressStatus())
+		&& PaymentStatus.UNDEFINED.equals(getPaymentStatus())
+		&& getEntity() instanceof InsuranceRequest;
     }
 
     default boolean isCanPause() {

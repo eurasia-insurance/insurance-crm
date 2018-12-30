@@ -78,18 +78,18 @@ public abstract class RequestRowDataModel<T extends Request> implements RequestR
     }
 
     @Override
-    public Instant getAccepted() {
+    public Instant getPicked() {
 	try {
-	    return entity.getAccepted();
+	    return entity.getPicked();
 	} catch (NullPointerException e) {
 	    return null;
 	}
     }
 
     @Override
-    public User getAcceptedBy() {
+    public User getPickedBy() {
 	try {
-	    return entity.getAcceptedBy();
+	    return entity.getPickedBy();
 	} catch (NullPointerException e) {
 	    return null;
 	}
@@ -254,8 +254,8 @@ public abstract class RequestRowDataModel<T extends Request> implements RequestR
     }
 
     @Override
-    public boolean isCanAccept() {
-	return RequestRow.super.isCanAccept();
+    public boolean isCanPick() {
+	return RequestRow.super.isCanPick();
     }
 
     @Override

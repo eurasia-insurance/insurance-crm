@@ -24,10 +24,12 @@ import com.lapsa.insurance.elements.RequestStatus;
 import com.lapsa.insurance.elements.TransactionProblem;
 import com.lapsa.insurance.elements.TransactionStatus;
 import com.lapsa.international.localization.LocalizationLanguage;
+import com.lapsa.international.phone.PhoneNumber;
 
 import tech.lapsa.insurance.crm.beans.i.RequestType;
 import tech.lapsa.java.commons.function.MyCollectors;
 import tech.lapsa.java.commons.function.MyObjects;
+import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 
 public interface RequestRow<T extends Request> {
 
@@ -111,7 +113,7 @@ public interface RequestRow<T extends Request> {
     String getPaymentReference();
 
     String getPaymentCard();
-    
+
     String getPaymentCardBank();
 
     String getPaymentMethodName();
@@ -120,9 +122,18 @@ public interface RequestRow<T extends Request> {
 
     String getPaymentPayerName();
 
+    Double getInvoiceAmount();
 
-    
-    
+    String getInvoicePayeeName();
+
+    String getInvoicePayeeEmail();
+
+    PhoneNumber getInvoicePayeePhone();
+
+    TaxpayerNumber getInvoicePayeeTaxpayerNumber();
+
+    LocalizationLanguage getInvoiceLanguage();
+
     // requester
 
     String getRequesterName();

@@ -6,14 +6,19 @@ import java.util.Currency;
 import com.lapsa.insurance.domain.CalculationData;
 import com.lapsa.insurance.domain.InsuranceRequest;
 import com.lapsa.insurance.domain.PaymentData;
+import com.lapsa.insurance.domain.casco.Casco;
 import com.lapsa.insurance.elements.InsuranceProductType;
 import com.lapsa.insurance.elements.InsuranceRequestType;
 import com.lapsa.insurance.elements.PaymentStatus;
 import com.lapsa.insurance.elements.TransactionProblem;
 import com.lapsa.insurance.elements.TransactionStatus;
+import com.lapsa.international.localization.LocalizationLanguage;
+import com.lapsa.international.phone.PhoneNumber;
 
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyObjects;
+import tech.lapsa.java.commons.function.MyOptionals;
+import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 
 public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> extends RequestRowDataModel<T>
 	implements RequestRow<T> {
@@ -117,15 +122,6 @@ public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> e
     }
 
     @Override
-    public String getInvoiceNumber() {
-	try {
-	    return entity.getPayment().getInvoiceNumber();
-	} catch (NullPointerException e) {
-	    return null;
-	}
-    }
-
-    @Override
     public PaymentStatus getPaymentStatus() {
 	try {
 	    return entity.getPayment().getStatus();
@@ -218,5 +214,74 @@ public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> e
     @Override
     public String getComments() {
 	return null;
+    }
+
+    @Override
+    public Casco getCasco() {
+	return null;
+    }
+
+    @Override
+    public String getInvoiceNumber() {
+	try {
+	    return entity.getPayment().getInvoiceNumber();
+	} catch (NullPointerException e) {
+	    return null;
+	}
+    }
+
+
+    @Override
+    public Double getInvoiceAmount() {
+	try {
+	    return entity.getPayment().getInvoiceAmount();
+	} catch (NullPointerException e) {
+	    return null;
+	}
+    }
+
+    @Override
+    public String getInvoicePayeeName() {
+	try {
+	    return entity.getPayment().getInvoicePayeeName();
+	} catch (NullPointerException e) {
+	    return null;
+	}
+    }
+
+    @Override
+    public String getInvoicePayeeEmail() {
+	try {
+	    return entity.getPayment().getInvoicePayeeEmail();
+	} catch (NullPointerException e) {
+	    return null;
+	}
+    }
+
+    @Override
+    public PhoneNumber getInvoicePayeePhone() {
+	try {
+	    return entity.getPayment().getInvoicePayeePhone();
+	} catch (NullPointerException e) {
+	    return null;
+	}
+    }
+
+    @Override
+    public TaxpayerNumber getInvoicePayeeTaxpayerNumber() {
+	try {
+	    return entity.getPayment().getInvoicePayeeTaxpayerNumber();
+	} catch (NullPointerException e) {
+	    return null;
+	}
+    }
+
+    @Override
+    public LocalizationLanguage getInvoiceLanguage() {
+	try {
+	    return entity.getPayment().getInvoiceLanguage();
+	} catch (NullPointerException e) {
+	    return null;
+	}
     }
 }

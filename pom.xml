@@ -184,9 +184,4 @@
 		<tag>HEAD</tag>
 	</scm>
 
-	<issueManagement>
-		<system>gitlab</system>
-		<url>https://gitlab.lapsa.tech/lapsa/insurance/crm/issues</url>
-	</issueManagement>
-
 </project>

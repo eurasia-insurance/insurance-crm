@@ -22,25 +22,25 @@
 
 	<properties>
 		<!-- BOMS -->
-		<java-commons.version>CURRENT-SNAPSHOT</java-commons.version>
+		<java-commons.version>20190103</java-commons.version>
 		<!-- validation -->
-		<javax-validation-commons.version>CURRENT-SNAPSHOT</javax-validation-commons.version>
-		<payara-hibernate-validation.version>CURRENT-SNAPSHOT</payara-hibernate-validation.version>
+		<javax-validation-commons.version>20190103</javax-validation-commons.version>
+		<payara-hibernate-validation.version>20190103</payara-hibernate-validation.version>
 		<!-- tech -->
-		<insurance-domain.version>CURRENT-SNAPSHOT</insurance-domain.version>
+		<insurance-domain.version>20190103</insurance-domain.version>
 		<!-- EJB clients -->
-		<insurance-dao-client.version>CURRENT-SNAPSHOT</insurance-dao-client.version>
-		<insurance-facade-client.version>CURRENT-SNAPSHOT</insurance-facade-client.version>
-		<epayment-facade-client.version>CURRENT-SNAPSHOT</epayment-facade-client.version>
+		<insurance-dao-client.version>20190103</insurance-dao-client.version>
+		<insurance-facade-client.version>20190103</insurance-facade-client.version>
+		<epayment-facade-client.version>20190103</epayment-facade-client.version>
 		<!-- oldies -->
-		<kz-lib.version>CURRENT-SNAPSHOT</kz-lib.version>
-		<international-lib.version>CURRENT-SNAPSHOT</international-lib.version>
-		<lapsa-lib.version>CURRENT-SNAPSHOT</lapsa-lib.version>
-		<reports-lib.version>CURRENT-SNAPSHOT</reports-lib.version>
+		<kz-lib.version>20190103</kz-lib.version>
+		<international-lib.version>20190103</international-lib.version>
+		<lapsa-lib.version>20190103</lapsa-lib.version>
+		<reports-lib.version>20190103</reports-lib.version>
 		<!-- faces -->
-		<javax-faces-commons.version>CURRENT-SNAPSHOT</javax-faces-commons.version>
-		<lapsa-primefaces.version>CURRENT-SNAPSHOT</lapsa-primefaces.version>
-		<insurance-faces.version>CURRENT-SNAPSHOT</insurance-faces.version>
+		<javax-faces-commons.version>20190103</javax-faces-commons.version>
+		<lapsa-primefaces.version>20190103</lapsa-primefaces.version>
+		<insurance-faces.version>20190103</insurance-faces.version>
 		<primefaces.version>6.1.13</primefaces.version>
 		<primefaces-themes.version>1.0.10</primefaces-themes.version>
 		<primefaces-extensions.version>6.1.1</primefaces-extensions.version>

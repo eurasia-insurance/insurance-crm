@@ -3,7 +3,9 @@ package tech.lapsa.insurance.crm.beans.actions;
 import static com.lapsa.utils.security.SecurityUtils.*;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Currency;
+import java.util.stream.Stream;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -20,6 +22,9 @@ import com.lapsa.insurance.domain.CalculationData;
 import com.lapsa.insurance.domain.InsuranceProduct;
 import com.lapsa.insurance.domain.InsuranceRequest;
 import com.lapsa.insurance.domain.RequesterData;
+import com.lapsa.insurance.domain.policy.Policy;
+import com.lapsa.insurance.domain.policy.PolicyDriver;
+import com.lapsa.insurance.domain.policy.PolicyRequest;
 import com.lapsa.international.localization.LocalizationLanguage;
 import com.lapsa.international.phone.PhoneNumber;
 import com.lapsa.international.phone.validators.ValidPhoneNumber;
@@ -30,7 +35,9 @@ import tech.lapsa.insurance.crm.rows.RequestRow;
 import tech.lapsa.insurance.facade.InsuranceRequestFacade.InsuranceRequestFacadeRemote;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.function.MyExceptions;
+import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.java.commons.function.MyOptionals;
+import tech.lapsa.java.commons.function.MyPredicates;
 import tech.lapsa.javax.validation.NotEmptyString;
 import tech.lapsa.javax.validation.NotNullValue;
 import tech.lapsa.javax.validation.ValidEmail;
@@ -150,6 +157,7 @@ public class AcceptRequestCDIBean implements Serializable {
 
     // invoicePayeeTaxpayerNumber
 
+    @NotNullValue(message = "Введите ИИН плательщика")
     @ValidTaxpayerNumber
     private TaxpayerNumber invoicePayeeTaxpayerNumber;
 
@@ -215,7 +223,8 @@ public class AcceptRequestCDIBean implements Serializable {
 
 	try {
 	    InsuranceRequest request = (InsuranceRequest) rrs.getSingleRow().getEntity();
-	    InsuranceRequest result = insuranceRequests.acceptRequest(request, invoicePayeeName, invoiceCurrency, invoiceLanguage,
+	    InsuranceRequest result = insuranceRequests.acceptRequest(request, invoicePayeeName, invoiceCurrency,
+		    invoiceLanguage,
 		    invoicePayeeEmail, invoicePayeePhone, invoicePayeeTaxpayerNumber, invoiceProductName, invoiceAmount,
 		    invoiceQuantity);
 	    rrs.setSingleRow(RequestRow.from(result));
@@ -261,7 +270,15 @@ public class AcceptRequestCDIBean implements Serializable {
 	this.invoicePayeeTaxpayerNumber = MyOptionals.of(r)
 		.map(InsuranceRequest::getRequester)
 		.map(RequesterData::getIdNumber)
-		.orElse(null);
+		.orElse(MyOptionals.of(r)
+			.filter(MyPredicates.isA(PolicyRequest.class))
+			.map(MyObjects.cast(PolicyRequest.class))
+			.map(PolicyRequest::getPolicy)
+			.map(Policy::getInsuredDrivers)
+			.map(Collection::stream)
+			.flatMap(Stream::findFirst)
+			.map(PolicyDriver::getIdNumber)
+			.orElse(null));
 
 	this.invoiceProductName = MyOptionals.of(r)
 		.map(InsuranceRequest::getProductType)

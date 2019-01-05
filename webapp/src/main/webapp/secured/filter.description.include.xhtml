@@ -95,18 +95,18 @@
 	</h:panelGroup>
 
 	<h:panelGroup
-		rendered="#{not empty settings.requestFilter.transactionStatus}">
+		rendered="#{not empty settings.requestFilter.contractStatus}">
 		<h:outputText value=" Результат " />
 		<h:outputText
-			value="#{localized.few(settings.requestFilter.transactionStatus)}"
+			value="#{localized.few(settings.requestFilter.contractStatus)}"
 			styleClass="filter-description-value" />
 	</h:panelGroup>
 
 	<h:panelGroup
-		rendered="#{not empty settings.requestFilter.transactionProblem}">
-		<h:outputText value=" Причина отмены сделки " />
+		rendered="#{not empty settings.requestFilter.requestCancelationReason}">
+		<h:outputText value=" Причина отмены заявки " />
 		<h:outputText
-			value="#{localized.few(settings.requestFilter.transactionProblem)}"
+			value="#{localized.few(settings.requestFilter.requestCancelationReason)}"
 			styleClass="filter-description-value" />
 	</h:panelGroup>
 

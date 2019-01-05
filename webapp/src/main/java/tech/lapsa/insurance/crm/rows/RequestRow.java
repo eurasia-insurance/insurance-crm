@@ -21,7 +21,7 @@ import com.lapsa.insurance.elements.InsuranceRequestType;
 import com.lapsa.insurance.elements.PaymentStatus;
 import com.lapsa.insurance.elements.ProgressStatus;
 import com.lapsa.insurance.elements.RequestStatus;
-import com.lapsa.insurance.elements.TransactionProblem;
+import com.lapsa.insurance.elements.RequestCancelationReason;
 import com.lapsa.insurance.elements.ContractStatus;
 import com.lapsa.international.localization.LocalizationLanguage;
 import com.lapsa.international.phone.PhoneNumber;
@@ -64,7 +64,7 @@ public interface RequestRow<T extends Request> {
 
     ContractStatus getContractStatus();
 
-    TransactionProblem getTransactionProblem();
+    RequestCancelationReason getRequestCancelationReason();
 
     InsuranceProductType getInsuranceProductType();
 

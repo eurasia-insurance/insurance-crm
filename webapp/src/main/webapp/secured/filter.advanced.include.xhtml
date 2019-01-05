@@ -357,16 +357,16 @@
 									</p:selectOneMenu>
 								</p:column>
 								<p:column>
-									<p:outputLabel value="Причина отмены сделки:"
-										for="transactionProblem" />
+									<p:outputLabel value="Причина отмены заявки:"
+										for="requestCancelationReason" />
 								</p:column>
 								<p:column>
-									<p:selectOneMenu id="transactionProblem"
-										value="#{settings.requestFilter.transactionProblem}">
+									<p:selectOneMenu id="requestCancelationReason"
+										value="#{settings.requestFilter.requestCancelationReason}">
 										<p:ajax process="@this" update="#{update}"
 											delay="#{filterChangedAjaxDelay}" />
 										<f:selectItem value="#{configurationFacade.anySI}" />
-										<f:selectItems value="#{si.array.few(TransactionProblem.all)}" />
+										<f:selectItems value="#{si.array.few(RequestCancelationReason.all)}" />
 									</p:selectOneMenu>
 								</p:column>
 							</p:row>

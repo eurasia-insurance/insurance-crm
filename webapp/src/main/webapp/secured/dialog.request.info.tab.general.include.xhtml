@@ -49,7 +49,7 @@
 
 				<crm:outputRowText
 					rendered="#{rr.progressStatus eq 'FINISHED' and rr.contractStatus eq 'CANCELED'}"
-					label="Причина" value="#{localized.few(rr.transactionProblem)}" />
+					label="Причина отмены заявки" value="#{localized.few(rr.requestCancelationReason)}" />
 
 				<crm:outputRowText
 					rendered="#{rr.progressStatus eq 'FINISHED' and rr.contractStatus eq 'COMPLETED'}"

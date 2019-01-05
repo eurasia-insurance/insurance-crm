@@ -29,14 +29,14 @@
 						<p:panelGrid>
 							<p:row>
 								<p:column>
-									<p:outputLabel value="Укажите причину" for="problem" />
+									<p:outputLabel value="Укажите причину" for="reason" />
 								</p:column>
 								<p:column>
-									<p:selectOneMenu value="#{transactionUncomplete.problem}"
-										id="problem" binding="#{problemComp}">
+									<p:selectOneMenu value="#{transactionUncomplete.reason}"
+										id="reason" binding="#{reasonComp}">
 										<f:selectItem value="#{configurationFacade.mustSelectSI}" />
 										<f:selectItems
-											value="#{si.array.regular(TransactionProblem.selectable)}" />
+											value="#{si.array.regular(RequestCancelationReason.selectable)}" />
 										<p:ajax process="@this" update="@this" />
 									</p:selectOneMenu>
 								</p:column>

@@ -12,7 +12,7 @@ import javax.faces.FacesException;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.lapsa.insurance.elements.TransactionProblem;
+import com.lapsa.insurance.elements.RequestCancelationReason;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
 import tech.lapsa.insurance.crm.beans.RequestsSelectionCDIBean;
@@ -53,17 +53,17 @@ public class TransactionUncompleteCDIBean implements Serializable {
 	;
     }
 
-    // problem
+    // reason
 
     @NotNullValue(message = "Укажите причину")
-    private TransactionProblem problem;
+    private RequestCancelationReason reason;
 
-    public TransactionProblem getProblem() {
-	return problem;
+    public RequestCancelationReason getReason() {
+	return reason;
     }
 
-    public void setProblem(TransactionProblem problem) {
-	this.problem = problem;
+    public void setReason(RequestCancelationReason reason) {
+	this.reason = reason;
     }
 
     // CDIs
@@ -96,7 +96,7 @@ public class TransactionUncompleteCDIBean implements Serializable {
 		    .map(r -> {
 			try {
 			    final boolean paidable = r.getPayment() != null;
-			    return completions.transactionUncomplete(r.getEntity(), currentUser.getValue(), problem,
+			    return completions.transactionUncomplete(r.getEntity(), currentUser.getValue(), reason,
 				    paidable);
 			} catch (IllegalState e) {
 			    throw new FacesException(e.getRuntime());

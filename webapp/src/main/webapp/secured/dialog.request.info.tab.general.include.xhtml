@@ -33,7 +33,7 @@
 				<crm:outputRow rendered="#{rr.progressStatus eq 'FINISHED'}"
 					label="Результат">
 					<c:choose>
-						<c:when test="#{rr.contractStatus eq 'NOT_COMPLETED'}">
+						<c:when test="#{rr.contractStatus eq 'CANCELED'}">
 							<h:panelGroup styleClass="request-icon icon-fail ">
 								<i class="fa fa-ban " aria-hidden="true" />
 							</h:panelGroup>
@@ -48,7 +48,7 @@
 				</crm:outputRow>
 
 				<crm:outputRowText
-					rendered="#{rr.progressStatus eq 'FINISHED' and rr.contractStatus eq 'NOT_COMPLETED'}"
+					rendered="#{rr.progressStatus eq 'FINISHED' and rr.contractStatus eq 'CANCELED'}"
 					label="Причина" value="#{localized.few(rr.transactionProblem)}" />
 
 				<crm:outputRowText

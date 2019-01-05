@@ -31,7 +31,7 @@
 					value="#{localized.few(rr.progressStatus)}" />
 
 				<crm:outputRow rendered="#{rr.progressStatus eq 'FINISHED'}"
-					label="Результат">
+					label="Статус договора">
 					<c:choose>
 						<c:when test="#{rr.contractStatus eq 'CANCELED'}">
 							<h:panelGroup styleClass="request-icon icon-fail ">

@@ -18,15 +18,15 @@
 			<i class="fa fa-pause" aria-hidden="true" />
 		</h:panelGroup>
 		<h:panelGroup styleClass="icon-on-process "
-			rendered="#{rr.progressStatus eq 'FINISHED' and empty rr.transactionStatus}">
+			rendered="#{rr.progressStatus eq 'FINISHED' and empty rr.contractStatus}">
 			<i class="fa fa-check " aria-hidden="true" />
 		</h:panelGroup>
 		<h:panelGroup styleClass="icon-fail "
-			rendered="#{rr.progressStatus eq 'FINISHED' and rr.transactionStatus eq 'NOT_COMPLETED'}">
+			rendered="#{rr.progressStatus eq 'FINISHED' and rr.contractStatus eq 'NOT_COMPLETED'}">
 			<i class="fa fa-ban " aria-hidden="true" />
 		</h:panelGroup>
 		<h:panelGroup styleClass="icon-success "
-			rendered="#{rr.progressStatus eq 'FINISHED' and rr.transactionStatus eq 'COMPLETED'}">
+			rendered="#{rr.progressStatus eq 'FINISHED' and rr.contractStatus eq 'COMPLETED'}">
 			<i class="fa fa-check " aria-hidden="true" />
 		</h:panelGroup>
 	</h:panelGroup>
@@ -36,9 +36,9 @@
 				value="#{localized.regular(rr.progressStatus)}" />
 		</h:panelGroup>
 		<h:panelGroup rendered="#{rr.progressStatus eq 'FINISHED'}">
-			<h:outputText rendered="#{rr.transactionStatus eq 'COMPLETED'}"
-				value="#{localized.regular(rr.transactionStatus)}" />
-			<h:outputText rendered="#{rr.transactionStatus eq 'NOT_COMPLETED'}"
+			<h:outputText rendered="#{rr.contractStatus eq 'COMPLETED'}"
+				value="#{localized.regular(rr.contractStatus)}" />
+			<h:outputText rendered="#{rr.contractStatus eq 'NOT_COMPLETED'}"
 				value="#{localized.regular(rr.transactionProblem)}" />
 		</h:panelGroup>
 	</p:tooltip>

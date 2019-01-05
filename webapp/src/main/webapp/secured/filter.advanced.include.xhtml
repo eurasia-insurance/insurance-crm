@@ -345,15 +345,15 @@
 						<p:panelGrid>
 							<p:row>
 								<p:column>
-									<p:outputLabel value="Результат:" for="transactionStatus" />
+									<p:outputLabel value="Результат:" for="contractStatus" />
 								</p:column>
 								<p:column>
-									<p:selectOneMenu id="transactionStatus"
-										value="#{settings.requestFilter.transactionStatus}">
+									<p:selectOneMenu id="contractStatus"
+										value="#{settings.requestFilter.contractStatus}">
 										<p:ajax process="@this" update="#{update}"
 											delay="#{filterChangedAjaxDelay}" />
 										<f:selectItem value="#{configurationFacade.anySI}" />
-										<f:selectItems value="#{si.array.few(TransactionStatus.all)}" />
+										<f:selectItems value="#{si.array.few(ContractStatus.all)}" />
 									</p:selectOneMenu>
 								</p:column>
 								<p:column>

@@ -11,7 +11,7 @@ import com.lapsa.insurance.elements.InsuranceProductType;
 import com.lapsa.insurance.elements.InsuranceRequestType;
 import com.lapsa.insurance.elements.PaymentStatus;
 import com.lapsa.insurance.elements.TransactionProblem;
-import com.lapsa.insurance.elements.TransactionStatus;
+import com.lapsa.insurance.elements.ContractStatus;
 import com.lapsa.international.localization.LocalizationLanguage;
 import com.lapsa.international.phone.PhoneNumber;
 
@@ -27,9 +27,9 @@ public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> e
     }
 
     @Override
-    public TransactionStatus getTransactionStatus() {
+    public ContractStatus getContractStatus() {
 	try {
-	    return entity.getTransactionStatus();
+	    return entity.getContractStatus();
 	} catch (NullPointerException e) {
 	    return null;
 	}

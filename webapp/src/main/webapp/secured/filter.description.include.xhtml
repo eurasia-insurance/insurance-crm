@@ -95,10 +95,10 @@
 	</h:panelGroup>
 
 	<h:panelGroup
-		rendered="#{not empty settings.requestFilter.transactionStatus}">
+		rendered="#{not empty settings.requestFilter.contractStatus}">
 		<h:outputText value=" Результат " />
 		<h:outputText
-			value="#{localized.few(settings.requestFilter.transactionStatus)}"
+			value="#{localized.few(settings.requestFilter.contractStatus)}"
 			styleClass="filter-description-value" />
 	</h:panelGroup>
 

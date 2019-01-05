@@ -12,7 +12,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.lapsa.insurance.domain.Request;
-import com.lapsa.insurance.elements.TransactionStatus;
+import com.lapsa.insurance.elements.ContractStatus;
 import com.lapsa.utils.security.SecurityUtils;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;

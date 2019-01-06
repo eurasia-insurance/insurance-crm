@@ -12,7 +12,7 @@ import javax.faces.FacesException;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.lapsa.insurance.elements.RequestCancelationReason;
+import com.lapsa.insurance.elements.InsuranceRequestCancellationReason;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
 import tech.lapsa.insurance.crm.beans.RequestsSelectionCDIBean;
@@ -56,13 +56,13 @@ public class TransactionUncompleteCDIBean implements Serializable {
     // reason
 
     @NotNullValue(message = "Укажите причину")
-    private RequestCancelationReason reason;
+    private InsuranceRequestCancellationReason reason;
 
-    public RequestCancelationReason getReason() {
+    public InsuranceRequestCancellationReason getReason() {
 	return reason;
     }
 
-    public void setReason(RequestCancelationReason reason) {
+    public void setReason(InsuranceRequestCancellationReason reason) {
 	this.reason = reason;
     }
 

@@ -60,8 +60,8 @@ public class ReportValueRow implements ValueRow {
 	    new FieldDescriptor("Архивная", row -> new DefaultBooleanValueCell(row.isArchived())),
 
 	    new FieldDescriptor("Стадия обработки", row -> new DefaultTextValueCell(row.getProgressStatus())),
-	    new FieldDescriptor("Статус договора", row -> new DefaultTextValueCell(row.getContractStatus())),
-	    new FieldDescriptor("Причина", row -> new DefaultTextValueCell(row.getRequestCancelationReason())),
+	    new FieldDescriptor("Статус договора", row -> new DefaultTextValueCell(row.getInsuranceRequestStatus())),
+	    new FieldDescriptor("Причина", row -> new DefaultTextValueCell(row.getInsuranceRequestCancellationReason())),
 
 	    new FieldDescriptor("Номер договора", row -> new DefaultTextValueCell(row.getAgreementNumber())),
 	    new FieldDescriptor("Способ оплаты", row -> new DefaultTextValueCell(row.getPaymentMethodName())),

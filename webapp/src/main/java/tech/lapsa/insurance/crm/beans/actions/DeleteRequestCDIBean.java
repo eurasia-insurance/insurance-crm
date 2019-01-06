@@ -12,7 +12,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.lapsa.insurance.domain.Request;
-import com.lapsa.insurance.elements.ContractStatus;
+import com.lapsa.insurance.elements.InsuranceRequestStatus;
 import com.lapsa.utils.security.SecurityUtils;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
@@ -73,7 +73,7 @@ public class DeleteRequestCDIBean implements Serializable {
 	if (!checkActionAllowed(rrs))
 	    throw MyExceptions.format(FacesException::new,
 		    "Transaction status is invalid for deletion. Deletion is possible on '%1$s' only.",
-		    ContractStatus.CANCELED);
+		    InsuranceRequestStatus.CANCELED);
 
 	try {
 	    rrs.getValueAsStream() //

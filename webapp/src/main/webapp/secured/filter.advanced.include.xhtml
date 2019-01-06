@@ -345,28 +345,28 @@
 						<p:panelGrid>
 							<p:row>
 								<p:column>
-									<p:outputLabel value="Статус договора:" for="contractStatus" />
+									<p:outputLabel value="Статус договора:" for="insuranceRequestStatus" />
 								</p:column>
 								<p:column>
-									<p:selectOneMenu id="contractStatus"
-										value="#{settings.requestFilter.contractStatus}">
+									<p:selectOneMenu id="insuranceRequestStatus"
+										value="#{settings.requestFilter.insuranceRequestStatus}">
 										<p:ajax process="@this" update="#{update}"
 											delay="#{filterChangedAjaxDelay}" />
 										<f:selectItem value="#{configurationFacade.anySI}" />
-										<f:selectItems value="#{si.array.few(ContractStatus.all)}" />
+										<f:selectItems value="#{si.array.few(InsuranceRequestStatus.all)}" />
 									</p:selectOneMenu>
 								</p:column>
 								<p:column>
 									<p:outputLabel value="Причина отмены заявки:"
-										for="requestCancelationReason" />
+										for="insuranceRequestCancellationReason" />
 								</p:column>
 								<p:column>
-									<p:selectOneMenu id="requestCancelationReason"
-										value="#{settings.requestFilter.requestCancelationReason}">
+									<p:selectOneMenu id="insuranceRequestCancellationReason"
+										value="#{settings.requestFilter.insuranceRequestCancellationReason}">
 										<p:ajax process="@this" update="#{update}"
 											delay="#{filterChangedAjaxDelay}" />
 										<f:selectItem value="#{configurationFacade.anySI}" />
-										<f:selectItems value="#{si.array.few(RequestCancelationReason.all)}" />
+										<f:selectItems value="#{si.array.few(InsuranceRequestCancellationReason.all)}" />
 									</p:selectOneMenu>
 								</p:column>
 							</p:row>

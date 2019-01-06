@@ -18,7 +18,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.lapsa.insurance.domain.Request;
-import com.lapsa.insurance.elements.RequestStatus;
 
 import tech.lapsa.epayment.facade.EpaymentFacade.EpaymentFacadeRemote;
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
@@ -26,6 +25,7 @@ import tech.lapsa.insurance.crm.beans.i.MainFacade;
 import tech.lapsa.insurance.crm.beans.i.SettingsHolder;
 import tech.lapsa.insurance.dao.RequestDAO.RequestDAORemote;
 import tech.lapsa.insurance.dao.RequestFilter;
+import tech.lapsa.insurance.dao.RequestFilter.ShowMode;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.function.MyOptionals;
 
@@ -294,13 +294,13 @@ public class MainFacadeBean implements MainFacade, Serializable {
 
     private void initFilter() {
 	resetFilter();
-	settingsHolder.getRequestFilter().setRequestStatus(RequestStatus.OPEN);
+	settingsHolder.getRequestFilter().letShowInbox();
     }
 
     private void resetFilter() {
-	RequestStatus last = settingsHolder.getRequestFilter().getRequestStatus();
+	final ShowMode currentShowMode = settingsHolder.getRequestFilter().getShowMode();
 	settingsHolder.resetFilters();
-	settingsHolder.getRequestFilter().setRequestStatus(last);
+	settingsHolder.getRequestFilter().setShowMode(currentShowMode);
     }
 
     @FunctionalInterface

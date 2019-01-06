@@ -7,7 +7,6 @@ import com.lapsa.insurance.domain.RequesterData;
 import com.lapsa.insurance.domain.crm.UTMData;
 import com.lapsa.insurance.domain.crm.User;
 import com.lapsa.insurance.elements.ProgressStatus;
-import com.lapsa.insurance.elements.RequestStatus;
 import com.lapsa.international.localization.LocalizationLanguage;
 
 public abstract class RequestRowDataModel<T extends Request> implements RequestRow<T> {
@@ -33,12 +32,8 @@ public abstract class RequestRowDataModel<T extends Request> implements RequestR
     }
 
     @Override
-    public RequestStatus getRequestStatus() {
-	try {
-	    return entity.getStatus();
-	} catch (NullPointerException e) {
-	    return null;
-	}
+    public boolean isArchived() {
+	return entity.getArchived();
     }
 
     @Override
@@ -108,24 +103,6 @@ public abstract class RequestRowDataModel<T extends Request> implements RequestR
     public User getCompletedBy() {
 	try {
 	    return entity.getCompletedBy();
-	} catch (NullPointerException e) {
-	    return null;
-	}
-    }
-
-    @Override
-    public Instant getClosed() {
-	try {
-	    return entity.getClosed();
-	} catch (NullPointerException e) {
-	    return null;
-	}
-    }
-
-    @Override
-    public User getClosedBy() {
-	try {
-	    return entity.getClosedBy();
 	} catch (NullPointerException e) {
 	    return null;
 	}
@@ -284,8 +261,8 @@ public abstract class RequestRowDataModel<T extends Request> implements RequestR
     }
 
     @Override
-    public boolean isCanClose() {
-	return RequestRow.super.isCanClose();
+    public boolean isCanArchive() {
+	return RequestRow.super.isCanArchive();
     }
 
     @Override

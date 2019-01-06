@@ -21,9 +21,6 @@
 					<pe:clipboard trigger="idCopy" action="copy" text="#{rr.id}" />
 				</crm:outputRow>
 
-				<crm:outputRowText label="Статус заявки"
-					value="#{localized.few(rr.requestStatus)}" />
-
 				<crm:outputRowText label="Тип заявки"
 					value="#{localized.few(rr.insuranceRequestType)}" />
 
@@ -94,13 +91,6 @@
 								<jfc:outputInstant value="#{rr.completed}" />
 								<h:outputText rendered="#{not empty rr.completedBy}"
 									value="&amp;nbsp;(#{rr.completedBy.name})" escape="false" />
-							</crm:outputRow>
-
-							<crm:outputRow rendered="#{not empty rr.closed}"
-								label="Помещена в архив">
-								<jfc:outputInstant value="#{rr.closed}" />
-								<h:outputText rendered="#{not empty rr.closedBy}"
-									value="&amp;nbsp;(#{rr.closedBy.name})" escape="false" />
 							</crm:outputRow>
 
 						</p:panelGrid>

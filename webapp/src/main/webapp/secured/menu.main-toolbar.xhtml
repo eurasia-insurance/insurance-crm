@@ -89,8 +89,8 @@
 				</h:panelGroup>
 
 				<p:commandButton value="В архив" icon="fa fa-archive"
-					rendered="#{canClose}" disabled="#{not closeRequestCheck.allowed}"
-					action="#{closeRequest.doClose}" process="@this"
+					rendered="#{canClose}" disabled="#{not archiveRequestCheck.allowed}"
+					action="#{archiveRequest.doAction}" process="@this"
 					update="requestToolbar #{update}" />
 
 				<p:commandButton value="Удалить..." icon="fa fa-ban"

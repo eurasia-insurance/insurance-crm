@@ -7,11 +7,11 @@ import com.lapsa.insurance.domain.CalculationData;
 import com.lapsa.insurance.domain.InsuranceRequest;
 import com.lapsa.insurance.domain.PaymentData;
 import com.lapsa.insurance.domain.casco.Casco;
+import com.lapsa.insurance.elements.ContractStatus;
 import com.lapsa.insurance.elements.InsuranceProductType;
 import com.lapsa.insurance.elements.InsuranceRequestType;
 import com.lapsa.insurance.elements.PaymentStatus;
 import com.lapsa.insurance.elements.RequestCancelationReason;
-import com.lapsa.insurance.elements.ContractStatus;
 import com.lapsa.international.localization.LocalizationLanguage;
 import com.lapsa.international.phone.PhoneNumber;
 

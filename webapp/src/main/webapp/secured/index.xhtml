@@ -126,7 +126,7 @@
 				rowsPerPageTemplate="20,50,100" sortMode="multipe"
 				sortOrder="DESCENDING" sortBy="#{rr.created}"
 				emptyMessage="Нет заявок удовлетворяющих критериям поиска"
-				rowStyleClass="#{rr.requestStatus eq 'CLOSED' ? 'row-closed': ''}">
+				rowStyleClass="#{rr.archived ? 'row-archived': ''}">
 
 				<p:ajax event="rowSelect" process="@this"
 					update="@form:mainToolbar @form:summaryPanel" />

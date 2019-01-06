@@ -3,7 +3,6 @@ package tech.lapsa.insurance.crm.beans.actions;
 import static com.lapsa.utils.security.SecurityUtils.*;
 
 import java.io.Serializable;
-import java.time.Instant;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.Dependent;
@@ -13,33 +12,31 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.lapsa.insurance.elements.ProgressStatus;
-import com.lapsa.insurance.elements.RequestStatus;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
 import tech.lapsa.insurance.crm.beans.RequestsSelectionCDIBean;
-import tech.lapsa.insurance.crm.beans.i.CurrentUserHolder;
 import tech.lapsa.insurance.crm.rows.RequestRow;
 import tech.lapsa.insurance.dao.RequestDAO.RequestDAORemote;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.function.MyCollectors;
 import tech.lapsa.java.commons.function.MyExceptions;
 
-@Named("closeRequest")
+@Named("archiveRequest")
 @RequestScoped
-public class CloseRequestCDIBean implements Serializable {
+public class ArchiveRequestCDIBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Named("closeRequestCheck")
+    @Named("archiveRequestCheck")
     @Dependent
-    public static class CloseRequestCheckCDIBean
+    public static class ArchiveRequestCheckCDIBean
 	    extends AActionChecker
 	    implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public CloseRequestCheckCDIBean() {
-	    super(CloseRequestCDIBean::actionAllowed);
+	public ArchiveRequestCheckCDIBean() {
+	    super(ArchiveRequestCDIBean::actionAllowed);
 	}
 
     }
@@ -49,7 +46,7 @@ public class CloseRequestCDIBean implements Serializable {
 		&& rrs != null
 		&& rrs.isAnySelected() //
 		&& rrs.getValueAsStream() //
-			.allMatch(RequestRow::isCanClose) //
+			.allMatch(RequestRow::isCanArchive) //
 	;
 
     }
@@ -59,10 +56,7 @@ public class CloseRequestCDIBean implements Serializable {
     // local
 
     @Inject
-    private CurrentUserHolder currentUser;
-
-    @Inject
-    private CloseRequestCheckCDIBean checker;
+    private ArchiveRequestCheckCDIBean checker;
 
     @Inject
     private RequestsSelectionCDIBean rrs;
@@ -74,24 +68,20 @@ public class CloseRequestCDIBean implements Serializable {
     @EJB
     private RequestDAORemote requestDAO;
 
-    public String doClose() {
+    public String doAction() {
 	checkRoleGranted(InsuranceRoleGroup.CLOSERS);
 
 	rrs.refresh();
 
 	if (!checker.isAllowed())
 	    throw MyExceptions.format(FacesException::new,
-		    "Status is invalid for archiving. Archiving is posible at '%1$s' and '%2$s' only.",
-		    RequestStatus.OPEN, ProgressStatus.FINISHED);
+		    "Status is invalid for archiving. Archiving is posible at '%1$s' only.", ProgressStatus.FINISHED);
 
-	final Instant now = Instant.now();
 	try {
 	    // final List<RequestRow<?>> res =
 	    rrs.getValueAsStream() //
 		    .map(RequestRow::getEntity) //
-		    .peek(r -> r.setStatus(RequestStatus.CLOSED))
-		    .peek(r -> r.setClosed(now))
-		    .peek(r -> r.setClosedBy(currentUser.getValue()))
+		    .peek(r -> r.setArchived(true))
 		    .map(r -> {
 			try {
 			    return requestDAO.save(r);

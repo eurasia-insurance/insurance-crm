@@ -16,13 +16,12 @@ import com.lapsa.insurance.domain.crm.UTMData;
 import com.lapsa.insurance.domain.crm.User;
 import com.lapsa.insurance.domain.policy.Policy;
 import com.lapsa.insurance.domain.policy.PolicyRequest;
+import com.lapsa.insurance.elements.ContractStatus;
 import com.lapsa.insurance.elements.InsuranceProductType;
 import com.lapsa.insurance.elements.InsuranceRequestType;
 import com.lapsa.insurance.elements.PaymentStatus;
 import com.lapsa.insurance.elements.ProgressStatus;
-import com.lapsa.insurance.elements.RequestStatus;
 import com.lapsa.insurance.elements.RequestCancelationReason;
-import com.lapsa.insurance.elements.ContractStatus;
 import com.lapsa.international.localization.LocalizationLanguage;
 import com.lapsa.international.phone.PhoneNumber;
 
@@ -58,7 +57,11 @@ public interface RequestRow<T extends Request> {
 
     Integer getId();
 
-    RequestStatus getRequestStatus();
+    boolean isArchived();
+
+    default boolean isInbox() {
+	return !isArchived();
+    }
 
     ProgressStatus getProgressStatus();
 
@@ -83,10 +86,6 @@ public interface RequestRow<T extends Request> {
     Instant getCompleted();
 
     User getCompletedBy();
-
-    Instant getClosed();
-
-    User getClosedBy();
 
     Double getAmount();
 
@@ -183,29 +182,28 @@ public interface RequestRow<T extends Request> {
     }
 
     default boolean isCanPick() {
-	return RequestStatus.OPEN.equals(getRequestStatus())
+	return isInbox()
 		&& ProgressStatus.NEW.equals(getProgressStatus());
     }
 
     default boolean isCanAccept() {
-	return RequestStatus.OPEN.equals(getRequestStatus())
-		&& ProgressStatus.ON_PROCESS.equals(getProgressStatus())
+	return ProgressStatus.ON_PROCESS.equals(getProgressStatus())
 		&& PaymentStatus.UNDEFINED.equals(getPaymentStatus())
 		&& getEntity() instanceof InsuranceRequest;
     }
 
     default boolean isCanPause() {
-	return RequestStatus.OPEN.equals(getRequestStatus())
+	return isInbox()
 		&& ProgressStatus.ON_PROCESS.equals(getProgressStatus());
     }
 
     default boolean isCanResume() {
-	return RequestStatus.OPEN.equals(getRequestStatus())
+	return isInbox()
 		&& ProgressStatus.ON_HOLD.equals(getProgressStatus());
     }
 
     default boolean isCanComplete() {
-	return RequestStatus.OPEN.equals(getRequestStatus())
+	return isInbox()
 		&& !ProgressStatus.FINISHED.equals(getProgressStatus());
     }
 
@@ -214,13 +212,13 @@ public interface RequestRow<T extends Request> {
     }
 
     default boolean isCanUncomplete() {
-	return RequestStatus.OPEN.equals(getRequestStatus())
+	return isInbox()
 		&& !ProgressStatus.FINISHED.equals(getProgressStatus())
 		&& !PaymentStatus.DONE.equals(getPaymentStatus());
     }
 
-    default boolean isCanClose() {
-	return RequestStatus.OPEN.equals(getRequestStatus())
+    default boolean isCanArchive() {
+	return isInbox()
 		&& ProgressStatus.FINISHED.equals(getProgressStatus());
     }
 

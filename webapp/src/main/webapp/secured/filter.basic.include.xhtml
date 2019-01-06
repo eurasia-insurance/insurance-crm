@@ -1,41 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:o="http://omnifaces.org/ui" xmlns:p="http://primefaces.org/ui"
-	xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm"
-	xmlns:lpf="http://lapsa.tech/primefaces">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:o="http://omnifaces.org/ui" xmlns:p="http://primefaces.org/ui"
+	xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm" xmlns:lpf="http://lapsa.tech/primefaces">
 
 	<o:importConstants type="tech.lapsa.insurance.crm.beans.i.RequestType" />
 
 	<f:subview>
 
 		<p:panel>
-			<p:panelGrid id="requestStatusButtonsWrapper">
+			<p:panelGrid id="archivedButtonsWrapper">
 				<p:row>
 					<p:column>
-						<p:commandLink process="@this"
-							update="#{update} requestStatusButtonsWrapper" value="Входящие"
-							style="#{settings.requestFilter.requestStatus == 'OPEN' ? 'font-weight: bold' : ''}">
-							<f:setPropertyActionListener
-								target="#{settings.requestFilter.requestStatus}" value="OPEN" />
-						</p:commandLink>
+						<p:commandLink process="@this" update="#{update} archivedButtonsWrapper" value="Входящие" style="#{settings.requestFilter.showInbox ? 'font-weight: bold' : ''}" action="#{settings.requestFilter.letShowInbox}" />
 					</p:column>
 					<p:column>
-						<p:commandLink process="@this"
-							update="#{update} requestStatusButtonsWrapper" value="Архив"
-							style="#{settings.requestFilter.requestStatus == 'CLOSED' ? 'font-weight: bold' : ''}">
-							<f:setPropertyActionListener
-								target="#{settings.requestFilter.requestStatus}" value="CLOSED" />
-						</p:commandLink>
+						<p:commandLink process="@this" update="#{update} archivedButtonsWrapper" value="Архив" style="#{settings.requestFilter.showArchived ? 'font-weight: bold' : ''}" action="#{settings.requestFilter.letShowArchived}" />
 					</p:column>
 					<p:column>
-						<p:commandLink process="@this"
-							update="#{update} requestStatusButtonsWrapper" value="Все"
-							style="#{settings.requestFilter.requestStatus == null ? 'font-weight: bold' : ''}">
-							<f:setPropertyActionListener
-								target="#{settings.requestFilter.requestStatus}" value="#{null}" />
+						<p:commandLink process="@this" update="#{update} archivedButtonsWrapper" value="Все" style="#{settings.requestFilter.showAll ? 'font-weight: bold' : ''}" action="#{settings.requestFilter.letShowAll}">
 						</p:commandLink>
 					</p:column>
 					<p:column>
@@ -47,10 +28,8 @@
 						<p:outputLabel value="Стадия:" for="progressStatus" />
 					</p:column>
 					<p:column>
-						<p:selectOneMenu id="progressStatus"
-							value="#{settings.requestFilter.progressStatus}">
-							<p:ajax process="@this" update="#{update}"
-								delay="#{filterChangedAjaxDelay}" />
+						<p:selectOneMenu id="progressStatus" value="#{settings.requestFilter.progressStatus}">
+							<p:ajax process="@this" update="#{update}" delay="#{filterChangedAjaxDelay}" />
 							<f:selectItem value="#{configurationFacade.anySI}" />
 							<f:selectItems value="#{si.array.regular(ProgressStatus.all)}" />
 						</p:selectOneMenu>
@@ -60,18 +39,15 @@
 					</p:column>
 					<p:column>
 						<p:inputText id="id" value="#{settings.requestFilter.id}" size="8">
-							<p:ajax event="change" process="@this" update="#{update}"
-								delay="#{filterChangedAjaxDelay}" />
+							<p:ajax event="change" process="@this" update="#{update}" delay="#{filterChangedAjaxDelay}" />
 						</p:inputText>
 					</p:column>
 					<p:column>
 						<p:outputLabel value="Имя заявителя:" for="requesterNameMask" />
 					</p:column>
 					<p:column>
-						<p:inputText id="requesterNameMask"
-							value="#{settings.requestFilter.requesterNameMask}">
-							<p:ajax event="change" process="@this" update="#{update}"
-								delay="#{filterChangedAjaxDelay}" />
+						<p:inputText id="requesterNameMask" value="#{settings.requestFilter.requesterNameMask}">
+							<p:ajax event="change" process="@this" update="#{update}" delay="#{filterChangedAjaxDelay}" />
 						</p:inputText>
 					</p:column>
 				</p:row>

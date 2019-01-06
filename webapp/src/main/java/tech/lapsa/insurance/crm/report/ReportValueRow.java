@@ -11,6 +11,7 @@ import java.util.function.Function;
 import com.lapsa.reports.table.ValueCell;
 import com.lapsa.reports.table.ValueRow;
 import com.lapsa.reports.table.impl.DefaultAmountValueCell;
+import com.lapsa.reports.table.impl.DefaultBooleanValueCell;
 import com.lapsa.reports.table.impl.DefaultDateTimeValueCell;
 import com.lapsa.reports.table.impl.DefaultIntegerNumberValueCell;
 import com.lapsa.reports.table.impl.DefaultTextValueCell;
@@ -50,16 +51,13 @@ public class ReportValueRow implements ValueRow {
 	    new FieldDescriptor("Дата завершения", row -> new DefaultDateTimeValueCell(row.getCompleted())),
 	    new FieldDescriptor("Кем завершено", row -> new DefaultTextValueCell(row.getCompletedBy().getName())),
 
-	    new FieldDescriptor("Дата закрытия", row -> new DefaultDateTimeValueCell(row.getClosed())),
-	    new FieldDescriptor("Кем закрыто", row -> new DefaultTextValueCell(row.getClosedBy().getName())),
-
 	    new FieldDescriptor("Сумма премии", row -> new DefaultAmountValueCell(row.getAmount(), row.getCurrency())),
 
 	    new FieldDescriptor("Имя заявителя", row -> new DefaultTextValueCell(row.getRequesterName())),
 	    new FieldDescriptor("Email заявителя", row -> new DefaultTextValueCell(row.getRequesterEmail())),
 	    new FieldDescriptor("Телефон заявителя", row -> new DefaultTextValueCell(row.getRequesterPhone())),
 
-	    new FieldDescriptor("Статус заявки", row -> new DefaultTextValueCell(row.getRequestStatus())),
+	    new FieldDescriptor("Архивная", row -> new DefaultBooleanValueCell(row.isArchived())),
 
 	    new FieldDescriptor("Стадия обработки", row -> new DefaultTextValueCell(row.getProgressStatus())),
 	    new FieldDescriptor("Статус договора", row -> new DefaultTextValueCell(row.getContractStatus())),

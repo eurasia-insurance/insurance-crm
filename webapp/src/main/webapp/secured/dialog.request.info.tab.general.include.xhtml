@@ -28,7 +28,7 @@
 					value="#{localized.few(rr.progressStatus)}" />
 
 				<crm:outputRow rendered="#{rr.progressStatus eq 'FINISHED'}"
-					label="Статус договора">
+					label="Статус заявки на страхование">
 					<c:choose>
 						<c:when test="#{rr.insuranceRequestStatus eq 'CANCELED'}">
 							<h:panelGroup styleClass="request-icon icon-fail ">
@@ -46,7 +46,7 @@
 
 				<crm:outputRowText
 					rendered="#{rr.progressStatus eq 'FINISHED' and rr.insuranceRequestStatus eq 'CANCELED'}"
-					label="Причина отмены заявки" value="#{localized.few(rr.insuranceRequestCancellationReason)}" />
+					label="Причина отмены заявки на страхование" value="#{localized.few(rr.insuranceRequestCancellationReason)}" />
 
 				<crm:outputRowText
 					rendered="#{rr.progressStatus eq 'FINISHED' and rr.insuranceRequestStatus eq 'COMPLETED'}"

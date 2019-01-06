@@ -28,28 +28,28 @@
 					value="#{localized.few(rr.progressStatus)}" />
 
 				<crm:outputRow rendered="#{rr.progressStatus eq 'FINISHED'}"
-					label="Статус договора">
+					label="Статус заявки на страхование">
 					<c:choose>
-						<c:when test="#{rr.contractStatus eq 'CANCELED'}">
+						<c:when test="#{rr.insuranceRequestStatus eq 'CANCELED'}">
 							<h:panelGroup styleClass="request-icon icon-fail ">
 								<i class="fa fa-ban " aria-hidden="true" />
 							</h:panelGroup>
 						</c:when>
-						<c:when test="#{rr.contractStatus eq 'COMPLETED'}">
+						<c:when test="#{rr.insuranceRequestStatus eq 'COMPLETED'}">
 							<h:panelGroup styleClass="request-icon icon-success ">
 								<i class="fa fa-check " aria-hidden="true" />
 							</h:panelGroup>
 						</c:when>
 					</c:choose>
-					<h:outputText value="#{localized.few(rr.contractStatus)}" />
+					<h:outputText value="#{localized.few(rr.insuranceRequestStatus)}" />
 				</crm:outputRow>
 
 				<crm:outputRowText
-					rendered="#{rr.progressStatus eq 'FINISHED' and rr.contractStatus eq 'CANCELED'}"
-					label="Причина отмены заявки" value="#{localized.few(rr.requestCancelationReason)}" />
+					rendered="#{rr.progressStatus eq 'FINISHED' and rr.insuranceRequestStatus eq 'CANCELED'}"
+					label="Причина отмены заявки на страхование" value="#{localized.few(rr.insuranceRequestCancellationReason)}" />
 
 				<crm:outputRowText
-					rendered="#{rr.progressStatus eq 'FINISHED' and rr.contractStatus eq 'COMPLETED'}"
+					rendered="#{rr.progressStatus eq 'FINISHED' and rr.insuranceRequestStatus eq 'COMPLETED'}"
 					label="Номер договора" value="#{rr.agreementNumber}" />
 
 			</p:panelGrid>

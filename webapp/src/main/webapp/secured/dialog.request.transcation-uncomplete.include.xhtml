@@ -36,7 +36,7 @@
 										id="reason" binding="#{reasonComp}">
 										<f:selectItem value="#{configurationFacade.mustSelectSI}" />
 										<f:selectItems
-											value="#{si.array.regular(RequestCancelationReason.selectable)}" />
+											value="#{si.array.regular(InsuranceRequestCancellationReason.selectable)}" />
 										<p:ajax process="@this" update="@this" />
 									</p:selectOneMenu>
 								</p:column>

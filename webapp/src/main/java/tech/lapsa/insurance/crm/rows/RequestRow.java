@@ -16,12 +16,12 @@ import com.lapsa.insurance.domain.crm.UTMData;
 import com.lapsa.insurance.domain.crm.User;
 import com.lapsa.insurance.domain.policy.Policy;
 import com.lapsa.insurance.domain.policy.PolicyRequest;
-import com.lapsa.insurance.elements.ContractStatus;
+import com.lapsa.insurance.elements.InsuranceRequestStatus;
 import com.lapsa.insurance.elements.InsuranceProductType;
 import com.lapsa.insurance.elements.InsuranceRequestType;
 import com.lapsa.insurance.elements.PaymentStatus;
 import com.lapsa.insurance.elements.ProgressStatus;
-import com.lapsa.insurance.elements.RequestCancelationReason;
+import com.lapsa.insurance.elements.InsuranceRequestCancellationReason;
 import com.lapsa.international.localization.LocalizationLanguage;
 import com.lapsa.international.phone.PhoneNumber;
 
@@ -65,9 +65,9 @@ public interface RequestRow<T extends Request> {
 
     ProgressStatus getProgressStatus();
 
-    ContractStatus getContractStatus();
+    InsuranceRequestStatus getInsuranceRequestStatus();
 
-    RequestCancelationReason getRequestCancelationReason();
+    InsuranceRequestCancellationReason getInsuranceRequestCancellationReason();
 
     InsuranceProductType getInsuranceProductType();
 
@@ -223,6 +223,6 @@ public interface RequestRow<T extends Request> {
     }
 
     default boolean isCanDelete() {
-	return !ContractStatus.COMPLETED.equals(getContractStatus());
+	return !InsuranceRequestStatus.COMPLETED.equals(getInsuranceRequestStatus());
     }
 }

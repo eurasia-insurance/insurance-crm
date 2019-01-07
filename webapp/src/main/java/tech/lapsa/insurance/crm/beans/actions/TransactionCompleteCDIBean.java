@@ -17,6 +17,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.constraints.Min;
 
+import com.lapsa.insurance.domain.InsuranceRequest;
 import com.lapsa.insurance.domain.Request;
 import com.lapsa.insurance.domain.policy.Policy;
 
@@ -27,9 +28,9 @@ import tech.lapsa.insurance.crm.rows.RequestRow;
 import tech.lapsa.insurance.crm.validation.UniqueAgreementNumber;
 import tech.lapsa.insurance.crm.validation.ValidPolicyAgreementByNumber;
 import tech.lapsa.insurance.crm.validation.ValidPolicyNumber;
+import tech.lapsa.insurance.facade.InsuranceRequestFacade.InsuranceRequestFacadeRemote;
 import tech.lapsa.insurance.facade.PolicyFacade.PolicyFacadeRemote;
 import tech.lapsa.insurance.facade.PolicyNotFound;
-import tech.lapsa.insurance.facade.RequestCompletionFacade.RequestCompletionFacadeRemote;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.exceptions.IllegalState;
 import tech.lapsa.java.commons.function.MyExceptions;
@@ -220,12 +221,10 @@ public class TransactionCompleteCDIBean implements Serializable {
     @Inject
     private RequestsSelectionCDIBean rrs;
 
-    // EJBs
-
     // insurance-facade (remote)
 
     @EJB
-    private RequestCompletionFacadeRemote completions;
+    private InsuranceRequestFacadeRemote insuranceRequests;
 
     public String doComplete() throws FacesException, IllegalStateException, IllegalArgumentException {
 	checkRoleGranted(InsuranceRoleGroup.CHANGERS);
@@ -235,12 +234,12 @@ public class TransactionCompleteCDIBean implements Serializable {
 	if (!checkActionAllowed(rrs))
 	    throw MyExceptions.format(FacesException::new, "Is invalid for unconmpleting transactions");
 
-	final Request r1 = rrs.getSingleRow().getEntity();
+	final InsuranceRequest r1 = rrs.getSingleRow().getEntity();
 
 	try {
 	    final Request res;
 	    if (paidable && !wasPaidBefore)
-		res = completions.transactionCompleteWithPayment(r1,
+		res = insuranceRequests.policyIssuedAndPremiumPaid(r1,
 			currentUser.getValue(),
 			agreementNumber,
 			"Введено вручную",
@@ -250,7 +249,7 @@ public class TransactionCompleteCDIBean implements Serializable {
 			paidReference,
 			payerName);
 	    else
-		res = completions.transactionComplete(r1, currentUser.getValue(), agreementNumber);
+		res = insuranceRequests.policyIssued(r1, currentUser.getValue(), agreementNumber);
 	    rrs.setSingleRow(RequestRow.from(res));
 	} catch (IllegalState e1) {
 	    throw e1.getRuntime();

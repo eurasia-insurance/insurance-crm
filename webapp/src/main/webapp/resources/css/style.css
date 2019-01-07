@@ -24,7 +24,7 @@
 	color: #f78818;
 }
 
-.icon-success {
+.icon-success, .icon-policy-issued, .icon-premium-paid {
 	color: #00FF00;
 }
 
@@ -32,7 +32,7 @@
 	color: #0000ff;
 }
 
-.icon-fail {
+.icon-fail, .icon-request-canceled {
 	color: #FF0000;
 }
 

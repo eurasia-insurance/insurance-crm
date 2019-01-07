@@ -73,7 +73,7 @@ public class DeleteRequestCDIBean implements Serializable {
 	if (!checkActionAllowed(rrs))
 	    throw MyExceptions.format(FacesException::new,
 		    "Transaction status is invalid for deletion. Deletion is possible on '%1$s' only.",
-		    InsuranceRequestStatus.CANCELED);
+		    InsuranceRequestStatus.REQUEST_CANCELED);
 
 	try {
 	    rrs.getValueAsStream() //

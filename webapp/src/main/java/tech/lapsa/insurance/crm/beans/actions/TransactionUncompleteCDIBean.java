@@ -18,7 +18,7 @@ import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
 import tech.lapsa.insurance.crm.beans.RequestsSelectionCDIBean;
 import tech.lapsa.insurance.crm.beans.i.CurrentUserHolder;
 import tech.lapsa.insurance.crm.rows.RequestRow;
-import tech.lapsa.insurance.facade.RequestCompletionFacade.RequestCompletionFacadeRemote;
+import tech.lapsa.insurance.facade.InsuranceRequestFacade.InsuranceRequestFacadeRemote;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.exceptions.IllegalState;
 import tech.lapsa.java.commons.function.MyCollectors;
@@ -76,12 +76,10 @@ public class TransactionUncompleteCDIBean implements Serializable {
     @Inject
     private RequestsSelectionCDIBean rrs;
 
-    // EJBs
-
     // insurance-facade (remote)
 
     @EJB
-    private RequestCompletionFacadeRemote completions;
+    private InsuranceRequestFacadeRemote insuranceRequests;
 
     public String doUncomplete() throws FacesException, IllegalStateException, IllegalArgumentException {
 	checkRoleGranted(InsuranceRoleGroup.CHANGERS);
@@ -95,9 +93,7 @@ public class TransactionUncompleteCDIBean implements Serializable {
 	    final List<RequestRow<?>> res = rrs.getValueAsStream() //
 		    .map(r -> {
 			try {
-			    final boolean paidable = r.getPayment() != null;
-			    return completions.transactionUncomplete(r.getEntity(), currentUser.getValue(), reason,
-				    paidable);
+			    return insuranceRequests.requestCanceled(r.getEntity(), currentUser.getValue(), reason);
 			} catch (IllegalState e) {
 			    throw new FacesException(e.getRuntime());
 			} catch (IllegalArgument e) {

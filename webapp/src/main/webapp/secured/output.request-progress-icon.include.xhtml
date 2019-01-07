@@ -21,12 +21,16 @@
 			rendered="#{rr.progressStatus eq 'FINISHED' and empty rr.insuranceRequestStatus}">
 			<i class="fa fa-check " aria-hidden="true" />
 		</h:panelGroup>
-		<h:panelGroup styleClass="icon-fail "
-			rendered="#{rr.progressStatus eq 'FINISHED' and rr.insuranceRequestStatus eq 'CANCELED'}">
+		<h:panelGroup styleClass="icon-request-canceled "
+			rendered="#{rr.requestCanceled}">
 			<i class="fa fa-ban " aria-hidden="true" />
 		</h:panelGroup>
-		<h:panelGroup styleClass="icon-success "
-			rendered="#{rr.progressStatus eq 'FINISHED' and rr.insuranceRequestStatus eq 'COMPLETED'}">
+		<h:panelGroup styleClass="icon-policy-issued "
+			rendered="#{rr.policyIssued}">
+			<i class="fa fa-check " aria-hidden="true" />
+		</h:panelGroup>
+		<h:panelGroup styleClass="icon-premium-paid "
+			rendered="#{rr.premiumPaid}">
 			<i class="fa fa-check " aria-hidden="true" />
 		</h:panelGroup>
 	</h:panelGroup>
@@ -36,10 +40,9 @@
 				value="#{localized.regular(rr.progressStatus)}" />
 		</h:panelGroup>
 		<h:panelGroup rendered="#{rr.progressStatus eq 'FINISHED'}">
-			<h:outputText rendered="#{rr.insuranceRequestStatus eq 'COMPLETED'}"
-				value="#{localized.regular(rr.insuranceRequestStatus)}" />
-			<h:outputText rendered="#{rr.insuranceRequestStatus eq 'CANCELED'}"
-				value="#{localized.regular(rr.insuranceRequestCancellationReason)}" />
+			<h:outputText value="#{localized.regular(rr.insuranceRequestStatus)}" />
+			<h:outputText rendered="#{rr.requestCanceled}"
+				value=" : #{localized.regular(rr.insuranceRequestCancellationReason)}" />
 		</h:panelGroup>
 	</p:tooltip>
 

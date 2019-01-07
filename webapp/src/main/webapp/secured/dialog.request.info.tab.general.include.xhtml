@@ -30,13 +30,18 @@
 				<crm:outputRow rendered="#{rr.progressStatus eq 'FINISHED'}"
 					label="Статус заявки на страхование">
 					<c:choose>
-						<c:when test="#{rr.insuranceRequestStatus eq 'CANCELED'}">
-							<h:panelGroup styleClass="request-icon icon-fail ">
+						<c:when test="#{rr.requestCanceled}">
+							<h:panelGroup styleClass="request-icon icon-request-canceled ">
 								<i class="fa fa-ban " aria-hidden="true" />
 							</h:panelGroup>
 						</c:when>
-						<c:when test="#{rr.insuranceRequestStatus eq 'COMPLETED'}">
-							<h:panelGroup styleClass="request-icon icon-success ">
+						<c:when test="#{rr.policyIssued}">
+							<h:panelGroup styleClass="request-icon icon-policy-issued ">
+								<i class="fa fa-check " aria-hidden="true" />
+							</h:panelGroup>
+						</c:when>
+						<c:when test="#{rr.premiumPaid}">
+							<h:panelGroup styleClass="request-icon icon-premium-paid ">
 								<i class="fa fa-check " aria-hidden="true" />
 							</h:panelGroup>
 						</c:when>
@@ -45,11 +50,11 @@
 				</crm:outputRow>
 
 				<crm:outputRowText
-					rendered="#{rr.progressStatus eq 'FINISHED' and rr.insuranceRequestStatus eq 'CANCELED'}"
+					rendered="#{rr.requestCanceled}"
 					label="Причина отмены заявки на страхование" value="#{localized.few(rr.insuranceRequestCancellationReason)}" />
 
 				<crm:outputRowText
-					rendered="#{rr.progressStatus eq 'FINISHED' and rr.insuranceRequestStatus eq 'COMPLETED'}"
+					rendered="#{rr.policyIssued}"
 					label="Номер договора" value="#{rr.agreementNumber}" />
 
 			</p:panelGrid>

@@ -25,22 +25,22 @@ import tech.lapsa.java.commons.function.MyCollectors;
 import tech.lapsa.java.commons.function.MyExceptions;
 import tech.lapsa.javax.validation.NotNullValue;
 
-@Named("transactionUncomplete")
+@Named("cancelRequest")
 @RequestScoped
-public class TransactionUncompleteCDIBean implements Serializable {
+public class CancelRequestCDIBean implements ActionCDIBean, Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Named("transactionUncompleteCheck")
+    @Named("cancelRequestCheck")
     @Dependent
-    public static class TransactionUncompleteCheckCDIBean
+    public static class CancelRequestCheckCDIBean
 	    extends AActionChecker
 	    implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public TransactionUncompleteCheckCDIBean() {
-	    super(TransactionUncompleteCDIBean::checkActionAllowed);
+	public CancelRequestCheckCDIBean() {
+	    super(CancelRequestCDIBean::checkActionAllowed);
 	}
     }
 
@@ -49,7 +49,7 @@ public class TransactionUncompleteCDIBean implements Serializable {
 		&& rrs != null
 		&& rrs.isAnySelected() //
 		&& rrs.getValueAsStream() //
-			.allMatch(RequestRow::isCanUncomplete) //
+			.allMatch(RequestRow::isCanCancel) //
 	;
     }
 
@@ -81,7 +81,7 @@ public class TransactionUncompleteCDIBean implements Serializable {
     @EJB
     private InsuranceRequestFacadeRemote insuranceRequests;
 
-    public String doUncomplete() throws FacesException, IllegalStateException, IllegalArgumentException {
+    public String doAction() throws FacesException, IllegalStateException, IllegalArgumentException {
 	checkRoleGranted(InsuranceRoleGroup.CHANGERS);
 
 	rrs.refresh();

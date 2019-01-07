@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:comp="http://xmlns.jcp.org/jsf/composite"
-	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
-	xmlns:pe="http://primefaces.org/ui/extensions"
-	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
-	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:jfc="http://lapsa.tech/javax/faces-commons"
-	template="/WEB-INF/templates/clean.xhtml">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:comp="http://xmlns.jcp.org/jsf/composite"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:jfc="http://lapsa.tech/javax/faces-commons" template="/WEB-INF/templates/clean.xhtml">
 	<ui:define name="page-title">#{ui['name.site']}</ui:define>
 
 	<ui:define name="header-content">
@@ -17,28 +9,23 @@
 
 	<ui:define name="page-content">
 
-		<o:importConstants
-			type="tech.lapsa.insurance.crm.auth.InsuranceSecurity.Role" />
+		<o:importConstants type="tech.lapsa.insurance.crm.auth.InsuranceSecurity.Role" />
 
 		<c:set var="canView" value="#{currentUser.canView}" scope="request" />
 
-		<c:set var="canChange" value="#{currentUser.canChange}"
-			scope="request" />
+		<c:set var="canChange" value="#{currentUser.canChange}" scope="request" />
 
 		<c:set var="canClose" value="#{currentUser.canClose}" scope="request" />
 
-		<c:set var="canDelete" value="#{currentUser.canDelete}"
-			scope="request" />
+		<c:set var="canDelete" value="#{currentUser.canDelete}" scope="request" />
 
 		<o:importConstants type="tech.lapsa.insurance.crm.beans.i.RequestType" />
 
-		<h:outputText rendered="#{not canView}"
-			value="Недостаточно доступа для просмотра заявок. Обратитесь к админстратору." />
+		<h:outputText rendered="#{not canView}" value="Недостаточно доступа для просмотра заявок. Обратитесь к админстратору." />
 
 		<h:form id="form" rendered="#{canView}">
 
-			<ui:decorate
-				template="/WEB-INF/templates/primefaces-growl.include.xhtml" />
+			<ui:decorate template="/WEB-INF/templates/primefaces-growl.include.xhtml" />
 
 			<f:metadata>
 				<f:viewAction action="#{mainFacade.doInitialize}" />
@@ -47,8 +34,7 @@
 			<h:panelGroup id="mainToolbar">
 				<ui:include src="menu.main-toolbar.xhtml">
 					<ui:param name="rr" value="#{rqst.value[0]}" />
-					<ui:param name="update"
-						value="@form:requestsTable @form:mainToolbar @form:summaryPanel" />
+					<ui:param name="update" value="@form:requestsTable @form:mainToolbar @form:summaryPanel" />
 				</ui:include>
 			</h:panelGroup>
 
@@ -58,28 +44,17 @@
 				</ui:include>
 			</h:panelGroup>
 
-			<h:panelGroup id="acceptRequestDialog">
-				<ui:include src="dialog.request.accept-request.include.xhtml">
-					<ui:param name="dialogWV" value="acceptRequestDialogWV" />
-					<ui:param name="update"
-						value="@form:requestsTable @form:summaryPanel @form:mainToolbar @form:requestDialog" />
+			<h:panelGroup id="issuePolicyDialog">
+				<ui:include src="dialog.request.issue-policy.include.xhtml">
+					<ui:param name="dialogWV" value="issuePolicyDialogWV" />
+					<ui:param name="update" value="@form:requestsTable @form:summaryPanel @form:mainToolbar @form:requestDialog" />
 				</ui:include>
 			</h:panelGroup>
 
-			<h:panelGroup id="transactionCompleteDialog">
-				<ui:include src="dialog.request.transcation-complete.include.xhtml">
-					<ui:param name="dialogWV" value="transactionCompleteDialogWV" />
-					<ui:param name="update"
-						value="@form:requestsTable @form:summaryPanel @form:mainToolbar @form:requestDialog" />
-				</ui:include>
-			</h:panelGroup>
-
-			<h:panelGroup id="transactionUncompleteDialog">
-				<ui:include
-					src="dialog.request.transcation-uncomplete.include.xhtml">
-					<ui:param name="dialogWV" value="transactionUncompleteDialogWV" />
-					<ui:param name="update"
-						value="@form:requestsTable @form:summaryPanel @form:mainToolbar @form:requestDialog" />
+			<h:panelGroup id="cancelRequestDialog">
+				<ui:include src="dialog.request.cancel-request.include.xhtml">
+					<ui:param name="dialogWV" value="cancelRequestDialogWV" />
+					<ui:param name="update" value="@form:requestsTable @form:summaryPanel @form:mainToolbar @form:requestDialog" />
 				</ui:include>
 			</h:panelGroup>
 
@@ -87,16 +62,14 @@
 				<ui:include src="dialog.request.delete.include.xhtml">
 					<ui:param name="dialogWV" value="deleteRequestDialogWV" />
 					<ui:param name="rrs" value="#{rqst.value}" />
-					<ui:param name="update"
-						value="@form:requestsTable @form:summaryPanel @form:mainToolbar @form:requestDialog" />
+					<ui:param name="update" value="@form:requestsTable @form:summaryPanel @form:mainToolbar @form:requestDialog" />
 				</ui:include>
 			</h:panelGroup>
 
 			<h:panelGroup id="commentRequestDialog">
 				<ui:include src="dialog.request.comment.include.xhtml">
 					<ui:param name="dialogWV" value="commentRequestDialogWV" />
-					<ui:param name="update"
-						value="@form:requestsTable @form:summaryPanel @form:mainToolbar @form:requestDialog" />
+					<ui:param name="update" value="@form:requestsTable @form:summaryPanel @form:mainToolbar @form:requestDialog" />
 				</ui:include>
 			</h:panelGroup>
 
@@ -112,94 +85,82 @@
 			</h:panelGroup>
 
 			<h:panelGroup id="autoRefreshPoll">
-				<p:poll rendered="#{settings.autoRefresh}"
-					interval="#{settings.autoRefreshInterval}" autoStart="true"
-					process="@this"
-					update="@form:requestsTable @form:mainToolbar @form:summaryPanel" />
+				<p:poll rendered="#{settings.autoRefresh}" interval="#{settings.autoRefreshInterval}" autoStart="true" process="@this" update="@form:requestsTable @form:mainToolbar @form:summaryPanel" />
 			</h:panelGroup>
 
-			<p:dataTable id="requestsTable" widgetVar="requestsTableWV" var="rr"
-				value="#{requests}" selectionMode="multiple"
-				selection="#{rqst.value}" rows="20" paginator="true" lazy="true"
-				paginatorAlwaysVisible="false"
-				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-				rowsPerPageTemplate="20,50,100" sortMode="multipe"
-				sortOrder="DESCENDING" sortBy="#{rr.created}"
-				emptyMessage="Нет заявок удовлетворяющих критериям поиска"
-				rowStyleClass="#{rr.archived ? 'row-archived': ''}">
+			<p:dataTable id="requestsTable" widgetVar="requestsTableWV" var="rr" value="#{requests}" selectionMode="multiple" selection="#{rqst.value}" rows="20" paginator="true" lazy="true" paginatorAlwaysVisible="false"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="20,50,100" sortMode="multipe" sortOrder="DESCENDING" sortBy="#{rr.created}"
+				emptyMessage="Нет заявок удовлетворяющих критериям поиска" rowStyleClass="#{rr.archived ? 'row-archived': ''}">
 
-				<p:ajax event="rowSelect" process="@this"
-					update="@form:mainToolbar @form:summaryPanel" />
-				<p:ajax event="rowUnselect" process="@this"
-					update="@form:mainToolbar @form:summaryPanel" />
+				<p:ajax event="rowSelect" process="@this" update="@form:mainToolbar @form:summaryPanel" />
+				<p:ajax event="rowUnselect" process="@this" update="@form:mainToolbar @form:summaryPanel" />
 
-				<p:ajax event="rowDblselect" process="@this"
-					disabled="#{not canView}"
-					update="@form:mainToolbar  @form:summaryPanel @form:requestDialog"
-					oncomplete="PF('requestDialogWV').show(); return false;" />
+				<p:ajax event="rowDblselect" process="@this" disabled="#{not canView}" update="@form:mainToolbar  @form:summaryPanel @form:requestDialog" oncomplete="PF('requestDialogWV').show(); return false;" />
 
 				<f:facet name="header">
-					<div style="text-align: right;">на <jfc:outputInstant
-							value="#{instant.now}" useVerbal="false" /></div>
+					<div style="text-align: right;">
+						на
+						<jfc:outputInstant value="#{instant.now}" useVerbal="false" />
+					</div>
 				</f:facet>
 
-				<p:column sortBy="#{rr.progressStatus}" style="text-align: center;"
-					width="15">
-					<ui:include src="output.request-progress-icon.include.xhtml" />
+				<p:column sortBy="#{rr.progressStatus}" style="text-align: center;" width="15">
+					<h:panelGroup id="iconWrapper">
+						<ui:include src="icon.request-progress-status.include.xhtml" />
+					</h:panelGroup>
+					<p:tooltip for="iconWrapper" trackMouse="true">
+						<li><h:outputText value="#{localized.regular(rr.progressStatus)}" /></li>
+					</p:tooltip>
 				</p:column>
-				<p:column sortBy="#{req.type}" style="text-align: center" width="15">
-					<ui:include src="output.request-type-icon.include.xhtml" />
+
+				<p:column sortable="#{rr.insuranceRequestStatus}" style="text-align: center; " width="15">
+					<h:panelGroup id="insuranceRequestIconWrapper">
+						<ui:include src="icon.insurance-request-status.include.xhtml" />
+					</h:panelGroup>
+					<p:tooltip for="insuranceRequestIconWrapper" trackMouse="true">
+						<li><h:outputText value="#{localized.few(rr.insuranceRequestStatus)}" /></li>
+					</p:tooltip>
 				</p:column>
-				<p:column sortable="#{req.paymentMethodName}"
-					style="text-align: center; white-space: nowrap;" width="15">
-					<ui:include src="output.request-payment-icon.include.xhtml" />
-				</p:column>
+
 				<p:column width="15">
 					<h:panelGroup styleClass="request-icon">
-						<h:panelGroup
-							styleClass="#{global.iconStyleClassByPaymentCardBank(rr.paymentCardBank)} #{global.iconStyleClassByPaymentCard(rr.paymentCard)}" />
+						<h:panelGroup styleClass="#{global.iconStyleClassByPaymentCardBank(rr.paymentCardBank)} #{global.iconStyleClassByPaymentCard(rr.paymentCard)}" />
 					</h:panelGroup>
 				</p:column>
+
 				<p:column width="15">
 					<ui:include src="output.request-comment-icon.include.xhtml" />
 				</p:column>
-				<p:column headerText="Номер" sortBy="#{rr.id}"
-					style="white-space: nowrap;" width="35">
+
+				<p:column headerText="Номер" sortBy="#{rr.id}" style="white-space: nowrap;" width="35">
 					<h:outputText value="#{rr.id}" />
 				</p:column>
-				<p:column headerText="Сумма"
-					style="text-align: right; white-space: nowrap;" width="60">
-					<jfc:outputCurrencyAmount value="#{rr.amount}"
-						currency="#{rr.currency}" outputZeroes="#{false}" />
+
+				<p:column headerText="Сумма" style="text-align: right; white-space: nowrap;" width="60">
+					<jfc:outputCurrencyAmount value="#{rr.amount}" currency="#{rr.currency}" outputZeroes="#{false}" />
 				</p:column>
-				<p:column headerText="Имя заявителя" sortBy="#{rr.requesterName}"
-					style="white-space: nowrap;">
+
+				<p:column headerText="Имя заявителя" sortBy="#{rr.requesterName}" style="white-space: nowrap;">
 					<h:outputText id="requesterName" value="#{rr.requesterName}" />
 					<p:tooltip for="requesterName" trackMouse="true">
 						<h:outputText value="#{rr.requesterName}" />
 					</p:tooltip>
 				</p:column>
+
 				<p:column headerText="Яз." style="white-space: nowrap;" width="25">
 					<h:outputText value="#{localized.few(rr.requesterLanguage)}" />
 				</p:column>
-				<p:column headerText="Телефон заявителя"
-					sortBy="#{rr.requesterPhone}" style="white-space: nowrap;"
-					width="100">
-					<p:commandButton rendered="#{rr.canPick and canChange}"
-						value="Показать" icon="fa fa-hand-o-right"
-						action="#{pickRequest.doPick}" process="@this"
-						update="@form:requestsTable @form:mainToolbar @form:summaryPanel">
-						<f:setPropertyActionListener value="#{rr}"
-							target="#{rqst.singleRow}" />
+
+				<p:column headerText="Телефон заявителя" sortBy="#{rr.requesterPhone}" style="white-space: nowrap;" width="100">
+					<p:commandButton rendered="#{rr.canPick and canChange}" value="Показать" icon="fa fa-hand-o-right" action="#{pickRequest.doPick}" process="@this" update="@form:requestsTable @form:mainToolbar @form:summaryPanel">
+						<f:setPropertyActionListener value="#{rr}" target="#{rqst.singleRow}" />
 					</p:commandButton>
-					<h:outputText value="#{rr.requesterPhone}"
-						rendered="#{rr.progressStatus ne 'NEW'}" />
+					<h:outputText value="#{rr.requesterPhone}" rendered="#{rr.progressStatus ne 'NEW'}" />
 				</p:column>
-				<p:column headerText="Доп.информаця" sortable="false"
-					style="white-space: nowrap;">
+
+				<p:column headerText="Доп.информаця" sortable="false" style="white-space: nowrap;">
 					<h:panelGroup rendered="#{rr.insuranceProductType eq 'POLICY'}">
-						<h:outputText id="additionalInfo"
-							value="#{localized.few(rr.entity.policy.insuredVehicles[0].area)}" />
+						<h:outputText id="additionalInfo" value="#{localized.few(rr.entity.policy.insuredVehicles[0].area)}" />
 						<p:tooltip for="additionalInfo" trackMouse="true">
 							<ui:repeat var="veh" value="#{rr.entity.policy.insuredVehicles}">
 								<li>#{localized.few(veh.area)}</li>
@@ -207,31 +168,30 @@
 						</p:tooltip>
 					</h:panelGroup>
 				</p:column>
-				<p:column headerText="Поступило" sortBy="#{rr.created}"
-					style="white-space: nowrap;" width="100">
+
+				<p:column headerText="Поступило" sortBy="#{rr.created}" style="white-space: nowrap;" width="100">
 					<jfc:outputInstant value="#{rr.created}" />
 				</p:column>
+
 				<p:column headerText="Автор" style="white-space: nowrap;">
-					<h:outputText rendered="#{not empty rr.createdBy}"
-						value="#{rr.createdBy.name}" />
+					<h:outputText rendered="#{not empty rr.createdBy}" value="#{rr.createdBy.name}" />
 				</p:column>
-				<p:column headerText="Принято" style="white-space: nowrap;"
-					width="100">
+
+				<p:column headerText="Принято" style="white-space: nowrap;" width="100">
 					<jfc:outputInstant value="#{rr.picked}" />
 				</p:column>
+
 				<p:column headerText="Ответственный" style="white-space: nowrap;">
-					<h:outputText rendered="#{not empty rr.pickedBy}"
-						value="#{rr.pickedBy.name}" />
+					<h:outputText rendered="#{not empty rr.pickedBy}" value="#{rr.pickedBy.name}" />
 				</p:column>
-				<p:column headerText="Обновлено" sortBy="#{rr.updated}"
-					style="white-space: nowrap;" width="100">
+
+				<p:column headerText="Обновлено" sortBy="#{rr.updated}" style="white-space: nowrap;" width="100">
 					<jfc:outputInstant value="#{rr.updated}" />
 				</p:column>
+
 				<p:column style="white-space: nowrap;" width="15">
-					<h:panelGroup rendered="#{not empty rr.UTMSource}"
-						styleClass="request-icon">
-						<h:panelGroup id="source"
-							styleClass="#{global.iconStyleClassByUTMSource(rr.UTMSource)}" />
+					<h:panelGroup rendered="#{not empty rr.UTMSource}" styleClass="request-icon">
+						<h:panelGroup id="source" styleClass="#{global.iconStyleClassByUTMSource(rr.UTMSource)}" />
 						<p:tooltip for="source" trackMouse="true">
 							<h:outputText value="Источник: #{rr.UTMSource}" />
 							<br />
@@ -243,6 +203,7 @@
 						</p:tooltip>
 					</h:panelGroup>
 				</p:column>
+
 			</p:dataTable>
 
 			<h:panelGroup id="summaryPanel">

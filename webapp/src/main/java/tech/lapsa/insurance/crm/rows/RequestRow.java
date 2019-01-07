@@ -67,6 +67,8 @@ public interface RequestRow<T extends InsuranceRequest> {
 
     InsuranceRequestStatus getInsuranceRequestStatus();
 
+    boolean isPending();
+
     boolean isRequestCanceled();
 
     boolean isPolicyIssued();
@@ -208,16 +210,21 @@ public interface RequestRow<T extends InsuranceRequest> {
 		&& ProgressStatus.ON_HOLD.equals(getProgressStatus());
     }
 
-    default boolean isCanComplete() {
+    default boolean isCanCreateInvoice() {
 	return isInbox()
-		&& !ProgressStatus.FINISHED.equals(getProgressStatus());
+		&& InsuranceRequestStatus.POLICY_ISSUED.equals(getInsuranceRequestStatus());
+    }
+
+    default boolean isCanIssuePolicy() {
+	return isInbox()
+		&& InsuranceRequestStatus.PENDING.equals(getInsuranceRequestStatus());
     }
 
     default boolean isCanComment() {
 	return true;
     }
 
-    default boolean isCanUncomplete() {
+    default boolean isCanCancel() {
 	return isInbox()
 		&& !ProgressStatus.FINISHED.equals(getProgressStatus())
 		&& !PaymentStatus.DONE.equals(getPaymentStatus());
@@ -231,4 +238,5 @@ public interface RequestRow<T extends InsuranceRequest> {
     default boolean isCanDelete() {
 	return !InsuranceRequestStatus.REQUEST_CANCELED.equals(getInsuranceRequestStatus());
     }
+
 }

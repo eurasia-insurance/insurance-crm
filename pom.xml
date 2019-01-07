@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>tech.lapsa.maven</groupId>
@@ -25,9 +26,12 @@
 		<java-commons.version>CURRENT-SNAPSHOT</java-commons.version>
 		<!-- validation -->
 		<javax-validation-commons.version>CURRENT-SNAPSHOT</javax-validation-commons.version>
+		<javax-faces-commons.version>CURRENT-SNAPSHOT</javax-faces-commons.version>
+		<javax-cdi-commons.version>CURRENT-SNAPSHOT</javax-cdi-commons.version>
 		<payara-hibernate-validation.version>CURRENT-SNAPSHOT</payara-hibernate-validation.version>
 		<!-- tech -->
 		<insurance-domain.version>CURRENT-SNAPSHOT</insurance-domain.version>
+		<fontawesome-free-jsf.version>CURRENT-SNAPSHOT</fontawesome-free-jsf.version>
 		<!-- EJB clients -->
 		<insurance-dao-client.version>CURRENT-SNAPSHOT</insurance-dao-client.version>
 		<insurance-facade-client.version>CURRENT-SNAPSHOT</insurance-facade-client.version>
@@ -38,7 +42,6 @@
 		<lapsa-lib.version>CURRENT-SNAPSHOT</lapsa-lib.version>
 		<reports-lib.version>CURRENT-SNAPSHOT</reports-lib.version>
 		<!-- faces -->
-		<javax-faces-commons.version>CURRENT-SNAPSHOT</javax-faces-commons.version>
 		<lapsa-primefaces.version>CURRENT-SNAPSHOT</lapsa-primefaces.version>
 		<insurance-faces.version>CURRENT-SNAPSHOT</insurance-faces.version>
 		<primefaces.version>6.1.13</primefaces.version>
@@ -83,6 +86,11 @@
 				<version>${javax-faces-commons.version}</version>
 			</dependency>
 			<dependency>
+				<groupId>tech.lapsa.javax</groupId>
+				<artifactId>javax-cdi-commons</artifactId>
+				<version>${javax-cdi-commons.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>tech.lapsa.lapsa</groupId>
 				<artifactId>lapsa-primefaces</artifactId>
 				<version>${lapsa-primefaces.version}</version>
@@ -121,6 +129,11 @@
 				<groupId>tech.lapsa.payara</groupId>
 				<artifactId>payara-hibernate-validation</artifactId>
 				<version>${payara-hibernate-validation.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>tech.lapsa.lapsa</groupId>
+				<artifactId>fontawesome-free-jsf</artifactId>
+				<version>${fontawesome-free-jsf.version}</version>
 			</dependency>
 			<!-- oldies -->
 			<dependency>

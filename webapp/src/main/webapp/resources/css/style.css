@@ -12,7 +12,7 @@
 	color: #DDDDDD;
 }
 
-.request-icon .fa {
+.request-icon .fas, .request-icon .fa, .request-icon .far {
 	font-size: 18px;
 }
 
@@ -24,23 +24,23 @@
 	color: #f78818;
 }
 
-.icon-success, .icon-policy-issued, .icon-premium-paid {
+.icon-new {
+	color: #0000ff;
+}
+
+.icon-success, .icon-premium-paid {
 	color: #00FF00;
 }
 
-.icon-new {
-	color: #0000ff;
+.icon-policy-issued {
+	color: #ffcc00;
 }
 
 .icon-fail, .icon-request-canceled {
 	color: #FF0000;
 }
 
-.icon-pending {
-	color: #eae733;
-}
-
-.icon-on-process, .icon-unknown {
+.icon-on-process, .icon-unknown, .icon-pending {
 	color: #CCCCCC;
 }
 

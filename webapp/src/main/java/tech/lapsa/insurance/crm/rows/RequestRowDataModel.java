@@ -251,13 +251,18 @@ public abstract class RequestRowDataModel<T extends InsuranceRequest> implements
     }
 
     @Override
-    public boolean isCanComplete() {
-	return RequestRow.super.isCanComplete();
+    public boolean isCanIssuePolicy() {
+	return RequestRow.super.isCanIssuePolicy();
     }
 
     @Override
-    public boolean isCanUncomplete() {
-	return RequestRow.super.isCanUncomplete();
+    public boolean isCanCreateInvoice() {
+	return RequestRow.super.isCanCreateInvoice();
+    }
+
+    @Override
+    public boolean isCanCancel() {
+	return RequestRow.super.isCanCancel();
     }
 
     @Override

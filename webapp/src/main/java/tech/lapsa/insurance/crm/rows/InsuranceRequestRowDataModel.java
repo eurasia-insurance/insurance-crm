@@ -36,6 +36,11 @@ public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> e
     }
 
     @Override
+    public boolean isPending() {
+	return InsuranceRequestStatus.PENDING.equals(getInsuranceRequestStatus());
+    }
+
+    @Override
     public boolean isRequestCanceled() {
 	return InsuranceRequestStatus.REQUEST_CANCELED.equals(getInsuranceRequestStatus());
     }

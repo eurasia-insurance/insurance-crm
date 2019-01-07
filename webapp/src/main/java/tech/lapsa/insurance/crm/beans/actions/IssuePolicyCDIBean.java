@@ -4,10 +4,10 @@ import static com.lapsa.utils.security.SecurityUtils.*;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Currency;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
@@ -17,15 +17,16 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.constraints.Min;
 
+import com.lapsa.insurance.domain.CalculationData;
 import com.lapsa.insurance.domain.InsuranceRequest;
-import com.lapsa.insurance.domain.Request;
+import com.lapsa.insurance.domain.InsurantData;
+import com.lapsa.insurance.domain.PersonalData;
 import com.lapsa.insurance.domain.policy.Policy;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
 import tech.lapsa.insurance.crm.beans.RequestsSelectionCDIBean;
 import tech.lapsa.insurance.crm.beans.i.CurrentUserHolder;
 import tech.lapsa.insurance.crm.rows.RequestRow;
-import tech.lapsa.insurance.crm.validation.UniqueAgreementNumber;
 import tech.lapsa.insurance.crm.validation.ValidPolicyAgreementByNumber;
 import tech.lapsa.insurance.crm.validation.ValidPolicyNumber;
 import tech.lapsa.insurance.facade.InsuranceRequestFacade.InsuranceRequestFacadeRemote;
@@ -34,23 +35,25 @@ import tech.lapsa.insurance.facade.PolicyNotFound;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.exceptions.IllegalState;
 import tech.lapsa.java.commons.function.MyExceptions;
+import tech.lapsa.java.commons.function.MyOptionals;
 import tech.lapsa.javax.validation.NotEmptyString;
 import tech.lapsa.javax.validation.NotNullValue;
+import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 
-@Named("transactionComplete")
+@Named("issuePolicy")
 @RequestScoped
-public class TransactionCompleteCDIBean implements Serializable {
+public class IssuePolicyCDIBean implements ActionCDIBean, Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Named("transactionCompleteCheck")
+    @Named("issuePolicyCheck")
     @Dependent
-    public static class TransactionCompleteCheckCDIBean
+    public static class IssuePolicyCheckCDIBean
 	    extends AActionChecker
 	    implements Serializable {
 
-	public TransactionCompleteCheckCDIBean() {
-	    super(TransactionCompleteCDIBean::checkActionAllowed);
+	public IssuePolicyCheckCDIBean() {
+	    super(IssuePolicyCDIBean::checkActionAllowed);
 	}
 
 	private static final long serialVersionUID = 1L;
@@ -61,24 +64,51 @@ public class TransactionCompleteCDIBean implements Serializable {
 	return isInRole(InsuranceRoleGroup.CHANGERS) //
 		&& rrs != null
 		&& rrs.isSingleSelected() //
-		&& rrs.getSingleRow().isCanComplete() //
+		&& rrs.getSingleRow().isCanIssuePolicy() //
 	;
     }
 
-    // paidable
+    // agreementNumber
 
-    private boolean paidable = false;
+    @NotNullValue(message = "Укажите номер договора")
+    @NotEmptyString(message = "Укажите номер договора")
+    @ValidPolicyNumber
+    @ValidPolicyAgreementByNumber
+    // @UniqueAgreementNumber
+    private String agreementNumber;
 
-    public boolean isPaidable() {
-	return paidable;
+    public String getAgreementNumber() {
+	return agreementNumber;
     }
 
-    // wasPaidBefore
+    public void setAgreementNumber(String agreementNumber) {
+	this.agreementNumber = agreementNumber;
+    }
 
-    private boolean wasPaidBefore;
+    // payerName
 
-    public boolean isWasPaidBefore() {
-	return wasPaidBefore;
+    @NotNullValue(message = "Укажите имя плательщика")
+    private String payerName;
+
+    public String getPayerName() {
+	return payerName;
+    }
+
+    public void setPayerName(String payerName) {
+	this.payerName = payerName;
+    }
+
+    // payeeTaxpayerNumber
+
+    @NotNullValue(message = "Укажите ИИН плательщика")
+    private TaxpayerNumber payeeTaxpayerNumber;
+
+    public TaxpayerNumber getPayeeTaxpayerNumber() {
+	return payeeTaxpayerNumber;
+    }
+
+    public void setPayeeTaxpayerNumber(TaxpayerNumber payeeTaxpayerNumber) {
+	this.payeeTaxpayerNumber = payeeTaxpayerNumber;
     }
 
     // paidAmount
@@ -92,8 +122,6 @@ public class TransactionCompleteCDIBean implements Serializable {
     }
 
     public void setPaidAmount(Double paidAmount) {
-	if (wasPaidBefore)
-	    throw MyExceptions.illegalStateFormat("Already paid");
 	this.paidAmount = paidAmount;
     }
 
@@ -107,8 +135,6 @@ public class TransactionCompleteCDIBean implements Serializable {
     }
 
     public void setPaidInstant(Instant paidInstant) {
-	if (wasPaidBefore)
-	    throw MyExceptions.illegalStateFormat("Already paid");
 	this.paidInstant = paidInstant;
     }
 
@@ -122,8 +148,6 @@ public class TransactionCompleteCDIBean implements Serializable {
     }
 
     public void setPaidReference(String paidReference) {
-	if (wasPaidBefore)
-	    throw MyExceptions.illegalStateFormat("Already paid");
 	this.paidReference = paidReference;
     }
 
@@ -137,26 +161,15 @@ public class TransactionCompleteCDIBean implements Serializable {
     }
 
     public void setPaidCurrency(Currency paidCurrency) {
-	if (wasPaidBefore)
-	    throw MyExceptions.illegalStateFormat("Already paid");
 	this.paidCurrency = paidCurrency;
     }
 
-    // agreementNumber
+    // fetchedPolicy
 
-    @NotNullValue(message = "Укажите номер договора")
-    @NotEmptyString(message = "Укажите номер договора")
-    @ValidPolicyNumber
-    @ValidPolicyAgreementByNumber
-    @UniqueAgreementNumber
-    private String agreementNumber;
+    private Policy fetchedPolicy;
 
-    public String getAgreementNumber() {
-	return agreementNumber;
-    }
-
-    public void setAgreementNumber(String agreementNumber) {
-	this.agreementNumber = agreementNumber;
+    public Policy getFetchedPolicy() {
+	return fetchedPolicy;
     }
 
     @EJB
@@ -164,51 +177,46 @@ public class TransactionCompleteCDIBean implements Serializable {
 
     public void agreementNumberChanged(ValueChangeEvent event) {
 	try {
-	    final Policy fetchedPolicy = policies.getByNumber((String) event.getNewValue());
-	    fetchedInsurantName = fetchedPolicy.getInsurant().getPersonal().getFullName();
-	    fetchedPolicyAmount = fetchedPolicy.getActual().getAmount();
-	    fetchedPolicyDate = fetchedPolicy.getDateOfIssue();
+	    fetchedPolicy = policies.getByNumber((String) event.getNewValue());
 	} catch (PolicyNotFound e) {
 	    throw new FacesException(e);
 	} catch (IllegalArgument e) {
 	    throw new FacesException(e);
 	}
-    }
 
-    // fetchedInsurantName
+	if (fetchedPolicy.getPaymentDate() != null) {
 
-    private String fetchedInsurantName;
+	    paidAmount = MyOptionals.of(fetchedPolicy)
+		    .map(Policy::getActual)
+		    .map(CalculationData::getAmount)
+		    .orElseThrow(() -> new FacesException("Fetched policy doesn't have premium amount data"));
 
-    public String getFetchedInsurantName() {
-	return fetchedInsurantName;
-    }
+	    paidCurrency = MyOptionals.of(fetchedPolicy)
+		    .map(Policy::getActual)
+		    .map(CalculationData::getCurrency)
+		    .orElseThrow(() -> new FacesException("Fetched policy doesn't have premium currency data"));
 
-    // fetchedPolicyAmount
+	    paidInstant = MyOptionals.of(fetchedPolicy)
+		    .map(Policy::getPaymentDate)
+		    .map(it -> it.atStartOfDay(ZoneId.systemDefault()))
+		    .map(ZonedDateTime::toInstant)
+		    .orElseThrow(() -> new FacesException("Fetched policy doesn't have date of payment"));
 
-    private Double fetchedPolicyAmount;
+	    paidReference = null;
 
-    public Double getFetchedPolicyAmount() {
-	return fetchedPolicyAmount;
-    }
+	    payerName = MyOptionals.of(fetchedPolicy)
+		    .map(Policy::getInsurant)
+		    .map(InsurantData::getPersonal)
+		    .map(PersonalData::getFullName)
+		    .orElseThrow(() -> new FacesException("Fetched policy doesn't have payer name"));
 
-    // fetchedPolicyDate
+	    payeeTaxpayerNumber = MyOptionals.of(fetchedPolicy)
+		    .map(Policy::getInsurant)
+		    .map(InsurantData::getIdNumber)
+		    .orElseThrow(() -> new FacesException("Fetched policy doesn't have id number"));
 
-    private LocalDate fetchedPolicyDate;
+	}
 
-    public LocalDate getFetchedPolicyDate() {
-	return fetchedPolicyDate;
-    }
-
-    // payerName
-
-    private String payerName;
-
-    public String getPayerName() {
-	return payerName;
-    }
-
-    public void setPayerName(String payerName) {
-	this.payerName = payerName;
     }
 
     // CDIs
@@ -226,7 +234,8 @@ public class TransactionCompleteCDIBean implements Serializable {
     @EJB
     private InsuranceRequestFacadeRemote insuranceRequests;
 
-    public String doComplete() throws FacesException, IllegalStateException, IllegalArgumentException {
+    @Override
+    public String doAction() throws FacesException, IllegalStateException, IllegalArgumentException {
 	checkRoleGranted(InsuranceRoleGroup.CHANGERS);
 
 	rrs.refresh();
@@ -234,23 +243,22 @@ public class TransactionCompleteCDIBean implements Serializable {
 	if (!checkActionAllowed(rrs))
 	    throw MyExceptions.format(FacesException::new, "Is invalid for unconmpleting transactions");
 
-	final InsuranceRequest r1 = rrs.getSingleRow().getEntity();
+	final InsuranceRequest ir1 = rrs.getSingleRow().getEntity();
 
 	try {
-	    final Request res;
-	    if (paidable && !wasPaidBefore)
-		res = insuranceRequests.policyIssuedAndPremiumPaid(r1,
-			currentUser.getValue(),
-			agreementNumber,
+	    InsuranceRequest ir2 = insuranceRequests.policyIssued(ir1, currentUser.getValue(), agreementNumber);
+	    if (paidInstant != null) {
+		ir2 = insuranceRequests.premiumPaid(ir2,
 			"Введено вручную",
+			paidInstant,
 			paidAmount,
 			paidCurrency,
-			paidInstant,
-			paidReference,
+			null,
+			null,
+			null,
 			payerName);
-	    else
-		res = insuranceRequests.policyIssued(r1, currentUser.getValue(), agreementNumber);
-	    rrs.setSingleRow(RequestRow.from(res));
+	    }
+	    rrs.setSingleRow(RequestRow.from(ir2));
 	} catch (IllegalState e1) {
 	    throw e1.getRuntime();
 	} catch (IllegalArgument e1) {
@@ -259,24 +267,5 @@ public class TransactionCompleteCDIBean implements Serializable {
 	    // rrs.reset();
 	}
 	return null;
-    }
-
-    @PostConstruct
-    public void init() { // default values
-	final RequestRow<?> rr = rrs.getSingleRow();
-	if (rr != null) {
-	    this.paidable = rr.getPayment() != null;
-	    this.wasPaidBefore = paidable && rr.getPaymentInstant() != null;
-	    this.payerName = rr.getRequesterName();
-	    if (wasPaidBefore) {
-		this.paidInstant = rr.getPaymentInstant();
-		this.paidAmount = rr.getPaymentAmount();
-		this.paidCurrency = rr.getPaymentCurrency();
-	    } else {
-		this.paidInstant = Instant.now();
-		this.paidAmount = rr.getCalculatedAmount();
-		this.paidCurrency = Currency.getInstance("KZT");
-	    }
-	}
     }
 }

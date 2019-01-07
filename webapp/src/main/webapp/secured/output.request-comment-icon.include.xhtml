@@ -8,15 +8,16 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<c:set var="iconNoteClass"
-		value="#{empty rr.note ? 'fa-comment-o icon-note-no' : 'fa-comment icon-note-has'}" />
+		value="#{empty rr.note ? 'far fa-comments icon-note-no' : 'fas fa-comments icon-note-has'}" />
 
 	<p:commandLink process="@this" update="@form:commentRequestDialog"
 		oncomplete="PF('commentRequestDialogWV').show(); return false;">
 		<h:panelGroup styleClass="request-icon" id="noteIconWrapper">
-			<h:panelGroup styleClass="fa #{iconNoteClass}" />
+			<h:panelGroup styleClass="#{iconNoteClass}" />
 		</h:panelGroup>
 		<f:setPropertyActionListener value="#{rr}" target="#{rqst.singleRow}" />
 	</p:commandLink>
+
 	<p:tooltip for="noteIconWrapper" trackMouse="true">
 		<h:outputText value="Нажмите, чтобы оставить комментарий"
 			styleClass="add-comment-message" />

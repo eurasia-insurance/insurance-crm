@@ -35,7 +35,7 @@
 									</p:inputText>
 								</p:column>
 							</p:row>
-							<p:row>
+							<p:row rendered="#{not empty issuePolicy.paidAmount or not empty issuePolicy.paidCurrency}">
 								<p:column>
 									<p:outputLabel value="Фактически оплачено" />
 								</p:column>
@@ -45,7 +45,7 @@
 									<h:inputHidden value="#{issuePolicy.paidCurrency}" converter="currencyConverter" />
 								</p:column>
 							</p:row>
-							<p:row>
+							<p:row rendered="#{not empty issuePolicy.paidInstant}">
 								<p:column>
 									<p:outputLabel value="Дата и время оплаты" />
 								</p:column>
@@ -54,7 +54,7 @@
 									<h:inputHidden value="#{issuePolicy.paidInstant}" converter="instantConverter" />
 								</p:column>
 							</p:row>
-							<p:row>
+							<p:row rendered="#{not empty issuePolicy.payerName}">
 								<p:column>
 									<p:outputLabel value="Плательщик" />
 								</p:column>
@@ -63,7 +63,7 @@
 									<h:inputHidden value="#{issuePolicy.payerName}" />
 								</p:column>
 							</p:row>
-							<p:row>
+							<p:row rendered="#{not empty issuePolicy.payeeTaxpayerNumber}">
 								<p:column>
 									<p:outputLabel value="ИИН" />
 								</p:column>

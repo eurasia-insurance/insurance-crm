@@ -33,6 +33,7 @@ import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
 import tech.lapsa.insurance.crm.beans.RequestsSelectionCDIBean;
 import tech.lapsa.insurance.crm.beans.i.CurrentUserHolder;
 import tech.lapsa.insurance.crm.rows.RequestRow;
+import tech.lapsa.insurance.crm.validation.UniqueAgreementNumber;
 import tech.lapsa.insurance.crm.validation.ValidPolicyAgreementByNumber;
 import tech.lapsa.insurance.crm.validation.ValidPolicyNumber;
 import tech.lapsa.insurance.facade.InsuranceRequestFacade.InsuranceRequestFacadeRemote;
@@ -82,7 +83,7 @@ public class CreateInvoiceCDIBean implements ActionCDIBean, Serializable {
     @NotEmptyString(message = "Укажите номер договора")
     @ValidPolicyNumber
     @ValidPolicyAgreementByNumber
-    // @UniqueAgreementNumber
+    @UniqueAgreementNumber
     private String agreementNumber;
 
     public String getAgreementNumber() {

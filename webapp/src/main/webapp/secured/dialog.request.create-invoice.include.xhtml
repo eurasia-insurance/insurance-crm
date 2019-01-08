@@ -100,7 +100,7 @@
 										<p:outputLabel value="ИИН плательщика" for="invoicePayeeTaxpayerNumber" />
 									</p:column>
 									<p:column>
-										<p:inputText id="invoicePayeeTaxpayerNumber" value="#{createInvoice.invoicePayeeTaxpayerNumber}" converter="taxpayerNumberConverter">
+										<p:inputText id="invoicePayeeTaxpayerNumber" value="#{createInvoice.invoicePayeeTaxpayerNumber}">
 											<p:ajax process="@this" update="@this" />
 										</p:inputText>
 									</p:column>
@@ -120,7 +120,7 @@
 								</p:row>
 							</p:panelGrid>
 
-							<h:inputHidden value="#{createInvoice.invoiceCurrency}" converter="currencyConverter" />
+							<h:inputHidden value="#{createInvoice.invoiceCurrency}" />
 							<h:inputHidden value="#{createInvoice.invoiceQuantity}" />
 
 						</h:panelGroup>

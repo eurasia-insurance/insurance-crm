@@ -41,10 +41,10 @@
 						<h:panelGroup id="details">
 
 							<h:inputHidden value="#{policyPaid.paidAmount}" />
-							<h:inputHidden value="#{policyPaid.paidCurrency}" converter="currencyConverter" />
-							<h:inputHidden value="#{policyPaid.paidInstant}" converter="instantConverter" />
+							<h:inputHidden value="#{policyPaid.paidCurrency}" />
+							<h:inputHidden value="#{policyPaid.paidInstant}" />
 							<h:inputHidden value="#{policyPaid.payerName}" />
-							<h:inputHidden value="#{policyPaid.payeeTaxpayerNumber}" converter="taxpayerNumberConverter" />
+							<h:inputHidden value="#{policyPaid.payeeTaxpayerNumber}" />
 
 							<p:panelGrid>
 								<p:row>
@@ -76,7 +76,7 @@
 										<p:outputLabel value="ИИН" />
 									</p:column>
 									<p:column>
-										<h:outputText value="#{policyPaid.payeeTaxpayerNumber}" converter="taxpayerNumberConverter" />
+										<h:outputText value="#{policyPaid.payeeTaxpayerNumber}" />
 									</p:column>
 								</p:row>
 							</p:panelGrid>

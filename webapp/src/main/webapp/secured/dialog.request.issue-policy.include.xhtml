@@ -53,21 +53,11 @@
 
 						<h:panelGroup id="details">
 
-							<p:inputText id="paidAmount" value="#{issuePolicy.paidAmount}">
-								<p:ajax process="@this, paidStatus" update="@this" />
-							</p:inputText>
-							<p:inputText id="paidCurrency" value="#{issuePolicy.paidCurrency}" converter="currencyConverter">
-								<p:ajax process="@this, paidStatus" update="@this" />
-							</p:inputText>
-							<p:inputText id="paidInstant" value="#{issuePolicy.paidInstant}" converter="instantConverter">
-								<p:ajax process="@this, paidStatus" update="@this" />
-							</p:inputText>
-							<p:inputText id="payerName" value="#{issuePolicy.payerName}">
-								<p:ajax process="@this, paidStatus" update="@this" />
-							</p:inputText>
-							<p:inputText id="payeeTaxpayerNumber" value="#{issuePolicy.payeeTaxpayerNumber}" converter="taxpayerNumberConverter">
-								<p:ajax process="@this, paidStatus" update="@this" />
-							</p:inputText>
+							<h:inputHidden value="#{issuePolicy.paidAmount}" />
+							<h:inputHidden value="#{issuePolicy.paidCurrency}" converter="currencyConverter" />
+							<h:inputHidden value="#{issuePolicy.paidInstant}" converter="instantConverter" />
+							<h:inputHidden value="#{issuePolicy.payerName}" />
+							<h:inputHidden value="#{issuePolicy.payeeTaxpayerNumber}" converter="taxpayerNumberConverter" />
 
 							<p:panelGrid>
 								<p:row rendered="#{not empty issuePolicy.paidAmount or not empty issuePolicy.paidCurrency}">

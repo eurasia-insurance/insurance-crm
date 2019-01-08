@@ -220,14 +220,13 @@ public interface RequestRow<T extends InsuranceRequest> {
 		&& InsuranceRequestStatus.PENDING.equals(getInsuranceRequestStatus());
     }
 
-    default boolean isCanComment() {
-	return true;
-    }
-
     default boolean isCanCancel() {
 	return isInbox()
-		&& !ProgressStatus.FINISHED.equals(getProgressStatus())
-		&& !PaymentStatus.DONE.equals(getPaymentStatus());
+		&& InsuranceRequestStatus.PENDING.equals(getInsuranceRequestStatus());
+    }
+
+    default boolean isCanComment() {
+	return true;
     }
 
     default boolean isCanArchive() {

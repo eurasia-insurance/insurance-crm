@@ -44,7 +44,7 @@
 		<!-- faces -->
 		<lapsa-primefaces.version>CURRENT-SNAPSHOT</lapsa-primefaces.version>
 		<insurance-faces.version>CURRENT-SNAPSHOT</insurance-faces.version>
-		<primefaces.version>6.1.13</primefaces.version>
+		<primefaces.version>6.2.13</primefaces.version>
 		<primefaces-themes.version>1.0.10</primefaces-themes.version>
 		<primefaces-extensions.version>6.1.1</primefaces-extensions.version>
 		<omnifaces.version>2.5.1</omnifaces.version>

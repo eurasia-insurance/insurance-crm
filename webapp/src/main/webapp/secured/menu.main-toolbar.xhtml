@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:o="http://omnifaces.org/ui"
-	xmlns:comp="http://xmlns.jcp.org/jsf/composite"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:pe="http://primefaces.org/ui/extensions"
-	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:o="http://omnifaces.org/ui"
+	xmlns:comp="http://xmlns.jcp.org/jsf/composite" xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 
 	<o:importConstants type="tech.lapsa.insurance.crm.beans.i.RequestType" />
 
@@ -20,12 +12,9 @@
 
 				<h:panelGroup rendered="#{canView}">
 
-					<p:commandButton icon="fas fa-sync-alt" process="@this"
-						update="requestToolbar #{update}" />
+					<p:commandButton icon="fas fa-sync-alt" process="@this" update="requestToolbar #{update}" />
 
-					<p:selectBooleanButton value="#{settings.autoRefresh}"
-						onLabel="Автообновление" offLabel="Автообновление"
-						onIcon="fas fa-check" offIcon="">
+					<p:selectBooleanButton value="#{settings.autoRefresh}" onLabel="Автообновление" offLabel="Автообновление" onIcon="fas fa-check" offIcon="">
 						<p:ajax process="@this" update="@form:autoRefreshPoll" />
 					</p:selectBooleanButton>
 
@@ -33,10 +22,7 @@
 						<h:panelGroup class="ui-icon ui-icon-grip-dotted-vertical" />
 					</h:panelGroup>
 
-					<p:commandButton value="Открыть..."
-						disabled="#{not viewRequestCheck.allowed}" process="@this"
-						update="@form:requestDialog"
-						oncomplete="PF('requestDialogWV').show(); return false;">
+					<p:commandButton value="Открыть..." disabled="#{not viewRequestCheck.allowed}" process="@this" update="@form:requestDialog" oncomplete="PF('requestDialogWV').show(); return false;">
 						<p:resetInput target="@form:requestDialog" />
 					</p:commandButton>
 
@@ -48,48 +34,25 @@
 
 				<h:panelGroup rendered="#{canChange}">
 
-					<p:commandButton value="Начать обработку"
-						icon="fas fa-play-circle"
-						disabled="#{not pickRequestCheck.allowed}"
-						action="#{pickRequest.doPick}" process="@this"
-						update="requestToolbar #{update}" />
+					<p:commandButton value="Начать обработку" icon="fas fa-play-circle" disabled="#{not pickRequestCheck.allowed}" action="#{pickRequest.doPick}" process="@this" update="requestToolbar #{update}" />
 
-					<p:commandButton value="Приостановить" icon="fas fa-pause-circle"
-						disabled="#{not pauseRequestCheck.allowed}"
-						action="#{pauseRequest.doPause}" process="@this"
-						update="requestToolbar #{update}" />
+					<p:commandButton value="Приостановить" icon="fas fa-pause-circle" disabled="#{not pauseRequestCheck.allowed}" action="#{pauseRequest.doPause}" process="@this" update="requestToolbar #{update}" />
 
-					<p:commandButton value="Возобновить" icon="fas fa-play-circle"
-						disabled="#{not resumeRequestCheck.allowed}"
-						action="#{resumeRequest.doResume}" process="@this"
-						update="requestToolbar #{update}" />
+					<p:commandButton value="Возобновить" icon="fas fa-play-circle" disabled="#{not resumeRequestCheck.allowed}" action="#{resumeRequest.doResume}" process="@this" update="requestToolbar #{update}" />
 
-					<p:commandButton value="Договор заключен..." icon="fas fa-check-circle"
-						disabled="#{not issuePolicyCheck.allowed}" process="@this"
-						update="@form:issuePolicyDialog"
-						oncomplete="PF('issuePolicyDialogWV').show(); return false;">
+					<p:commandButton value="Полис выпущен..." icon="fas fa-check-circle" rendered="#{issuePolicyCheck.allowed}" process="@this" update="@form:issuePolicyDialog" oncomplete="PF('issuePolicyDialogWV').show(); return false;">
 						<p:resetInput target="@form:issuePolicyDialog" />
 					</p:commandButton>
 
-					<p:commandButton value="Договор не заключен..." icon="fas fa-ban"
-						disabled="#{not cancelRequestCheck.allowed}"
-						process="@this" update="@form:cancelRequestDialog"
-						oncomplete="PF('cancelRequestDialogWV').show(); return false;">
+					<p:commandButton value="Заявка отменена..." icon="fas fa-ban" rendered="#{cancelRequestCheck.allowed}" process="@this" update="@form:cancelRequestDialog" oncomplete="PF('cancelRequestDialogWV').show(); return false;">
 						<p:resetInput target="@form:cancelRequestDialog" />
 					</p:commandButton>
 
 				</h:panelGroup>
 
-				<p:commandButton value="В архив" icon="fas fa-archive"
-					rendered="#{canClose}" disabled="#{not archiveRequestCheck.allowed}"
-					action="#{archiveRequest.doAction}" process="@this"
-					update="requestToolbar #{update}" />
+				<p:commandButton value="В архив" icon="fas fa-archive" rendered="#{canClose}" disabled="#{not archiveRequestCheck.allowed}" action="#{archiveRequest.doAction}" process="@this" update="requestToolbar #{update}" />
 
-				<p:commandButton value="Удалить..." icon="fas fa-trash-alt"
-					rendered="#{canDelete}"
-					disabled="#{not deleteRequestCheck.allowed}" process="@this"
-					update="@form:deleteRequestDialog"
-					oncomplete="PF('deleteRequestDialogWV').show(); return false;">
+				<p:commandButton value="Удалить..." icon="fas fa-trash-alt" rendered="#{canDelete}" disabled="#{not deleteRequestCheck.allowed}" process="@this" update="@form:deleteRequestDialog" oncomplete="PF('deleteRequestDialogWV').show(); return false;">
 					<p:resetInput target="@form:deleteRequestDialog" />
 				</p:commandButton>
 

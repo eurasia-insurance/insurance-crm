@@ -36,6 +36,26 @@ public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> e
     }
 
     @Override
+    public boolean isPending() {
+	return InsuranceRequestStatus.PENDING.equals(getInsuranceRequestStatus());
+    }
+
+    @Override
+    public boolean isRequestCanceled() {
+	return InsuranceRequestStatus.REQUEST_CANCELED.equals(getInsuranceRequestStatus());
+    }
+
+    @Override
+    public boolean isPolicyIssued() {
+	return InsuranceRequestStatus.POLICY_ISSUED.equals(getInsuranceRequestStatus());
+    }
+
+    @Override
+    public boolean isPremiumPaid() {
+	return InsuranceRequestStatus.PREMIUM_PAID.equals(getInsuranceRequestStatus());
+    }
+
+    @Override
     public InsuranceRequestCancellationReason getInsuranceRequestCancellationReason() {
 	try {
 	    return entity.getInsuranceRequestCancellationReason();
@@ -228,7 +248,6 @@ public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> e
 	    return null;
 	}
     }
-
 
     @Override
     public Double getInvoiceAmount() {

@@ -18,29 +18,29 @@ import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
 import tech.lapsa.insurance.crm.beans.RequestsSelectionCDIBean;
 import tech.lapsa.insurance.crm.beans.i.CurrentUserHolder;
 import tech.lapsa.insurance.crm.rows.RequestRow;
-import tech.lapsa.insurance.facade.RequestCompletionFacade.RequestCompletionFacadeRemote;
+import tech.lapsa.insurance.facade.InsuranceRequestFacade.InsuranceRequestFacadeRemote;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.exceptions.IllegalState;
 import tech.lapsa.java.commons.function.MyCollectors;
 import tech.lapsa.java.commons.function.MyExceptions;
 import tech.lapsa.javax.validation.NotNullValue;
 
-@Named("transactionUncomplete")
+@Named("cancelRequest")
 @RequestScoped
-public class TransactionUncompleteCDIBean implements Serializable {
+public class CancelRequestCDIBean implements ActionCDIBean, Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Named("transactionUncompleteCheck")
+    @Named("cancelRequestCheck")
     @Dependent
-    public static class TransactionUncompleteCheckCDIBean
+    public static class CancelRequestCheckCDIBean
 	    extends AActionChecker
 	    implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public TransactionUncompleteCheckCDIBean() {
-	    super(TransactionUncompleteCDIBean::checkActionAllowed);
+	public CancelRequestCheckCDIBean() {
+	    super(CancelRequestCDIBean::checkActionAllowed);
 	}
     }
 
@@ -49,7 +49,7 @@ public class TransactionUncompleteCDIBean implements Serializable {
 		&& rrs != null
 		&& rrs.isAnySelected() //
 		&& rrs.getValueAsStream() //
-			.allMatch(RequestRow::isCanUncomplete) //
+			.allMatch(RequestRow::isCanCancelRequest) //
 	;
     }
 
@@ -76,14 +76,12 @@ public class TransactionUncompleteCDIBean implements Serializable {
     @Inject
     private RequestsSelectionCDIBean rrs;
 
-    // EJBs
-
     // insurance-facade (remote)
 
     @EJB
-    private RequestCompletionFacadeRemote completions;
+    private InsuranceRequestFacadeRemote insuranceRequests;
 
-    public String doUncomplete() throws FacesException, IllegalStateException, IllegalArgumentException {
+    public String doAction() throws FacesException, IllegalStateException, IllegalArgumentException {
 	checkRoleGranted(InsuranceRoleGroup.CHANGERS);
 
 	rrs.refresh();
@@ -95,9 +93,7 @@ public class TransactionUncompleteCDIBean implements Serializable {
 	    final List<RequestRow<?>> res = rrs.getValueAsStream() //
 		    .map(r -> {
 			try {
-			    final boolean paidable = r.getPayment() != null;
-			    return completions.transactionUncomplete(r.getEntity(), currentUser.getValue(), reason,
-				    paidable);
+			    return insuranceRequests.requestCanceled(r.getEntity(), currentUser.getValue(), reason);
 			} catch (IllegalState e) {
 			    throw new FacesException(e.getRuntime());
 			} catch (IllegalArgument e) {

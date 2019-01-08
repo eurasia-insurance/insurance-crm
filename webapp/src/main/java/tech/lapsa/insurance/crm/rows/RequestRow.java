@@ -30,7 +30,7 @@ import tech.lapsa.java.commons.function.MyCollectors;
 import tech.lapsa.java.commons.function.MyObjects;
 import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 
-public interface RequestRow<T extends Request> {
+public interface RequestRow<T extends InsuranceRequest> {
 
     public static RequestRow<?> from(final Request request) throws IllegalArgumentException {
 	MyObjects.requireNonNull(request, "request");
@@ -66,6 +66,14 @@ public interface RequestRow<T extends Request> {
     ProgressStatus getProgressStatus();
 
     InsuranceRequestStatus getInsuranceRequestStatus();
+
+    boolean isPending();
+
+    boolean isRequestCanceled();
+
+    boolean isPolicyIssued();
+
+    boolean isPremiumPaid();
 
     InsuranceRequestCancellationReason getInsuranceRequestCancellationReason();
 
@@ -202,19 +210,23 @@ public interface RequestRow<T extends Request> {
 		&& ProgressStatus.ON_HOLD.equals(getProgressStatus());
     }
 
-    default boolean isCanComplete() {
+    default boolean isCanCreateInvoice() {
 	return isInbox()
-		&& !ProgressStatus.FINISHED.equals(getProgressStatus());
+		&& InsuranceRequestStatus.PENDING.equals(getInsuranceRequestStatus());
+    }
+
+    default boolean isCanPolicyPaid() {
+	return isInbox()
+		&& InsuranceRequestStatus.PENDING.equals(getInsuranceRequestStatus());
+    }
+
+    default boolean isCanCancelRequest() {
+	return isInbox()
+		&& InsuranceRequestStatus.PENDING.equals(getInsuranceRequestStatus());
     }
 
     default boolean isCanComment() {
 	return true;
-    }
-
-    default boolean isCanUncomplete() {
-	return isInbox()
-		&& !ProgressStatus.FINISHED.equals(getProgressStatus())
-		&& !PaymentStatus.DONE.equals(getPaymentStatus());
     }
 
     default boolean isCanArchive() {
@@ -223,6 +235,7 @@ public interface RequestRow<T extends Request> {
     }
 
     default boolean isCanDelete() {
-	return !InsuranceRequestStatus.COMPLETED.equals(getInsuranceRequestStatus());
+	return !InsuranceRequestStatus.REQUEST_CANCELED.equals(getInsuranceRequestStatus());
     }
+
 }

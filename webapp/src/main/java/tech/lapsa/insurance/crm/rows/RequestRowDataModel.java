@@ -2,14 +2,14 @@ package tech.lapsa.insurance.crm.rows;
 
 import java.time.Instant;
 
-import com.lapsa.insurance.domain.Request;
+import com.lapsa.insurance.domain.InsuranceRequest;
 import com.lapsa.insurance.domain.RequesterData;
 import com.lapsa.insurance.domain.crm.UTMData;
 import com.lapsa.insurance.domain.crm.User;
 import com.lapsa.insurance.elements.ProgressStatus;
 import com.lapsa.international.localization.LocalizationLanguage;
 
-public abstract class RequestRowDataModel<T extends Request> implements RequestRow<T> {
+public abstract class RequestRowDataModel<T extends InsuranceRequest> implements RequestRow<T> {
 
     protected final T entity;
 
@@ -251,13 +251,18 @@ public abstract class RequestRowDataModel<T extends Request> implements RequestR
     }
 
     @Override
-    public boolean isCanComplete() {
-	return RequestRow.super.isCanComplete();
+    public boolean isCanPolicyPaid() {
+	return RequestRow.super.isCanPolicyPaid();
     }
 
     @Override
-    public boolean isCanUncomplete() {
-	return RequestRow.super.isCanUncomplete();
+    public boolean isCanCreateInvoice() {
+	return RequestRow.super.isCanCreateInvoice();
+    }
+
+    @Override
+    public boolean isCanCancelRequest() {
+	return RequestRow.super.isCanCancelRequest();
     }
 
     @Override

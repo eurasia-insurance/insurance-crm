@@ -19,7 +19,7 @@ import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
 import tech.lapsa.insurance.crm.beans.RequestsSelectionCDIBean;
 import tech.lapsa.insurance.crm.beans.i.CurrentUserHolder;
 import tech.lapsa.insurance.crm.rows.RequestRow;
-import tech.lapsa.insurance.facade.RequestCompletionFacade.RequestCompletionFacadeRemote;
+import tech.lapsa.insurance.facade.RequestFacade.RequestFacadeRemote;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.exceptions.IllegalState;
 import tech.lapsa.java.commons.function.MyExceptions;
@@ -90,7 +90,7 @@ public class CommentRequestCDIBean implements Serializable {
     // insurance-facade (remote)
 
     @EJB
-    private RequestCompletionFacadeRemote completions;
+    private RequestFacadeRemote completions;
 
     public String doComment() {
 	checkRoleGranted(InsuranceRoleGroup.CHANGERS);

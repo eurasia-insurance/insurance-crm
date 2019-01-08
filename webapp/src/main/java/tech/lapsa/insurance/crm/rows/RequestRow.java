@@ -212,15 +212,15 @@ public interface RequestRow<T extends InsuranceRequest> {
 
     default boolean isCanCreateInvoice() {
 	return isInbox()
-		&& InsuranceRequestStatus.POLICY_ISSUED.equals(getInsuranceRequestStatus());
+		&& InsuranceRequestStatus.PENDING.equals(getInsuranceRequestStatus());
     }
 
-    default boolean isCanIssuePolicy() {
+    default boolean isCanPolicyPaid() {
 	return isInbox()
 		&& InsuranceRequestStatus.PENDING.equals(getInsuranceRequestStatus());
     }
 
-    default boolean isCanCancel() {
+    default boolean isCanCancelRequest() {
 	return isInbox()
 		&& InsuranceRequestStatus.PENDING.equals(getInsuranceRequestStatus());
     }

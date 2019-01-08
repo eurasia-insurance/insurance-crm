@@ -49,7 +49,7 @@ public class CancelRequestCDIBean implements ActionCDIBean, Serializable {
 		&& rrs != null
 		&& rrs.isAnySelected() //
 		&& rrs.getValueAsStream() //
-			.allMatch(RequestRow::isCanCancel) //
+			.allMatch(RequestRow::isCanCancelRequest) //
 	;
     }
 

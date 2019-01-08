@@ -251,8 +251,8 @@ public abstract class RequestRowDataModel<T extends InsuranceRequest> implements
     }
 
     @Override
-    public boolean isCanIssuePolicy() {
-	return RequestRow.super.isCanIssuePolicy();
+    public boolean isCanPolicyPaid() {
+	return RequestRow.super.isCanPolicyPaid();
     }
 
     @Override
@@ -261,8 +261,8 @@ public abstract class RequestRowDataModel<T extends InsuranceRequest> implements
     }
 
     @Override
-    public boolean isCanCancel() {
-	return RequestRow.super.isCanCancel();
+    public boolean isCanCancelRequest() {
+	return RequestRow.super.isCanCancelRequest();
     }
 
     @Override

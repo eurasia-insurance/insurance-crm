@@ -3,8 +3,6 @@
 	xmlns:comp="http://xmlns.jcp.org/jsf/composite" xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:jfc="http://lapsa.tech/javax/faces-commons" xmlns:lpf="http://lapsa.tech/primefaces">
 
-	<o:importConstants type="tech.lapsa.insurance.crm.beans.actions.IssuePolicyCDIBean.PaidStatus" />
-
 	<f:subview>
 
 		<style>
@@ -17,10 +15,10 @@
 }
 </style>
 		<!-- >> rendered -->
-		<h:panelGroup rendered="#{issuePolicyCheck.allowed}">
+		<h:panelGroup rendered="#{policyPaidCheck.allowed}">
 
 			<!-- >> dialog -->
-			<p:dialog widgetVar="#{dialogWV}" header="Данные о заключенном договоре" closeOnEscape="false" modal="true" closable="false" resizable="false" position="center top" width="740" height="480">
+			<p:dialog widgetVar="#{dialogWV}" header="Договор оплачен" closeOnEscape="false" modal="true" closable="false" resizable="false" position="center top" width="740" height="480">
 
 				<!-- >> wrapper -->
 				<h:panelGroup id="content">
@@ -32,157 +30,56 @@
 									<p:outputLabel value="Номер договора" for="agreementNumber" />
 								</p:column>
 								<p:column styleClass="policy-issued-form-col2">
-									<p:inputText id="agreementNumber" value="#{issuePolicy.agreementNumber}">
+									<p:inputText id="agreementNumber" value="#{policyPaid.agreementNumber}" valueChangeListener="#{policyPaid.onAgreementNumberChanged}">
 										<p:ajax process="@this" update="content" />
 									</p:inputText>
-								</p:column>
-							</p:row>
-							<p:row>
-								<p:column>
-									<p:outputLabel value="Статус оплаты" for="paidStatus" />
-								</p:column>
-								<p:column>
-									<p:selectOneRadio id="paidStatus" value="#{issuePolicy.paidStatus}" columns="2">
-										<f:selectItem itemLabel="Оплачен" itemValue="#{PaidStatus.PAID}" />
-										<f:selectItem itemLabel="Сформировать счет" itemValue="#{PaidStatus.NOT_PAID}" />
-										<p:ajax process="@this agreementNumber" update="content" listener="#{issuePolicy.fetchPolicyAndUpdateModel}" />
-									</p:selectOneRadio>
+									<p:commandButton icon="fas fa-angle-right" action="#{policyPaid.doFetchPolicyAndUpdateModel}" process="agreementNumber" update="content" ajax="true" />
 								</p:column>
 							</p:row>
 						</p:panelGrid>
 
 						<h:panelGroup id="details">
 
-							<h:inputHidden value="#{issuePolicy.paidAmount}" />
-							<h:inputHidden value="#{issuePolicy.paidCurrency}" converter="currencyConverter" />
-							<h:inputHidden value="#{issuePolicy.paidInstant}" converter="instantConverter" />
-							<h:inputHidden value="#{issuePolicy.payerName}" />
-							<h:inputHidden value="#{issuePolicy.payeeTaxpayerNumber}" converter="taxpayerNumberConverter" />
+							<h:inputHidden value="#{policyPaid.paidAmount}" />
+							<h:inputHidden value="#{policyPaid.paidCurrency}" converter="currencyConverter" />
+							<h:inputHidden value="#{policyPaid.paidInstant}" converter="instantConverter" />
+							<h:inputHidden value="#{policyPaid.payerName}" />
+							<h:inputHidden value="#{policyPaid.payeeTaxpayerNumber}" converter="taxpayerNumberConverter" />
 
 							<p:panelGrid>
-								<p:row rendered="#{not empty issuePolicy.paidAmount or not empty issuePolicy.paidCurrency}">
+								<p:row>
 									<p:column styleClass="policy-issued-form-col1">
 										<p:outputLabel value="Фактически оплачено" />
 									</p:column>
 									<p:column styleClass="policy-issued-form-col2">
-										<jfc:outputMoneyAmount value="#{issuePolicy.paidAmount}" currency="#{issuePolicy.paidCurrency}" />
+										<jfc:outputMoneyAmount value="#{policyPaid.paidAmount}" currency="#{policyPaid.paidCurrency}" />
 									</p:column>
 								</p:row>
-								<p:row rendered="#{not empty issuePolicy.paidInstant}">
+								<p:row>
 									<p:column>
 										<p:outputLabel value="Дата и время оплаты" />
 									</p:column>
 									<p:column>
-										<jfc:outputInstant value="#{issuePolicy.paidInstant}" />
+										<jfc:outputInstant value="#{policyPaid.paidInstant}" />
 									</p:column>
 								</p:row>
-								<p:row rendered="#{not empty issuePolicy.payerName}">
+								<p:row>
 									<p:column>
 										<p:outputLabel value="Плательщик" />
 									</p:column>
 									<p:column>
-										<h:outputText value="#{issuePolicy.payerName}" />
+										<h:outputText value="#{policyPaid.payerName}" />
 									</p:column>
 								</p:row>
-								<p:row rendered="#{not empty issuePolicy.payeeTaxpayerNumber}">
+								<p:row>
 									<p:column>
 										<p:outputLabel value="ИИН" />
 									</p:column>
 									<p:column>
-										<h:outputText value="#{issuePolicy.payeeTaxpayerNumber}" converter="taxpayerNumberConverter" />
-									</p:column>
-								</p:row>
-
-							</p:panelGrid>
-
-							<!-- 							</h:panelGroup> -->
-
-							<!-- 							<h:panelGroup rendered="#{issuePolicy.notPaid}"> -->
-
-							<p:panelGrid>
-								<p:row>
-									<p:column styleClass="policy-issued-form-col1">
-										<p:outputLabel value="Продукт или услуга" for="invoiceProductName" />
-									</p:column>
-									<p:column styleClass="policy-issued-form-col2">
-										<p:inputTextarea id="invoiceProductName" value="#{issuePolicy.invoiceProductName}" cols="60" rows="3">
-											<p:ajax process="@this, paidStatus" update="@this" />
-										</p:inputTextarea>
-									</p:column>
-								</p:row>
-								<p:row>
-									<p:column>
-										<p:outputLabel value="Сумма к оплате" for="invoiceAmount" />
-									</p:column>
-									<p:column>
-										<p:inputNumber id="invoiceAmount" value="#{issuePolicy.invoiceAmount}" symbol=" &#8376;" symbolPosition="e" decimalSeparator="," decimalPlaces="2" thousandSeparator=" " onfocus="select()">
-											<p:ajax process="@this, paidStatus" update="@this" />
-										</p:inputNumber>
-										<h:outputText value=" Валюта: #{issuePolicy.invoiceCurrency}" />
-									</p:column>
-								</p:row>
-								<p:row>
-									<p:column>
-										<p:outputLabel value="Плательщик" for="invoicePayeeName" />
-									</p:column>
-									<p:column>
-										<p:inputText id="invoicePayeeName" value="#{issuePolicy.invoicePayeeName}" size="70">
-											<p:ajax process="@this, paidStatus" update="@this" />
-										</p:inputText>
-									</p:column>
-								</p:row>
-								<p:row>
-									<p:column>
-										<p:outputLabel value="Email плательщика" for="invoicePayeeEmail" />
-									</p:column>
-									<p:column>
-										<p:inputText id="invoicePayeeEmail" value="#{issuePolicy.invoicePayeeEmail}" size="70">
-											<p:ajax process="@this, paidStatus" update="@this" />
-										</p:inputText>
-									</p:column>
-								</p:row>
-								<p:row>
-									<p:column>
-										<p:outputLabel value="Номер телефона плательщика" for="invoicePayeePhone" />
-									</p:column>
-									<p:column>
-										<h:panelGroup id="invoicePayeePhonePanel">
-											<p:inputText id="invoicePayeePhone" value="#{issuePolicy.invoicePayeePhone}">
-												<p:ajax process="@this, paidStatus" update="invoicePayeePhonePanel" />
-											</p:inputText>
-											<h:outputText value=" Страна: #{issuePolicy.invoicePayeePhone.countryCode}" />
-										</h:panelGroup>
-									</p:column>
-								</p:row>
-								<p:row>
-									<p:column>
-										<p:outputLabel value="ИИН плательщика" for="invoicePayeeTaxpayerNumber" />
-									</p:column>
-									<p:column>
-										<p:inputText id="invoicePayeeTaxpayerNumber" value="#{issuePolicy.invoicePayeeTaxpayerNumber}" converter="taxpayerNumberConverter">
-											<p:ajax process="@this, paidStatus" update="@this" />
-										</p:inputText>
-									</p:column>
-								</p:row>
-								<p:row>
-									<p:column>
-										<p:outputLabel value="Язык страницы оплаты" for="invoiceLanguage" />
-									</p:column>
-									<p:column>
-										<p:selectOneMenu value="#{issuePolicy.invoiceLanguage}" id="invoiceLanguage">
-											<f:selectItem value="#{configurationFacade.mustSelectSI}" />
-											<f:selectItem value="#{si.regular(LocalizationLanguage.byName('RUSSIAN'))}" />
-											<f:selectItem value="#{si.regular(LocalizationLanguage.byName('KAZAKH'))}" />
-											<p:ajax process="@this, paidStatus" update="@this" />
-										</p:selectOneMenu>
+										<h:outputText value="#{policyPaid.payeeTaxpayerNumber}" converter="taxpayerNumberConverter" />
 									</p:column>
 								</p:row>
 							</p:panelGrid>
-
-							<h:inputHidden value="#{issuePolicy.invoiceCurrency}" converter="currencyConverter" />
-							<h:inputHidden value="#{issuePolicy.invoiceQuantity}" />
-
-							<!-- 							</h:panelGroup> -->
 
 						</h:panelGroup>
 
@@ -190,7 +87,7 @@
 
 					<p:toolbar>
 						<f:facet name="right">
-							<p:commandButton value="OK" action="#{issuePolicy.doAction}" process="content" update="content #{update}" oncomplete="hideIfValidated(PF('#{dialogWV}'), args)" />
+							<p:commandButton value="OK" action="#{policyPaid.doAction}" process="content" update="content #{update}" oncomplete="hideIfValidated(PF('#{dialogWV}'), args)" />
 							<p:commandButton process="@none" update="@none" value="Отмена" oncomplete="PF('#{dialogWV}').hide()" />
 						</f:facet>
 					</p:toolbar>

@@ -159,7 +159,7 @@
 				</p:column>
 
 				<p:column headerText="Телефон заявителя" sortBy="#{rr.requesterPhone}" style="white-space: nowrap;" width="100">
-					<p:commandButton rendered="#{rr.canPick and canChange}" value="Показать" icon="fa fa-hand-o-right" action="#{pickRequest.doPick}" process="@this" update="@form:requestsTable @form:mainToolbar @form:summaryPanel">
+					<p:commandButton rendered="#{rr.canPick and canChange}" value="Показать" icon="far fa-hand-point-up" action="#{pickRequest.doPick}" process="@this" update="@form:requestsTable @form:mainToolbar @form:summaryPanel">
 						<f:setPropertyActionListener value="#{rr}" target="#{rqst.singleRow}" />
 					</p:commandButton>
 					<h:outputText value="#{rr.requesterPhone}" rendered="#{rr.progressStatus ne 'NEW'}" />

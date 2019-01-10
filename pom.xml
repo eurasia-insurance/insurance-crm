@@ -22,27 +22,27 @@
 
 	<properties>
 		<!-- BOMS -->
-		<java-commons.version>20190102</java-commons.version>
+		<java-commons.version>20190110</java-commons.version>
 		<!-- validation -->
-		<javax-validation-commons.version>20190102</javax-validation-commons.version>
-		<javax-faces-commons.version>20190102</javax-faces-commons.version>
-		<javax-cdi-commons.version>20190102</javax-cdi-commons.version>
-		<payara-hibernate-validation.version>20190102</payara-hibernate-validation.version>
+		<javax-validation-commons.version>20190110</javax-validation-commons.version>
+		<javax-faces-commons.version>20190110</javax-faces-commons.version>
+		<javax-cdi-commons.version>20190110</javax-cdi-commons.version>
+		<payara-hibernate-validation.version>20190110</payara-hibernate-validation.version>
 		<!-- tech -->
-		<insurance-domain.version>20190102</insurance-domain.version>
-		<fontawesome-free-jsf.version>20190102</fontawesome-free-jsf.version>
+		<insurance-domain.version>20190110</insurance-domain.version>
+		<fontawesome-free-jsf.version>20190110</fontawesome-free-jsf.version>
 		<!-- EJB clients -->
-		<insurance-dao-client.version>20190102</insurance-dao-client.version>
-		<insurance-facade-client.version>20190102</insurance-facade-client.version>
-		<epayment-facade-client.version>20190102</epayment-facade-client.version>
+		<insurance-dao-client.version>20190110</insurance-dao-client.version>
+		<insurance-facade-client.version>20190110</insurance-facade-client.version>
+		<epayment-facade-client.version>20190110</epayment-facade-client.version>
 		<!-- oldies -->
-		<kz-lib.version>20190102</kz-lib.version>
-		<international-lib.version>20190102</international-lib.version>
-		<lapsa-lib.version>20190102</lapsa-lib.version>
-		<reports-lib.version>20190102</reports-lib.version>
+		<kz-lib.version>20190110</kz-lib.version>
+		<international-lib.version>20190110</international-lib.version>
+		<lapsa-lib.version>20190110</lapsa-lib.version>
+		<reports-lib.version>20190110</reports-lib.version>
 		<!-- faces -->
-		<lapsa-primefaces.version>20190102</lapsa-primefaces.version>
-		<insurance-faces.version>20190102</insurance-faces.version>
+		<lapsa-primefaces.version>20190110</lapsa-primefaces.version>
+		<insurance-faces.version>20190110</insurance-faces.version>
 		<primefaces.version>6.2.13</primefaces.version>
 		<primefaces-themes.version>1.0.10</primefaces-themes.version>
 		<primefaces-extensions.version>6.1.1</primefaces-extensions.version>

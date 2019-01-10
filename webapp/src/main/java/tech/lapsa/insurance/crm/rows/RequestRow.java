@@ -191,7 +191,7 @@ public interface RequestRow<T extends InsuranceRequest> {
 
     default boolean isCanPick() {
 	return isInbox()
-		&& ProgressStatus.NEW.equals(getProgressStatus());
+		&& getPicked() == null;
     }
 
     default boolean isCanAccept() {

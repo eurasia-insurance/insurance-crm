@@ -368,9 +368,6 @@ public class CreateInvoiceCDIBean implements ActionCDIBean, Serializable {
     // local
 
     @Inject
-    private CurrentUserHolder currentUser;
-
-    @Inject
     private RequestsSelectionCDIBean rrs;
 
     // insurance-facade (remote)
@@ -390,7 +387,7 @@ public class CreateInvoiceCDIBean implements ActionCDIBean, Serializable {
 	final InsuranceRequest ir1 = rrs.getSingleRow().getEntity();
 
 	try {
-	    final InsuranceRequest ir2 = insuranceRequests.policyIssued(ir1, currentUser.getValue(), agreementNumber);
+	    final InsuranceRequest ir2 = insuranceRequests.policyIssued(ir1, agreementNumber);
 	    final InsuranceRequest ir3 = insuranceRequests.invoiceCreated(ir2,
 		    invoicePayeeName,
 		    invoiceCurrency,

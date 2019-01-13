@@ -238,4 +238,26 @@ public interface RequestRow<T extends InsuranceRequest> {
 	return !InsuranceRequestStatus.REQUEST_CANCELED.equals(getInsuranceRequestStatus());
     }
 
+    /**
+     * Alternative completion of request
+     * @deprecated to be removed when query below will return emty result set
+     * 
+     * <pre>
+     * select r.ID, 
+     *        r.PROGRESS_STATUS, 
+     *       ir.PAYMENT_STATUS, 
+     *       ir.AGREEMENT_NUMBER 
+     * FROM REQUEST r, 
+     *      INSURANCE_REQUEST ir
+     * WHERE ir.ID = r.ID 
+     *   AND ir.INSURANCE_REQUEST_STATUS = 'PREMIUM_PAID' 
+     *   AND r.PROGRESS_STATUS <> 'FINISHED';
+     * </pre>
+     */
+    @Deprecated
+    default boolean isCanPolicyIssueAlt() {
+	return InsuranceRequestStatus.PREMIUM_PAID.equals(getInsuranceRequestStatus()) &&
+		!ProgressStatus.FINISHED.equals(getProgressStatus());
+    }
+
 }

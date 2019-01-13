@@ -15,7 +15,6 @@ import javax.faces.FacesException;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.validation.constraints.Min;
 
 import com.lapsa.insurance.domain.CalculationData;
 import com.lapsa.insurance.domain.InsuranceRequest;
@@ -65,7 +64,7 @@ public class PolicyIssuedAltCDIBean implements ActionCDIBean, Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Named("issuePolicyAltCheck")
+    @Named("policyIssuedAltCheck")
     @Dependent
     public static class PolicyPaidCheckCDIBean
 	    extends AActionChecker
@@ -102,6 +101,102 @@ public class PolicyIssuedAltCDIBean implements ActionCDIBean, Serializable {
 
     public void setAgreementNumber(String agreementNumber) {
 	this.agreementNumber = agreementNumber;
+    }
+
+    public void onAgreementNumberChanged(ValueChangeEvent event) {
+	fetchPolicyAndUpdateModel((String) event.getNewValue());
+    }
+
+    @EJB
+    private PolicyFacadeRemote policies;
+
+    private void fetchPolicyAndUpdateModel(String agreementNumber) {
+	final Policy fetchedPolicy;
+	try {
+	    fetchedPolicy = policies.getByNumber(agreementNumber);
+	} catch (PolicyNotFound e) {
+	    throw new FacesException(e);
+	} catch (IllegalArgument e) {
+	    throw new FacesException(e);
+	}
+
+	paidAmount = MyOptionals.of(fetchedPolicy)
+		.map(Policy::getActual)
+		.map(CalculationData::getAmount)
+		.orElse(null);
+
+	paidCurrency = MyOptionals.of(fetchedPolicy)
+		.map(Policy::getActual)
+		.map(CalculationData::getCurrency)
+		.orElse(null);
+
+	paidInstant = MyOptionals.of(fetchedPolicy)
+		.map(Policy::getPaymentDate)
+		.map(it -> it.atStartOfDay(ZoneId.systemDefault()))
+		.map(ZonedDateTime::toInstant)
+		.orElse(null);
+
+	paidReference = null;
+
+	payerName = MyOptionals.of(fetchedPolicy)
+		.map(Policy::getInsurant)
+		.map(InsurantData::getPersonal)
+		.map(PersonalData::getFullName)
+		.orElse(null);
+
+	payeeTaxpayerNumber = MyOptionals.of(fetchedPolicy)
+		.map(Policy::getInsurant)
+		.map(InsurantData::getIdNumber)
+		.orElse(null);
+
+    }
+
+    // payerName
+
+    private String payerName;
+
+    public String getPayerName() {
+	return payerName;
+    }
+
+    // payeeTaxpayerNumber
+
+    private TaxpayerNumber payeeTaxpayerNumber;
+
+    public TaxpayerNumber getPayeeTaxpayerNumber() {
+	return payeeTaxpayerNumber;
+    }
+
+    // paidAmount
+
+    private Double paidAmount;
+
+    public Double getPaidAmount() {
+	return paidAmount;
+    }
+
+    // paidInstant
+
+    private Instant paidInstant;
+
+    public Instant getPaidInstant() {
+	return paidInstant;
+    }
+
+    // paidReference
+
+    private String paidReference;
+
+    public String getPaidReference() {
+	return paidReference;
+    }
+
+    // paidCurrency
+
+    private Currency paidCurrency;
+
+    public Currency getPaidCurrency() {
+	return paidCurrency;
     }
 
     //

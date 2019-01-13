@@ -15,7 +15,7 @@
 }
 </style>
 		<!-- >> rendered -->
-		<h:panelGroup rendered="#{issuePolicyAltCheck.allowed}">
+		<h:panelGroup rendered="#{policyIssuedAltCheck.allowed}">
 
 			<!-- >> dialog -->
 			<p:dialog widgetVar="#{dialogWV}" header="Договор заключен" closeOnEscape="false" modal="true" closable="false" resizable="false" position="center top" width="740" height="480">
@@ -30,18 +30,56 @@
 									<p:outputLabel value="Номер договора" for="agreementNumber" />
 								</p:column>
 								<p:column styleClass="policy-issued-form-col2">
-									<p:inputText id="agreementNumber" value="#{issuePolicyAlt.agreementNumber}">
+									<p:inputText id="agreementNumber" value="#{policyIssuedAlt.agreementNumber}"  valueChangeListener="#{policyIssuedAlt.onAgreementNumberChanged}">
 										<p:ajax process="@this" update="content" />
 									</p:inputText>
 								</p:column>
 							</p:row>
 						</p:panelGrid>
 
+						<h:panelGroup id="details">
+
+							<p:panelGrid>
+								<p:row>
+									<p:column styleClass="policy-issued-form-col1">
+										<p:outputLabel value="Фактически оплачено" />
+									</p:column>
+									<p:column styleClass="policy-issued-form-col2">
+										<jfc:outputMoneyAmount value="#{policyIssuedAlt.paidAmount}" currency="#{policyIssuedAlt.paidCurrency}" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:outputLabel value="Дата и время оплаты" />
+									</p:column>
+									<p:column>
+										<jfc:outputInstant value="#{policyIssuedAlt.paidInstant}" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:outputLabel value="Плательщик" />
+									</p:column>
+									<p:column>
+										<h:outputText value="#{policyIssuedAlt.payerName}" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:outputLabel value="ИИН" />
+									</p:column>
+									<p:column>
+										<h:outputText value="#{policyIssuedAlt.payeeTaxpayerNumber}" />
+									</p:column>
+								</p:row>
+							</p:panelGrid>
+
+						</h:panelGroup>
 					</p:panel>
 
 					<p:toolbar>
 						<f:facet name="right">
-							<p:commandButton value="OK" action="#{issuePolicyAlt.doAction}" process="content" update="content #{update}" oncomplete="hideIfValidated(PF('#{dialogWV}'), args)" />
+							<p:commandButton value="OK" action="#{policyIssuedAlt.doAction}" process="content" update="content #{update}" oncomplete="hideIfValidated(PF('#{dialogWV}'), args)" />
 							<p:commandButton process="@none" update="@none" value="Отмена" oncomplete="PF('#{dialogWV}').hide()" />
 						</f:facet>
 					</p:toolbar>

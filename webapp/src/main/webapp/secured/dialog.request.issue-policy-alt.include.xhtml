@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:o="http://omnifaces.org/ui"
+	xmlns:comp="http://xmlns.jcp.org/jsf/composite" xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:jfc="http://lapsa.tech/javax/faces-commons" xmlns:lpf="http://lapsa.tech/primefaces">
+
+	<f:subview>
+
+		<style>
+.policy-issued-form-col1 {
+	width: 150px
+}
+
+.policy-issued-form-col2 {
+	
+}
+</style>
+		<!-- >> rendered -->
+		<h:panelGroup rendered="#{policyIssuedAltCheck.allowed}">
+
+			<!-- >> dialog -->
+			<p:dialog widgetVar="#{dialogWV}" header="Договор заключен" closeOnEscape="false" modal="true" closable="false" resizable="false" position="center top" width="740" height="480">
+
+				<!-- >> wrapper -->
+				<h:panelGroup id="content">
+
+					<p:panel>
+						<p:panelGrid>
+							<p:row>
+								<p:column styleClass="policy-issued-form-col1">
+									<p:outputLabel value="Номер договора" for="agreementNumber" />
+								</p:column>
+								<p:column styleClass="policy-issued-form-col2">
+									<p:inputText id="agreementNumber" value="#{policyIssuedAlt.agreementNumber}"  valueChangeListener="#{policyIssuedAlt.onAgreementNumberChanged}">
+										<p:ajax process="@this" update="content" />
+									</p:inputText>
+								</p:column>
+							</p:row>
+						</p:panelGrid>
+
+						<h:panelGroup id="details">
+
+							<p:panelGrid>
+								<p:row>
+									<p:column styleClass="policy-issued-form-col1">
+										<p:outputLabel value="Фактически оплачено" />
+									</p:column>
+									<p:column styleClass="policy-issued-form-col2">
+										<jfc:outputMoneyAmount value="#{policyIssuedAlt.paidAmount}" currency="#{policyIssuedAlt.paidCurrency}" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:outputLabel value="Дата и время оплаты" />
+									</p:column>
+									<p:column>
+										<jfc:outputInstant value="#{policyIssuedAlt.paidInstant}" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:outputLabel value="Плательщик" />
+									</p:column>
+									<p:column>
+										<h:outputText value="#{policyIssuedAlt.payerName}" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:outputLabel value="ИИН" />
+									</p:column>
+									<p:column>
+										<h:outputText value="#{policyIssuedAlt.payeeTaxpayerNumber}" />
+									</p:column>
+								</p:row>
+							</p:panelGrid>
+
+						</h:panelGroup>
+					</p:panel>
+
+					<p:toolbar>
+						<f:facet name="right">
+							<p:commandButton value="OK" action="#{policyIssuedAlt.doAction}" process="content" update="content #{update}" oncomplete="hideIfValidated(PF('#{dialogWV}'), args)" />
+							<p:commandButton process="@none" update="@none" value="Отмена" oncomplete="PF('#{dialogWV}').hide()" />
+						</f:facet>
+					</p:toolbar>
+
+				</h:panelGroup>
+				<!-- << wrapper -->
+
+			</p:dialog>
+			<!-- << dialog -->
+
+		</h:panelGroup>
+		<!-- << rendered -->
+
+	</f:subview>
+
+</ui:composition>

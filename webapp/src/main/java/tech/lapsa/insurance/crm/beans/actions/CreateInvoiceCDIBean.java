@@ -31,7 +31,6 @@ import com.lapsa.international.phone.validators.ValidPhoneNumber;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
 import tech.lapsa.insurance.crm.beans.RequestsSelectionCDIBean;
-import tech.lapsa.insurance.crm.beans.i.CurrentUserHolder;
 import tech.lapsa.insurance.crm.rows.RequestRow;
 import tech.lapsa.insurance.crm.validation.UniqueAgreementNumber;
 import tech.lapsa.insurance.crm.validation.ValidPolicyAgreementByNumber;

@@ -247,7 +247,7 @@ public class PolicyPaidCDIBean implements ActionCDIBean, Serializable {
 	final InsuranceRequest ir1 = rrs.getSingleRow().getEntity();
 
 	try {
-	    final InsuranceRequest ir2 = insuranceRequests.policyIssued(ir1, currentUser.getValue(), agreementNumber);
+	    final InsuranceRequest ir2 = insuranceRequests.policyIssued(ir1, agreementNumber);
 	    final InsuranceRequest ir3 = insuranceRequests.premiumPaid(ir2,
 		    "Введено вручную",
 		    paidInstant,
@@ -256,7 +256,8 @@ public class PolicyPaidCDIBean implements ActionCDIBean, Serializable {
 		    null,
 		    null,
 		    null,
-		    payerName);
+		    payerName,
+		    currentUser.getValue());
 	    rrs.setSingleRow(RequestRow.from(ir3));
 	} catch (IllegalState e1) {
 	    throw e1.getRuntime();

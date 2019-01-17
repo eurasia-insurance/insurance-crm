@@ -48,8 +48,7 @@ public class CommentRequestCDIBean implements Serializable {
     static boolean checkActionAllowed(final RequestsSelectionCDIBean rrs) {
 	return isInRole(InsuranceRoleGroup.CHANGERS) //
 		&& rrs != null
-		&& rrs.isSingleSelected() //
-		&& rrs.getSingleRow().isCanComment();
+		&& rrs.isSingleSelected();
     }
 
     // message

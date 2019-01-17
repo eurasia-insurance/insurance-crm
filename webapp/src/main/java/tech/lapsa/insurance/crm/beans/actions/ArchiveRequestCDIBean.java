@@ -1,8 +1,11 @@
 package tech.lapsa.insurance.crm.beans.actions;
 
+import static com.lapsa.insurance.elements.InsuranceRequestStatus.*;
+import static com.lapsa.insurance.elements.ProgressStatus.*;
 import static com.lapsa.utils.security.SecurityUtils.*;
 
 import java.io.Serializable;
+import java.util.function.Predicate;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.Dependent;
@@ -20,6 +23,7 @@ import tech.lapsa.insurance.dao.RequestDAO.RequestDAORemote;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.function.MyCollectors;
 import tech.lapsa.java.commons.function.MyExceptions;
+import tech.lapsa.java.commons.function.MyOptionals;
 
 @Named("archiveRequest")
 @RequestScoped
@@ -36,19 +40,22 @@ public class ArchiveRequestCDIBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public ArchiveRequestCheckCDIBean() {
-	    super(ArchiveRequestCDIBean::actionAllowed);
+	    super(ArchiveRequestCDIBean::checkActionAllowed);
 	}
 
     }
 
-    static boolean actionAllowed(final RequestsSelectionCDIBean rrs) {
-	return isInRole(InsuranceRoleGroup.CLOSERS)
-		&& rrs != null
-		&& rrs.isAnySelected() //
-		&& rrs.getValueAsStream() //
-			.allMatch(RequestRow::isCanArchive) //
-	;
+    private static final Predicate<RequestRow<?>> ROW_ALLOWED = rr -> rr.progressIn(FINISHED)
+	    && rr.insuranceRequestIn(PREMIUM_PAID, REQUEST_CANCELED);
 
+    private static boolean checkActionAllowed(RequestsSelectionCDIBean rrs) {
+	return isInRole(InsuranceRoleGroup.CLOSERS)
+		&& MyOptionals.of(rrs)
+			.filter(RequestsSelectionCDIBean::isAnySelected)
+			.map(RequestsSelectionCDIBean::getValueAsStream)
+			.map(s -> s.allMatch(ROW_ALLOWED))
+			.orElse(Boolean.FALSE)
+			.booleanValue();
     }
 
     // CDIs

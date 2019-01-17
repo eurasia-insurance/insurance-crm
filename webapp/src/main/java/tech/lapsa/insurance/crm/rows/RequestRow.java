@@ -1,8 +1,10 @@
 package tech.lapsa.insurance.crm.rows;
 
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.Currency;
 import java.util.List;
+import java.util.Optional;
 
 import com.lapsa.insurance.domain.CalculationData;
 import com.lapsa.insurance.domain.CallbackRequest;
@@ -16,18 +18,19 @@ import com.lapsa.insurance.domain.crm.UTMData;
 import com.lapsa.insurance.domain.crm.User;
 import com.lapsa.insurance.domain.policy.Policy;
 import com.lapsa.insurance.domain.policy.PolicyRequest;
-import com.lapsa.insurance.elements.InsuranceRequestStatus;
 import com.lapsa.insurance.elements.InsuranceProductType;
+import com.lapsa.insurance.elements.InsuranceRequestCancellationReason;
+import com.lapsa.insurance.elements.InsuranceRequestStatus;
 import com.lapsa.insurance.elements.InsuranceRequestType;
 import com.lapsa.insurance.elements.PaymentStatus;
 import com.lapsa.insurance.elements.ProgressStatus;
-import com.lapsa.insurance.elements.InsuranceRequestCancellationReason;
 import com.lapsa.international.localization.LocalizationLanguage;
 import com.lapsa.international.phone.PhoneNumber;
 
 import tech.lapsa.insurance.crm.beans.i.RequestType;
 import tech.lapsa.java.commons.function.MyCollectors;
 import tech.lapsa.java.commons.function.MyObjects;
+import tech.lapsa.java.commons.function.MyOptionals;
 import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 
 public interface RequestRow<T extends InsuranceRequest> {
@@ -65,7 +68,17 @@ public interface RequestRow<T extends InsuranceRequest> {
 
     ProgressStatus getProgressStatus();
 
+    default boolean progressIn(ProgressStatus... statuses) {
+	return Arrays.stream(statuses)
+		.anyMatch(it -> it.equals(getProgressStatus()));
+    }
+
     InsuranceRequestStatus getInsuranceRequestStatus();
+
+    default boolean insuranceRequestIn(InsuranceRequestStatus... statuses) {
+	return Arrays.stream(statuses)
+		.anyMatch(it -> it.equals(getInsuranceRequestStatus()));
+    }
 
     boolean isPending();
 
@@ -88,6 +101,10 @@ public interface RequestRow<T extends InsuranceRequest> {
     Instant getUpdated();
 
     Instant getPicked();
+
+    default Optional<Instant> optPicked() {
+	return MyOptionals.of(getPicked());
+    }
 
     User getPickedBy();
 
@@ -182,82 +199,4 @@ public interface RequestRow<T extends InsuranceRequest> {
     Policy getPolicy();
 
     Casco getCasco();
-
-    // checkers
-
-    default boolean isCanView() {
-	return true;
-    }
-
-    default boolean isCanPick() {
-	return isInbox()
-		&& getPicked() == null;
-    }
-
-    default boolean isCanAccept() {
-	return ProgressStatus.ON_PROCESS.equals(getProgressStatus())
-		&& PaymentStatus.UNDEFINED.equals(getPaymentStatus())
-		&& getEntity() instanceof InsuranceRequest;
-    }
-
-    default boolean isCanPause() {
-	return isInbox()
-		&& ProgressStatus.ON_PROCESS.equals(getProgressStatus());
-    }
-
-    default boolean isCanResume() {
-	return isInbox()
-		&& ProgressStatus.ON_HOLD.equals(getProgressStatus());
-    }
-
-    default boolean isCanCreateInvoice() {
-	return isInbox()
-		&& InsuranceRequestStatus.PENDING.equals(getInsuranceRequestStatus());
-    }
-
-    default boolean isCanPolicyPaid() {
-	return isInbox()
-		&& InsuranceRequestStatus.PENDING.equals(getInsuranceRequestStatus());
-    }
-
-    default boolean isCanCancelRequest() {
-	return isInbox()
-		&& InsuranceRequestStatus.PENDING.equals(getInsuranceRequestStatus());
-    }
-
-    default boolean isCanComment() {
-	return true;
-    }
-
-    default boolean isCanArchive() {
-	return isInbox()
-		&& ProgressStatus.FINISHED.equals(getProgressStatus());
-    }
-
-    default boolean isCanDelete() {
-	return !InsuranceRequestStatus.REQUEST_CANCELED.equals(getInsuranceRequestStatus());
-    }
-
-    /**
-     * Alternative completion of request
-     * @deprecated to be removed when query below will return emty result set
-     * 
-     * <pre>
-     * select r.ID, 
-     *        r.PROGRESS_STATUS, 
-     *       ir.PAYMENT_STATUS, 
-     *       ir.AGREEMENT_NUMBER 
-     * FROM REQUEST r, 
-     *      INSURANCE_REQUEST ir
-     * WHERE ir.ID = r.ID 
-     *   AND ir.INSURANCE_REQUEST_STATUS = 'PREMIUM_PAID' 
-     *   AND r.PROGRESS_STATUS <> 'FINISHED';
-     * </pre>
-     */
-    @Deprecated
-    default boolean isCanPolicyIssueAlt() {
-	return InsuranceRequestStatus.PREMIUM_PAID.equals(getInsuranceRequestStatus()) &&
-		!ProgressStatus.FINISHED.equals(getProgressStatus());
-    }
-
 }

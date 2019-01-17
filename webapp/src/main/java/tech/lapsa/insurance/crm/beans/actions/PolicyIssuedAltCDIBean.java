@@ -1,5 +1,6 @@
 package tech.lapsa.insurance.crm.beans.actions;
 
+import static com.lapsa.insurance.elements.ProgressStatus.*;
 import static com.lapsa.utils.security.SecurityUtils.*;
 
 import java.io.Serializable;
@@ -7,6 +8,7 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Currency;
+import java.util.function.Predicate;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.Dependent;
@@ -21,6 +23,7 @@ import com.lapsa.insurance.domain.InsuranceRequest;
 import com.lapsa.insurance.domain.InsurantData;
 import com.lapsa.insurance.domain.PersonalData;
 import com.lapsa.insurance.domain.policy.Policy;
+import com.lapsa.insurance.elements.InsuranceRequestStatus;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
 import tech.lapsa.insurance.crm.beans.RequestsSelectionCDIBean;
@@ -66,11 +69,11 @@ public class PolicyIssuedAltCDIBean implements ActionCDIBean, Serializable {
 
     @Named("policyIssuedAltCheck")
     @Dependent
-    public static class PolicyPaidCheckCDIBean
+    public static class PolicyIssuedAltCheckCDIBean
 	    extends AActionChecker
 	    implements Serializable {
 
-	public PolicyPaidCheckCDIBean() {
+	public PolicyIssuedAltCheckCDIBean() {
 	    super(PolicyIssuedAltCDIBean::checkActionAllowed);
 	}
 
@@ -78,12 +81,16 @@ public class PolicyIssuedAltCDIBean implements ActionCDIBean, Serializable {
 
     }
 
-    static boolean checkActionAllowed(RequestsSelectionCDIBean rrs) {
-	return isInRole(InsuranceRoleGroup.CHANGERS) //
-		&& rrs != null
-		&& rrs.isSingleSelected() //
-		&& rrs.getSingleRow().isCanPolicyIssueAlt() //
-	;
+    private static final Predicate<RequestRow<?>> ROW_ALLOWED = rr -> rr.insuranceRequestIn(InsuranceRequestStatus.PREMIUM_PAID)
+	    && !rr.progressIn(FINISHED);
+
+    private static boolean checkActionAllowed(final RequestsSelectionCDIBean rrs) {
+	return isInRole(InsuranceRoleGroup.CHANGERS)
+		&& MyOptionals.of(rrs)
+			.filter(RequestsSelectionCDIBean::isSingleSelected)
+			.map(RequestsSelectionCDIBean::getSingleRow)
+			.filter(ROW_ALLOWED)
+			.isPresent();
     }
 
     // agreementNumber

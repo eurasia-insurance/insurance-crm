@@ -35,8 +35,7 @@ public class ViewRequestCDIBean implements Serializable {
     static boolean checkActionAllowed(RequestsSelectionCDIBean rrs) {
 	return isInRole(InsuranceRoleGroup.VIEWERS) //
 		&& rrs != null
-		&& rrs.isSingleSelected()
-		&& rrs.getSingleRow().isCanView();
+		&& rrs.isSingleSelected();
     }
 
     // CDIs

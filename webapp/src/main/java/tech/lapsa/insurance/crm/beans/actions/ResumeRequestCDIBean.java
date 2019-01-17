@@ -1,9 +1,11 @@
 package tech.lapsa.insurance.crm.beans.actions;
 
+import static com.lapsa.insurance.elements.ProgressStatus.*;
 import static com.lapsa.utils.security.SecurityUtils.*;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.function.Predicate;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.Dependent;
@@ -21,6 +23,7 @@ import tech.lapsa.insurance.dao.RequestDAO.RequestDAORemote;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.function.MyCollectors;
 import tech.lapsa.java.commons.function.MyExceptions;
+import tech.lapsa.java.commons.function.MyOptionals;
 
 @Named("resumeRequest")
 @RequestScoped
@@ -41,13 +44,16 @@ public class ResumeRequestCDIBean implements Serializable {
 	}
     }
 
-    static boolean checkActionAllowed(final RequestsSelectionCDIBean rrs) {
-	return isInRole(InsuranceRoleGroup.CHANGERS) //
-		&& rrs != null
-		&& rrs.isAnySelected() //
-		&& rrs.getValueAsStream() //
-			.allMatch(RequestRow::isCanResume) //
-	;
+    private static final Predicate<RequestRow<?>> ROW_ALLOWED = rr -> rr.progressIn(ON_HOLD);
+
+    private static boolean checkActionAllowed(final RequestsSelectionCDIBean rrs) {
+	return isInRole(InsuranceRoleGroup.CHANGERS)
+		&& MyOptionals.of(rrs)
+			.filter(RequestsSelectionCDIBean::isAnySelected)
+			.map(RequestsSelectionCDIBean::getValueAsStream)
+			.map(s -> s.allMatch(ROW_ALLOWED))
+			.orElse(Boolean.FALSE)
+			.booleanValue();
     }
 
     // CDIs

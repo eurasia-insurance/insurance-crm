@@ -1,8 +1,10 @@
 package tech.lapsa.insurance.crm.beans.actions;
 
+import static com.lapsa.insurance.elements.InsuranceRequestStatus.*;
 import static com.lapsa.utils.security.SecurityUtils.*;
 
 import java.io.Serializable;
+import java.util.function.Predicate;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.Dependent;
@@ -21,6 +23,7 @@ import tech.lapsa.insurance.crm.rows.RequestRow;
 import tech.lapsa.insurance.dao.RequestDAO.RequestDAORemote;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.function.MyExceptions;
+import tech.lapsa.java.commons.function.MyOptionals;
 import tech.lapsa.patterns.dao.NotFound;
 
 @Named("deleteRequest")
@@ -42,13 +45,16 @@ public class DeleteRequestCDIBean implements Serializable {
 	}
     }
 
-    static boolean checkActionAllowed(final RequestsSelectionCDIBean rrs) {
-	return isInRole(InsuranceRoleGroup.DELETERS) //
-		&& rrs != null
-		&& rrs.isAnySelected() //
-		&& rrs.getValueAsStream() //
-			.allMatch(RequestRow::isCanDelete) //
-	;
+    private static final Predicate<RequestRow<?>> ROW_ALLOWED = ir -> ir.insuranceRequestIn(REQUEST_CANCELED);
+
+    private static boolean checkActionAllowed(final RequestsSelectionCDIBean rrs) {
+	return isInRole(InsuranceRoleGroup.DELETERS)
+		&& MyOptionals.of(rrs)
+			.filter(RequestsSelectionCDIBean::isAnySelected)
+			.map(RequestsSelectionCDIBean::getValueAsStream)
+			.map(s -> s.allMatch(ROW_ALLOWED))
+			.orElse(Boolean.FALSE)
+			.booleanValue();
     }
 
     // CDIs

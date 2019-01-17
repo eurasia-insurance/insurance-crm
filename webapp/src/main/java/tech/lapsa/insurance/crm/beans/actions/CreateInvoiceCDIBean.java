@@ -1,10 +1,13 @@
 package tech.lapsa.insurance.crm.beans.actions;
 
+import static com.lapsa.insurance.elements.InsuranceRequestStatus.*;
+import static com.lapsa.insurance.elements.ProgressStatus.*;
 import static com.lapsa.utils.security.SecurityUtils.*;
 
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Currency;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import javax.ejb.EJB;
@@ -68,12 +71,16 @@ public class CreateInvoiceCDIBean implements ActionCDIBean, Serializable {
 
     }
 
-    static boolean checkActionAllowed(RequestsSelectionCDIBean rrs) {
-	return isInRole(InsuranceRoleGroup.CHANGERS) //
-		&& rrs != null
-		&& rrs.isSingleSelected() //
-		&& rrs.getSingleRow().isCanCreateInvoice() //
-	;
+    private static final Predicate<RequestRow<?>> ROW_ALLOWED = rr -> rr.insuranceRequestIn(PENDING)
+	    && !rr.progressIn(FINISHED);
+
+    private static boolean checkActionAllowed(final RequestsSelectionCDIBean rrs) {
+	return isInRole(InsuranceRoleGroup.CHANGERS)
+		&& MyOptionals.of(rrs)
+			.filter(RequestsSelectionCDIBean::isSingleSelected)
+			.map(RequestsSelectionCDIBean::getSingleRow)
+			.filter(ROW_ALLOWED)
+			.isPresent();
     }
 
     // agreementNumber

@@ -45,6 +45,10 @@
 						<p:resetInput target="@form:policyPaidDialog" />
 					</p:commandButton>
 
+					<p:commandButton value="Полис оплачен..." icon="fas fa-tenge" rendered="#{policyInvoicePaidCheck.allowed}" process="@this" update="@form:policyInvoicePaidDialog" oncomplete="PF('policyInvoicePaidDialogWV').show(); return false;">
+						<p:resetInput target="@form:policyInvoicePaidDialog" />
+					</p:commandButton>
+
 					<p:commandButton value="Сформировать счет..." icon="fas fa-file-invoice" rendered="#{createInvoiceCheck.allowed}" process="@this" update="@form:createInvoiceDialog" oncomplete="PF('createInvoiceDialogWV').show(); return false;">
 						<p:resetInput target="@form:createInvoiceDialog" />
 					</p:commandButton>

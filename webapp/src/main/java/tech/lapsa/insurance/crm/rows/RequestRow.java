@@ -1,7 +1,6 @@
 package tech.lapsa.insurance.crm.rows;
 
 import java.time.Instant;
-import java.util.Arrays;
 import java.util.Currency;
 import java.util.List;
 import java.util.Optional;
@@ -68,17 +67,11 @@ public interface RequestRow<T extends InsuranceRequest> {
 
     ProgressStatus getProgressStatus();
 
-    default boolean progressIn(ProgressStatus... statuses) {
-	return Arrays.stream(statuses)
-		.anyMatch(it -> it.equals(getProgressStatus()));
-    }
+    boolean progressIn(ProgressStatus... statuses);
 
     InsuranceRequestStatus getInsuranceRequestStatus();
 
-    default boolean insuranceRequestIn(InsuranceRequestStatus... statuses) {
-	return Arrays.stream(statuses)
-		.anyMatch(it -> it.equals(getInsuranceRequestStatus()));
-    }
+    boolean insuranceRequestIn(InsuranceRequestStatus... statuses);
 
     boolean isPending();
 

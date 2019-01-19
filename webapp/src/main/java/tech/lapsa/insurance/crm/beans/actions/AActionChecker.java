@@ -23,7 +23,11 @@ public abstract class AActionChecker implements Serializable {
     // local
 
     @Inject
-    RequestsSelectionCDIBean rrs;
+    private RequestsSelectionCDIBean rrs;
+
+    void setRrs(RequestsSelectionCDIBean rrs) {
+	this.rrs = rrs;
+    }
 
     public boolean isAllowed() {
 	return actionAllowedPredicate.test(rrs);

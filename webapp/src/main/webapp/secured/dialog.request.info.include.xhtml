@@ -34,8 +34,7 @@
 						</ui:include>
 						<ui:include src="dialog.request.info.tab.requester.include.xhtml">
 							<ui:param name="rendered" value="#{not empty rr.requester}" />
-							<ui:param name="showPhoneNumber"
-								value="#{rr.progressStatus ne 'NEW'}" />
+							<ui:param name="showPhoneNumber" value="#{not empty rr.picked}" />
 						</ui:include>
 						<ui:include
 							src="dialog.request.info.tab.product.policy.include.xhtml">

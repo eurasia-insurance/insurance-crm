@@ -48,7 +48,7 @@ public class CancelRequestCDIBean implements ActionCDIBean, Serializable {
 	}
     }
 
-    private static final Predicate<RequestRow<?>> ROW_ALLOWED = rr -> rr.insuranceRequestIn(PENDING)
+    private static final Predicate<RequestRow<?>> ROW_ALLOWED = rr -> rr.insuranceRequestIn(PENDING, POLICY_ISSUED)
 	    && !rr.progressIn(ProgressStatus.FINISHED);
 
     private static boolean checkActionAllowed(RequestsSelectionCDIBean rrs) {

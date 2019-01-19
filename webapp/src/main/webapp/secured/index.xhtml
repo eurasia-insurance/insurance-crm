@@ -45,8 +45,15 @@
 			</h:panelGroup>
 
 			<h:panelGroup id="policyPaidDialog">
-				<ui:include src="dialog.request.issue-policy.include.xhtml">
+				<ui:include src="dialog.request.pay-policy.include.xhtml">
 					<ui:param name="dialogWV" value="policyPaidDialogWV" />
+					<ui:param name="update" value="@form:requestsTable @form:summaryPanel @form:mainToolbar @form:requestDialog" />
+				</ui:include>
+			</h:panelGroup>
+
+			<h:panelGroup id="policyInvoicePaidDialog">
+				<ui:include src="dialog.request.pay-invoice-policy.include.xhtml">
+					<ui:param name="dialogWV" value="policyInvoicePaidDialogWV" />
 					<ui:param name="update" value="@form:requestsTable @form:summaryPanel @form:mainToolbar @form:requestDialog" />
 				</ui:include>
 			</h:panelGroup>
@@ -166,10 +173,10 @@
 				</p:column>
 
 				<p:column headerText="Телефон заявителя" sortBy="#{rr.requesterPhone}" style="white-space: nowrap;" width="100">
-					<p:commandButton rendered="#{rr.canPick and canChange}" value="Показать" icon="far fa-hand-point-up" action="#{pickRequest.doPick}" process="@this" update="@form:requestsTable @form:mainToolbar @form:summaryPanel">
+					<p:commandButton rendered="#{empty rr.picked and canChange}" value="Показать" icon="far fa-hand-point-up" action="#{pickRequest.doPick}" process="@this" update="@form:requestsTable @form:mainToolbar @form:summaryPanel">
 						<f:setPropertyActionListener value="#{rr}" target="#{rqst.singleRow}" />
 					</p:commandButton>
-					<h:outputText value="#{rr.requesterPhone}" rendered="#{rr.progressStatus ne 'NEW'}" />
+					<h:outputText value="#{rr.requesterPhone}" rendered="#{not empty rr.picked}" />
 				</p:column>
 
 				<p:column headerText="Доп.информаця" sortable="false" style="white-space: nowrap;">

@@ -3,11 +3,11 @@ package tech.lapsa.insurance.crm.beans.actions;
 import static com.lapsa.insurance.elements.InsuranceRequestStatus.*;
 import static com.lapsa.insurance.elements.ProgressStatus.*;
 import static com.lapsa.utils.security.SecurityUtils.*;
-import static tech.lapsa.java.commons.function.MyExceptions.*;
 
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Currency;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 import javax.annotation.PostConstruct;
@@ -170,31 +170,30 @@ public class PolicyInvoicePaidCDIBean implements ActionCDIBean, Serializable {
 
     @PostConstruct
     public void init() {
-	final InsuranceRequest ir = rrs.getSingleRow().getEntity();
+	
+	final Optional<InsuranceRequest> ir = MyOptionals.of(rrs)
+		.map(RequestsSelectionCDIBean::getSingleRow)
+		.map(RequestRow::getEntity);
 
-	paidAmount = MyOptionals.of(ir)
-		.map(InsuranceRequest::getPayment)
+	paidAmount = ir.map(InsuranceRequest::getPayment)
 		.map(PaymentData::getInvoiceAmount)
-		.orElseThrow(supplier(FacesException::new, "Invoice payment is null"));
+		.orElse(null);
 
-	paidCurrency = MyOptionals.of(ir)
-		.map(InsuranceRequest::getPayment)
+	paidCurrency = ir.map(InsuranceRequest::getPayment)
 		.map(PaymentData::getInvoiceCurrency)
-		.orElseThrow(supplier(FacesException::new, "Invoice currency is null"));
+		.orElse(null);
 
 	paidInstant = Instant.now();
 
 	paidReference = null;
 
-	payerName = MyOptionals.of(ir)
-		.map(InsuranceRequest::getPayment)
+	payerName = ir.map(InsuranceRequest::getPayment)
 		.map(PaymentData::getInvoicePayeeName)
-		.orElseThrow(supplier(FacesException::new, "Invoice payee name is null"));
+		.orElse(null);
 
-	payeeTaxpayerNumber = MyOptionals.of(ir)
-		.map(InsuranceRequest::getPayment)
+	payeeTaxpayerNumber = ir.map(InsuranceRequest::getPayment)
 		.map(PaymentData::getInvoicePayeeTaxpayerNumber)
-		.orElseThrow(supplier(FacesException::new, "Invoice taxpayer number is null"));
+		.orElse(null);
     }
 
     // CDIs

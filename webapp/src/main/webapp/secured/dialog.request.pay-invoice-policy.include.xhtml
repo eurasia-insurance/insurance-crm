@@ -37,6 +37,12 @@
 
 						<h:panelGroup id="details">
 
+							<h:inputHidden value="#{policyInvoicePaid.paidAmount}" />
+							<h:inputHidden value="#{policyInvoicePaid.paidCurrency}" />
+							<h:inputHidden value="#{policyInvoicePaid.paidInstant}" />
+							<h:inputHidden value="#{policyInvoicePaid.payerName}" />
+							<h:inputHidden value="#{policyInvoicePaid.payeeTaxpayerNumber}" />
+
 							<p:panelGrid>
 								<p:row>
 									<p:column styleClass="policy-issued-form-col1">

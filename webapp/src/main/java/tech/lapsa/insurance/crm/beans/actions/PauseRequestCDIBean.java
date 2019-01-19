@@ -1,9 +1,11 @@
 package tech.lapsa.insurance.crm.beans.actions;
 
+import static com.lapsa.insurance.elements.ProgressStatus.*;
 import static com.lapsa.utils.security.SecurityUtils.*;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.function.Predicate;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.Dependent;
@@ -12,6 +14,7 @@ import javax.faces.FacesException;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import com.lapsa.insurance.elements.InsuranceRequestStatus;
 import com.lapsa.insurance.elements.ProgressStatus;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
@@ -21,6 +24,7 @@ import tech.lapsa.insurance.dao.RequestDAO.RequestDAORemote;
 import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.function.MyCollectors;
 import tech.lapsa.java.commons.function.MyExceptions;
+import tech.lapsa.java.commons.function.MyOptionals;
 
 @Named("pauseRequest")
 @RequestScoped
@@ -41,13 +45,17 @@ public class PauseRequestCDIBean implements Serializable {
 	}
     }
 
-    static boolean checkActionAllowed(final RequestsSelectionCDIBean rrs) {
-	return isInRole(InsuranceRoleGroup.CHANGERS) //
-		&& rrs != null
-		&& rrs.isAnySelected()
-		&& rrs.getValueAsStream() //
-			.allMatch(RequestRow::isCanPause) //
-	;
+    private static final Predicate<RequestRow<?>> ROW_ALLOWED = rr -> rr.progressIn(ON_PROCESS)
+	    && rr.insuranceRequestIn(InsuranceRequestStatus.PENDING, InsuranceRequestStatus.POLICY_ISSUED);
+
+    private static boolean checkActionAllowed(final RequestsSelectionCDIBean rrs) {
+	return isInRole(InsuranceRoleGroup.CHANGERS)
+		&& MyOptionals.of(rrs)
+			.filter(RequestsSelectionCDIBean::isAnySelected)
+			.map(RequestsSelectionCDIBean::getValueAsStream)
+			.map(s -> s.allMatch(ROW_ALLOWED))
+			.orElse(Boolean.FALSE)
+			.booleanValue();
     }
 
     // CDIs

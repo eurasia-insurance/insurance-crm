@@ -1,5 +1,7 @@
 package tech.lapsa.insurance.crm.beans.actions;
 
+import static com.lapsa.insurance.elements.InsuranceRequestStatus.*;
+import static com.lapsa.insurance.elements.ProgressStatus.*;
 import static com.lapsa.utils.security.SecurityUtils.*;
 
 import java.io.Serializable;
@@ -7,6 +9,7 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Currency;
+import java.util.function.Predicate;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.Dependent;
@@ -61,12 +64,16 @@ public class PolicyPaidCDIBean implements ActionCDIBean, Serializable {
 
     }
 
-    static boolean checkActionAllowed(RequestsSelectionCDIBean rrs) {
-	return isInRole(InsuranceRoleGroup.CHANGERS) //
-		&& rrs != null
-		&& rrs.isSingleSelected() //
-		&& rrs.getSingleRow().isCanPolicyPaid() //
-	;
+    private static final Predicate<RequestRow<?>> ROW_ALLOWED = rr -> rr.insuranceRequestIn(PENDING)
+	    && !rr.progressIn(FINISHED);
+
+    private static boolean checkActionAllowed(final RequestsSelectionCDIBean rrs) {
+	return isInRole(InsuranceRoleGroup.CHANGERS)
+		&& MyOptionals.of(rrs)
+			.filter(RequestsSelectionCDIBean::isSingleSelected)
+			.map(RequestsSelectionCDIBean::getSingleRow)
+			.filter(ROW_ALLOWED)
+			.isPresent();
     }
 
     // agreementNumber

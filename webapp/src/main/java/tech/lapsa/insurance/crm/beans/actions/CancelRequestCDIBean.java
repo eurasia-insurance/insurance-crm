@@ -1,9 +1,11 @@
 package tech.lapsa.insurance.crm.beans.actions;
 
+import static com.lapsa.insurance.elements.InsuranceRequestStatus.*;
 import static com.lapsa.utils.security.SecurityUtils.*;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.function.Predicate;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.Dependent;
@@ -13,6 +15,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.lapsa.insurance.elements.InsuranceRequestCancellationReason;
+import com.lapsa.insurance.elements.ProgressStatus;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
 import tech.lapsa.insurance.crm.beans.RequestsSelectionCDIBean;
@@ -23,6 +26,7 @@ import tech.lapsa.java.commons.exceptions.IllegalArgument;
 import tech.lapsa.java.commons.exceptions.IllegalState;
 import tech.lapsa.java.commons.function.MyCollectors;
 import tech.lapsa.java.commons.function.MyExceptions;
+import tech.lapsa.java.commons.function.MyOptionals;
 import tech.lapsa.javax.validation.NotNullValue;
 
 @Named("cancelRequest")
@@ -44,13 +48,17 @@ public class CancelRequestCDIBean implements ActionCDIBean, Serializable {
 	}
     }
 
-    static boolean checkActionAllowed(RequestsSelectionCDIBean rrs) {
+    private static final Predicate<RequestRow<?>> ROW_ALLOWED = rr -> rr.insuranceRequestIn(PENDING)
+	    && !rr.progressIn(ProgressStatus.FINISHED);
+
+    private static boolean checkActionAllowed(RequestsSelectionCDIBean rrs) {
 	return isInRole(InsuranceRoleGroup.CHANGERS)
-		&& rrs != null
-		&& rrs.isAnySelected() //
-		&& rrs.getValueAsStream() //
-			.allMatch(RequestRow::isCanCancelRequest) //
-	;
+		&& MyOptionals.of(rrs)
+			.filter(RequestsSelectionCDIBean::isAnySelected)
+			.map(RequestsSelectionCDIBean::getValueAsStream)
+			.map(s -> s.allMatch(ROW_ALLOWED))
+			.orElse(Boolean.FALSE)
+			.booleanValue();
     }
 
     // reason

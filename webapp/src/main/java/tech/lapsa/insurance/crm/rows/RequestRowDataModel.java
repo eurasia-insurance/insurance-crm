@@ -9,6 +9,8 @@ import com.lapsa.insurance.domain.crm.User;
 import com.lapsa.insurance.elements.ProgressStatus;
 import com.lapsa.international.localization.LocalizationLanguage;
 
+import tech.lapsa.java.commons.function.MyOptionals;
+
 public abstract class RequestRowDataModel<T extends InsuranceRequest> implements RequestRow<T> {
 
     protected final T entity;
@@ -43,6 +45,11 @@ public abstract class RequestRowDataModel<T extends InsuranceRequest> implements
 	} catch (NullPointerException e) {
 	    return null;
 	}
+    }
+
+    @Override
+    public boolean progressIn(ProgressStatus... statuses) {
+	return MyOptionals.of(entity).filter(it -> it.progressStatusIn(statuses)).isPresent();
     }
 
     @Override

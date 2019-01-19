@@ -17,6 +17,7 @@ import com.lapsa.international.phone.PhoneNumber;
 
 import tech.lapsa.java.commons.function.MyNumbers;
 import tech.lapsa.java.commons.function.MyObjects;
+import tech.lapsa.java.commons.function.MyOptionals;
 import tech.lapsa.kz.taxpayer.TaxpayerNumber;
 
 public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> extends RequestRowDataModel<T>
@@ -33,6 +34,11 @@ public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> e
 	} catch (NullPointerException e) {
 	    return null;
 	}
+    }
+
+    @Override
+    public boolean insuranceRequestIn(InsuranceRequestStatus... statuses) {
+	return MyOptionals.of(entity).filter(it -> it.insuranceRequestStatusIn(statuses)).isPresent();
     }
 
     @Override

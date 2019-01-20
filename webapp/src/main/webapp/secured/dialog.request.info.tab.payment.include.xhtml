@@ -3,20 +3,12 @@
 	xmlns:pe="http://primefaces.org/ui/extensions" xmlns:jfc="http://lapsa.tech/javax/faces-commons" xmlns:crm="http://xmlns.jcp.org/jsf/composite/crm">
 
 	<ui:param name="url" value="#{functionFacade.paymentUrl(rr.invoiceNumber)}" />
-	<pe:clipboard trigger="pageCopy" action="copy" text="#{url}" />
 
 	<p:tab title="Оплата" rendered="#{rendered}">
 		<p:panel>
 			<p:tabView dynamic="true" cache="true">
 				<p:tab title="Фактическая оплата" rendered="#{rr.paymentAmount ne null}">
 					<p:panelGrid>
-						<crm:outputRowText label="Номер счета" rendered="#{not empty rr.invoiceNumber}" value="#{rr.invoiceNumber}" />
-						<crm:outputRow label="Ссыла на оплату" rendered="#{not empty rr.invoiceNumber}">
-							<p:inputText readonly="true" value="#{url}" onfocus="this.select()" size="45" />
-							<p:button id="pageCopy" icon="fas fa-copy" href="#" title="Скопирвать ссылку в буфер обмена" />
-							<p:button href="#{url}" icon="fas fa-external-link-alt" target="_blank" title="Перейти на страницу оплаты" value="Go!" />
-						</crm:outputRow>
-
 						<crm:outputRowText label="Фактический метод оплаты" value="#{rr.paymentMethodName}" />
 						<crm:outputRow label="Фактически оплаченная сумма">
 							<jfc:outputMoneyAmount value="#{rr.paymentAmount}" currency="#{rr.paymentCurrency}" />
@@ -50,6 +42,7 @@
 							<p:inputText readonly="true" value="#{url}" onfocus="this.select()" size="45" />
 							<p:button id="pageCopy" icon="far fa-copy" href="#" title="Скопирвать ссылку в буфер обмена" />
 							<p:button href="#{url}" icon="fas fa-external-link-alt" target="_blank" title="Перейти на страницу оплаты" value="Go!" />
+							<pe:clipboard trigger="pageCopy" action="copy" text="#{url}" />
 						</crm:outputRow>
 						<crm:outputRowText label="Сумма к оплате" value="#{rr.invoiceAmount}" />
 						<crm:outputRowText label="Имя плательщика" value="#{rr.invoicePayeeName}" />
@@ -61,5 +54,6 @@
 				</p:tab>
 			</p:tabView>
 		</p:panel>
+
 	</p:tab>
 </ui:composition>

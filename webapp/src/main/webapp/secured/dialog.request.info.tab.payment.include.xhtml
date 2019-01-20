@@ -29,7 +29,7 @@
 						<crm:outputRow label="Референс оплаты">
 							<h:panelGroup rendered="#{not empty rr.paymentReference}">
 								<p:inputText readonly="true" value="#{rr.paymentReference}" onfocus="this.select()" size="15" />
-								<p:button id="referenceCopy" icon="fas fa-copy" href="#" title="Скопирвать в буфер обмена" />
+								<p:button id="referenceCopy" icon="far fa-copy" href="#" title="Скопирвать в буфер обмена" />
 								<pe:clipboard trigger="referenceCopy" action="copy" text="#{rr.paymentReference}" />
 							</h:panelGroup>
 						</crm:outputRow>
@@ -48,7 +48,7 @@
 						<crm:outputRowText label="Номер счета" rendered="#{not empty rr.invoiceNumber}" value="#{rr.invoiceNumber}" />
 						<crm:outputRow label="Ссыла на оплату" rendered="#{not empty rr.invoiceNumber}">
 							<p:inputText readonly="true" value="#{url}" onfocus="this.select()" size="45" />
-							<p:button id="pageCopy" icon="fas fa-copy" href="#" title="Скопирвать ссылку в буфер обмена" />
+							<p:button id="pageCopy" icon="far fa-copy" href="#" title="Скопирвать ссылку в буфер обмена" />
 							<p:button href="#{url}" icon="fas fa-external-link-alt" target="_blank" title="Перейти на страницу оплаты" value="Go!" />
 						</crm:outputRow>
 						<crm:outputRowText label="Сумма к оплате" value="#{rr.invoiceAmount}" />

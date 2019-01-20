@@ -7,11 +7,10 @@ import com.lapsa.insurance.domain.CalculationData;
 import com.lapsa.insurance.domain.InsuranceRequest;
 import com.lapsa.insurance.domain.PaymentData;
 import com.lapsa.insurance.domain.casco.Casco;
-import com.lapsa.insurance.elements.InsuranceRequestStatus;
 import com.lapsa.insurance.elements.InsuranceProductType;
-import com.lapsa.insurance.elements.InsuranceRequestType;
-import com.lapsa.insurance.elements.PaymentStatus;
 import com.lapsa.insurance.elements.InsuranceRequestCancellationReason;
+import com.lapsa.insurance.elements.InsuranceRequestStatus;
+import com.lapsa.insurance.elements.InsuranceRequestType;
 import com.lapsa.international.localization.LocalizationLanguage;
 import com.lapsa.international.phone.PhoneNumber;
 
@@ -143,15 +142,6 @@ public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> e
 	    return entity.getPayment().getCurrency();
 	} catch (NullPointerException e) {
 	    return null;
-	}
-    }
-
-    @Override
-    public PaymentStatus getPaymentStatus() {
-	try {
-	    return entity.getPayment().getStatus();
-	} catch (NullPointerException e) {
-	    return PaymentStatus.UNDEFINED;
 	}
     }
 

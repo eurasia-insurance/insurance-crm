@@ -16,31 +16,28 @@
 	font-size: 18px;
 }
 
-.icon-request-type {
-	color: #CCCCCC;
-}
-
-.icon-attention {
+/* icon-attention is settings from glassfish EUBANK (it also deliver 'trophy' icon) */
+.icon-attention, .icon-paid-card-known-bank { 
 	color: #f78818;
 }
 
-.icon-new {
-	color: #0000ff;
-}
-
-.icon-success, .icon-premium-paid {
+.icon-irs-premium-paid {
 	color: #00FF00;
 }
 
-.icon-policy-issued {
+.icon-irs-policy-issued {
 	color: #ffcc00;
 }
 
-.icon-fail, .icon-request-canceled {
+.icon-irs-request-canceled {
 	color: #FF0000;
 }
 
-.icon-on-process, .icon-unknown, .icon-pending {
+.icon-pgs-new {
+	color: #0000ff;
+}
+
+.icon-pgs-on-process, .icon-pgs-on-hold, .icon-pgs-finished, .icon-irs-pending, .icon-paid-card-unknown-bank, .icon-paid-other {
 	color: #CCCCCC;
 }
 

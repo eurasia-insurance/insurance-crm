@@ -2,17 +2,17 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:p="http://primefaces.org/ui">
 
 	<h:panelGroup styleClass="request-icon">
-		<h:panelGroup rendered="#{rr.progressStatus eq 'NEW'}" styleClass="icon-new">
+		<h:panelGroup rendered="#{rr.progressStatus eq 'NEW'}" styleClass="icon-pgs-new">
 			<i class="fas fa-exclamation" aria-hidden="true" />
 		</h:panelGroup>
-		<h:panelGroup rendered="#{rr.progressStatus eq 'ON_PROCESS'}" styleClass="icon-on-process">
+		<h:panelGroup rendered="#{rr.progressStatus eq 'ON_PROCESS'}" styleClass="icon-pgs-on-process">
 			<i class="fas fa-spinner" aria-hidden="true" />
 		</h:panelGroup>
-		<h:panelGroup rendered="#{rr.progressStatus eq 'ON_HOLD'}" styleClass="">
+		<h:panelGroup rendered="#{rr.progressStatus eq 'ON_HOLD'}" styleClass="icon-pgs-on-hold">
 			<i class="fas fa-pause" aria-hidden="true" />
 		</h:panelGroup>
-		<h:panelGroup rendered="#{rr.progressStatus eq 'FINISHED'}" styleClass="icon-on-process">
-			<i class="fas fa-check" aria-hidden="true" />
+		<h:panelGroup rendered="#{rr.progressStatus eq 'FINISHED'}" styleClass="icon-pgs-finished">
+			<i class="fas fa-stop" aria-hidden="true" />
 		</h:panelGroup>
 	</h:panelGroup>
 

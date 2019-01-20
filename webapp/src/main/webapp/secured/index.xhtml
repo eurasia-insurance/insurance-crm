@@ -143,10 +143,14 @@
 					</p:tooltip>
 				</p:column>
 
-				<p:column width="15">
-					<h:panelGroup styleClass="request-icon">
-						<h:panelGroup styleClass="#{global.iconStyleClassByPaymentCardBank(rr.paymentCardBank)} #{global.iconStyleClassByPaymentCard(rr.paymentCard)}" />
+				<p:column style="text-align: center; " width="15">
+					<h:panelGroup id="paymentIconWrapper">
+						<ui:include src="icon.payment-method.include.xhtml" />
 					</h:panelGroup>
+					<p:tooltip for="paymentIconWrapper" trackMouse="true">
+						<li><h:outputText value="#{rr.paymentMethodName}" /></li>
+						<h:panelGroup rendered="#{not empty rr.paymentCardBank}"><li><h:outputText value="#{rr.paymentCardBank}" /></li></h:panelGroup>
+					</p:tooltip>
 				</p:column>
 
 				<p:column width="15">

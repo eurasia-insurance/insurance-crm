@@ -118,14 +118,6 @@
 	</h:panelGroup>
 
 	<h:panelGroup
-		rendered="#{not empty settings.requestFilter.paymentStatus}">
-		<h:outputText value=" Статус оплаты " />
-		<h:outputText
-			value="#{localized.few(settings.requestFilter.paymentStatus)}"
-			styleClass="filter-description-value" />
-	</h:panelGroup>
-
-	<h:panelGroup
 		rendered="#{not empty settings.requestFilter.paymentMethodNameMask}">
 		<h:outputText value=" Способ оплаты " />
 		<h:outputText

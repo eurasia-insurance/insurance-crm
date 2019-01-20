@@ -29,7 +29,7 @@ public class SettingsHolderBean implements Serializable, SettingsHolder {
     @PostConstruct
     public void resetFilters() {
 	requestFilter = new RequestFilter();
-	requestType = RequestType.REQUEST;
+	requestType = RequestType.INSURANCE_REQUEST;
     }
 
     // GENERATED

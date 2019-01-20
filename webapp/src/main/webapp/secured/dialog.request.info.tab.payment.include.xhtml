@@ -16,7 +16,6 @@
 							<p:button id="pageCopy" icon="fa fa-fw fa-copy" href="#" title="Скопирвать ссылку в буфер обмена" />
 							<p:button href="#{url}" icon="fa fa-fw fa-external-link" target="_blank" title="Перейти на страницу оплаты" value="Go!" />
 						</crm:outputRow>
-						<crm:outputRowText label="Статус оплаты" value="#{localized.few(rr.paymentStatus)}" />
 
 						<crm:outputRowText label="Фактический метод оплаты" value="#{rr.paymentMethodName}" />
 						<crm:outputRow label="Фактически оплаченная сумма">
@@ -52,7 +51,6 @@
 							<p:button id="pageCopy" icon="fa fa-fw fa-copy" href="#" title="Скопирвать ссылку в буфер обмена" />
 							<p:button href="#{url}" icon="fa fa-fw fa-external-link" target="_blank" title="Перейти на страницу оплаты" value="Go!" />
 						</crm:outputRow>
-						<crm:outputRowText label="Статус оплаты" value="#{localized.few(rr.paymentStatus)}" />
 						<crm:outputRowText label="Сумма к оплате" value="#{rr.invoiceAmount}" />
 						<crm:outputRowText label="Имя плательщика" value="#{rr.invoicePayeeName}" />
 						<crm:outputRowText label="Email плательщика" value="#{rr.invoicePayeeEmail}" />

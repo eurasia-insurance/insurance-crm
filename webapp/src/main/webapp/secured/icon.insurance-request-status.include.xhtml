@@ -3,16 +3,15 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<h:panelGroup styleClass="request-icon">
-		<h:panelGroup rendered="#{rr.pending}" styleClass="icon-pending">
-			<i class="fas fa-spinner" aria-hidden="true" />
+		<h:panelGroup rendered="#{rr.pending}" styleClass="icon-irs-pending">
 		</h:panelGroup>
-		<h:panelGroup rendered="#{rr.requestCanceled}" styleClass="icon-request-canceled">
+		<h:panelGroup rendered="#{rr.requestCanceled}" styleClass="icon-irs-request-canceled">
 			<i class="fas fa-ban" aria-hidden="true" />
 		</h:panelGroup>
-		<h:panelGroup rendered="#{rr.policyIssued}" styleClass="icon-policy-issued">
+		<h:panelGroup rendered="#{rr.policyIssued}" styleClass="icon-irs-policy-issued">
 			<i class="fas fa-file-invoice" aria-hidden="true" />
 		</h:panelGroup>
-		<h:panelGroup rendered="#{rr.premiumPaid}" styleClass="icon-premium-paid">
+		<h:panelGroup rendered="#{rr.premiumPaid}" styleClass="icon-irs-premium-paid">
 			<i class="fas fa-tenge" aria-hidden="true" />
 		</h:panelGroup>
 	</h:panelGroup>

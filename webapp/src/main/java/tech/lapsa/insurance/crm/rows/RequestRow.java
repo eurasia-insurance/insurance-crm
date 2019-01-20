@@ -21,7 +21,6 @@ import com.lapsa.insurance.elements.InsuranceProductType;
 import com.lapsa.insurance.elements.InsuranceRequestCancellationReason;
 import com.lapsa.insurance.elements.InsuranceRequestStatus;
 import com.lapsa.insurance.elements.InsuranceRequestType;
-import com.lapsa.insurance.elements.PaymentStatus;
 import com.lapsa.insurance.elements.ProgressStatus;
 import com.lapsa.international.localization.LocalizationLanguage;
 import com.lapsa.international.phone.PhoneNumber;
@@ -118,8 +117,6 @@ public interface RequestRow<T extends InsuranceRequest> {
     Currency getCalculatedCurrency();
 
     // payment
-
-    PaymentStatus getPaymentStatus();
 
     String getInvoiceNumber();
 

@@ -25,6 +25,12 @@
 					<h:outputText value="#{localized.few(rr.insuranceRequestStatus)}" />
 				</crm:outputRow>
 
+				<crm:outputRow label="Способ оплаты" rendered="#{rr.insuranceRequestStatus eq 'PREMIUM_PAID'}">
+					<ui:include src="icon.payment-method.include.xhtml" />
+					<h:outputText value="#{rr.paymentMethodName}" />
+					<h:outputText rendered="#{not empty rr.paymentCardBank}" value=" #{rr.paymentCardBank}" />
+				</crm:outputRow>
+
 				<crm:outputRowText rendered="#{rr.requestCanceled}" label="Причина отмены заявки на страхование" value="#{localized.few(rr.insuranceRequestCancellationReason)}" />
 
 				<crm:outputRowText rendered="#{not empty rr.agreementNumber}" label="Номер договора" value="#{rr.agreementNumber}" />

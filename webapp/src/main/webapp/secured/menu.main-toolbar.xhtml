@@ -57,6 +57,10 @@
 						<p:resetInput target="@form:cancelRequestDialog" />
 					</p:commandButton>
 
+					<p:commandButton value="Отменить платеж..." icon="fas fa-ban" rendered="#{cancelPaidRequestCheck.allowed}" process="@this" update="@form:cancelPaidRequestDialog" oncomplete="PF('cancelPaidRequestDialogWV').show(); return false;">
+						<p:resetInput target="@form:cancelPaidRequestDialog" />
+					</p:commandButton>
+
 				</h:panelGroup>
 
 				<p:commandButton value="В архив" icon="fas fa-archive" rendered="#{archiveRequestCheck.allowed}" process="@this" update="requestToolbar #{update}" action="#{archiveRequest.doAction}" />

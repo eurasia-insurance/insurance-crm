@@ -74,7 +74,7 @@ class CancelRequestCheckCDIBeanSpec extends Specification {
 	where:
 	insuranceRequestStatus | expAllowed
 	PENDING                | true
-	POLICY_ISSUED          | false
+	POLICY_ISSUED          | true
 	PREMIUM_PAID           | false
 	REQUEST_CANCELED       | false
     }

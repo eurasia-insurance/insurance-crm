@@ -207,7 +207,7 @@ public class PolicyPaidCDIBean implements ActionCDIBean, Serializable {
 		.orElse(null);
 
 	paidInstant = MyOptionals.of(fetchedPolicy)
-		.map(Policy::getPaymentDate)
+		.map(Policy::getPolicyDate) // They asked to set paiment date as policy issue date
 		.map(it -> it.atStartOfDay(ZoneId.systemDefault()))
 		.map(ZonedDateTime::toInstant)
 		.orElse(null);

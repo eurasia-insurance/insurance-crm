@@ -5,7 +5,6 @@ import java.util.Currency;
 
 import com.lapsa.insurance.domain.CalculationData;
 import com.lapsa.insurance.domain.InsuranceRequest;
-import com.lapsa.insurance.domain.PaymentData;
 import com.lapsa.insurance.domain.casco.Casco;
 import com.lapsa.insurance.elements.InsuranceProductType;
 import com.lapsa.insurance.elements.InsuranceRequestCancellationReason;
@@ -130,7 +129,7 @@ public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> e
     @Override
     public Double getPaymentAmount() {
 	try {
-	    return entity.getPayment().getAmount();
+	    return entity.getAmount();
 	} catch (NullPointerException e) {
 	    return null;
 	}
@@ -139,7 +138,7 @@ public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> e
     @Override
     public Currency getPaymentCurrency() {
 	try {
-	    return entity.getPayment().getCurrency();
+	    return entity.getCurrency();
 	} catch (NullPointerException e) {
 	    return null;
 	}
@@ -148,7 +147,7 @@ public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> e
     @Override
     public String getPaymentReference() {
 	try {
-	    return entity.getPayment().getReference();
+	    return entity.getReference();
 	} catch (NullPointerException e) {
 	    return null;
 	}
@@ -157,7 +156,7 @@ public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> e
     @Override
     public String getPaymentCard() {
 	try {
-	    return entity.getPayment().getCard();
+	    return entity.getCard();
 	} catch (NullPointerException e) {
 	    return null;
 	}
@@ -166,7 +165,7 @@ public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> e
     @Override
     public String getPaymentCardBank() {
 	try {
-	    return entity.getPayment().getCardBank();
+	    return entity.getCardBank();
 	} catch (NullPointerException e) {
 	    return null;
 	}
@@ -175,7 +174,7 @@ public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> e
     @Override
     public String getPaymentMethodName() {
 	try {
-	    return entity.getPayment().getMethodName();
+	    return entity.getMethodName();
 	} catch (NullPointerException e) {
 	    return null;
 	}
@@ -184,7 +183,7 @@ public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> e
     @Override
     public Instant getPaymentInstant() {
 	try {
-	    return entity.getPayment().getInstant();
+	    return entity.getInstant();
 	} catch (NullPointerException e) {
 	    return null;
 	}
@@ -193,7 +192,7 @@ public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> e
     @Override
     public String getPaymentPayerName() {
 	try {
-	    return entity.getPayment().getPayerName();
+	    return entity.getPayerName();
 	} catch (NullPointerException e) {
 	    return null;
 	}
@@ -203,15 +202,6 @@ public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> e
     public String getAgreementNumber() {
 	try {
 	    return entity.getAgreementNumber();
-	} catch (NullPointerException e) {
-	    return null;
-	}
-    }
-
-    @Override
-    public PaymentData getPayment() {
-	try {
-	    return entity.getPayment();
 	} catch (NullPointerException e) {
 	    return null;
 	}
@@ -239,7 +229,7 @@ public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> e
     @Override
     public String getInvoiceNumber() {
 	try {
-	    return entity.getPayment().getInvoiceNumber();
+	    return entity.getInvoiceNumber();
 	} catch (NullPointerException e) {
 	    return null;
 	}
@@ -248,7 +238,7 @@ public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> e
     @Override
     public Double getInvoiceAmount() {
 	try {
-	    return entity.getPayment().getInvoiceAmount();
+	    return entity.getInvoiceAmount();
 	} catch (NullPointerException e) {
 	    return null;
 	}
@@ -257,7 +247,7 @@ public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> e
     @Override
     public String getInvoicePayeeName() {
 	try {
-	    return entity.getPayment().getInvoicePayeeName();
+	    return entity.getInvoicePayeeName();
 	} catch (NullPointerException e) {
 	    return null;
 	}
@@ -266,7 +256,7 @@ public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> e
     @Override
     public String getInvoicePayeeEmail() {
 	try {
-	    return entity.getPayment().getInvoicePayeeEmail();
+	    return entity.getInvoicePayeeEmail();
 	} catch (NullPointerException e) {
 	    return null;
 	}
@@ -275,7 +265,7 @@ public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> e
     @Override
     public PhoneNumber getInvoicePayeePhone() {
 	try {
-	    return entity.getPayment().getInvoicePayeePhone();
+	    return entity.getInvoicePayeePhone();
 	} catch (NullPointerException e) {
 	    return null;
 	}
@@ -284,7 +274,7 @@ public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> e
     @Override
     public TaxpayerNumber getInvoicePayeeTaxpayerNumber() {
 	try {
-	    return entity.getPayment().getInvoicePayeeTaxpayerNumber();
+	    return entity.getInvoicePayeeTaxpayerNumber();
 	} catch (NullPointerException e) {
 	    return null;
 	}
@@ -293,7 +283,7 @@ public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> e
     @Override
     public LocalizationLanguage getInvoiceLanguage() {
 	try {
-	    return entity.getPayment().getInvoiceLanguage();
+	    return entity.getInvoiceLanguage();
 	} catch (NullPointerException e) {
 	    return null;
 	}

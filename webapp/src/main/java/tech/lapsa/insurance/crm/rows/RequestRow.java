@@ -8,7 +8,6 @@ import java.util.Optional;
 import com.lapsa.insurance.domain.CalculationData;
 import com.lapsa.insurance.domain.CallbackRequest;
 import com.lapsa.insurance.domain.InsuranceRequest;
-import com.lapsa.insurance.domain.PaymentData;
 import com.lapsa.insurance.domain.Request;
 import com.lapsa.insurance.domain.RequesterData;
 import com.lapsa.insurance.domain.casco.Casco;
@@ -181,8 +180,6 @@ public interface RequestRow<T extends InsuranceRequest> {
     String getAgreementNumber();
 
     String getNote();
-
-    PaymentData getPayment();
 
     CalculationData getCalculation();
 

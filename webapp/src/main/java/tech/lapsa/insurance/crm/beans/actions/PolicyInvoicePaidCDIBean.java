@@ -1,8 +1,9 @@
 package tech.lapsa.insurance.crm.beans.actions;
 
-import static com.lapsa.insurance.elements.InsuranceRequestStatus.*;
-import static com.lapsa.insurance.elements.ProgressStatus.*;
-import static com.lapsa.utils.security.SecurityUtils.*;
+import static com.lapsa.insurance.elements.InsuranceRequestStatus.POLICY_ISSUED;
+import static com.lapsa.insurance.elements.ProgressStatus.FINISHED;
+import static com.lapsa.utils.security.SecurityUtils.checkRoleGranted;
+import static com.lapsa.utils.security.SecurityUtils.isInRole;
 
 import java.io.Serializable;
 import java.time.Instant;
@@ -20,7 +21,6 @@ import javax.inject.Named;
 import javax.validation.constraints.Min;
 
 import com.lapsa.insurance.domain.InsuranceRequest;
-import com.lapsa.insurance.domain.PaymentData;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
 import tech.lapsa.insurance.crm.beans.RequestsSelectionCDIBean;
@@ -175,24 +175,20 @@ public class PolicyInvoicePaidCDIBean implements ActionCDIBean, Serializable {
 		.map(RequestsSelectionCDIBean::getSingleRow)
 		.map(RequestRow::getEntity);
 
-	paidAmount = ir.map(InsuranceRequest::getPayment)
-		.map(PaymentData::getInvoiceAmount)
+	paidAmount = ir.map(InsuranceRequest::getInvoiceAmount)
 		.orElse(null);
 
-	paidCurrency = ir.map(InsuranceRequest::getPayment)
-		.map(PaymentData::getInvoiceCurrency)
+	paidCurrency = ir.map(InsuranceRequest::getInvoiceCurrency)
 		.orElse(null);
 
 	paidInstant = Instant.now();
 
 	paidReference = null;
 
-	payerName = ir.map(InsuranceRequest::getPayment)
-		.map(PaymentData::getInvoicePayeeName)
+	payerName = ir.map(InsuranceRequest::getInvoicePayeeName)
 		.orElse(null);
 
-	payeeTaxpayerNumber = ir.map(InsuranceRequest::getPayment)
-		.map(PaymentData::getInvoicePayeeTaxpayerNumber)
+	payeeTaxpayerNumber = ir.map(InsuranceRequest::getInvoicePayeeTaxpayerNumber)
 		.orElse(null);
     }
 

@@ -79,6 +79,8 @@ public interface RequestRow<T extends InsuranceRequest> {
 
     boolean isPremiumPaid();
 
+    boolean isPaymentCanceled();
+
     InsuranceRequestCancellationReason getInsuranceRequestCancellationReason();
 
     InsuranceProductType getInsuranceProductType();

@@ -60,6 +60,11 @@ public abstract class InsuranceRequestRowDataModel<T extends InsuranceRequest> e
     }
 
     @Override
+    public boolean isPaymentCanceled() {
+	return InsuranceRequestStatus.PAYMENT_CANCELED.equals(getInsuranceRequestStatus());
+    }
+
+    @Override
     public InsuranceRequestCancellationReason getInsuranceRequestCancellationReason() {
 	try {
 	    return entity.getInsuranceRequestCancellationReason();

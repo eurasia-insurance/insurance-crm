@@ -25,6 +25,11 @@
 	color: #00FF00;
 }
 
+.icon-irs-payment-canceled {
+	color: #FF0000;
+	text-decoration: overline;
+}
+
 .icon-irs-policy-issued {
 	color: #ffcc00;
 }

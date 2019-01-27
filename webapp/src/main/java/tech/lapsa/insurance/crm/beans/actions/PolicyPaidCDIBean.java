@@ -1,8 +1,8 @@
 package tech.lapsa.insurance.crm.beans.actions;
 
-import static com.lapsa.insurance.elements.InsuranceRequestStatus.*;
-import static com.lapsa.insurance.elements.ProgressStatus.*;
-import static com.lapsa.utils.security.SecurityUtils.*;
+import static com.lapsa.insurance.elements.InsuranceRequestStatus.PENDING;
+import static com.lapsa.insurance.elements.ProgressStatus.FINISHED;
+import static com.lapsa.utils.security.SecurityUtils.isInRole;
 
 import java.io.Serializable;
 import java.time.Instant;
@@ -207,7 +207,8 @@ public class PolicyPaidCDIBean implements ActionCDIBean, Serializable {
 		.orElse(null);
 
 	paidInstant = MyOptionals.of(fetchedPolicy)
-		.map(Policy::getPolicyDate) // They asked to set paiment date as policy issue date
+		.map(Policy::getPolicyDate) // They asked to set paiment date as
+					    // policy issue date
 		.map(it -> it.atStartOfDay(ZoneId.systemDefault()))
 		.map(ZonedDateTime::toInstant)
 		.orElse(null);
@@ -244,8 +245,6 @@ public class PolicyPaidCDIBean implements ActionCDIBean, Serializable {
 
     @Override
     public String doAction() throws FacesException, IllegalStateException, IllegalArgumentException {
-	checkRoleGranted(InsuranceRoleGroup.CHANGERS);
-
 	rrs.refresh();
 
 	if (!checkActionAllowed(rrs))

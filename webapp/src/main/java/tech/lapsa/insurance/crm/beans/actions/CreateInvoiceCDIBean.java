@@ -1,8 +1,8 @@
 package tech.lapsa.insurance.crm.beans.actions;
 
-import static com.lapsa.insurance.elements.InsuranceRequestStatus.*;
-import static com.lapsa.insurance.elements.ProgressStatus.*;
-import static com.lapsa.utils.security.SecurityUtils.*;
+import static com.lapsa.insurance.elements.InsuranceRequestStatus.PENDING;
+import static com.lapsa.insurance.elements.ProgressStatus.FINISHED;
+import static com.lapsa.utils.security.SecurityUtils.isInRole;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -383,8 +383,6 @@ public class CreateInvoiceCDIBean implements ActionCDIBean, Serializable {
 
     @Override
     public String doAction() throws FacesException, IllegalStateException, IllegalArgumentException {
-	checkRoleGranted(InsuranceRoleGroup.CHANGERS);
-
 	rrs.refresh();
 
 	if (!checkActionAllowed(rrs))

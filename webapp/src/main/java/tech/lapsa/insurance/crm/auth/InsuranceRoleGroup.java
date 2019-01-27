@@ -21,7 +21,13 @@ public enum InsuranceRoleGroup implements SecurityRoleGroup {
 
     CLOSERS(Role.ADMIN),
 
-    DELETERS(Role.ADMIN);
+    DELETERS(Role.ADMIN),
+
+    PAYMENT_CANCELERS(Role.ADMIN),
+    
+    TESTERS(Role.ADMIN)
+    
+    ;
 
     private final SecurityRole[] roles;
 

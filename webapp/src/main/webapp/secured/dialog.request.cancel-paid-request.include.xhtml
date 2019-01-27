@@ -17,18 +17,6 @@
 						<p:panelGrid>
 							<p:row>
 								<p:column>
-									<p:outputLabel value="Укажите причину" for="reason" />
-								</p:column>
-								<p:column>
-									<p:selectOneMenu value="#{cancelPaidRequest.reason}" id="reason" binding="#{reasonComp}">
-										<f:selectItem value="#{configurationFacade.mustSelectSI}" />
-										<f:selectItems value="#{si.array.regular(InsuranceRequestCancellationReason.selectable)}" />
-										<p:ajax process="@this" update="@this" />
-									</p:selectOneMenu>
-								</p:column>
-							</p:row>
-							<p:row>
-								<p:column>
 									<p:outputLabel value="Комментарий:" for="comments" />
 								</p:column>
 								<p:column>

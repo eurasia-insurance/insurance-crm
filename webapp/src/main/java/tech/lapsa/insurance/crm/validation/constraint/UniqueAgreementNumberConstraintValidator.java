@@ -1,5 +1,7 @@
 package tech.lapsa.insurance.crm.validation.constraint;
 
+import static com.lapsa.utils.security.SecurityUtils.isInRole;
+
 import java.util.List;
 
 import javax.validation.ConstraintValidator;
@@ -8,6 +10,7 @@ import javax.validation.ValidationException;
 
 import com.lapsa.insurance.domain.InsuranceRequest;
 
+import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
 import tech.lapsa.insurance.crm.validation.UniqueAgreementNumber;
 import tech.lapsa.insurance.dao.InsuranceRequestDAO.InsuranceRequestDAORemote;
 import tech.lapsa.insurance.dao.RequestFilter;
@@ -24,6 +27,9 @@ public class UniqueAgreementNumberConstraintValidator
     @Override
     public boolean isValid(final String value, final ConstraintValidatorContext context) {
 	if (value == null)
+	    return true;
+
+	if (isInRole(InsuranceRoleGroup.TESTERS))
 	    return true;
 
 	final InsuranceRequestDAORemote prs = MyNaming.lookupEJB(ValidationException::new,

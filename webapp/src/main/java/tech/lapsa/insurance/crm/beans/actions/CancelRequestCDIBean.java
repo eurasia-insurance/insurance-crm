@@ -48,17 +48,21 @@ public class CancelRequestCDIBean implements ActionCDIBean, Serializable {
 	}
     }
 
-    private static final Predicate<RequestRow<?>> ROW_ALLOWED = rr -> rr.insuranceRequestIn(PENDING, POLICY_ISSUED)
-	    && !rr.progressIn(ProgressStatus.FINISHED);
+    private static final Predicate<RequestRow<?>> ROW_ALLOWED = rr -> {
+	return (isInRole(InsuranceRoleGroup.CHANGERS)
+		&& rr.insuranceRequestIn(PENDING, POLICY_ISSUED)
+		&& !rr.progressIn(ProgressStatus.FINISHED))
+		|| (isInRole(InsuranceRoleGroup.PAYMENT_CANCELERS)
+			&& rr.insuranceRequestIn(PAYMENT_CANCELED));
+    };
 
     private static boolean checkActionAllowed(RequestsSelectionCDIBean rrs) {
-	return isInRole(InsuranceRoleGroup.CHANGERS)
-		&& MyOptionals.of(rrs)
-			.filter(RequestsSelectionCDIBean::isAnySelected)
-			.map(RequestsSelectionCDIBean::getValueAsStream)
-			.map(s -> s.allMatch(ROW_ALLOWED))
-			.orElse(Boolean.FALSE)
-			.booleanValue();
+	return MyOptionals.of(rrs)
+		.filter(RequestsSelectionCDIBean::isAnySelected)
+		.map(RequestsSelectionCDIBean::getValueAsStream)
+		.map(s -> s.allMatch(ROW_ALLOWED))
+		.orElse(Boolean.FALSE)
+		.booleanValue();
     }
 
     // reason

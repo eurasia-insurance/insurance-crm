@@ -92,8 +92,6 @@ public class CommentRequestCDIBean implements Serializable {
     private RequestFacadeRemote completions;
 
     public String doComment() {
-	checkRoleGranted(InsuranceRoleGroup.CHANGERS);
-
 	rrs.refresh();
 
 	if (!checkActionAllowed(rrs))

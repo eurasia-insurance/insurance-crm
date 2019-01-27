@@ -76,6 +76,7 @@ class CancelRequestCheckCDIBeanSpec extends Specification {
 	PENDING                | true
 	POLICY_ISSUED          | true
 	PREMIUM_PAID           | false
+	PAYMENT_CANCELED       | true
 	REQUEST_CANCELED       | false
     }
 
@@ -100,7 +101,7 @@ class CancelRequestCheckCDIBeanSpec extends Specification {
 	NEW            | true
 	ON_PROCESS     | true
 	ON_HOLD        | true
-	FINISHED       | false
+	FINISHED       | true
     }
 
     @Unroll

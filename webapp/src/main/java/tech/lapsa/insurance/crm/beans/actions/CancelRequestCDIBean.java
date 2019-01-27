@@ -1,7 +1,10 @@
 package tech.lapsa.insurance.crm.beans.actions;
 
-import static com.lapsa.insurance.elements.InsuranceRequestStatus.*;
-import static com.lapsa.utils.security.SecurityUtils.*;
+import static com.lapsa.insurance.elements.InsuranceRequestStatus.PAYMENT_CANCELED;
+import static com.lapsa.insurance.elements.InsuranceRequestStatus.PENDING;
+import static com.lapsa.insurance.elements.InsuranceRequestStatus.POLICY_ISSUED;
+import static com.lapsa.utils.security.SecurityUtils.checkRoleGranted;
+import static com.lapsa.utils.security.SecurityUtils.isInRole;
 
 import java.io.Serializable;
 import java.util.List;
@@ -15,7 +18,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.lapsa.insurance.elements.InsuranceRequestCancellationReason;
-import com.lapsa.insurance.elements.ProgressStatus;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
 import tech.lapsa.insurance.crm.beans.RequestsSelectionCDIBean;
@@ -48,13 +50,8 @@ public class CancelRequestCDIBean implements ActionCDIBean, Serializable {
 	}
     }
 
-    private static final Predicate<RequestRow<?>> ROW_ALLOWED = rr -> {
-	return (isInRole(InsuranceRoleGroup.CHANGERS)
-		&& rr.insuranceRequestIn(PENDING, POLICY_ISSUED)
-		&& !rr.progressIn(ProgressStatus.FINISHED))
-		|| (isInRole(InsuranceRoleGroup.PAYMENT_CANCELERS)
-			&& rr.insuranceRequestIn(PAYMENT_CANCELED));
-    };
+    private static final Predicate<RequestRow<?>> ROW_ALLOWED = rr -> isInRole(InsuranceRoleGroup.CHANGERS)
+		&& rr.insuranceRequestIn(PENDING, POLICY_ISSUED, PAYMENT_CANCELED);
 
     private static boolean checkActionAllowed(RequestsSelectionCDIBean rrs) {
 	return MyOptionals.of(rrs)

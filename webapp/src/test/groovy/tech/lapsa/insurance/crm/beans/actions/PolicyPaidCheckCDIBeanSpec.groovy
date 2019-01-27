@@ -76,6 +76,7 @@ class PolicyPaidCheckCDIBeanSpec extends Specification {
 	PENDING                | true
 	POLICY_ISSUED          | false
 	PREMIUM_PAID           | false
+	PAYMENT_CANCELED       | false
 	REQUEST_CANCELED       | false
     }
 

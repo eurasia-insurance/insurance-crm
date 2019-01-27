@@ -78,6 +78,7 @@ class PauseRequestCheckCDIBeanSpec extends Specification {
 	PENDING                | true
 	POLICY_ISSUED          | true
 	PREMIUM_PAID           | false
+	PAYMENT_CANCELED       | false
 	REQUEST_CANCELED       | false
     }
 
@@ -153,6 +154,7 @@ class PauseRequestCheckCDIBeanSpec extends Specification {
 	PENDING                | true
 	POLICY_ISSUED          | true
 	PREMIUM_PAID           | false
+	PAYMENT_CANCELED       | false
 	REQUEST_CANCELED       | false
     }
 }

@@ -12,17 +12,16 @@ import com.lapsa.insurance.domain.policy.PolicyRequest
 import spock.lang.Specification
 import spock.lang.Unroll
 import tech.lapsa.insurance.crm.beans.RequestsSelectionCDIBean
-import tech.lapsa.insurance.crm.beans.actions.PickRequestCDIBean.PickRequestCheckCDIBean
-import tech.lapsa.insurance.crm.beans.actions.CancelRequestCDIBean.CancelRequestCheckCDIBean
+import tech.lapsa.insurance.crm.beans.actions.CancelPaidRequestCDIBean.CancelPaidRequestCheckCDIBean
 import tech.lapsa.insurance.crm.rows.RequestRow
 
-class PickRequestCheckCDIBeanSpec extends Specification {
+class CancelPaidRequestCheckCDIBeanSpec extends Specification {
 
     FacesContext facesContext
     ExternalContext externalContext
 
-    static allowedProgressStatus = NEW
-    static allowedInsuranceRequestStatus = PENDING
+    static allowedProgressStatus = ON_PROCESS
+    static allowedInsuranceRequestStatus = PREMIUM_PAID
 
     def setup() {
 	facesContext = Mock()
@@ -32,7 +31,7 @@ class PickRequestCheckCDIBeanSpec extends Specification {
     }
 
     @Unroll
-    def "Pick Request allowance is '#expAllowed' on role '#role'"() {
+    def "Cancel Paid Request allowance is '#expAllowed' on role '#role'"() {
 	given:
 
 	externalContext.isUserInRole(role) >> true
@@ -40,7 +39,7 @@ class PickRequestCheckCDIBeanSpec extends Specification {
 	def policyRequest = new PolicyRequest(insuranceRequestStatus: allowedInsuranceRequestStatus, progressStatus: allowedProgressStatus)
 	def rr = RequestRow.from(policyRequest)
 	def rrs = new RequestsSelectionCDIBean(singleRow: rr)
-	def bean = new PickRequestCheckCDIBean(rrs: rrs)
+	def bean = new CancelPaidRequestCheckCDIBean(rrs: rrs)
 
 	when:
 	def allowed = bean.allowed
@@ -51,20 +50,20 @@ class PickRequestCheckCDIBeanSpec extends Specification {
 	where:
 	role            | expAllowed
 	ROLE_ADMIN      | true
-	ROLE_SPECIALIST | true
+	ROLE_SPECIALIST | false
 	ROLE_AGENT      | false
 	ROLE_REPORTER   | false
     }
 
     @Unroll
-    def "Pick Request allowance is '#expAllowed' on insuranfce request status '#insuranceRequestStatus'"() {
+    def "Cancel Paid Request allowance is '#expAllowed' on insuranfce request status '#insuranceRequestStatus'"() {
 	given:
 
 	externalContext.isUserInRole(_) >> true
 
 	def rr = RequestRow.from(new PolicyRequest(insuranceRequestStatus: insuranceRequestStatus, progressStatus: allowedProgressStatus))
 	def rrs = new RequestsSelectionCDIBean(singleRow: rr)
-	def bean = new PickRequestCheckCDIBean(rrs: rrs)
+	def bean = new CancelPaidRequestCheckCDIBean(rrs: rrs)
 
 	when:
 	def allowed = bean.allowed
@@ -74,22 +73,22 @@ class PickRequestCheckCDIBeanSpec extends Specification {
 
 	where:
 	insuranceRequestStatus | expAllowed
-	PENDING                | true
+	PENDING                | false
 	POLICY_ISSUED          | false
-	PREMIUM_PAID           | false
+	PREMIUM_PAID           | true
 	PAYMENT_CANCELED       | false
 	REQUEST_CANCELED       | false
     }
 
     @Unroll
-    def "Pick Request allowance is '#expAllowed' on progress status '#progressStatus'"() {
+    def "Cancel Paid Request allowance is '#expAllowed' on progress status '#progressStatus'"() {
 	given:
 
 	externalContext.isUserInRole(_) >> true
 
 	def rr = RequestRow.from(new PolicyRequest(insuranceRequestStatus: allowedInsuranceRequestStatus, progressStatus: progressStatus))
 	def rrs = new RequestsSelectionCDIBean(singleRow: rr)
-	def bean = new PickRequestCheckCDIBean(rrs: rrs)
+	def bean = new CancelPaidRequestCheckCDIBean(rrs: rrs)
 
 	when:
 	def allowed = bean.allowed
@@ -100,13 +99,13 @@ class PickRequestCheckCDIBeanSpec extends Specification {
 	where:
 	progressStatus | expAllowed
 	NEW            | true
-	ON_PROCESS     | false
-	ON_HOLD        | false
-	FINISHED       | false
+	ON_PROCESS     | true
+	ON_HOLD        | true
+	FINISHED       | true
     }
 
     @Unroll
-    def "Pick Request allowance is '#expAllowed' on selection of #number rows"() {
+    def "Cancel Paid Request allowance is '#expAllowed' on selection of #number rows"() {
 	given:
 
 	externalContext.isUserInRole(_) >> true
@@ -115,7 +114,7 @@ class PickRequestCheckCDIBeanSpec extends Specification {
 	def rows = RequestRow.from([r]*number)
 
 	def rrs = new RequestsSelectionCDIBean(value: rows)
-	def bean = new PickRequestCheckCDIBean(rrs: rrs)
+	def bean = new CancelPaidRequestCheckCDIBean(rrs: rrs)
 
 	when:
 	def allowed = bean.allowed
@@ -127,33 +126,6 @@ class PickRequestCheckCDIBeanSpec extends Specification {
 	number | expAllowed
 	0      | false
 	1      | true
-	10     | true
-    }
-
-    @Unroll
-    def "Pick Request allowance is '#expAllowed' on no multiple selection where of row's status is '#insuranceRequestStatus'"() {
-	given:
-
-	externalContext.isUserInRole(_) >> true
-
-	def rrs = new RequestsSelectionCDIBean(value: [
-	    RequestRow.from(new PolicyRequest(insuranceRequestStatus: allowedInsuranceRequestStatus, progressStatus: allowedProgressStatus)),
-	    RequestRow.from(new PolicyRequest(insuranceRequestStatus: insuranceRequestStatus, progressStatus: allowedProgressStatus))
-	])
-	def bean = new PickRequestCheckCDIBean(rrs: rrs)
-
-	when:
-	def allowed = bean.allowed
-
-	then:
-	allowed == expAllowed
-
-	where:
-	insuranceRequestStatus | expAllowed
-	PENDING                | true
-	POLICY_ISSUED          | false
-	PREMIUM_PAID           | false
-	PAYMENT_CANCELED       | false
-	REQUEST_CANCELED       | false
+	10     | false
     }
 }

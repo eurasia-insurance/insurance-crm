@@ -77,6 +77,7 @@ class ResumeRequestCheckCDIBeanSpec extends Specification {
 	PENDING                | true
 	POLICY_ISSUED          | true
 	PREMIUM_PAID           | true
+	PAYMENT_CANCELED       | true
 	REQUEST_CANCELED       | true
     }
 

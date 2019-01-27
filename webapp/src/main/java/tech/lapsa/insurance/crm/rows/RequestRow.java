@@ -135,6 +135,8 @@ public interface RequestRow<T extends InsuranceRequest> {
 
     Instant getPaymentInstant();
 
+    Instant getPaymentCanceledInstant();
+
     String getPaymentPayerName();
 
     Double getInvoiceAmount();

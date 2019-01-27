@@ -1,7 +1,7 @@
 package tech.lapsa.insurance.crm.beans.actions;
 
-import static com.lapsa.insurance.elements.ProgressStatus.*;
-import static com.lapsa.utils.security.SecurityUtils.*;
+import static com.lapsa.insurance.elements.ProgressStatus.ON_PROCESS;
+import static com.lapsa.utils.security.SecurityUtils.isInRole;
 
 import java.io.Serializable;
 import java.util.List;
@@ -73,8 +73,6 @@ public class PauseRequestCDIBean implements Serializable {
     private RequestDAORemote requestDAO;
 
     public String doPause() {
-	checkRoleGranted(InsuranceRoleGroup.CHANGERS);
-
 	rrs.refresh();
 
 	if (!checkActionAllowed(rrs))

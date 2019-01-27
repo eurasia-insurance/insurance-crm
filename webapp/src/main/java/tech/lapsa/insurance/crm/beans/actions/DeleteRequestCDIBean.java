@@ -1,7 +1,7 @@
 package tech.lapsa.insurance.crm.beans.actions;
 
-import static com.lapsa.insurance.elements.InsuranceRequestStatus.*;
-import static com.lapsa.utils.security.SecurityUtils.*;
+import static com.lapsa.insurance.elements.InsuranceRequestStatus.REQUEST_CANCELED;
+import static com.lapsa.utils.security.SecurityUtils.isInRole;
 
 import java.io.Serializable;
 import java.util.function.Predicate;
@@ -15,7 +15,6 @@ import javax.inject.Named;
 
 import com.lapsa.insurance.domain.Request;
 import com.lapsa.insurance.elements.InsuranceRequestStatus;
-import com.lapsa.utils.security.SecurityUtils;
 
 import tech.lapsa.insurance.crm.auth.InsuranceRoleGroup;
 import tech.lapsa.insurance.crm.beans.RequestsSelectionCDIBean;
@@ -72,8 +71,6 @@ public class DeleteRequestCDIBean implements Serializable {
     private RequestDAORemote requestDAO;
 
     public String doDelete() throws FacesException, IllegalStateException, IllegalArgumentException {
-	SecurityUtils.checkRoleGranted(InsuranceRoleGroup.DELETERS);
-
 	rrs.refresh();
 
 	if (!checkActionAllowed(rrs))

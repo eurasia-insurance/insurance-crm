@@ -13,10 +13,8 @@ import spock.lang.Specification
 import spock.lang.Unroll
 import tech.lapsa.insurance.crm.beans.RequestsSelectionCDIBean
 import tech.lapsa.insurance.crm.beans.actions.PolicyPaidCDIBean.PolicyPaidCheckCDIBean
-import tech.lapsa.insurance.crm.beans.actions.PolicyIssuedAltCDIBean.PolicyIssuedAltCheckCDIBean
 import tech.lapsa.insurance.crm.rows.RequestRow
 
-@SuppressWarnings("deprecation")
 class PolicyPaidCheckCDIBeanSpec extends Specification {
 
     FacesContext facesContext
@@ -78,6 +76,7 @@ class PolicyPaidCheckCDIBeanSpec extends Specification {
 	PENDING                | true
 	POLICY_ISSUED          | false
 	PREMIUM_PAID           | false
+	PAYMENT_CANCELED       | false
 	REQUEST_CANCELED       | false
     }
 

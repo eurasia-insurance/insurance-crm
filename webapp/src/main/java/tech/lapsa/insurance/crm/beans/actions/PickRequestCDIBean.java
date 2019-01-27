@@ -1,6 +1,6 @@
 package tech.lapsa.insurance.crm.beans.actions;
 
-import static com.lapsa.utils.security.SecurityUtils.*;
+import static com.lapsa.utils.security.SecurityUtils.isInRole;
 
 import java.io.Serializable;
 import java.time.Instant;
@@ -81,8 +81,6 @@ public class PickRequestCDIBean implements Serializable {
     private RequestDAORemote requestDAO;
 
     public String doPick() {
-	checkRoleGranted(InsuranceRoleGroup.CHANGERS);
-
 	rrs.refresh();
 
 	if (!checker.isAllowed())

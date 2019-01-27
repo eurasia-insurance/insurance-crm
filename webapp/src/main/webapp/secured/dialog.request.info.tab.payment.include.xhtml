@@ -18,6 +18,10 @@
 							<jfc:outputInstant value="#{rr.paymentInstant}" />
 						</crm:outputRow>
 
+						<crm:outputRow label="Время отмены оплаты">
+							<jfc:outputInstant value="#{rr.paymentCanceledInstant}" />
+						</crm:outputRow>
+
 						<crm:outputRow label="Референс оплаты">
 							<h:panelGroup rendered="#{not empty rr.paymentReference}">
 								<p:inputText readonly="true" value="#{rr.paymentReference}" onfocus="this.select()" size="15" />

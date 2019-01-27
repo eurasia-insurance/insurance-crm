@@ -76,8 +76,6 @@ public class ArchiveRequestCDIBean implements Serializable {
     private RequestDAORemote requestDAO;
 
     public String doAction() {
-	checkRoleGranted(InsuranceRoleGroup.CLOSERS);
-
 	rrs.refresh();
 
 	if (!checker.isAllowed())

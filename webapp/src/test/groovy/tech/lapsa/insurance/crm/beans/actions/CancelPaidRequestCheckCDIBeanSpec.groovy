@@ -12,11 +12,10 @@ import com.lapsa.insurance.domain.policy.PolicyRequest
 import spock.lang.Specification
 import spock.lang.Unroll
 import tech.lapsa.insurance.crm.beans.RequestsSelectionCDIBean
-import tech.lapsa.insurance.crm.beans.actions.PolicyIssuedAltCDIBean.PolicyIssuedAltCheckCDIBean
+import tech.lapsa.insurance.crm.beans.actions.CancelPaidRequestCDIBean.CancelPaidRequestCheckCDIBean
 import tech.lapsa.insurance.crm.rows.RequestRow
 
-@SuppressWarnings("deprecation")
-class PolicyIssuedAltCheckCDIBeanSpec extends Specification {
+class CancelPaidRequestCheckCDIBeanSpec extends Specification {
 
     FacesContext facesContext
     ExternalContext externalContext
@@ -32,7 +31,7 @@ class PolicyIssuedAltCheckCDIBeanSpec extends Specification {
     }
 
     @Unroll
-    def "Policy Issued Alt allowance is '#expAllowed' on role '#role'"() {
+    def "Cancel Paid Request allowance is '#expAllowed' on role '#role'"() {
 	given:
 
 	externalContext.isUserInRole(role) >> true
@@ -40,7 +39,7 @@ class PolicyIssuedAltCheckCDIBeanSpec extends Specification {
 	def policyRequest = new PolicyRequest(insuranceRequestStatus: allowedInsuranceRequestStatus, progressStatus: allowedProgressStatus)
 	def rr = RequestRow.from(policyRequest)
 	def rrs = new RequestsSelectionCDIBean(singleRow: rr)
-	def bean = new PolicyIssuedAltCheckCDIBean(rrs: rrs)
+	def bean = new CancelPaidRequestCheckCDIBean(rrs: rrs)
 
 	when:
 	def allowed = bean.allowed
@@ -51,20 +50,20 @@ class PolicyIssuedAltCheckCDIBeanSpec extends Specification {
 	where:
 	role            | expAllowed
 	ROLE_ADMIN      | true
-	ROLE_SPECIALIST | true
+	ROLE_SPECIALIST | false
 	ROLE_AGENT      | false
 	ROLE_REPORTER   | false
     }
 
     @Unroll
-    def "Policy Issued Alt allowance is '#expAllowed' on insuranfce request status '#insuranceRequestStatus'"() {
+    def "Cancel Paid Request allowance is '#expAllowed' on insuranfce request status '#insuranceRequestStatus'"() {
 	given:
 
 	externalContext.isUserInRole(_) >> true
 
 	def rr = RequestRow.from(new PolicyRequest(insuranceRequestStatus: insuranceRequestStatus, progressStatus: allowedProgressStatus))
 	def rrs = new RequestsSelectionCDIBean(singleRow: rr)
-	def bean = new PolicyIssuedAltCheckCDIBean(rrs: rrs)
+	def bean = new CancelPaidRequestCheckCDIBean(rrs: rrs)
 
 	when:
 	def allowed = bean.allowed
@@ -77,18 +76,19 @@ class PolicyIssuedAltCheckCDIBeanSpec extends Specification {
 	PENDING                | false
 	POLICY_ISSUED          | false
 	PREMIUM_PAID           | true
+	PAYMENT_CANCELED       | false
 	REQUEST_CANCELED       | false
     }
 
     @Unroll
-    def "Policy Issued Alt allowance is '#expAllowed' on progress status '#progressStatus'"() {
+    def "Cancel Paid Request allowance is '#expAllowed' on progress status '#progressStatus'"() {
 	given:
 
 	externalContext.isUserInRole(_) >> true
 
 	def rr = RequestRow.from(new PolicyRequest(insuranceRequestStatus: allowedInsuranceRequestStatus, progressStatus: progressStatus))
 	def rrs = new RequestsSelectionCDIBean(singleRow: rr)
-	def bean = new PolicyIssuedAltCheckCDIBean(rrs: rrs)
+	def bean = new CancelPaidRequestCheckCDIBean(rrs: rrs)
 
 	when:
 	def allowed = bean.allowed
@@ -101,11 +101,11 @@ class PolicyIssuedAltCheckCDIBeanSpec extends Specification {
 	NEW            | true
 	ON_PROCESS     | true
 	ON_HOLD        | true
-	FINISHED       | false
+	FINISHED       | true
     }
 
     @Unroll
-    def "Policy Issued Alt allowance is '#expAllowed' on selection of #number rows"() {
+    def "Cancel Paid Request allowance is '#expAllowed' on selection of #number rows"() {
 	given:
 
 	externalContext.isUserInRole(_) >> true
@@ -114,7 +114,7 @@ class PolicyIssuedAltCheckCDIBeanSpec extends Specification {
 	def rows = RequestRow.from([r]*number)
 
 	def rrs = new RequestsSelectionCDIBean(value: rows)
-	def bean = new PolicyIssuedAltCheckCDIBean(rrs: rrs)
+	def bean = new CancelPaidRequestCheckCDIBean(rrs: rrs)
 
 	when:
 	def allowed = bean.allowed

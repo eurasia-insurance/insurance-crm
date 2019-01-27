@@ -37,10 +37,6 @@
 
 					<p:commandButton value="Возобновить" icon="fas fa-play-circle" rendered="#{resumeRequestCheck.allowed}" process="@this" update="requestToolbar #{update}" action="#{resumeRequest.doResume}" />
 
-					<p:commandButton value="Договор заключен..." icon="fas fa-check" rendered="#{policyIssuedAltCheck.allowed}" process="@this" update="@form:policyIssuedAltDialog" oncomplete="PF('policyIssuedAltDialogWV').show(); return false;">
-						<p:resetInput target="@form:policyIssuedAltDialog" />
-					</p:commandButton>
-
 					<p:commandButton value="Полис оплачен..." icon="fas fa-tenge" rendered="#{policyPaidCheck.allowed}" process="@this" update="@form:policyPaidDialog" oncomplete="PF('policyPaidDialogWV').show(); return false;">
 						<p:resetInput target="@form:policyPaidDialog" />
 					</p:commandButton>
@@ -55,6 +51,10 @@
 
 					<p:commandButton value="Заявка отменена..." icon="fas fa-ban" rendered="#{cancelRequestCheck.allowed}" process="@this" update="@form:cancelRequestDialog" oncomplete="PF('cancelRequestDialogWV').show(); return false;">
 						<p:resetInput target="@form:cancelRequestDialog" />
+					</p:commandButton>
+
+					<p:commandButton value="Отменить платеж..." icon="fas fa-ban" rendered="#{cancelPaidRequestCheck.allowed}" process="@this" update="@form:cancelPaidRequestDialog" oncomplete="PF('cancelPaidRequestDialogWV').show(); return false;">
+						<p:resetInput target="@form:cancelPaidRequestDialog" />
 					</p:commandButton>
 
 				</h:panelGroup>

@@ -77,6 +77,7 @@ class DeleteRequestCheckCDIBeanSpec extends Specification {
 	PENDING                | false
 	POLICY_ISSUED          | false
 	PREMIUM_PAID           | false
+	PAYMENT_CANCELED       | false
 	REQUEST_CANCELED       | true
     }
 
@@ -152,6 +153,7 @@ class DeleteRequestCheckCDIBeanSpec extends Specification {
 	PENDING                | false
 	POLICY_ISSUED          | false
 	PREMIUM_PAID           | false
+	PAYMENT_CANCELED       | false
 	REQUEST_CANCELED       | true
     }
 }

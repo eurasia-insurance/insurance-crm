@@ -2,7 +2,6 @@ package tech.lapsa.insurance.crm.beans.actions;
 
 import static com.lapsa.insurance.elements.InsuranceRequestStatus.POLICY_ISSUED;
 import static com.lapsa.insurance.elements.ProgressStatus.FINISHED;
-import static com.lapsa.utils.security.SecurityUtils.checkRoleGranted;
 import static com.lapsa.utils.security.SecurityUtils.isInRole;
 
 import java.io.Serializable;
@@ -209,8 +208,6 @@ public class PolicyInvoicePaidCDIBean implements ActionCDIBean, Serializable {
 
     @Override
     public String doAction() throws FacesException, IllegalStateException, IllegalArgumentException {
-	checkRoleGranted(InsuranceRoleGroup.CHANGERS);
-
 	rrs.refresh();
 
 	if (!checkActionAllowed(rrs))

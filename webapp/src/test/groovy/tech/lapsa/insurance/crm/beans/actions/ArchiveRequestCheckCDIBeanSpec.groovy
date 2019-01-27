@@ -78,6 +78,7 @@ class ArchiveRequestCheckCDIBeanSpec extends Specification {
 	PENDING                | false
 	POLICY_ISSUED          | false
 	PREMIUM_PAID           | true
+	PAYMENT_CANCELED       | false
 	REQUEST_CANCELED       | true
     }
 
@@ -153,6 +154,7 @@ class ArchiveRequestCheckCDIBeanSpec extends Specification {
 	PENDING                | false
 	POLICY_ISSUED          | false
 	PREMIUM_PAID           | true
+	PAYMENT_CANCELED       | false
 	REQUEST_CANCELED       | true
     }
 }

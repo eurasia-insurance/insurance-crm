@@ -76,6 +76,7 @@ class PolicyInvoicePaidCheckCDIBeanSpec extends Specification {
 	PENDING                | false
 	POLICY_ISSUED          | true
 	PREMIUM_PAID           | false
+	PAYMENT_CANCELED       | false
 	REQUEST_CANCELED       | false
     }
 

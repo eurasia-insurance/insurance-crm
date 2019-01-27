@@ -13,10 +13,8 @@ import spock.lang.Specification
 import spock.lang.Unroll
 import tech.lapsa.insurance.crm.beans.RequestsSelectionCDIBean
 import tech.lapsa.insurance.crm.beans.actions.CreateInvoiceCDIBean.CreateInvoiceCheckCDIBean
-import tech.lapsa.insurance.crm.beans.actions.PolicyIssuedAltCDIBean.PolicyIssuedAltCheckCDIBean
 import tech.lapsa.insurance.crm.rows.RequestRow
 
-@SuppressWarnings("deprecation")
 class CreateInvoiceCheckCDIBeanSpec extends Specification {
 
     FacesContext facesContext

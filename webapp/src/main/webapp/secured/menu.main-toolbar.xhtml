@@ -37,10 +37,6 @@
 
 					<p:commandButton value="Возобновить" icon="fas fa-play-circle" rendered="#{resumeRequestCheck.allowed}" process="@this" update="requestToolbar #{update}" action="#{resumeRequest.doResume}" />
 
-					<p:commandButton value="Договор заключен..." icon="fas fa-check" rendered="#{policyIssuedAltCheck.allowed}" process="@this" update="@form:policyIssuedAltDialog" oncomplete="PF('policyIssuedAltDialogWV').show(); return false;">
-						<p:resetInput target="@form:policyIssuedAltDialog" />
-					</p:commandButton>
-
 					<p:commandButton value="Полис оплачен..." icon="fas fa-tenge" rendered="#{policyPaidCheck.allowed}" process="@this" update="@form:policyPaidDialog" oncomplete="PF('policyPaidDialogWV').show(); return false;">
 						<p:resetInput target="@form:policyPaidDialog" />
 					</p:commandButton>

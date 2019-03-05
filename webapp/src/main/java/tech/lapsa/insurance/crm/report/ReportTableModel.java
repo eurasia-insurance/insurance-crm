@@ -9,18 +9,19 @@ import com.lapsa.reports.table.TableModel;
 import com.lapsa.reports.table.ValueRow;
 import com.lapsa.reports.table.impl.DefaultHeaderRow;
 
-import tech.lapsa.insurance.crm.report.ReportValueRow.FieldDescriptor;
 import tech.lapsa.insurance.crm.rows.RequestRow;
 
 public class ReportTableModel implements TableModel {
 
     private final HeaderRow headerRow;
     private final List<RequestRow<?>> rows;
+    private final ReportFieldDescriptor[] fieldsDesc;
 
-    public ReportTableModel(List<RequestRow<?>> rows) {
+    public ReportTableModel(ReportFieldDescriptor[] fieldsDesc, List<RequestRow<?>> rows) {
 	this.rows = rows;
-	this.headerRow = new DefaultHeaderRow(Arrays.stream(ReportValueRow.FIELDS) //
-		.map(FieldDescriptor::getTitle) //
+	this.fieldsDesc = fieldsDesc;
+	this.headerRow = new DefaultHeaderRow(Arrays.stream(fieldsDesc) //
+		.map(ReportFieldDescriptor::getTitle) //
 		.toArray(String[]::new));
     }
 
@@ -36,7 +37,7 @@ public class ReportTableModel implements TableModel {
 
 	    @Override
 	    public ValueRow next() {
-		return new ReportValueRow(i.next());
+		return new ReportValueRow(i.next(), fieldsDesc);
 	    }
 	};
     }
@@ -53,7 +54,7 @@ public class ReportTableModel implements TableModel {
 
     @Override
     public ValueRow getRow(int number) {
-	return new ReportValueRow(rows.get(number));
+	return new ReportValueRow(rows.get(number), fieldsDesc);
     }
 
 }

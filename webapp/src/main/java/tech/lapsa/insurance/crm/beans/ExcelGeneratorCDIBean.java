@@ -16,6 +16,7 @@ import com.lapsa.reports.ReportGenerator;
 import com.lapsa.reports.ReportGeneratorFactory;
 import com.lapsa.reports.table.TableModel;
 
+import tech.lapsa.insurance.crm.report.ExcelReportFields;
 import tech.lapsa.insurance.crm.report.ReportTableModel;
 import tech.lapsa.insurance.crm.rows.RequestRow;
 import tech.lapsa.insurance.dao.ListWithStats;
@@ -33,7 +34,7 @@ public class ExcelGeneratorCDIBean implements Serializable {
     public StreamedContent getAsExcel() {
 	final ListWithStats<? extends Request> list = rowsLoader.loadAll(RequestSort.DEFAULT_SORT);
 	final List<RequestRow<?>> rows = RequestRow.from(list.getPart());
-	final TableModel model = new ReportTableModel(rows);
+	final TableModel model = new ReportTableModel(ExcelReportFields.FIELDS, rows);
 	final ReportGenerator excelGenerator = ReportGeneratorFactory.createReportGenerator("excel");
 	final ReportData data = excelGenerator.generateTableReport(model);
 	return new DefaultStreamedContent(data.contentAsInputStream(), data.contentType(), "report.xls");
